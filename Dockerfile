@@ -1,4 +1,6 @@
 # Rust CI Dockerfile (iqlusion)
+#
+# Resulting image is published as iqlusion/rust-ci on Docker Hub
 
 FROM centos:7.4.1708
 
@@ -7,7 +9,7 @@ ENV PATH "$PATH:/root/.cargo/bin"
 # Install/update RPMs
 RUN yum update -y && \
     yum groupinstall -y "Development Tools" && \
-    yum install -y epel-release && \
+    yum install -y epel-release openssl-devel rpm-devel xz-devel && \
     yum install -y --enablerepo=epel libsodium-devel
 
 # rustup configuration
