@@ -39,3 +39,9 @@ RUN rustup run $RUST_NIGHTLY_VERSION cargo install rustfmt-nightly --vers $RUSTF
 
 ENV CLIPPY_VERSION "0.0.192"
 RUN rustup run $RUST_NIGHTLY_VERSION cargo install clippy --vers $CLIPPY_VERSION --force
+
+# Set environment variables to enable SCL packages (llvm-toolset-7)
+ENV LD_LIBRARY_PATH=/opt/rh/llvm-toolset-7/root/usr/lib64
+ENV PATH "/opt/rh/llvm-toolset-7/root/usr/bin:/opt/rh/llvm-toolset-7/root/usr/sbin:$PATH"
+ENV PKG_CONFIG_PATH=/opt/rh/llvm-toolset-7/root/usr/lib64/pkgconfig
+ENV X_SCLS llvm-toolset-7
