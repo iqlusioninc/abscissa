@@ -9,19 +9,20 @@ ENV PATH "$PATH:/root/.cargo/bin"
 # Install/update RPMs
 RUN yum update -y && \
     yum groupinstall -y "Development Tools" && \
-    yum install -y epel-release openssl-devel rpm-devel xz-devel && \
-    yum install -y --enablerepo=epel libsodium-devel
+    yum install -y centos-release-scl epel-release openssl-devel rpm-devel xz-devel && \
+    yum install -y --enablerepo=epel libsodium-devel && \
+    yum install -y --enablerepo=centos-sclo-rh llvm-toolset-7
 
 # rustup configuration
 ENV RUSTUP_INIT_VERSION "2018-02-13"
 ENV RUSTUP_INIT "rustup-init-$RUSTUP_INIT_VERSION"
-ENV RUSTUP_INIT_DIGEST "ad0dd8442b61faa319e9fe29108535359f6318744a800fac1e76118bbad81d2b"
+ENV RUSTUP_INIT_DIGEST "d8823472cd91d102bb469dec4d05bc8808116cd5c8ac51d87685687d6c124757"
 
 # Install rustup
 WORKDIR /root
-RUN curl -O https://storage.googleapis.com/iqlusion-prod-artifacts/rust/$RUSTUP_INIT.bz2
-RUN echo "$RUSTUP_INIT_DIGEST $RUSTUP_INIT.bz2" | sha256sum -c
-RUN bunzip2 $RUSTUP_INIT.bz2 && chmod +x $RUSTUP_INIT
+RUN curl -O https://storage.googleapis.com/iqlusion-prod-artifacts/rust/$RUSTUP_INIT.xz
+RUN echo "$RUSTUP_INIT_DIGEST $RUSTUP_INIT.xz" | sha256sum -c
+RUN unxz $RUSTUP_INIT.xz && chmod +x $RUSTUP_INIT
 RUN ./$RUSTUP_INIT -y
 
 # Rust nightly version to install
