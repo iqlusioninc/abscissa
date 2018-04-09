@@ -4,6 +4,7 @@
 
 FROM centos:7.4.1708
 
+# Include cargo in the path
 ENV PATH "$PATH:/root/.cargo/bin"
 
 # Install/update RPMs
@@ -45,3 +46,6 @@ ENV LD_LIBRARY_PATH=/opt/rh/llvm-toolset-7/root/usr/lib64
 ENV PATH "/opt/rh/llvm-toolset-7/root/usr/bin:/opt/rh/llvm-toolset-7/root/usr/sbin:$PATH"
 ENV PKG_CONFIG_PATH=/opt/rh/llvm-toolset-7/root/usr/lib64/pkgconfig
 ENV X_SCLS llvm-toolset-7
+
+# Configure RUSTFLAGS
+ENV RUSTFLAGS "-Ctarget-feature=+aes"
