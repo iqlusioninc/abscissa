@@ -27,7 +27,7 @@ RUN unxz $RUSTUP_INIT.xz && chmod +x $RUSTUP_INIT
 RUN ./$RUSTUP_INIT -y
 
 # Rust nightly version to install
-ENV RUST_NIGHTLY_VERSION "nightly-2018-04-05"
+ENV RUST_NIGHTLY_VERSION "nightly-2018-06-02"
 
 # Install Rust nightly
 RUN rustup install $RUST_NIGHTLY_VERSION
@@ -35,11 +35,12 @@ RUN rustup install $RUST_NIGHTLY_VERSION
 RUN bash -l -c "echo $(rustc --print sysroot)/lib >> /etc/ld.so.conf"
 RUN ldconfig
 
-ENV RUSTFMT_NIGHTLY_VERSION "0.4.1"
-RUN rustup run $RUST_NIGHTLY_VERSION cargo install rustfmt-nightly --vers $RUSTFMT_NIGHTLY_VERSION --force
+# Install rustfmt
+RUN rustup component add rustfmt-preview --toolchain $RUST_NIGHTLY_VERSION
 
-ENV CLIPPY_VERSION "0.0.192"
-RUN rustup run $RUST_NIGHTLY_VERSION cargo install clippy --vers $CLIPPY_VERSION --force
+# Install clippy
+ENV CLIPPY_VERSION "0.0.206"
+RUN cargo +$RUST_NIGHTLY_VERSION install clippy --vers $CLIPPY_VERSION
 
 # Set environment variables to enable SCL packages (llvm-toolset-7)
 ENV LD_LIBRARY_PATH=/opt/rh/llvm-toolset-7/root/usr/lib64
