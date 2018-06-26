@@ -2,7 +2,7 @@
 #
 # Resulting image is published as iqlusion/rust-ci on Docker Hub
 
-FROM centos:7.4.1708
+FROM centos:7.5.1804
 
 # Include cargo in the path
 ENV PATH "$PATH:/root/.cargo/bin"
@@ -27,7 +27,7 @@ RUN unxz $RUSTUP_INIT.xz && chmod +x $RUSTUP_INIT
 RUN ./$RUSTUP_INIT -y
 
 # Rust nightly version to install
-ENV RUST_NIGHTLY_VERSION "nightly-2018-06-02"
+ENV RUST_NIGHTLY_VERSION "nightly-2018-07-14"
 
 # Install Rust nightly
 RUN rustup install $RUST_NIGHTLY_VERSION
@@ -39,7 +39,7 @@ RUN ldconfig
 RUN rustup component add rustfmt-preview --toolchain $RUST_NIGHTLY_VERSION
 
 # Install clippy
-ENV CLIPPY_VERSION "0.0.206"
+ENV CLIPPY_VERSION "0.0.212"
 RUN cargo +$RUST_NIGHTLY_VERSION install clippy --vers $CLIPPY_VERSION
 
 # Set environment variables to enable SCL packages (llvm-toolset-7)
