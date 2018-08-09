@@ -19,4 +19,4 @@ install:
 build: false
 
 test_script:
-  - cargo test --package=iq-cli
+  - cargo test --all
