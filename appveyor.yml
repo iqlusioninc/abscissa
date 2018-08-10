@@ -19,4 +19,5 @@ install:
 build: false
 
 test_script:
-  - cargo test --all
+  # TODO: test all packages on Windows
+  - cargo test --package=iq-bech32 --package=iq-cli --package=iq-cli-derive --package=tai64
