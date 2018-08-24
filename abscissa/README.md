@@ -1,10 +1,10 @@
-# Abscissa: an app microframework
+# ![Abscissa](https://www.iqlusion.io/img/abscissa.svg)
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
+[![Apache 2.0 Licensed][license-image]][license-link]
 [![Build Status][build-image]][build-link]
 [![Appveyor Status][appveyor-image]][appveyor-link]
-[![Apache 2.0 Licensed][license-image]][license-link]
 
 [crate-image]: https://img.shields.io/crates/v/abscissa.svg
 [crate-link]: https://crates.io/crates/abscissa
