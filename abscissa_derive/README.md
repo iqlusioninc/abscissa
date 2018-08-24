@@ -1,4 +1,4 @@
-# abscissa_derive: Custom derive support for the abscissa microframework
+# ![Abscissa](https://raw.githubusercontent.com/iqlusioninc/crates/master/abscissa/img/abscissa.png)
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
