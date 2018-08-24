@@ -1,0 +1,35 @@
+[package]
+name        = "abscissa_derive"
+description = "Custom derive support for the abscissa application microframework"
+version     = "0.0.0" # Also update html_root_url in lib.rs when bumping this
+license     = "Apache-2.0"
+authors     = ["Tony Arcieri <tony@iqlusion.io>", "Murarth <murarth@gmail.com>", "Without Boats <boats@mozilla.com>"]
+homepage    = "https://github.com/iqlusioninc/crates/abscissa"
+repository  = "https://github.com/iqlusioninc/crates/tree/master/abscissa_derive"
+readme      = "README.md"
+categories  = ["command-line-interface"]
+keywords    = ["args", "command-line", "flag", "getopts", "option"]
+
+[badges]
+circle-ci = { repository = "iqlusioninc/crates" }
+appveyor  = { repository = "iqlusioninc/crates" }
+
+[lib]
+name = "abscissa_derive"
+proc-macro = true
+
+[features]
+default = ["errors", "options"]
+errors = ["failure", "synstructure"]
+options = []
+
+[dependencies]
+failure = { version = "0.1", optional = true }
+proc-macro2 = "0.4"
+quote = "0.6"
+syn = "0.14"
+synstructure = { version = "0.9", optional = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--document-private-items"] # Document all modules
