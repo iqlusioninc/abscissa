@@ -20,14 +20,49 @@ jobs:
             cargo +$RUST_NIGHTLY_VERSION clippy --version
             cargo +$RUST_NIGHTLY_VERSION clippy --all
       - run:
-          name: "build (all crates)"
+          name: "build --no-default-features"
           command: |
             rustc --version
             cargo --version
             cargo build --all --no-default-features
+      - run:
+          name: "build --no-default-features --features=config"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features --features=config
+      - run:
+          name: "build --no-default-features --features=errors"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features --features=errors
+      - run:
+          name: "build --no-default-features --features=logging"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features --features=logging
+      - run:
+          name: "build --no-default-features --features=options"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features --features=options
+      - run:
+          name: "build --no-default-features --features=shell"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features --features=shell
+      - run:
+          name: "build"
+          command: |
+            rustc --version
+            cargo --version
             cargo build --all
       - run:
-          name: "test (all crates)"
+          name: "test"
           command: |
             rustc --version
             cargo --version

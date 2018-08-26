@@ -2,7 +2,6 @@ use std::io::{self, Write};
 use term::{self, terminfo::TermInfo, Terminal as TerminalTrait, TerminfoTerminal};
 
 use super::color_config::ColorConfig;
-#[cfg(feature = "config")]
 use error::FrameworkError;
 
 /// Terminal I/O object

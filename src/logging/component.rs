@@ -1,6 +1,7 @@
 use super::LoggingConfig;
 use {Component, FrameworkError, Version};
 
+/// Abscissa component for initializing the logging subsystem
 #[derive(Debug, Default)]
 pub struct LoggingComponent(LoggingConfig);
 

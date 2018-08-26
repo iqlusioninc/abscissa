@@ -99,7 +99,7 @@ pub mod config;
 #[cfg(feature = "errors")]
 mod error;
 #[cfg(feature = "logging")]
-mod logging;
+pub mod logging;
 #[cfg(feature = "options")]
 pub mod options;
 #[cfg(feature = "secrets")]
