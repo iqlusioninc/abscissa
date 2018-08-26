@@ -72,6 +72,7 @@
 #[macro_use]
 extern crate abscissa_derive;
 pub extern crate failure;
+#[cfg(feature = "shell")]
 #[macro_use]
 extern crate lazy_static;
 #[cfg(feature = "logging")]
@@ -96,6 +97,7 @@ mod application;
 mod command;
 #[cfg(feature = "config")]
 pub mod config;
+#[cfg(feature = "errors")]
 mod error;
 #[cfg(feature = "logging")]
 mod logging;
@@ -103,6 +105,7 @@ mod logging;
 pub mod options;
 #[cfg(feature = "secrets")]
 pub mod secrets;
+#[cfg(feature = "shell")]
 pub mod shell;
 pub mod util;
 
@@ -110,7 +113,9 @@ pub mod util;
 pub use application::{boot, Application, ApplicationPath, Component, Components};
 #[cfg(feature = "options")]
 pub use command::{Callable, Command};
+#[cfg(feature = "config")]
 pub use config::{ConfigReader, GlobalConfig};
+#[cfg(feature = "errors")]
 pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use logging::LoggingConfig;
@@ -118,6 +123,7 @@ pub use logging::LoggingConfig;
 pub use options::Options;
 #[cfg(feature = "secrets")]
 pub use secrets::Secret;
+#[cfg(feature = "shell")]
 pub use shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
 pub use util::Version;

@@ -3,6 +3,7 @@ use serde::Deserialize;
 use std::fmt::{self, Display};
 use std::str::FromStr;
 
+#[cfg(feature = "config")]
 use error::{FrameworkError, FrameworkErrorKind::ParseError};
 
 /// Color configuration
@@ -35,6 +36,7 @@ impl Display for ColorConfig {
     }
 }
 
+#[cfg(feature = "errors")]
 impl FromStr for ColorConfig {
     type Err = FrameworkError;
 

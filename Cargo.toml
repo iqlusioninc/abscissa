@@ -42,7 +42,7 @@ errors = []
 logging = ["log", "simplelog"]
 options = ["abscissa_derive/options"]
 secrets = []
-shell = []
+shell = ["errors"]
 status = ["shell"]
 
 [workspace]

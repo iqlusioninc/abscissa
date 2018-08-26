@@ -1,5 +1,6 @@
 use std::io;
 use term;
+#[cfg(feature = "toml")]
 use util::toml;
 
 use super::Error;
@@ -37,6 +38,7 @@ impl From<term::Error> for FrameworkError {
     }
 }
 
+#[cfg(feature = "toml")]
 impl From<toml::de::Error> for FrameworkError {
     fn from(err: toml::de::Error) -> Self {
         err!(FrameworkErrorKind::ParseError, err)
