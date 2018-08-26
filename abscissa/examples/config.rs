@@ -1,3 +1,6 @@
+// Example which loads `GlobalConfig` without using Abscissa's `Application`
+// framework trait.
+
 // This feature requires `lazy_static`
 #[macro_use]
 extern crate lazy_static;
@@ -29,7 +32,7 @@ impl_global_config!(MyConfig, MY_GLOBAL_CONFIG);
 
 fn main() {
     // Load `MyConfig` from the given TOML file or exit
-    MyConfig::load_toml_file_or_exit("example_config.toml");
+    MyConfig::set_from_toml_file_or_exit("example_config.toml");
 
     // Prints the `foo` record of `example_config.toml`
     print_foo_from_global_config();
@@ -38,7 +41,7 @@ fn main() {
     print_bar_from_global_config();
 
     // We can update the global config!
-    MyConfig::set(MyConfig {
+    MyConfig::set_global(MyConfig {
         foo: "foo2".to_owned(),
         bar: "bar2".to_owned(),
         baz: "baz2".to_owned(),
@@ -51,12 +54,12 @@ fn main() {
 /// Print the "foo" member of the global configuration
 fn print_foo_from_global_config() {
     // This acquires a `RwLock` on the config and uses an RAII guard
-    let config = MyConfig::get();
+    let config = MyConfig::get_global();
     println!("config.foo: {}", config.foo);
 }
 
 /// Print the "bar" member of the global configuration
 fn print_bar_from_global_config() {
-    let config = MyConfig::get();
+    let config = MyConfig::get_global();
     println!("config.bar: {}", config.foo);
 }

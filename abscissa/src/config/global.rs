@@ -3,45 +3,53 @@
 
 use serde::de::DeserializeOwned;
 use std::{fs::File, io::Read, path::Path};
-use toml;
 
 pub use super::reader::ConfigReader;
-use error::{CliError, CliErrorKind};
+use error::FrameworkError;
+use util::{toml, CanonicalPathBuf};
 
 /// Common functions for loading and reading application configuration from
 /// TOML files (providing a global lock which allows many readers, and can be
 /// automatically implemented using the `impl_global_config!` macro.
 // TODO: `derive(GlobalConfig)` using a proc macro.
 pub trait GlobalConfig: 'static + Clone + DeserializeOwned {
+    /// Default location from which to load the configuration
+    // TODO: const fn?
+    fn default_location() -> Option<CanonicalPathBuf> {
+        None
+    }
+
     /// Get the global configuration, acquiring a lock around it. If the
     /// configuration hasn't been loaded, calls `Self::not_loaded()`.
-    fn get() -> ConfigReader<Self>;
+    fn get_global() -> ConfigReader<Self>;
 
     /// Set the global configuration to the given value
-    fn set(config: Self);
+    fn set_global(config: Self);
 
     /// Load the configuration from the given TOML string
-    fn load_toml<T: AsRef<str>>(toml_string: T) -> Result<ConfigReader<Self>, CliError> {
-        let config =
-            toml::from_str(toml_string.as_ref()).map_err(|e| err!(CliErrorKind::Config, &e))?;
-
-        Self::set(config);
-        Ok(Self::get())
+    fn load_toml<T: AsRef<str>>(toml_string: T) -> Result<Self, FrameworkError> {
+        Ok(toml::from_str(toml_string.as_ref())?)
     }
 
     /// Load the global configuration from the TOML file at the given path.
     /// If an error occurs reading or parsing the file, print it out and exit.
-    fn load_toml_file<P: AsRef<Path>>(path: P) -> Result<ConfigReader<Self>, CliError> {
+    fn load_toml_file<P: AsRef<Path>>(path: P) -> Result<Self, FrameworkError> {
         let mut file = File::open(path)?;
         let mut toml_string = String::new();
         file.read_to_string(&mut toml_string)?;
         Self::load_toml(toml_string)
     }
 
+    /// Parse the given TOML file and set the global configuration to the result
+    fn set_from_toml_file<P: AsRef<Path>>(path: P) -> Result<ConfigReader<Self>, FrameworkError> {
+        Self::set_global(Self::load_toml_file(path)?);
+        Ok(Self::get_global())
+    }
+
     /// Load the given TOML configuration file, printing an error message and
     /// exiting if it's invalid
-    fn load_toml_file_or_exit<P: AsRef<Path>>(path: P) -> ConfigReader<Self> {
-        Self::load_toml_file(path.as_ref()).unwrap_or_else(|e| {
+    fn set_from_toml_file_or_exit<P: AsRef<Path>>(path: P) -> ConfigReader<Self> {
+        Self::set_from_toml_file(path.as_ref()).unwrap_or_else(|e| {
             status_err!("error loading {}: {}", &path.as_ref().display(), e);
             ::std::process::exit(1);
         })

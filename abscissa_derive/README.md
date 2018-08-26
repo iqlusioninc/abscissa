@@ -1,4 +1,4 @@
-![Abscissa](https://www.iqlusion.io/img/abscissa.svg)
+![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/crates/abscissa/abscissa.svg)
 
 # abscissa_derive: custom derive macros
 
@@ -12,12 +12,12 @@
 [crate-link]: https://crates.io/crates/abscissa_derive
 [docs-image]: https://docs.rs/abscissa_derive/badge.svg
 [docs-link]: https://docs.rs/abscissa_derive/
+[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
+[license-link]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
 [build-image]: https://circleci.com/gh/iqlusioninc/crates.svg?style=shield
 [build-link]: https://circleci.com/gh/iqlusioninc/crates
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/1ua33q2njho24e9h?svg=true
 [appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/crates
-[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
 
 This crate provides the custom derive implementations used by the
 [abscissa] command-line app microframework.

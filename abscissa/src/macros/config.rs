@@ -12,7 +12,7 @@ macro_rules! impl_global_config {
         }
 
         impl $crate::config::GlobalConfig for $config_type {
-            fn get() -> $crate::config::ConfigReader<Self> {
+            fn get_global() -> $crate::config::ConfigReader<Self> {
                 // TODO: better handle `PoisonError`? (i.e. print a better error message)
                 let config = $config_static.read().unwrap();
 
@@ -23,7 +23,7 @@ macro_rules! impl_global_config {
                 $crate::config::ConfigReader::new(config)
             }
 
-            fn set(config: Self) {
+            fn set_global(config: Self) {
                 // TODO: better handle `PoisonError`?
                 let mut global_config = $config_static.write().unwrap();
                 *global_config = Some(config);

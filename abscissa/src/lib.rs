@@ -18,6 +18,10 @@
 //!   unified error-handling subsystem.
 //! - **logging**: uses the `log` and `simplelog` crates to automatically configure
 //!   application-level logging, presently to standard output or files.
+//! - **secrets management**: the (optional) `secrets` module includes a `Secret`
+//!  type which derives serde's `Deserialize` and can be used to represent secret
+//!  values parsed from configuration files or elsewhere (e.g. credentials loaded
+//!  from the environment or network requests)
 //! - **shell interactions**: support for colored terminal output (with color
 //!   support autodetection). Useful for Cargo-like status messages with
 //!   easy-to-use macros.
@@ -59,49 +63,61 @@
     unused_qualifications
 )]
 #![doc(html_root_url = "https://docs.rs/abscissa/0.0.0")]
+#![doc(
+    html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/crates/abscissa/abscissa-sq.svg",
+    html_root_url = "https://docs.rs/abscissa/0.0.0"
+)]
 
-extern crate failure;
 #[allow(unknown_lints, unused_imports, useless_attribute)]
 #[macro_use]
 extern crate abscissa_derive;
+pub extern crate failure;
 #[macro_use]
 extern crate lazy_static;
-#[cfg(feature = "log")]
+#[cfg(feature = "logging")]
 pub extern crate log;
 #[cfg(feature = "config")]
 extern crate serde;
 #[cfg(feature = "simplelog")]
 extern crate simplelog;
 extern crate term;
-#[cfg(feature = "toml")]
-extern crate toml;
 
 #[cfg(all(test, feature = "options"))]
 #[macro_use]
 extern crate assert_matches;
 
-pub use term::color::{self, Color};
-
 // Load macros first
 #[macro_use]
 pub mod macros;
 
+#[cfg(feature = "application")]
+mod application;
+#[cfg(feature = "options")]
+mod command;
 #[cfg(feature = "config")]
 pub mod config;
 mod error;
-mod init;
+#[cfg(feature = "logging")]
+mod logging;
 #[cfg(feature = "options")]
 pub mod options;
 #[cfg(feature = "secrets")]
 pub mod secrets;
-mod shell;
+pub mod shell;
 pub mod util;
 
+#[cfg(feature = "application")]
+pub use application::{boot, Application, ApplicationPath, Component, Components};
+#[cfg(feature = "options")]
+pub use command::{Callable, Command};
 pub use config::{ConfigReader, GlobalConfig};
-pub use error::Error;
-pub use init::{init, InitOpts};
+pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
+#[cfg(feature = "logging")]
+pub use logging::LoggingConfig;
 #[cfg(feature = "options")]
 pub use options::Options;
 #[cfg(feature = "secrets")]
 pub use secrets::Secret;
 pub use shell::{status, ColorConfig, Stream};
+#[cfg(feature = "application")]
+pub use util::Version;

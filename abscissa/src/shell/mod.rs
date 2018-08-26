@@ -5,48 +5,25 @@
 //! These portions are redistributed under the same license as Cargo
 
 use std::{
-    cell::RefCell,
     fmt::Display,
-    io::{self, prelude::*},
-    sync::{Mutex, MutexGuard},
+    io::{self, Write},
 };
-use term::{self, terminfo::TermInfo, Attr, Terminal as TermTerminal, TerminfoTerminal};
 
-use super::Color;
-use error::CliError;
+pub use term::color::{self, Color};
+use term::Attr;
 
-pub mod color_config;
+mod color_config;
+#[cfg(feature = "application")]
+mod component;
 mod isatty;
+mod stream;
+mod terminal;
 
-pub use self::color_config::ColorConfig;
-
-lazy_static! {
-    static ref STDOUT: Mutex<RefCell<Shell>> = {
-        Mutex::new(RefCell::new(Shell::new(
-            Stream::Stdout,
-            ColorConfig::default(),
-        )))
-    };
-    static ref STDERR: Mutex<RefCell<Shell>> = {
-        Mutex::new(RefCell::new(Shell::new(
-            Stream::Stderr,
-            ColorConfig::default(),
-        )))
-    };
-}
-
-/// Reconfigure the shell
-pub fn config(color_config: ColorConfig) {
-    STDOUT
-        .lock()
-        .unwrap()
-        .replace(Shell::new(Stream::Stdout, color_config));
-
-    STDERR
-        .lock()
-        .unwrap()
-        .replace(Shell::new(Stream::Stderr, color_config));
-}
+#[cfg(feature = "application")]
+pub use self::component::ShellComponent;
+use self::terminal::Terminal;
+pub use self::{color_config::ColorConfig, stream::Stream};
+use error::FrameworkError;
 
 /// Say a status message with the given color
 pub fn status<T, U>(stream: Stream, color: Color, status: T, message: U, justified: bool)
@@ -62,44 +39,12 @@ where
         .unwrap();
 }
 
-/// Terminal streams
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Stream {
-    /// Standard output
-    Stdout,
-
-    /// Standard error
-    Stderr,
-}
-
-impl Stream {
-    /// Get a shell for this stream type
-    #[allow(unknown_lints, trivially_copy_pass_by_ref)]
-    pub(crate) fn lock_shell(&self) -> MutexGuard<RefCell<Shell>> {
-        match self {
-            Stream::Stdout => STDOUT.lock().unwrap(),
-            Stream::Stderr => STDERR.lock().unwrap(),
-        }
+/// Reconfigure the shell (invoke this via `ColorConfig`)
+fn config(color_config: ColorConfig) {
+    for stream in &[Stream::Stdout, Stream::Stderr] {
+        let shell = stream.lock_shell();
+        shell.replace(Shell::new(*stream, color_config));
     }
-
-    /// Get a boxed writer for this stream
-    fn writer(self) -> Box<Write + Send> {
-        match self {
-            Stream::Stdout => Box::new(io::stdout()),
-            Stream::Stderr => Box::new(io::stderr()),
-        }
-    }
-
-    /// Is this stream a TTY?
-    fn is_tty(self) -> bool {
-        self::isatty::isatty(self)
-    }
-}
-
-/// Terminal I/O object
-enum Terminal {
-    NoColor(Box<Write + Send>),
-    Colored(Box<term::Terminal<Output = Box<Write + Send>> + Send>),
 }
 
 /// Shell we output to (either STDOUT or STDERR)
@@ -107,42 +52,29 @@ pub(crate) struct Shell(Terminal);
 
 impl Shell {
     /// Create a new shell for the given stream
-    pub fn new(stream: Stream, color_config: ColorConfig) -> Self {
-        let terminal = TermInfo::from_env()
-            .map(|ti| {
-                let term = TerminfoTerminal::new_with_terminfo(stream.writer(), ti);
-
-                match color_config {
-                    ColorConfig::Always => Terminal::Colored(Box::new(term)),
-                    ColorConfig::Auto => if stream.is_tty() && term.supports_color() {
-                        Terminal::Colored(Box::new(term))
-                    } else {
-                        Terminal::NoColor(term.into_inner())
-                    },
-                    ColorConfig::Never => Terminal::NoColor(term.into_inner()),
-                }
-            })
-            .unwrap_or_else(|_| Terminal::NoColor(stream.writer()));
+    pub(crate) fn new(stream: Stream, color_config: ColorConfig) -> Self {
+        let terminal = Terminal::new(stream.writer(), color_config, stream.is_tty())
+            .unwrap_or_else(|_| Terminal::from(stream.writer()));
 
         Shell(terminal)
     }
 
     /// Say a status message with the given color
-    pub fn status<T, U>(
+    pub(crate) fn status<T, U>(
         &mut self,
-        color: Color,
+        clr: Color,
         status: T,
         message: U,
         justified: bool,
-    ) -> Result<(), CliError>
+    ) -> Result<(), FrameworkError>
     where
         T: Display,
         U: Display,
     {
         self.reset()?;
 
-        if color != super::color::BLACK {
-            self.fg(color)?;
+        if clr != color::BLACK {
+            self.fg(clr)?;
         }
 
         if self.supports_attr(Attr::Bold) {
@@ -162,16 +94,16 @@ impl Shell {
         Ok(())
     }
 
-    fn fg(&mut self, color: Color) -> Result<bool, CliError> {
+    fn fg(&mut self, clr: Color) -> Result<bool, FrameworkError> {
         if let Terminal::Colored(ref mut c) = self.0 {
-            c.fg(color)?;
+            c.fg(clr)?;
             Ok(true)
         } else {
             Ok(false)
         }
     }
 
-    fn attr(&mut self, attr: Attr) -> Result<bool, CliError> {
+    fn attr(&mut self, attr: Attr) -> Result<bool, FrameworkError> {
         if let Terminal::Colored(ref mut c) = self.0 {
             c.attr(attr)?;
             Ok(true)
@@ -188,7 +120,7 @@ impl Shell {
         }
     }
 
-    fn reset(&mut self) -> Result<(), CliError> {
+    fn reset(&mut self) -> Result<(), FrameworkError> {
         if let Terminal::Colored(ref mut c) = self.0 {
             c.reset()?;
         }
@@ -199,16 +131,10 @@ impl Shell {
 
 impl Write for Shell {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
-        match self.0 {
-            Terminal::Colored(ref mut c) => c.write(buf),
-            Terminal::NoColor(ref mut n) => n.write(buf),
-        }
+        self.0.write(buf)
     }
 
     fn flush(&mut self) -> io::Result<()> {
-        match self.0 {
-            Terminal::Colored(ref mut c) => c.flush(),
-            Terminal::NoColor(ref mut n) => n.flush(),
-        }
+        self.0.flush()
     }
 }

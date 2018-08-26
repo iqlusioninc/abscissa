@@ -12,13 +12,10 @@
 #[macro_export]
 macro_rules! err {
     ($kind:path, $msg:expr) => {
-        {
-            use $crate::error::ToError;
-            $kind.to_error(Some($msg))
-        }
+        $crate::error::Error::new($crate::error::Context::new($kind), Some($msg.to_string()))
     };
     ($kind:path, $fmt:expr, $($arg:tt)+) => {
-        err!($kind, format!($fmt, $($arg)+))
+        err!($kind, &format!($fmt, $($arg)+))
     };
 }
 
@@ -29,7 +26,7 @@ macro_rules! fail {
         return Err(err!($kind, $msg).into());
     };
     ($kind:path, $fmt:expr, $($arg:tt)+) => {
-        fail!($kind, format!($fmt, $($arg)+));
+        fail!($kind, &format!($fmt, $($arg)+));
     };
 }
 

@@ -1,11 +1,8 @@
 use super::Opt;
-use error::{self, ToError};
+use error;
 
 /// Errors encountered during argument parsing
 pub type Error = error::Error<ErrorKind>;
-
-/// `None` with type annotations for `to_error`
-const NO_DESCRIPTION: Option<&String> = None;
 
 impl Error {
     /// Returns an error for a failed attempt at parsing an option value.
@@ -13,12 +10,12 @@ impl Error {
         ErrorKind::FailedParse {
             opt: opt.to_string(),
             err,
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for a failed attempt at parsing an option's default value.
     pub fn failed_parse_default(option: &'static str, value: &'static str, err: String) -> Error {
-        ErrorKind::FailedParseDefault { option, value, err }.to_error(NO_DESCRIPTION)
+        ErrorKind::FailedParseDefault { option, value, err }.into()
     }
 
     /// Returns an error for an option expecting two or more arguments not
@@ -28,7 +25,7 @@ impl Error {
             option: opt.to_string(),
             expected,
             found,
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for an option receiving an unexpected argument value,
@@ -36,7 +33,7 @@ impl Error {
     pub fn unexpected_argument(opt: Opt) -> Error {
         ErrorKind::UnexpectedArgument {
             opt: opt.to_string(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for an option expecting two or more argument values
@@ -47,36 +44,36 @@ impl Error {
         ErrorKind::UnexpectedSingleArgument {
             opt: opt.to_string(),
             n,
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for a missing required argument.
     pub fn missing_argument(opt: Opt) -> Error {
         ErrorKind::MissingArgument {
             opt: opt.to_string(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for a missing command name.
     pub fn missing_command() -> Error {
-        ErrorKind::MissingCommand.to_error(NO_DESCRIPTION)
+        ErrorKind::MissingCommand.into()
     }
 
     /// Returns an error for a missing required option.
     pub fn missing_required(opt: &str) -> Error {
         ErrorKind::MissingRequired {
             opt: opt.to_owned(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for a missing required command.
     pub fn missing_required_command() -> Error {
-        ErrorKind::MissingRequiredCommand.to_error(NO_DESCRIPTION)
+        ErrorKind::MissingRequiredCommand.into()
     }
 
     /// Returns an error for a missing required free argument.
     pub fn missing_required_free() -> Error {
-        ErrorKind::MissingRequiredFree.to_error(NO_DESCRIPTION)
+        ErrorKind::MissingRequiredFree.into()
     }
 
     /// Returns an error when a free argument was encountered, but the options
@@ -84,14 +81,14 @@ impl Error {
     pub fn unexpected_free(arg: &str) -> Error {
         ErrorKind::UnexpectedFree {
             arg: arg.to_owned(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for an unrecognized command.
     pub fn unrecognized_command(name: &str) -> Error {
         ErrorKind::UnrecognizedCommand {
             name: name.to_owned(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for an unrecognized option.
@@ -107,12 +104,12 @@ impl Error {
     pub fn unrecognized_long(opt: &str) -> Error {
         ErrorKind::UnrecognizedLongOption {
             opt: opt.to_owned(),
-        }.to_error(NO_DESCRIPTION)
+        }.into()
     }
 
     /// Returns an error for an unrecognized short option, e.g. `-o`.
     pub fn unrecognized_short(opt: char) -> Error {
-        ErrorKind::UnrecognizedShortOption { opt }.to_error(NO_DESCRIPTION)
+        ErrorKind::UnrecognizedShortOption { opt }.into()
     }
 }
 
