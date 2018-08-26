@@ -7,15 +7,15 @@ description = """
 version     = "0.0.0" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>", "Murarth <murarth@gmail.com>", "David Tolnay <dtolnay@gmail.com>"]
-homepage    = "https://github.com/iqlusioninc/crates/"
-repository  = "https://github.com/iqlusioninc/crates/tree/master/abscissa"
+homepage    = "https://github.com/iqlusioninc/abscissa/"
+repository  = "https://github.com/iqlusioninc/abscissa/tree/master/"
 readme      = "README.md"
 categories  = ["command-line-interface", "rust-patterns", "web-programming"]
 keywords    = ["application", "container", "microservices", "framework", "service"]
 
 [badges]
-circle-ci = { repository = "iqlusioninc/crates" }
-appveyor  = { repository = "iqlusioninc/crates" }
+circle-ci = { repository = "iqlusioninc/abscissa" }
+appveyor  = { repository = "tony-iqlusion/abscissa" }
 
 [dependencies]
 canonical-path = "0.1"

@@ -4,15 +4,15 @@ description = "Custom derive support for the abscissa application microframework
 version     = "0.0.0" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>", "Murarth <murarth@gmail.com>", "Without Boats <boats@mozilla.com>"]
-homepage    = "https://github.com/iqlusioninc/crates/abscissa"
-repository  = "https://github.com/iqlusioninc/crates/tree/master/abscissa_derive"
+homepage    = "https://github.com/iqlusioninc/abscissa"
+repository  = "https://github.com/iqlusioninc/abscissa/tree/master/abscissa_derive"
 readme      = "README.md"
 categories  = ["command-line-interface"]
 keywords    = ["args", "command-line", "flag", "getopts", "option"]
 
 [badges]
-circle-ci = { repository = "iqlusioninc/crates" }
-appveyor  = { repository = "iqlusioninc/crates" }
+circle-ci = { repository = "iqlusioninc/abscissa" }
+appveyor  = { repository = "tony-iqlusion/abscissa" }
 
 [lib]
 name = "abscissa_derive"

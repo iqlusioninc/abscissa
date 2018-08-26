@@ -1,4 +1,4 @@
-![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/crates/abscissa/abscissa.svg)
+![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg)
 
 # abscissa_derive: custom derive macros
 
@@ -13,11 +13,11 @@
 [docs-image]: https://docs.rs/abscissa_derive/badge.svg
 [docs-link]: https://docs.rs/abscissa_derive/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
-[build-image]: https://circleci.com/gh/iqlusioninc/crates.svg?style=shield
-[build-link]: https://circleci.com/gh/iqlusioninc/crates
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/1ua33q2njho24e9h?svg=true
-[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/crates
+[license-link]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
+[build-image]: https://circleci.com/gh/iqlusioninc/abscissa.svg?style=shield
+[build-link]: https://circleci.com/gh/iqlusioninc/abscissa
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
+[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
 
 This crate provides the custom derive implementations used by the
 [abscissa] command-line app microframework.
@@ -27,7 +27,7 @@ framework itself in a single crate. This ensures that proc macro upgrades
 can be performed atomically (i.e. this won't ever depend on 3 versions of
 `syn`), and minimizes the amount of code running as part of the build process.
 
-[abscissa]: https://github.com/iqlusioninc/crates/tree/master/abscissa
+[abscissa]: https://github.com/iqlusioninc/abscissa/tree/master/
 
 ## Features
 
@@ -46,7 +46,6 @@ Apache License (Version 2.0). It is a fork of the [failure_derive]
 and [gumdrop_derive] crates, which also also distributed under the
 terms of the Apache License (Version 2.0).
 
-See [LICENSE] file in the `iqlusioninc/crates` toplevel directory for more
-information.
+See [LICENSE] file in the toplevel directory for more information.
 
-[LICENSE]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
+[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
