@@ -1,0 +1,50 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: iqlusion/rust-ci:20180729.2 # bump cache keys when modifying this
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: cache-20180729.2 # bump save_cache key below too
+      - run:
+          name: rustfmt
+          command: |
+            cargo +$RUST_NIGHTLY_VERSION fmt --version
+            cargo +$RUST_NIGHTLY_VERSION fmt --all -- --check
+      - run:
+          name: clippy
+          command: |
+            cargo +$RUST_NIGHTLY_VERSION clippy --version
+            cargo +$RUST_NIGHTLY_VERSION clippy --all
+      - run:
+          name: "build (all crates)"
+          command: |
+            rustc --version
+            cargo --version
+            cargo build --all --no-default-features
+            cargo build --all
+      - run:
+          name: "test (all crates)"
+          command: |
+            rustc --version
+            cargo --version
+            cargo test --all
+      - run:
+          name: "doc"
+          command: |
+            rustc --version
+            cargo --version
+            cargo doc
+      - run:
+          name: "audit"
+          command: |
+            cargo audit --version
+            cargo audit
+      - save_cache:
+          key: cache-20180729.2 # bump restore_cache key above too
+          paths:
+            - "~/.cargo"
+            - "./target"
