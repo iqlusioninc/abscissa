@@ -1,4 +1,4 @@
-# ![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/crates/abscissa/abscissa.svg)
+# ![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg)
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
@@ -11,11 +11,11 @@
 [docs-image]: https://docs.rs/abscissa/badge.svg
 [docs-link]: https://docs.rs/abscissa/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
-[build-image]: https://circleci.com/gh/iqlusioninc/crates.svg?style=shield
-[build-link]: https://circleci.com/gh/iqlusioninc/crates
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/1ua33q2njho24e9h?svg=true
-[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/crates
+[license-link]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
+[build-image]: https://circleci.com/gh/iqlusioninc/abscissa.svg?style=shield
+[build-link]: https://circleci.com/gh/iqlusioninc/abscissa
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
+[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
 
 Abscissa is a microframework for building Rust applications (either CLI tools
 or network/web services), aiming to provide a large number of features with a
@@ -51,8 +51,11 @@ or network/web services), aiming to provide a large number of features with a
 
 ### Q1: Why is it called "abscissa"?
 
-**A1:** 
+**A1:** An abscissa represents the elevation of a point above the y-axis.
+In that regard, "Abscissa" can be thought of as a pun about getting off
+the ground, or elevating your project.
 
+The word "abscissa" is also the key to the Kryptos K2 panel.
 
 ## License
 
@@ -63,10 +66,10 @@ Parts of this code were taken from the following projects, which have agreed
 to license their code under the Apache License (Version 2.0):
 
 * [Cargo](https://github.com/rust-lang/cargo)
+* [failure](https://github.com/withoutboats/failure)
 * [gumdrop]
 * [isatty](https://github.com/dtolnay/isatty)
 
-See [LICENSE] file in the `iqlusioninc/crates` toplevel directory for more
-information.
+See [LICENSE] file in the toplevel directory for more information.
 
-[LICENSE]: https://github.com/iqlusioninc/crates/blob/master/LICENSE
+[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
