@@ -6,7 +6,7 @@ description = """
               """
 version     = "0.0.1" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
-authors     = ["Tony Arcieri <tony@iqlusion.io>", "Murarth <murarth@gmail.com>", "David Tolnay <dtolnay@gmail.com>"]
+authors     = ["Tony Arcieri <tony@iqlusion.io>", "Murarth <murarth@gmail.com>"]
 homepage    = "https://github.com/iqlusioninc/abscissa/"
 repository  = "https://github.com/iqlusioninc/abscissa/tree/master/"
 readme      = "README.md"
@@ -19,6 +19,7 @@ canonical-path = "0.1"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 clear_on_drop = "0.2"
 failure = { version = "0.1", default-features = false, features = ["std"] }
+isatty = { version = "0.1", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true }
 semver = { version = "0.9", optional = true }
@@ -60,10 +61,8 @@ options = [
 secrets = []
 shell = [
     "errors",
+    "isatty",
     "term",
-    "libc",
-    "winapi",
-    "redox_syscall"
 ]
 status = ["shell"]
 
@@ -73,26 +72,3 @@ appveyor  = { repository = "tony-iqlusion/abscissa" }
 
 [workspace]
 members = [".", "abscissa_derive"]
-
-[target.'cfg(unix)'.dependencies.libc]
-version  = "0.2"
-default-features = false
-optional = true
-
-[target.'cfg(windows)'.dependencies.winapi]
-version = "0.3"
-features = [
-    "consoleapi",
-    "fileapi",
-    "minwinbase",
-    "minwindef",
-    "processenv",
-    "winbase",
-    "winnt"
-]
-optional = true
-
-[target.'cfg(target_os = "redox")'.dependencies.redox_syscall]
-version = "0.1"
-default-features = false
-optional = true
