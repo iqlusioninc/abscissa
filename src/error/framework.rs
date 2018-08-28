@@ -1,4 +1,5 @@
 use std::io;
+#[cfg(feature = "term")]
 use term;
 #[cfg(feature = "toml")]
 use util::toml;
@@ -32,6 +33,7 @@ impl From<io::Error> for FrameworkError {
     }
 }
 
+#[cfg(feature = "term")]
 impl From<term::Error> for FrameworkError {
     fn from(err: term::Error) -> Self {
         err!(FrameworkErrorKind::IoError, err)
