@@ -2,7 +2,7 @@
 //!
 //! Abscissa is a microframework for building Rust applications (either CLI tools
 //! or network services), aiming to provide a large number of features with a
-//! minimal number of dependencies, and with a strong focus on security.
+//! *minimal number of dependencies*, and with a *strong focus on security*.
 //!
 //! ## Features
 //!
@@ -78,8 +78,9 @@ extern crate lazy_static;
 pub extern crate log;
 #[cfg(feature = "config")]
 extern crate serde;
-#[cfg(feature = "simplelog")]
+#[cfg(feature = "logging")]
 extern crate simplelog;
+#[cfg(feature = "shell")]
 extern crate term;
 
 #[cfg(all(test, feature = "options"))]
