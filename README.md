@@ -84,12 +84,12 @@ Here are all of Abscissa's transitive dependencies:
 | 20 | [term]           | [@Stebalien]    | MIT/Apache-2.0 | yes‡      | Terminal color support  |
 | 21 | [time]           | [rust-lang]     | MIT/Apache-2.0 | yes       | Time/date library       |
 | 22 | [toml]           | [@alexcrichton] | MIT/Apache-2.0 | no        | TOML parser library     |
-| 23 | [winapi]         | [@retep998]     | MIT/Apache-2.0 | yes       | Windows API bindings    |
-| 24 | [winapi-i686-pc-windows-gnu] | [@retep998] | MIT/Apache-2.0 | yes | Windows API bindings (32-bit) |
-| 25 | [winapi-x86_64-pc-windows-gnu] | [@retep998] | MIT/Apache-2.0 | yes | Windows API bindings (64-bit) |
+| 23 | [winapi]§        | [@retep998]     | MIT/Apache-2.0 | yes       | Windows API bindings    |
 
 * † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
 * ‡ `term` has one usage of unsafe on Windows. Other platforms do not use unsafe.
+* § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
+    which are omitted for brevity.
 
 ### Build / Development Dependencies
 
@@ -145,9 +145,10 @@ so you only compile the parts you need.
 | [time]            | `logging`        | -         | [chrono]    |
 | [unicode-xid]     | mandatory        | -         | [proc-macro2] |
 | [version_check]   | mandatory        | -         | [lazy_static] |
-| [winapi]          | `shell`          | `windows` | [abscissa]  |
-| [winapi-i686-pc-windows-gnu] | `shell` | `windows` | [abscissa] |
-| [winapi-x86_64-pc-windows-gnu] | `shell` | `windows` | [abscissa] |
+| [winapi]§         | `shell`          | `windows` | [abscissa]  |
+
+* § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
+    which are omitted for brevity.
 
 ## Frequently Asked Questions (FAQ)
 
