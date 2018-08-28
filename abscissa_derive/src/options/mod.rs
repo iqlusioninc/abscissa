@@ -54,6 +54,8 @@
 //! `gumdrop_derive` crate:
 //!
 //! <https://github.com/murarth/gumdrop>
+//!
+//! Author: Murarth <murarth@gmail.com>
 
 use std::iter::repeat;
 
