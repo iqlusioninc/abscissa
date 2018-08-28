@@ -185,7 +185,6 @@ Parts of this code were taken from the following projects, which have agreed
 to license their code under the Apache License (Version 2.0):
 
 * [Cargo]
-* [failure]
 * [gumdrop]
 
 [//]: # (general links)

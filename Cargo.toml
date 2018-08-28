@@ -18,7 +18,8 @@ abscissa_derive = { version = "0", path = "abscissa_derive" }
 canonical-path = "0.1"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 clear_on_drop = "0.2"
-failure = { version = "0.1", default-features = false, features = ["std"] }
+failure = "0.1"
+failure_derive = "0.1"
 isatty = { version = "0.1", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true }
