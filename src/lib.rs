@@ -72,6 +72,8 @@
 extern crate abscissa_derive;
 pub extern crate failure;
 #[cfg(feature = "shell")]
+extern crate isatty;
+#[cfg(feature = "shell")]
 #[macro_use]
 extern crate lazy_static;
 #[cfg(feature = "logging")]

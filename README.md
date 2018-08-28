@@ -70,21 +70,22 @@ Here are all of Abscissa's transitive dependencies:
 | 6  | [chrono]         | [chronotope]    | MIT/Apache-2.0 | yes       | Time/date library       |
 | 7  | [clear_on_drop]  | [@cesarb]       | MIT/Apache-2.0 | yes       | Zero out sensitive data |
 | 8  | [failure]        | [@withoutboats] | MIT/Apache-2.0 | yes       | Error handling          |
-| 9  | [lazy_static]    | [rust-lang]     | MIT/Apache-2.0 | yes       | Heap-allocated statics  |
-| 10 | [libc]           | [rust-lang]     | MIT/Apache-2.0 | yes       | C library wrapper       |
-| 11 | [log]            | [rust-lang]     | MIT/Apache-2.0 | yes       | Logging facade library  |
-| 12 | [num-integer]    | [rust-num]      | MIT/Apache-2.0 | yes       | `Integer` trait         |
-| 13 | [num-traits]     | [rust-num]      | MIT/Apache-2.0 | yes       | Numeric traits          |
-| 14 | [redox_syscall]  | [redox-os]      | MIT            | yes       | Redox OS syscall API    |
-| 15 | [rustc_demangle] | [@alexcrichton] | MIT/Apache-2.0 | yes       | Symbol demangling       |
-| 16 | [semver]         | [@steveklabnik] | MIT/Apache-2.0 | yes       | Semantic versioning     |
-| 17 | [semver-parser]  | [@steveklabnik] | MIT/Apache-2.0 | no†       | Parser for semver spec  |
-| 18 | [serde]          | [serde-rs]      | MIT/Apache-2.0 | yes       | Serialization framework |
-| 19 | [simplelog]      | [@drakulix]     | MIT/Apache-2.0 | yes       | Simple logging facility |
-| 20 | [term]           | [@Stebalien]    | MIT/Apache-2.0 | yes‡      | Terminal color support  |
-| 21 | [time]           | [rust-lang]     | MIT/Apache-2.0 | yes       | Time/date library       |
-| 22 | [toml]           | [@alexcrichton] | MIT/Apache-2.0 | no        | TOML parser library     |
-| 23 | [winapi]§        | [@retep998]     | MIT/Apache-2.0 | yes       | Windows API bindings    |
+| 9  | [isatty]         | [@dtolnay]      | MIT/Apache-2.0 | yes       | Are stdout/stderr TTYs? |
+| 10 | [lazy_static]    | [rust-lang]     | MIT/Apache-2.0 | yes       | Heap-allocated statics  |
+| 11 | [libc]           | [rust-lang]     | MIT/Apache-2.0 | yes       | C library wrapper       |
+| 12 | [log]            | [rust-lang]     | MIT/Apache-2.0 | yes       | Logging facade library  |
+| 13 | [num-integer]    | [rust-num]      | MIT/Apache-2.0 | yes       | `Integer` trait         |
+| 14 | [num-traits]     | [rust-num]      | MIT/Apache-2.0 | yes       | Numeric traits          |
+| 15 | [redox_syscall]  | [redox-os]      | MIT            | yes       | Redox OS syscall API    |
+| 16 | [rustc_demangle] | [@alexcrichton] | MIT/Apache-2.0 | yes       | Symbol demangling       |
+| 17 | [semver]         | [@steveklabnik] | MIT/Apache-2.0 | yes       | Semantic versioning     |
+| 18 | [semver-parser]  | [@steveklabnik] | MIT/Apache-2.0 | no†       | Parser for semver spec  |
+| 19 | [serde]          | [serde-rs]      | MIT/Apache-2.0 | yes       | Serialization framework |
+| 20 | [simplelog]      | [@drakulix]     | MIT/Apache-2.0 | yes       | Simple logging facility |
+| 21 | [term]           | [@Stebalien]    | MIT/Apache-2.0 | yes‡      | Terminal color support  |
+| 22 | [time]           | [rust-lang]     | MIT/Apache-2.0 | yes       | Time/date library       |
+| 23 | [toml]           | [@alexcrichton] | MIT/Apache-2.0 | no        | TOML parser library     |
+| 24 | [winapi]§        | [@retep998]     | MIT/Apache-2.0 | yes       | Windows API bindings    |
 
 * † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
 * ‡ `term` has one usage of unsafe on Windows. Other platforms do not use unsafe.
@@ -128,13 +129,14 @@ so you only compile the parts you need.
 | [clear_on_drop]   | mandatory        | -         | [abscissa]  |
 | [failure]         | mandatory        | -         | [abscissa]  |
 | [failure_derive]  | mandatory        | -         | [failure]   |
+| [isatty]          | `shell`          | -         | [abscissa]  |
 | [lazy_static]     | mandatory        | -         | [abscissa]  |
-| [libc]            | `shell`          | `unix`    | [abscissa]  |
+| [libc]            | `shell`          | `unix`    | [isatty]    |
 | [log]             | `logging`        | -         | [abscissa]  |
 | [num-integer]     | `logging`        | -         | [chrono]    |
 | [num-traits]      | `logging`        | -         | [chrono], [num-integer] |
 | [proc-macro2]     | mandatory        | -         | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
-| [redox_syscall]   | `shell`          | `redox`   | [abscissa]  |
+| [redox_syscall]   | `shell`          | `redox`   | [isatty]    |
 | [rustc_demangle]  | mandatory        | -         | [backtrace] |
 | [semver]          | `application`    | -         | [abscissa]  |
 | [semver-parser]   | `application`    | -         | [abscissa]  |
@@ -145,7 +147,7 @@ so you only compile the parts you need.
 | [time]            | `logging`        | -         | [chrono]    |
 | [unicode-xid]     | mandatory        | -         | [proc-macro2] |
 | [version_check]   | mandatory        | -         | [lazy_static] |
-| [winapi]§         | `shell`          | `windows` | [abscissa]  |
+| [winapi]§         | `shell`          | `windows` | [isatty]    |
 
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
     which are omitted for brevity.
@@ -185,7 +187,6 @@ to license their code under the Apache License (Version 2.0):
 * [Cargo]
 * [failure]
 * [gumdrop]
-* [isatty]
 
 [//]: # (general links)
 
