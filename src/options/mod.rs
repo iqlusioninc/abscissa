@@ -171,7 +171,10 @@
 //! # Notice
 //!
 //! This portion of `abscissa` functionality is a fork of the `gumdrop` crate:
+//!
 //! <https://github.com/murarth/gumdrop>
+//!
+//! Author: Murarth <murarth@gmail.com>
 
 #[doc(hidden)]
 pub use abscissa_derive::*;
