@@ -71,6 +71,9 @@
 #[macro_use]
 extern crate abscissa_derive;
 pub extern crate failure;
+#[cfg(any(feature = "errors", feature = "options"))]
+#[macro_use]
+extern crate failure_derive;
 #[cfg(feature = "shell")]
 extern crate isatty;
 #[cfg(feature = "shell")]

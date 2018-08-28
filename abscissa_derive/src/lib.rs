@@ -23,28 +23,19 @@
 
 extern crate proc_macro;
 extern crate proc_macro2;
-#[cfg(any(feature = "errors", feature = "options"))]
+#[cfg(feature = "options")]
 #[allow(unused_imports, unknown_lints, useless_attribute)]
 #[macro_use]
 extern crate quote;
 extern crate syn;
-#[cfg(feature = "errors")]
-#[macro_use]
-extern crate synstructure;
 
 #[cfg(feature = "options")]
 use proc_macro::TokenStream;
 #[cfg(feature = "options")]
 use syn::{Data, DataStruct, DeriveInput, Fields};
 
-#[cfg(feature = "errors")]
-mod errors;
 #[cfg(feature = "options")]
 mod options;
-
-/// Derive the `Fail` trait
-#[cfg(feature = "errors")]
-decl_derive!([Fail, attributes(fail, cause)] => errors::fail_derive);
 
 /// Derive the `Options` trait
 #[cfg(feature = "options")]
