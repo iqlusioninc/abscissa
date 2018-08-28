@@ -16,6 +16,7 @@ keywords    = ["application", "container", "microservices", "framework", "servic
 [dependencies]
 abscissa_derive = { version = "0", path = "abscissa_derive" }
 canonical-path = "0.1"
+chrono = { version = "0.4", optional = true, features = ["serde"] }
 clear_on_drop = "0.2"
 failure = { version = "0.1", default-features = false, features = ["std"] }
 lazy_static = "1"
@@ -45,7 +46,7 @@ config = [
     "status",
     "toml"
 ]
-default = ["application"]
+default = ["application", "chrono"]
 errors = []
 logging = [
     "errors",

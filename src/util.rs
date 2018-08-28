@@ -1,6 +1,8 @@
 //! Miscellaneous utilities
 
 extern crate canonical_path;
+#[cfg(feature = "chrono")]
+pub extern crate chrono as time;
 extern crate clear_on_drop;
 #[cfg(feature = "application")]
 extern crate semver;
