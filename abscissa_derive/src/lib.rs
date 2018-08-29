@@ -18,7 +18,7 @@
 #![recursion_limit = "1024"]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_derive/0.0.1"
+    html_root_url = "https://docs.rs/abscissa_derive/0.0.2"
 )]
 
 extern crate proc_macro;

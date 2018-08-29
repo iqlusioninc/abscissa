@@ -69,7 +69,6 @@ status = ["shell"]
 
 [badges]
 circle-ci = { repository = "iqlusioninc/abscissa" }
-appveyor  = { repository = "tony-iqlusion/abscissa" }
 
 [workspace]
 members = [".", "abscissa_derive"]
