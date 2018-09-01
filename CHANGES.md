@@ -1,3 +1,10 @@
+## [0.0.3] (2018-09-01)
+
+[0.0.3]: https://github.com/iqlusioninc/abscissa/compare/v0.0.2...v0.0.3
+
+* [#14](https://github.com/iqlusioninc/abscissa/pull/14)
+  Full application lifecycle implementation.
+
 ## [0.0.2] (2018-08-28)
 
 [0.0.2]: https://github.com/iqlusioninc/abscissa/compare/v0.0.1...v0.0.2
