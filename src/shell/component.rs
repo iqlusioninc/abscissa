@@ -5,6 +5,13 @@ use {Component, FrameworkError, Version};
 #[derive(Default, Debug)]
 pub struct ShellComponent(ColorConfig);
 
+impl ShellComponent {
+    /// Create a new `ShellComponent` with the given `ColorConfig`
+    pub fn new(config: ColorConfig) -> ShellComponent {
+        ShellComponent(config)
+    }
+}
+
 impl Component for ShellComponent {
     /// Name of this component
     fn name(&self) -> &'static str {

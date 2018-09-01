@@ -1,8 +1,11 @@
 //! Application (sub)command(s), i.e. app entry points
 
-use std::process::exit;
+use std::{fmt::Debug, process::exit};
 
+#[cfg(feature = "application")]
+use application::Application;
 use options::Options;
+use util::CanonicalPathBuf;
 
 /// Something which can be called
 pub trait Callable {
@@ -14,7 +17,7 @@ pub trait Callable {
 /// trait, but also has a `call()` method which can be used to invoke the given
 /// (sub)command.
 // TODO: custom derive support, i.e. `derive(Command)`
-pub trait Command: Callable + Options {
+pub trait Command: Callable + Debug + Options {
     /// Name of this program as a string
     fn name() -> &'static str;
 
@@ -64,6 +67,16 @@ pub trait Command: Callable + Options {
         Self::from_args(args)
     }
 
+    /// Main entry point for commands run as part of applications. This is
+    /// called for the `Application::Cmd` associated type after parsing the
+    /// `Command`, loading the application's configuration, and initializing
+    /// all of its subcomponents (e.g. shell renderer, logging)
+    #[cfg(feature = "application")]
+    #[allow(unused_variables)]
+    fn run<A: Application>(&self, app: &A) {
+        self.call();
+    }
+
     //
     // TODO: the methods below should probably be factored into `Option`
     //
@@ -83,7 +96,7 @@ pub trait Command: Callable + Options {
 
     /// Print usage information for the given command to STDOUT and then exit with
     /// a usage status code (i.e. `2`).
-    fn print_usage(args: &[String]) {
+    fn print_usage(args: &[String]) -> ! {
         Self::print_package_info();
         Self::print_package_authors();
 
@@ -103,12 +116,12 @@ pub trait Command: Callable + Options {
         println!("SUBCOMMANDS:");
         println!("{}", Self::command_list().unwrap());
 
-        exit(2);
+        exit(2)
     }
 
     /// Print subcommand usage
     // TODO: less hax way of doing this
-    fn print_subcommand_usage(subcommand: &str) {
+    fn print_subcommand_usage(subcommand: &str) -> ! {
         Self::print_subcommand_description(subcommand);
         println!();
         println!("USAGE:");
@@ -116,7 +129,7 @@ pub trait Command: Callable + Options {
         println!();
         Self::print_subcommand_flags(subcommand);
 
-        exit(2);
+        exit(2)
     }
 
     /// Print a description for a subcommand
@@ -143,5 +156,13 @@ pub trait Command: Callable + Options {
 
         // TODO: descriptions for each command
         println!("{}", usage);
+    }
+}
+
+/// Commands which know the path to their configuration
+pub trait CommandConfig {
+    /// Path from which to load this command's configuration
+    fn config_path(&self) -> Option<CanonicalPathBuf> {
+        None
     }
 }

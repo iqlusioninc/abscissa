@@ -5,6 +5,13 @@ use {Component, FrameworkError, Version};
 #[derive(Debug, Default)]
 pub struct LoggingComponent(LoggingConfig);
 
+impl LoggingComponent {
+    /// Create a new `LoggingComponent` with the given configuration
+    pub fn new(config: LoggingConfig) -> Self {
+        LoggingComponent(config)
+    }
+}
+
 impl Component for LoggingComponent {
     /// Name of this component
     fn name(&self) -> &'static str {

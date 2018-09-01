@@ -8,8 +8,10 @@ pub mod exit;
 
 pub use self::components::{Component, Components};
 use command::Command;
-use config::{ConfigReader, GlobalConfig, MergeOptions};
+use config::{ConfigReader, GlobalConfig, LoadConfig};
 use error::FrameworkError;
+use logging::{LoggingComponent, LoggingConfig};
+use shell::{self, ColorConfig, ShellComponent};
 use util::{self, CanonicalPathBuf, Version};
 
 /// Core Abscissa trait used for managing the application lifecycle.
@@ -23,10 +25,10 @@ use util::{self, CanonicalPathBuf, Version};
 #[allow(unused_variables)]
 pub trait Application: Send + Sized + Sync {
     /// Application (sub)command which serves as the main entry point
-    type Cmd: Command;
+    type Cmd: Command + LoadConfig<Self::Config>;
 
     /// Configuration type used by this application
-    type Config: GlobalConfig + MergeOptions<Self::Cmd>;
+    type Config: GlobalConfig;
 
     /// Get a read lock on the application's global configuration
     fn config(&self) -> ConfigReader<Self::Config> {
@@ -60,18 +62,20 @@ pub trait Application: Send + Sized + Sync {
         util::current_exe().unwrap()
     }
 
+    /// Color configuration for this application
+    fn color_config(&self, command: &Self::Cmd) -> ColorConfig {
+        ColorConfig::default()
+    }
+
     /// Load this application's configuration and initialize its components
     fn init(&self, command: &Self::Cmd) -> Result<Components, FrameworkError> {
-        // We do this first to ensure that the configuration is loaded
-        // before the rest of the framework is initialized
-        let config = self.load_config_file()?;
-
-        // Set the global configuration to what we loaded from the config file
-        // overridden with flags from the command line
-        Self::Config::set_global(config.merge(command));
+        // Load the global configuration via the command's `LoadConfig` trait.
+        // We do this first to ensure that the configuration is loaded before
+        // the rest of the framework is initialized.
+        command.load_global_config()?;
 
         // Create the application's components
-        let mut components = self.components()?;
+        let mut components = self.components(command)?;
 
         // Initialize the components
         components.init(self)?;
@@ -80,33 +84,33 @@ pub trait Application: Send + Sized + Sync {
         Ok(components)
     }
 
-    /// Load the application's global configuration from a file
-    fn load_config_file(&self) -> Result<Self::Config, FrameworkError> {
-        Self::Config::load_toml_file(self.path(ApplicationPath::ConfigFile)?)
+    /// Get this application's components
+    fn components(&self, command: &Self::Cmd) -> Result<Components, FrameworkError> {
+        Ok(Components::new(vec![
+            Box::new(ShellComponent::new(self.color_config(command))),
+            Box::new(LoggingComponent::new(self.logging_config(command))),
+        ]))
     }
 
-    /// Get this application's components
-    fn components(&self) -> Result<Components, FrameworkError> {
-        Ok(Components::default())
+    /// Get the logging configuration for this application
+    fn logging_config(&self, command: &Self::Cmd) -> LoggingConfig {
+        LoggingConfig::default()
     }
 
     /// Get a path associated with this application
     fn path(&self, path_type: ApplicationPath) -> Result<CanonicalPathBuf, FrameworkError> {
         Ok(match path_type {
-            //ApplicationPath::AppRoot => self.bin().parent()?,
+            ApplicationPath::AppRoot => self.bin().parent()?,
             ApplicationPath::Bin => self.bin(),
-            other => panic!("KABOOM! {:?}", other)
-            //ApplicationPath::ConfigFile => Self::Config::default_location().ok_or_else(|| {
-            //    self.fatal_error(err!(
-            //        FrameworkErrorKind::Config,
-            //        "no default configuration path configured for this config type"
-            //    ))
-            //}),
-            //ApplicationPath::Secrets => self.bin().parent()?.join("secrets")?,
+            ApplicationPath::Secrets => self.bin().parent()?.join("secrets")?,
         })
     }
 
-    /// Register a component with this application. By default do nothing.
+    /// Display framework information as it relates to this application
+    fn print_framework_info(&self) {
+        shell::extras::print_framework_info();
+    }
+    /// Register a componen\t with this application. By default do nothing.
     fn register(&self, component: &Component) -> Result<(), FrameworkError> {
         Ok(())
     }
@@ -136,9 +140,6 @@ pub enum ApplicationPath {
     /// Path to the application's compiled binary
     Bin,
 
-    /// Path to the application's configuration
-    ConfigFile,
-
     /// Path to the application's secrets directory
     Secrets,
 }
@@ -152,6 +153,12 @@ pub fn boot<A: Application>(app: A) -> ! {
 
     // Initialize the application
     let components = app.init(&command).unwrap_or_else(|e| app.fatal_error(e));
+
+    // Show framework debug information if we're in debug mode
+    app.print_framework_info();
+
+    // TODO: call the parsed command here
+    command.run(&app);
 
     // Exit gracefully
     app.shutdown(components)

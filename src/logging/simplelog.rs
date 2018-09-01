@@ -12,20 +12,23 @@ pub struct LoggingConfig {
     simplelog_config: simplelog::Config,
 }
 
-impl Default for LoggingConfig {
-    fn default() -> Self {
-        Self {
-            level_filter: LevelFilter::Info,
-            simplelog_config: Default::default(),
-        }
-    }
-}
-
 impl LoggingConfig {
     /// Create a new LoggingConfig object with verbose logging
     pub fn verbose() -> Self {
+        LevelFilter::Debug.into()
+    }
+}
+
+impl Default for LoggingConfig {
+    fn default() -> Self {
+        LevelFilter::Info.into()
+    }
+}
+
+impl From<LevelFilter> for LoggingConfig {
+    fn from(level_filter: LevelFilter) -> LoggingConfig {
         Self {
-            level_filter: LevelFilter::Debug,
+            level_filter,
             simplelog_config: Default::default(),
         }
     }
