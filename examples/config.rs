@@ -9,7 +9,7 @@ extern crate abscissa;
 #[macro_use]
 extern crate serde_derive;
 
-use abscissa::GlobalConfig;
+use abscissa::{CanonicalPathBuf, GlobalConfig};
 
 /// Configuration data to parse from TOML
 // TODO: `derive(GlobalConfig)`
@@ -31,8 +31,11 @@ pub struct MyConfig {
 impl_global_config!(MyConfig, MY_GLOBAL_CONFIG);
 
 fn main() {
+    // Find the canonical filesystem path of the configuration
+    let config_path = CanonicalPathBuf::new("example_config.toml").unwrap();
+
     // Load `MyConfig` from the given TOML file or exit
-    MyConfig::set_from_toml_file_or_exit("example_config.toml");
+    MyConfig::set_from_toml_file_or_exit(&config_path);
 
     // Prints the `foo` record of `example_config.toml`
     print_foo_from_global_config();

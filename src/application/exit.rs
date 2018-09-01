@@ -16,7 +16,7 @@ pub fn shutdown<A: Application>(app: &A, components: Components) -> ! {
 
 /// Print a fatal error message and exit
 pub fn fatal_error<A: Application>(app: &A, err: &Error) -> ! {
-    status_err!("fatal error for {}: {}", app.name(), err);
+    status_err!("{} fatal error: {}", app.name(), err);
     process::exit(1)
 }
 

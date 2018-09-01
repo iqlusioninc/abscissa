@@ -119,7 +119,7 @@ pub use application::{boot, Application, ApplicationPath, Component, Components}
 #[cfg(feature = "options")]
 pub use command::{Callable, Command};
 #[cfg(feature = "config")]
-pub use config::{ConfigReader, GlobalConfig};
+pub use config::{ConfigReader, GlobalConfig, LoadConfig};
 #[cfg(feature = "errors")]
 pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
@@ -131,4 +131,4 @@ pub use secrets::Secret;
 #[cfg(feature = "shell")]
 pub use shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
-pub use util::Version;
+pub use util::{CanonicalPath, CanonicalPathBuf, Version};

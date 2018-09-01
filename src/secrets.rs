@@ -54,7 +54,7 @@ where
 
 /// Trait for obtaining references to secrets
 pub trait BorrowSecret<BorrowedSecret> {
-    /// Obtain a
+    /// Obtain a borrowed reference to a secret
     fn borrow_secret(&self) -> &BorrowedSecret;
 }
 
