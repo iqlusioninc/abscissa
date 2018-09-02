@@ -23,10 +23,10 @@ where
 
 impl<T> Debug for Secret<T>
 where
-    T: BorrowSecret<T> + Clear + Clone + DebugSecret + DeserializeOwned + Sized,
+    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Secret({})", self.borrow_secret().debug_secret())
+        write!(f, "Secret({})", self.0.debug_secret())
     }
 }
 
