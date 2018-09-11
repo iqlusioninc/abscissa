@@ -103,7 +103,7 @@ mod command;
 #[cfg(feature = "config")]
 pub mod config;
 #[cfg(feature = "errors")]
-mod error;
+pub mod error;
 #[cfg(feature = "logging")]
 pub mod logging;
 #[cfg(feature = "options")]
