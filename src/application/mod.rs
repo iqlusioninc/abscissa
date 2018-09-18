@@ -11,7 +11,7 @@ use command::Command;
 use config::{ConfigReader, GlobalConfig, LoadConfig};
 use error::FrameworkError;
 use logging::{LoggingComponent, LoggingConfig};
-use shell::{self, ColorConfig, ShellComponent};
+use shell::{ColorConfig, ShellComponent};
 use util::{self, CanonicalPathBuf, Version};
 
 /// Core Abscissa trait used for managing the application lifecycle.
@@ -106,10 +106,6 @@ pub trait Application: Send + Sized + Sync {
         })
     }
 
-    /// Display framework information as it relates to this application
-    fn print_framework_info(&self) {
-        shell::extras::print_framework_info();
-    }
     /// Register a componen\t with this application. By default do nothing.
     fn register(&self, component: &Component) -> Result<(), FrameworkError> {
         Ok(())
@@ -154,10 +150,7 @@ pub fn boot<A: Application>(app: A) -> ! {
     // Initialize the application
     let components = app.init(&command).unwrap_or_else(|e| app.fatal_error(e));
 
-    // Show framework debug information if we're in debug mode
-    app.print_framework_info();
-
-    // TODO: call the parsed command here
+    // Run the command
     command.run(&app);
 
     // Exit gracefully
