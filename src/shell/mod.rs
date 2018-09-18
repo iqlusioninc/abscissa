@@ -15,7 +15,6 @@ use term::Attr;
 mod color_config;
 #[cfg(feature = "application")]
 mod component;
-pub mod extras;
 mod stream;
 mod terminal;
 
