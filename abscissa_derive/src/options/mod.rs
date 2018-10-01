@@ -457,8 +457,7 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
                     #mark_used
                     #assign
                 }
-            })
-            .collect::<Vec<_>>();
+            }).collect::<Vec<_>>();
 
         quote!{
             match _free_counter {
@@ -618,8 +617,7 @@ pub(crate) fn first_ty_param(ty: &Type) -> Option<&Type> {
                         } else {
                             None
                         }
-                    })
-                    .next(),
+                    }).next(),
                 _ => None,
             }
         }
@@ -788,8 +786,7 @@ where
             } else {
                 Some(w)
             }
-        })
-        .max()
+        }).max()
         .unwrap_or(0);
 
     width.max(MIN_WIDTH).min(MAX_WIDTH)
