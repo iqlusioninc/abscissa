@@ -1,6 +1,5 @@
 //! Trait for representing an Abscissa application and it's lifecycle
 
-use failure;
 use std::str::FromStr;
 
 mod components;
@@ -46,9 +45,8 @@ pub trait Application: Send + Sized + Sync {
     }
 
     /// Version of this application
-    /// `::abscissa::util::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()`
     fn version(&self) -> Version {
-        Version::from_str(Self::Cmd::version()).unwrap_or_else(|e| self.fatal_error(e))
+        Version::from_str(Self::Cmd::version()).unwrap_or_else(|e| fatal_error!(self, e))
     }
 
     /// Authors of this application
@@ -120,11 +118,6 @@ pub trait Application: Send + Sized + Sync {
     fn shutdown(&self, components: Components) -> ! {
         exit::shutdown(self, components)
     }
-
-    /// Handle a fatal error (by printing the error message and exiting by default)
-    fn fatal_error<E: Into<failure::Error>>(&self, err: E) -> ! {
-        exit::fatal_error(self, &err.into())
-    }
 }
 
 /// Various types of paths within an application
@@ -148,7 +141,7 @@ pub fn boot<A: Application>(app: A) -> ! {
     let command = A::Cmd::from_env_args();
 
     // Initialize the application
-    let components = app.init(&command).unwrap_or_else(|e| app.fatal_error(e));
+    let components = app.init(&command).unwrap_or_else(|e| fatal_error!(&app, e));
 
     // Run the command
     command.run(&app);

@@ -30,15 +30,28 @@ macro_rules! fail {
     };
 }
 
-/// Implement an error conversion for the given type
+/// Terminate the application with a fatal error, running Abscissa's shutdown hooks.
+///
+/// This macro is useful in cases where you don't have a particular error type
+/// you'd like to use when exiting but would like to have a formatted error
+/// message. If you do have a suitable error type, use `fatal_error!()` instead.
+///
+/// Takes the same arguments as `format!()`.
 #[macro_export]
-macro_rules! impl_error_from {
-    ($from:path, $type:ty) => {
-        use abscissa::error::ToError;
-        impl From<$from> for $type {
-            fn from(other: io::Error) -> Self {
-                CliErrorKind::Io.to_error(&other)
-            }
-        }
+macro_rules! fatal {
+    ($app:expr, $msg:expr) => {
+        fatal_error!($app, ::failure::err_msg($smg))
     };
+    ($app:expr, $fmt:expr, $($arg:tt)+) => {
+        fatal!($app, format!($fmt, $($arg:tt)+))
+    };
+}
+
+/// Terminate the application with a fatal error, running Abscissa's shutdown hooks.
+#[macro_export]
+macro_rules! fatal_error {
+    ($app:expr, $err:expr) => {{
+        let err: ::failure::Error = $err.into();
+        $crate::application::exit::fatal_error($app, &err)
+    }};
 }
