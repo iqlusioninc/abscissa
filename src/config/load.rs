@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use config::GlobalConfig;
-use error::FrameworkError;
+use error::{FrameworkError, FrameworkErrorKind::ConfigError};
 use util::{CanonicalPath, CanonicalPathBuf};
 
 /// Support for loading configuration from a file.
@@ -17,9 +17,19 @@ pub trait LoadConfig<C: GlobalConfig> {
     fn load_global_config(&self) -> Result<(), FrameworkError> {
         // Only attempt to load configuration if `config_path` returned the
         // path to a configuration file.
-        if let Some(path) = self.config_path() {
-            let canonical_path = CanonicalPathBuf::canonicalize(path)?;
-            let config = self.load_config_file(&canonical_path)?;
+        if let Some(ref path) = self.config_path() {
+            let canonical_path = CanonicalPathBuf::canonicalize(path)
+                .map_err(|e| err!(ConfigError, "invalid path '{}': {}", path.display(), e))?;
+
+            let config = self.load_config_file(&canonical_path).map_err(|e| {
+                err!(
+                    ConfigError,
+                    "error loading config from '{}': {}",
+                    canonical_path.display(),
+                    e
+                )
+            })?;
+
             C::set_global(config);
         }
 
