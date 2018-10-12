@@ -3,18 +3,18 @@
 use serde::de::{Deserialize, DeserializeOwned, Deserializer};
 use std::fmt::{self, Debug};
 
-use util::Clear;
+use util::Zeroize;
 
 /// Marker newtype for serde-serializable values that contain secrets
 /// (e.g. passwords, cryptographic keys, access tokens or other credentials)
 #[derive(Clone)]
 pub struct Secret<T>(T)
 where
-    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized;
+    T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized;
 
 impl<T> BorrowSecret<T> for Secret<T>
 where
-    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized,
+    T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized,
 {
     fn borrow_secret(&self) -> &T {
         &self.0
@@ -23,7 +23,7 @@ where
 
 impl<T> Debug for Secret<T>
 where
-    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized,
+    T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Secret({})", self.0.debug_secret())
@@ -32,7 +32,7 @@ where
 
 impl<'de, T> Deserialize<'de> for Secret<T>
 where
-    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized,
+    T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized,
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -44,11 +44,11 @@ where
 
 impl<T> Drop for Secret<T>
 where
-    T: Clear + Clone + DebugSecret + DeserializeOwned + Sized,
+    T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized,
 {
     fn drop(&mut self) {
         // Zero the secret out from memory
-        self.0.clear();
+        self.0.zeroize();
     }
 }
 
