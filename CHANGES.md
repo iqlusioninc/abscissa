@@ -1,3 +1,10 @@
+## [0.0.6] (2018-10-12)
+
+[0.0.6]: https://github.com/iqlusioninc/abscissa/pull/25
+
+- [#24](https://github.com/iqlusioninc/abscissa/pull/24)
+  Upgrade to zeroize v0.4.
+
 ## [0.0.5] (2018-10-11)
 
 [0.0.5]: https://github.com/iqlusioninc/abscissa/pull/23
