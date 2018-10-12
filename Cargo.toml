@@ -4,7 +4,7 @@ description = """
               Application microframework with support for command-line option parsing,
               configuration, error handling, logging, and shell interactions
               """
-version     = "0.0.4" # Also update html_root_url in lib.rs when bumping this
+version     = "0.0.5" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage    = "https://github.com/iqlusioninc/abscissa/"
