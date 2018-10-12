@@ -3,14 +3,14 @@
 extern crate canonical_path;
 #[cfg(feature = "chrono")]
 pub extern crate chrono as time;
-extern crate clear_on_drop;
 #[cfg(feature = "application")]
 extern crate semver;
+extern crate zeroize;
 
 pub use self::canonical_path::{current_exe, CanonicalPath, CanonicalPathBuf};
-pub use self::clear_on_drop::{clear::Clear, ClearOnDrop};
 #[cfg(feature = "application")]
 pub use self::semver::Version;
+pub use self::zeroize::Zeroize;
 
 #[cfg(feature = "toml")]
 pub extern crate toml;
