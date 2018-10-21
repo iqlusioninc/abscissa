@@ -29,6 +29,9 @@ pub trait Application: Send + Sized + Sync {
     /// Configuration type used by this application
     type Config: GlobalConfig;
 
+    /// Boot the application
+    fn boot() -> !;
+
     /// Get a read lock on the application's global configuration
     fn config(&self) -> ConfigReader<Self::Config> {
         Self::Config::get_global()
