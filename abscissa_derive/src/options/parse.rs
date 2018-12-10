@@ -41,18 +41,18 @@ impl ParseFn {
 
     pub fn make_parse_action(&self) -> TokenStream2 {
         match *self {
-            ParseFn::Default => quote!{
+            ParseFn::Default => quote! {
                 ::std::str::FromStr::from_str(_arg)
                     .map_err(|e| ::abscissa::options::Error::failed_parse(_opt,
                         ::std::string::ToString::to_string(&e)))?
             },
-            ParseFn::FromStr(None) => quote!{
+            ParseFn::FromStr(None) => quote! {
                 ::std::convert::From::from(_arg)
             },
-            ParseFn::FromStr(Some(ref fun)) => quote!{
+            ParseFn::FromStr(Some(ref fun)) => quote! {
                 #fun(_arg)
             },
-            ParseFn::TryFromStr(ref fun) => quote!{
+            ParseFn::TryFromStr(ref fun) => quote! {
                 #fun(_arg)
                     .map_err(|e| ::abscissa::options::Error::failed_parse(_opt,
                         ::std::string::ToString::to_string(&e)))?
@@ -62,19 +62,19 @@ impl ParseFn {
 
     pub fn make_parse_default_action(&self, ident: &Ident, expr: &str) -> TokenStream2 {
         match *self {
-            ParseFn::Default => quote!{
+            ParseFn::Default => quote! {
                 ::std::str::FromStr::from_str(#expr)
                     .map_err(|e| ::abscissa::options::Error::failed_parse_default(
                         stringify!(#ident), #expr,
                         ::std::string::ToString::to_string(&e)))?
             },
-            ParseFn::FromStr(None) => quote!{
+            ParseFn::FromStr(None) => quote! {
                 ::std::convert::From::from(#expr)
             },
-            ParseFn::FromStr(Some(ref fun)) => quote!{
+            ParseFn::FromStr(Some(ref fun)) => quote! {
                 #fun(#expr)
             },
-            ParseFn::TryFromStr(ref fun) => quote!{
+            ParseFn::TryFromStr(ref fun) => quote! {
                 #fun(#expr)
                     .map_err(|e| ::abscissa::options::Error::failed_parse_default(
                         stringify!(#ident), #expr,
@@ -94,7 +94,7 @@ impl ParseMethod {
         let parse = self.parse_fn.make_parse_action();
 
         match self.tuple_len {
-            None => quote!{ {
+            None => quote! { {
                 let _arg = _parser.next_arg()
                     .ok_or_else(|| ::abscissa::options::Error::missing_argument(_opt))?;
 
@@ -105,7 +105,7 @@ impl ParseMethod {
                 let n = repeat(n);
                 let parse = repeat(parse);
 
-                quote!{
+                quote! {
                     ( #( {
                         let _found = #num;
                         let _arg = _parser.next_arg()

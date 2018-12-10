@@ -1,8 +1,8 @@
+#[cfg(feature = "toml")]
+use crate::util::toml;
 use std::io;
 #[cfg(feature = "term")]
 use term;
-#[cfg(feature = "toml")]
-use crate::util::toml;
 
 use super::Error;
 

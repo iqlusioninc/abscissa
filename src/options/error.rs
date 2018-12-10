@@ -10,7 +10,8 @@ impl Error {
         ErrorKind::FailedParse {
             opt: opt.to_string(),
             err,
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for a failed attempt at parsing an option's default value.
@@ -25,7 +26,8 @@ impl Error {
             option: opt.to_string(),
             expected,
             found,
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for an option receiving an unexpected argument value,
@@ -33,7 +35,8 @@ impl Error {
     pub fn unexpected_argument(opt: Opt) -> Error {
         ErrorKind::UnexpectedArgument {
             opt: opt.to_string(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for an option expecting two or more argument values
@@ -44,14 +47,16 @@ impl Error {
         ErrorKind::UnexpectedSingleArgument {
             opt: opt.to_string(),
             n,
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for a missing required argument.
     pub fn missing_argument(opt: Opt) -> Error {
         ErrorKind::MissingArgument {
             opt: opt.to_string(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for a missing command name.
@@ -63,7 +68,8 @@ impl Error {
     pub fn missing_required(opt: &str) -> Error {
         ErrorKind::MissingRequired {
             opt: opt.to_owned(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for a missing required command.
@@ -81,14 +87,16 @@ impl Error {
     pub fn unexpected_free(arg: &str) -> Error {
         ErrorKind::UnexpectedFree {
             arg: arg.to_owned(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for an unrecognized command.
     pub fn unrecognized_command(name: &str) -> Error {
         ErrorKind::UnrecognizedCommand {
             name: name.to_owned(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for an unrecognized option.
@@ -104,7 +112,8 @@ impl Error {
     pub fn unrecognized_long(opt: &str) -> Error {
         ErrorKind::UnrecognizedLongOption {
             opt: opt.to_owned(),
-        }.into()
+        }
+        .into()
     }
 
     /// Returns an error for an unrecognized short option, e.g. `-o`.
@@ -120,9 +129,7 @@ pub enum ErrorKind {
 
     #[fail(
         display = "invalid default value for `{}` ({:?}): {}",
-        option,
-        value,
-        err
+        option, value, err
     )]
     FailedParseDefault {
         option: &'static str,
@@ -132,9 +139,7 @@ pub enum ErrorKind {
 
     #[fail(
         display = "insufficient arguments to option `{}`: expected {}; found {}",
-        option,
-        expected,
-        found
+        option, expected, found
     )]
     InsufficientArguments {
         option: String,
@@ -160,11 +165,7 @@ pub enum ErrorKind {
     #[fail(display = "option `{}` does not accept an argument", opt)]
     UnexpectedArgument { opt: String },
 
-    #[fail(
-        display = "option `{}` expects {} arguments; found 1",
-        opt,
-        n
-    )]
+    #[fail(display = "option `{}` expects {} arguments; found 1", opt, n)]
     UnexpectedSingleArgument { opt: String, n: usize },
 
     #[fail(display = "unexpected free argument `{}`", arg)]

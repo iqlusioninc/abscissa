@@ -31,7 +31,8 @@ impl Display for ColorConfig {
             ColorConfig::Always => "always",
             ColorConfig::Auto => "auto",
             ColorConfig::Never => "never",
-        }.fmt(f)
+        }
+        .fmt(f)
     }
 }
 

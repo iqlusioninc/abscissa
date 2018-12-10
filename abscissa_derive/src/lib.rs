@@ -8,11 +8,7 @@
 
 #![crate_name = "abscissa_derive"]
 #![crate_type = "rlib"]
-#![allow(
-    unknown_lints,
-    intra_doc_link_resolution_failure,
-    unused_attributes
-)]
+#![allow(unknown_lints, intra_doc_link_resolution_failure, unused_attributes)]
 #![deny(warnings, unused_import_braces, unused_qualifications)]
 #![forbid(unsafe_code)]
 #![recursion_limit = "1024"]

@@ -22,11 +22,13 @@ impl Terminal {
 
         let terminal = match color_config {
             ColorConfig::Always => Terminal::Colored(Box::new(terminfo_terminal)),
-            ColorConfig::Auto => if is_tty && terminfo_terminal.supports_color() {
-                Terminal::Colored(Box::new(terminfo_terminal))
-            } else {
-                Terminal::NoColor(terminfo_terminal.into_inner())
-            },
+            ColorConfig::Auto => {
+                if is_tty && terminfo_terminal.supports_color() {
+                    Terminal::Colored(Box::new(terminfo_terminal))
+                } else {
+                    Terminal::NoColor(terminfo_terminal.into_inner())
+                }
+            }
             ColorConfig::Never => Terminal::NoColor(terminfo_terminal.into_inner()),
         };
 
