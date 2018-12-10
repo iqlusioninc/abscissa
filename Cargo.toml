@@ -69,7 +69,7 @@ shell = [
 status = ["shell"]
 
 [badges]
-circle-ci = { repository = "iqlusioninc/abscissa" }
+travis-ci = { repository = "iqlusioninc/abscissa" }
 
 [workspace]
 members = [".", "abscissa_derive"]
