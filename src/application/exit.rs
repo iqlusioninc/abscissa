@@ -6,7 +6,7 @@ use std::process;
 use super::{Application, Component, Components};
 
 /// Exit gracefully (returning a status code of 0)
-#[allow(unknown_lints, needless_pass_by_value)]
+#[allow(unknown_lints, clippy::needless_pass_by_value)]
 pub fn shutdown<A: Application>(app: &A, components: Components) -> ! {
     match components.shutdown(app) {
         Ok(()) => process::exit(0),

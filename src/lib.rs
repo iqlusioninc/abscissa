@@ -67,7 +67,7 @@
     html_root_url = "https://docs.rs/abscissa/0.0.6"
 )]
 
-#[allow(unknown_lints, unused_imports, useless_attribute)]
+#[allow(unknown_lints, unused_imports, clippy::useless_attribute)]
 #[macro_use]
 extern crate abscissa_derive;
 pub extern crate failure;

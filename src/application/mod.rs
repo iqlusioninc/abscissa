@@ -138,7 +138,7 @@ pub enum ApplicationPath {
 
 /// Boot an application of the given type, parsing command-line options from
 /// the environment and running the appropriate `Command` type.
-#[allow(unknown_lints, needless_pass_by_value)]
+#[allow(unknown_lints, clippy::needless_pass_by_value)]
 pub fn boot<A: Application>(app: A) -> ! {
     // Parse command line options
     let command = A::Cmd::from_env_args();

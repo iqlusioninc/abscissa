@@ -12,6 +12,7 @@ pub(super) enum Terminal {
 
 impl Terminal {
     /// Create a new shell for the given stream
+    #[allow(clippy::new_ret_no_self)]
     pub(super) fn new(
         writer: Box<Write + Send>,
         color_config: ColorConfig,
