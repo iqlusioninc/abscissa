@@ -3,7 +3,7 @@
 use serde::de::{Deserialize, DeserializeOwned, Deserializer};
 use std::fmt::{self, Debug};
 
-use util::Zeroize;
+use crate::util::Zeroize;
 
 /// Marker newtype for serde-serializable values that contain secrets
 /// (e.g. passwords, cryptographic keys, access tokens or other credentials)

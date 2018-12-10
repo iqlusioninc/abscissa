@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use config::GlobalConfig;
-use error::{FrameworkError, FrameworkErrorKind::ConfigError};
-use util::{CanonicalPath, CanonicalPathBuf};
+use crate::config::GlobalConfig;
+use crate::error::{FrameworkError, FrameworkErrorKind::ConfigError};
+use crate::util::{CanonicalPath, CanonicalPathBuf};
 
 /// Support for loading configuration from a file.
 /// Does not modify the global configuration. Only handles parsing and

@@ -4,10 +4,10 @@ use std::{borrow::Borrow, cmp::Ordering, collections::HashSet};
 mod component;
 
 pub use self::component::Component;
-use application::{self, Application};
-use error::FrameworkError;
-use logging::LoggingComponent;
-use shell::ShellComponent;
+use crate::application::{self, Application};
+use crate::error::FrameworkError;
+use crate::logging::LoggingComponent;
+use crate::shell::ShellComponent;
 
 /// Collections of components, sorted by dependency ordering
 pub struct Components(Vec<Box<Component>>);

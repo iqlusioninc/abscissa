@@ -2,7 +2,7 @@ use std::io;
 #[cfg(feature = "term")]
 use term;
 #[cfg(feature = "toml")]
-use util::toml;
+use crate::util::toml;
 
 use super::Error;
 

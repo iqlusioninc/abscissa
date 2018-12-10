@@ -115,20 +115,20 @@ pub mod shell;
 pub mod util;
 
 #[cfg(feature = "application")]
-pub use application::{boot, Application, ApplicationPath, Component, Components};
+pub use crate::application::{boot, Application, ApplicationPath, Component, Components};
 #[cfg(feature = "options")]
-pub use command::{Callable, Command};
+pub use crate::command::{Callable, Command};
 #[cfg(feature = "config")]
-pub use config::{ConfigReader, GlobalConfig, LoadConfig};
+pub use crate::config::{ConfigReader, GlobalConfig, LoadConfig};
 #[cfg(feature = "errors")]
-pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
+pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
-pub use logging::LoggingConfig;
+pub use crate::logging::LoggingConfig;
 #[cfg(feature = "options")]
-pub use options::Options;
+pub use crate::options::Options;
 #[cfg(feature = "secrets")]
-pub use secrets::Secret;
+pub use crate::secrets::Secret;
 #[cfg(feature = "shell")]
-pub use shell::{status, ColorConfig, Stream};
+pub use crate::shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
-pub use util::{CanonicalPath, CanonicalPathBuf, Version};
+pub use crate::util::{CanonicalPath, CanonicalPathBuf, Version};

@@ -2,7 +2,7 @@ use std::io::{self, Write};
 use term::{self, terminfo::TermInfo, Terminal as TerminalTrait, TerminfoTerminal};
 
 use super::color_config::ColorConfig;
-use error::FrameworkError;
+use crate::error::FrameworkError;
 
 /// Terminal I/O object
 pub(super) enum Terminal {

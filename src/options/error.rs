@@ -1,5 +1,5 @@
 use super::Opt;
-use error;
+use crate::error;
 
 /// Errors encountered during argument parsing
 pub type Error = error::Error<ErrorKind>;

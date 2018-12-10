@@ -6,12 +6,12 @@ mod components;
 pub mod exit;
 
 pub use self::components::{Component, Components};
-use command::Command;
-use config::{ConfigReader, GlobalConfig, LoadConfig};
-use error::FrameworkError;
-use logging::{LoggingComponent, LoggingConfig};
-use shell::{ColorConfig, ShellComponent};
-use util::{self, CanonicalPathBuf, Version};
+use crate::command::Command;
+use crate::config::{ConfigReader, GlobalConfig, LoadConfig};
+use crate::error::FrameworkError;
+use crate::logging::{LoggingComponent, LoggingConfig};
+use crate::shell::{ColorConfig, ShellComponent};
+use crate::util::{self, CanonicalPathBuf, Version};
 
 /// Core Abscissa trait used for managing the application lifecycle.
 ///

@@ -2,7 +2,7 @@
 
 use simplelog::{self, CombinedLogger, LevelFilter, TermLogger};
 
-use error::FrameworkError;
+use crate::error::FrameworkError;
 
 /// Logging configuration
 // TODO: make things configurable via this newtype
