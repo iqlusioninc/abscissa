@@ -15,9 +15,9 @@ impl<'a> FreeOpt<'a> {
     pub fn mark_used(&self) -> TokenStream2 {
         if self.required {
             let field = self.field;
-            quote!{ _used.#field = true; }
+            quote! { _used.#field = true; }
         } else {
-            quote!{}
+            quote! {}
         }
     }
 

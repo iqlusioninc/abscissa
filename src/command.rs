@@ -3,9 +3,9 @@
 use std::{fmt::Debug, process::exit};
 
 #[cfg(feature = "application")]
-use application::Application;
-use options::Options;
-use util::CanonicalPathBuf;
+use crate::application::Application;
+use crate::options::Options;
+use crate::util::CanonicalPathBuf;
 
 /// Something which can be called
 pub trait Callable {

@@ -2,7 +2,7 @@ use std::io::{self, Write};
 use term::{self, terminfo::TermInfo, Terminal as TerminalTrait, TerminfoTerminal};
 
 use super::color_config::ColorConfig;
-use error::FrameworkError;
+use crate::error::FrameworkError;
 
 /// Terminal I/O object
 pub(super) enum Terminal {
@@ -12,6 +12,7 @@ pub(super) enum Terminal {
 
 impl Terminal {
     /// Create a new shell for the given stream
+    #[allow(clippy::new_ret_no_self)]
     pub(super) fn new(
         writer: Box<Write + Send>,
         color_config: ColorConfig,
@@ -22,11 +23,13 @@ impl Terminal {
 
         let terminal = match color_config {
             ColorConfig::Always => Terminal::Colored(Box::new(terminfo_terminal)),
-            ColorConfig::Auto => if is_tty && terminfo_terminal.supports_color() {
-                Terminal::Colored(Box::new(terminfo_terminal))
-            } else {
-                Terminal::NoColor(terminfo_terminal.into_inner())
-            },
+            ColorConfig::Auto => {
+                if is_tty && terminfo_terminal.supports_color() {
+                    Terminal::Colored(Box::new(terminfo_terminal))
+                } else {
+                    Terminal::NoColor(terminfo_terminal.into_inner())
+                }
+            }
             ColorConfig::Never => Terminal::NoColor(terminfo_terminal.into_inner()),
         };
 

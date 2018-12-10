@@ -1,5 +1,5 @@
 use super::ColorConfig;
-use {Component, FrameworkError, Version};
+use crate::{Component, FrameworkError, Version};
 
 /// Abscissa component for initializing the shell subsystem
 #[derive(Default, Debug)]

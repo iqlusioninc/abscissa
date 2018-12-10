@@ -22,7 +22,7 @@ mod terminal;
 pub use self::component::ShellComponent;
 use self::terminal::Terminal;
 pub use self::{color_config::ColorConfig, stream::Stream};
-use error::FrameworkError;
+use crate::error::FrameworkError;
 
 /// Say a status message with the given color
 pub fn status<T, U>(stream: Stream, color: Color, status: T, message: U, justified: bool)

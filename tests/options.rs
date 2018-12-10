@@ -333,7 +333,8 @@ fn test_opt_tuple() {
         "33",
         "34",
         "free",
-    ]).unwrap();
+    ])
+    .unwrap();
 
     assert_eq!(opts.alpha, (1, 2));
     assert_eq!(opts.bravo, Some((11, 12, 13)));

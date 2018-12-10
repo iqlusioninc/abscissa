@@ -30,7 +30,7 @@ impl<'a> Opt<'a> {
             let field = self.field;
             quote! { _used.#field = true; }
         } else {
-            quote!{}
+            quote! {}
         }
     }
 

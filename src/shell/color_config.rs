@@ -3,7 +3,7 @@ use serde::Deserialize;
 use std::fmt::{self, Display};
 use std::str::FromStr;
 
-use error::{FrameworkError, FrameworkErrorKind::ParseError};
+use crate::error::{FrameworkError, FrameworkErrorKind::ParseError};
 
 /// Color configuration
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -31,7 +31,8 @@ impl Display for ColorConfig {
             ColorConfig::Always => "always",
             ColorConfig::Auto => "auto",
             ColorConfig::Never => "never",
-        }.fmt(f)
+        }
+        .fmt(f)
     }
 }
 

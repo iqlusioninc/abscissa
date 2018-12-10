@@ -127,11 +127,11 @@ pub(crate) fn derive_options_enum(ast: &DeriveInput, data: &DataEnum) -> TokenSt
 
         variant.push(var_name);
 
-        handle_cmd.push(quote!{
+        handle_cmd.push(quote! {
             #name::#var_name(<#ty as ::abscissa::Options>::parse(_parser)?)
         });
 
-        help_req_impl.push(quote!{
+        help_req_impl.push(quote! {
             #name::#var_name(ref cmd) => { ::abscissa::Options::help_requested(cmd) }
         });
     }
@@ -144,14 +144,14 @@ pub(crate) fn derive_options_enum(ast: &DeriveInput, data: &DataEnum) -> TokenSt
     let command_name_impl = {
         let name = repeat(name);
 
-        quote!{
+        quote! {
             match *self {
                 #( #name::#variant(_) => ::std::option::Option::Some(#command), )*
             }
         }
     };
 
-    let expr = quote!{
+    let expr = quote! {
         impl #impl_generics ::abscissa::Options for #name #ty_generics #where_clause {
             fn parse<__S: ::std::convert::AsRef<str>>(
                     _parser: &mut ::abscissa::options::Parser<__S>)
@@ -205,7 +205,7 @@ pub(crate) fn derive_options_enum(ast: &DeriveInput, data: &DataEnum) -> TokenSt
     expr.to_string().parse().expect("parse quote!")
 }
 
-#[allow(unknown_lints, cyclomatic_complexity)]
+#[allow(clippy::cyclomatic_complexity)]
 pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> TokenStream {
     let mut pattern = Vec::new();
     let mut handle_opt = Vec::new();
@@ -222,7 +222,7 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
     let mut field_name = Vec::new();
     let mut default = Vec::new();
 
-    let default_expr = quote!{ ::std::default::Default::default() };
+    let default_expr = quote! { ::std::default::Default::default() };
     let default_opts = DefaultOpts::parse(&ast.attrs);
 
     for field in fields {
@@ -258,7 +258,7 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
 
             if opts.required {
                 required.push(ident);
-                required_err.push(quote!{
+                required_err.push(quote! {
                 ::abscissa::options::Error::missing_required_command() });
             }
 
@@ -278,7 +278,7 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
 
             if opts.required {
                 required.push(ident);
-                required_err.push(quote!{
+                required_err.push(quote! {
                 ::abscissa::options::Error::missing_required_free() });
             }
 
@@ -358,18 +358,18 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
         if opt.required {
             required.push(opt.field);
             let display = opt.display_form();
-            required_err.push(quote!{
+            required_err.push(quote! {
             ::abscissa::options::Error::missing_required(#display) });
         }
 
         let pat = match (opt.long.as_ref(), opt.short) {
-            (Some(long), Some(short)) => quote!{
+            (Some(long), Some(short)) => quote! {
                 ::abscissa::options::Opt::Long(#long) | ::abscissa::options::Opt::Short(#short)
             },
-            (Some(long), None) => quote!{
+            (Some(long), None) => quote! {
                 ::abscissa::options::Opt::Long(#long)
             },
-            (None, Some(short)) => quote!{
+            (None, Some(short)) => quote! {
                 ::abscissa::options::Opt::Short(#short)
             },
             (None, None) => {
@@ -383,19 +383,19 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
         if let Some(ref long) = opt.long {
             let (pat, handle) = if let Some(n) = opt.action.tuple_len() {
                 (
-                    quote!{ ::abscissa::options::Opt::LongWithArg(#long, _) },
-                    quote!{ return ::std::result::Result::Err(
+                    quote! { ::abscissa::options::Opt::LongWithArg(#long, _) },
+                    quote! { return ::std::result::Result::Err(
                     ::abscissa::options::Error::unexpected_single_argument(_opt, #n)) },
                 )
             } else if opt.action.takes_arg() {
                 (
-                    quote!{ ::abscissa::options::Opt::LongWithArg(#long, _arg) },
+                    quote! { ::abscissa::options::Opt::LongWithArg(#long, _arg) },
                     opt.make_action_arg(),
                 )
             } else {
                 (
-                    quote!{ ::abscissa::options::Opt::LongWithArg(#long, _) },
-                    quote!{ return ::std::result::Result::Err(
+                    quote! { ::abscissa::options::Opt::LongWithArg(#long, _) },
+                    quote! { return ::std::result::Result::Err(
                     ::abscissa::options::Error::unexpected_argument(_opt)) },
                 )
             };
@@ -417,13 +417,13 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
             let parse = last.parse.make_parse_action();
             let mark_used = last.mark_used();
 
-            quote!{
+            quote! {
                 #mark_used
                 let _arg = _free;
                 _result.#free.push(#parse);
             }
         } else {
-            quote!{
+            quote! {
                 return ::std::result::Result::Err(
                     ::abscissa::options::Error::unexpected_free(_free))
             }
@@ -439,27 +439,28 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
                 let parse = free.parse.make_parse_action();
 
                 let assign = match free.action {
-                    FreeAction::Push => quote!{
+                    FreeAction::Push => quote! {
                         let _arg = _free;
                         _result.#field.push(#parse);
                     },
-                    FreeAction::SetField => quote!{
+                    FreeAction::SetField => quote! {
                         let _arg = _free;
                         _result.#field = #parse;
                     },
-                    FreeAction::SetOption => quote!{
+                    FreeAction::SetOption => quote! {
                         let _arg = _free;
                         _result.#field = ::std::option::Option::Some(#parse);
                     },
                 };
 
-                quote!{
+                quote! {
                     #mark_used
                     #assign
                 }
-            }).collect::<Vec<_>>();
+            })
+            .collect::<Vec<_>>();
 
-        quote!{
+        quote! {
             match _free_counter {
                 #( #num => {
                     _free_counter += 1;
@@ -470,27 +471,27 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
         }
     } else if let Some(ident) = command {
         let mark_used = if command_required {
-            quote!{ _used.#ident = true; }
+            quote! { _used.#ident = true; }
         } else {
-            quote!{}
+            quote! {}
         };
 
-        quote!{
+        quote! {
             #mark_used
             _result.#ident = ::std::option::Option::Some(
                 ::abscissa::Options::parse_command(_free, _parser)?);
             break;
         }
     } else {
-        quote!{
+        quote! {
             return ::std::result::Result::Err(
                 ::abscissa::options::Error::unexpected_free(_free));
         }
     };
 
     let command_name_impl = match command {
-        None => quote!{ ::std::option::Option::None },
-        Some(ref field) => quote!{
+        None => quote! { ::std::option::Option::None },
+        Some(ref field) => quote! {
             ::std::option::Option::and_then(
                 ::std::option::Option::as_ref(&self.#field),
                 ::abscissa::Options::command_name)
@@ -498,31 +499,31 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
     };
 
     let command_list = match command_ty {
-        Some(ty) => quote!{
+        Some(ty) => quote! {
             ::std::option::Option::Some(
                 <#ty as ::abscissa::Options>::usage())
         },
-        None => quote!{
+        None => quote! {
             ::std::option::Option::None
         },
     };
 
     let command_usage = match command_ty {
-        Some(ty) => quote!{
+        Some(ty) => quote! {
             <#ty as ::abscissa::Options>::command_usage(_name)
         },
-        None => quote!{
+        None => quote! {
             ::std::option::Option::None
         },
     };
 
     let help_requested_impl = match (&help_flag, &command) {
-        (flags, &None) => quote!{
+        (flags, &None) => quote! {
             fn help_requested(&self) -> bool {
                 false #( || self.#flags )*
             }
         },
-        (flags, &Some(ref cmd)) => quote!{
+        (flags, &Some(ref cmd)) => quote! {
             fn help_requested(&self) -> bool {
                 #( self.#flags || )*
                 ::std::option::Option::map_or(
@@ -536,7 +537,7 @@ pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> Token
 
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
-    let expr = quote!{
+    let expr = quote! {
         impl #impl_generics ::abscissa::Options for #name #ty_generics #where_clause {
             fn parse<__S: ::std::convert::AsRef<str>>(
                     _parser: &mut ::abscissa::options::Parser<__S>)
@@ -617,7 +618,8 @@ pub(crate) fn first_ty_param(ty: &Type) -> Option<&Type> {
                         } else {
                             None
                         }
-                    }).next(),
+                    })
+                    .next(),
                 _ => None,
             }
         }
@@ -786,7 +788,8 @@ where
             } else {
                 Some(w)
             }
-        }).max()
+        })
+        .max()
         .unwrap_or(0);
 
     width.max(MIN_WIDTH).min(MAX_WIDTH)

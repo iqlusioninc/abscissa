@@ -8,11 +8,7 @@
 
 #![crate_name = "abscissa_derive"]
 #![crate_type = "rlib"]
-#![allow(
-    unknown_lints,
-    intra_doc_link_resolution_failure,
-    unused_attributes
-)]
+#![allow(unknown_lints, intra_doc_link_resolution_failure, unused_attributes)]
 #![deny(warnings, unused_import_braces, unused_qualifications)]
 #![forbid(unsafe_code)]
 #![recursion_limit = "1024"]
@@ -24,7 +20,7 @@
 extern crate proc_macro;
 extern crate proc_macro2;
 #[cfg(feature = "options")]
-#[allow(unused_imports, unknown_lints, useless_attribute)]
+#[allow(unused_imports, unknown_lints, clippy::useless_attribute)]
 #[macro_use]
 extern crate quote;
 extern crate syn;
