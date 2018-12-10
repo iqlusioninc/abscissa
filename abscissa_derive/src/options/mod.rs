@@ -205,7 +205,7 @@ pub(crate) fn derive_options_enum(ast: &DeriveInput, data: &DataEnum) -> TokenSt
     expr.to_string().parse().expect("parse quote!")
 }
 
-#[allow(unknown_lints, cyclomatic_complexity)]
+#[allow(clippy::cyclomatic_complexity)]
 pub(crate) fn derive_options_struct(ast: &DeriveInput, fields: &Fields) -> TokenStream {
     let mut pattern = Vec::new();
     let mut handle_opt = Vec::new();

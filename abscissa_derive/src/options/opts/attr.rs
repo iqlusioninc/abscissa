@@ -23,7 +23,7 @@ pub struct AttrOpts {
 }
 
 impl AttrOpts {
-    #[allow(unknown_lints, cyclomatic_complexity)]
+    #[allow(clippy::cyclomatic_complexity)]
     pub fn check(&self) {
         if self.command {
             if self.free {
