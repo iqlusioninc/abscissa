@@ -35,7 +35,6 @@ pub enum Stream {
 
 impl Stream {
     /// Get a shell for this stream type
-    #[allow(unknown_lints)]
     pub(crate) fn lock_shell(&self) -> MutexGuard<'_, RefCell<Shell>> {
         match self {
             // TODO: better handle `PoisonError`?

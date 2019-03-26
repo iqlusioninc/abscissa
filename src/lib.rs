@@ -6,11 +6,8 @@
 //!
 //! ## Features
 //!
-//! - **command-line option parsing**: simple declarative option parser based on
-//!   (i.e. forked from) [gumdrop]. The option parser in Abcissa contains numerous
-//!   improvements which provide better UX and tighter integration with the other
-//!   parts of the framework (e.g. overriding configuration settings using
-//!   command-line options).
+//! - **command-line option parsing**: simple declarative option parser built on
+//!   top of the [gumdrop] crate.
 //! - **configuration**: declarative global configuration support using a [RwLock]
 //!   on a [lazy_static]. Simple parsing of TOML configurations to serde-parsed
 //!   global structures which can be dynamically updated at runtime.
@@ -67,9 +64,10 @@
     html_root_url = "https://docs.rs/abscissa/0.0.6"
 )]
 
-#[allow(unknown_lints, unused_imports, clippy::useless_attribute)]
-#[macro_use]
+// TODO: our own proc macros
+//#[macro_use]
 extern crate abscissa_derive;
+
 pub use failure;
 #[cfg(any(feature = "errors", feature = "options"))]
 #[macro_use]
@@ -87,10 +85,6 @@ extern crate simplelog;
 #[cfg(feature = "shell")]
 extern crate term;
 
-#[cfg(all(test, feature = "options"))]
-#[macro_use]
-extern crate assert_matches;
-
 // Load macros first
 #[macro_use]
 pub mod macros;
@@ -105,8 +99,6 @@ pub mod config;
 pub mod error;
 #[cfg(feature = "logging")]
 pub mod logging;
-#[cfg(feature = "options")]
-pub mod options;
 #[cfg(feature = "secrets")]
 pub mod secrets;
 #[cfg(feature = "shell")]
@@ -123,11 +115,11 @@ pub use crate::config::{ConfigReader, GlobalConfig, LoadConfig};
 pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
-#[cfg(feature = "options")]
-pub use crate::options::Options;
 #[cfg(feature = "secrets")]
 pub use crate::secrets::Secret;
 #[cfg(feature = "shell")]
 pub use crate::shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
 pub use crate::util::{CanonicalPath, CanonicalPathBuf, Version};
+#[cfg(feature = "options")]
+pub use gumdrop::Options;
