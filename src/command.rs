@@ -2,7 +2,8 @@
 
 #[cfg(feature = "application")]
 use crate::application::Application;
-use crate::{options::Options, util::CanonicalPathBuf};
+use crate::util::CanonicalPathBuf;
+use gumdrop::Options;
 use std::{fmt::Debug, process::exit};
 
 /// Something which can be called

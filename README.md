@@ -167,7 +167,7 @@ The word "abscissa" is also the key to the [Kryptos K2] panel.
 The **abscissa** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2018 iqlusion
+Copyright © 2018-2019 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -181,11 +181,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Parts of this code were taken from the following projects, which have agreed
-to license their code under the Apache License (Version 2.0):
-
-* [Cargo]
-* [gumdrop]
+Parts of this code were taken from the [Cargo] project, which is
+Copyright (c) 2014 The Rust Project Developers and also licensed
+under the terms of the Apache License (Version 2.0).
 
 [//]: # (general links)
 

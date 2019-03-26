@@ -22,28 +22,21 @@
 This crate provides the custom derive implementations used by the
 [Abscissa] command-line app microframework.
 
-It's designed to be a one-stop shop, providing all proc macros used by the
-framework itself in a single crate. This ensures that proc macro upgrades
-can be performed atomically (i.e. this won't ever depend on 3 versions of
-`syn`), and minimizes the amount of code running as part of the build process.
-
-[Abscissa]: https://github.com/iqlusioninc/abscissa/tree/master/
-
-## Features
-
-This crate provides custom derive for the following:
-
-* **Options**: command-line parsing (using the same API as [gumdrop_derive])
-
-[failure_derive]: https://github.com/withoutboats/failure_derive
-[gumdrop_derive]: https://github.com/murarth/gumdrop
-
 ## License
 
 The **abscissa_derive** crate is distributed under the terms of the
-Apache License (Version 2.0). It is a fork of the [gumdrop_derive] crate,
-which is also distributed under the terms of the Apache License (Version 2.0).
+Apache License (Version 2.0).
 
-See [LICENSE] file in the toplevel directory for more information.
+Copyright © 2018-2019 iqlusion
 
-[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
