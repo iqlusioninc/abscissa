@@ -28,7 +28,7 @@ serde = { version = "1.0", optional = true }
 simplelog = { version = "0.5", optional = true }
 term = { version = "0.5", optional = true }
 toml = { version = "0.4", optional = true }
-zeroize = "0.4"
+zeroize = "0.6"
 
 [dev-dependencies]
 assert_matches = "1.3"
