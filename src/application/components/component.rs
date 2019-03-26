@@ -1,7 +1,6 @@
 use std::{fmt::Debug, slice::Iter};
 
-use crate::error::FrameworkError;
-use crate::util::Version;
+use crate::{error::FrameworkError, util::Version};
 
 /// Framework subcomponents. Handles framework initialization (but could
 /// be used for a lot more).
@@ -16,7 +15,7 @@ pub trait Component: Debug + Send + Sync {
     fn version(&self) -> Version;
 
     /// Names of the components this components depends on
-    fn dependencies(&self) -> Iter<&'static str> {
+    fn dependencies(&self) -> Iter<'_, &'static str> {
         [].iter()
     }
 

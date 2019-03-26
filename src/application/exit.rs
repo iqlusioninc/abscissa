@@ -24,7 +24,7 @@ pub fn fatal_error<A: Application>(app: &A, err: &Error) -> ! {
 /// This is a barebones implementation using basic std facilities
 /// because it might be called before the shell component has been
 /// started, and we can't use it to log errors about itself.
-pub(crate) fn bad_component_order(a: &Component, b: &Component) -> ! {
+pub(crate) fn bad_component_order(a: &dyn Component, b: &dyn Component) -> ! {
     eprintln!("*** error(abscissa): couldn't determine startup order for components:");
     eprintln!(" - {:?}", a);
     eprintln!(" - {:?}", b);
@@ -32,7 +32,7 @@ pub(crate) fn bad_component_order(a: &Component, b: &Component) -> ! {
 }
 
 /// Exit because we encountered a duplicate component name
-pub(crate) fn duplicate_component_name(component: &Component) -> ! {
+pub(crate) fn duplicate_component_name(component: &dyn Component) -> ! {
     eprintln!(
         "*** error(abscissa): component with duplicate name: {:?}",
         component

@@ -4,7 +4,7 @@ use std::str::Chars;
 use super::Opt;
 
 /// Parses options from a series of `&str`-like values.
-pub struct Parser<'a, S: 'a> {
+pub struct Parser<'a, S> {
     args: Iter<'a, S>,
     cur: Option<Chars<'a>>,
     style: ParsingStyle,

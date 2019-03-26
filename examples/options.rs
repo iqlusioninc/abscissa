@@ -1,10 +1,6 @@
 //! Originally from the `gumdrop` crate. See:
 //! <https://github.com/murarth/gumdrop/blob/master/examples/options.rs>
 
-extern crate abscissa;
-#[macro_use]
-extern crate abscissa_derive;
-
 use abscissa::Options;
 
 /// Defines options that can be parsed from the command line.

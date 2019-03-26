@@ -4,17 +4,19 @@ use std::{borrow::Borrow, cmp::Ordering, collections::HashSet};
 mod component;
 
 pub use self::component::Component;
-use crate::application::{self, Application};
-use crate::error::FrameworkError;
-use crate::logging::LoggingComponent;
-use crate::shell::ShellComponent;
+use crate::{
+    application::{self, Application},
+    error::FrameworkError,
+    logging::LoggingComponent,
+    shell::ShellComponent,
+};
 
 /// Collections of components, sorted by dependency ordering
-pub struct Components(Vec<Box<Component>>);
+pub struct Components(Vec<Box<dyn Component>>);
 
 impl Components {
     /// Create a new collection of components
-    pub fn new(components: Vec<Box<Component>>) -> Self {
+    pub fn new(components: Vec<Box<dyn Component>>) -> Self {
         // Ensure all component names are unique
         let mut names = HashSet::new();
         for component in &components {

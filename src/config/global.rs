@@ -5,8 +5,10 @@ use serde::de::DeserializeOwned;
 use std::{fs::File, io::Read};
 
 pub use super::reader::ConfigReader;
-use crate::error::{FrameworkError, FrameworkErrorKind::ConfigError};
-use crate::util::{toml, CanonicalPath};
+use crate::{
+    error::{FrameworkError, FrameworkErrorKind::ConfigError},
+    util::{toml, CanonicalPath},
+};
 
 /// Common functions for loading and reading application configuration from
 /// TOML files (providing a global lock which allows many readers, and can be

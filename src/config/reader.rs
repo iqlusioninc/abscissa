@@ -1,5 +1,4 @@
-use std::ops::Deref;
-use std::sync::RwLockReadGuard;
+use std::{ops::Deref, sync::RwLockReadGuard};
 
 use super::GlobalConfig;
 

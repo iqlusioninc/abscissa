@@ -70,7 +70,7 @@
 #[allow(unknown_lints, unused_imports, clippy::useless_attribute)]
 #[macro_use]
 extern crate abscissa_derive;
-pub extern crate failure;
+pub use failure;
 #[cfg(any(feature = "errors", feature = "options"))]
 #[macro_use]
 extern crate failure_derive;
@@ -81,8 +81,7 @@ extern crate isatty;
 extern crate lazy_static;
 #[cfg(feature = "logging")]
 pub extern crate log;
-#[cfg(feature = "config")]
-extern crate serde;
+
 #[cfg(feature = "logging")]
 extern crate simplelog;
 #[cfg(feature = "shell")]
