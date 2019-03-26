@@ -1,11 +1,10 @@
 //! Error types used by this crate
 
-pub use failure::{Backtrace, Context, Fail};
-use std::fmt::{self, Display};
-
 mod framework;
 
 pub use self::framework::{FrameworkError, FrameworkErrorKind};
+pub use failure::{Backtrace, Context, Fail};
+use std::fmt::{self, Display};
 
 /// Error types used by this library, generic around `Kind`s
 #[derive(Debug)]
@@ -51,7 +50,7 @@ impl<Kind> Display for Error<Kind>
 where
     Kind: Fail + Clone + Display + Eq + PartialEq,
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self.description {
             Some(ref desc) => write!(f, "{}: {}", self.kind(), desc),
             None => write!(f, "{}", self.kind()),
@@ -63,7 +62,7 @@ impl<Kind> Fail for Error<Kind>
 where
     Kind: Fail + Clone + Display + Eq + PartialEq,
 {
-    fn cause(&self) -> Option<&Fail> {
+    fn cause(&self) -> Option<&dyn Fail> {
         self.inner.cause()
     }
 

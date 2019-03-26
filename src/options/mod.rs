@@ -233,7 +233,7 @@ pub fn parse_args_default_or_exit<T: Options>() -> T {
 pub trait Options: Sized {
     /// Parses arguments until the given parser is exhausted or until
     /// an error is encountered.
-    fn parse<S: AsRef<str>>(parser: &mut Parser<S>) -> Result<Self, Error>;
+    fn parse<S: AsRef<str>>(parser: &mut Parser<'_, S>) -> Result<Self, Error>;
 
     /// Returns the name of a parsed command, if present.
     ///
@@ -332,7 +332,7 @@ pub trait Options: Sized {
     }
 
     /// Parses options for the named command.
-    fn parse_command<S: AsRef<str>>(name: &str, parser: &mut Parser<S>) -> Result<Self, Error>;
+    fn parse_command<S: AsRef<str>>(name: &str, parser: &mut Parser<'_, S>) -> Result<Self, Error>;
 
     /// Returns a string showing usage and help for each supported option.
     ///

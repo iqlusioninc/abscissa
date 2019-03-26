@@ -3,13 +3,10 @@
 
 #[macro_use]
 extern crate assert_matches;
-extern crate abscissa;
-#[macro_use]
-extern crate abscissa_derive;
 
-use std::str::FromStr;
-
+use abscissa;
 use abscissa::Options;
+use std::str::FromStr;
 
 const EMPTY: &'static [&'static str] = &[];
 

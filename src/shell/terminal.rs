@@ -1,20 +1,19 @@
+use super::color_config::ColorConfig;
+use crate::error::FrameworkError;
 use std::io::{self, Write};
 use term::{self, terminfo::TermInfo, Terminal as TerminalTrait, TerminfoTerminal};
 
-use super::color_config::ColorConfig;
-use crate::error::FrameworkError;
-
 /// Terminal I/O object
 pub(super) enum Terminal {
-    NoColor(Box<Write + Send>),
-    Colored(Box<term::Terminal<Output = Box<Write + Send>> + Send>),
+    NoColor(Box<dyn Write + Send>),
+    Colored(Box<dyn term::Terminal<Output = Box<dyn Write + Send>> + Send>),
 }
 
 impl Terminal {
     /// Create a new shell for the given stream
     #[allow(clippy::new_ret_no_self)]
     pub(super) fn new(
-        writer: Box<Write + Send>,
+        writer: Box<dyn Write + Send>,
         color_config: ColorConfig,
         is_tty: bool,
     ) -> Result<Self, FrameworkError> {
@@ -37,9 +36,9 @@ impl Terminal {
     }
 }
 
-impl From<Box<Write + Send>> for Terminal {
+impl From<Box<dyn Write + Send>> for Terminal {
     /// Create a Terminal with no color configuration
-    fn from(writer: Box<Write + Send>) -> Self {
+    fn from(writer: Box<dyn Write + Send>) -> Self {
         Terminal::NoColor(writer)
     }
 }

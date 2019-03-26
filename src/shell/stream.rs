@@ -1,13 +1,12 @@
 //! Access to standard output and standard error
 
+use super::{ColorConfig, Shell};
 use isatty;
 use std::{
     cell::RefCell,
     io::{self, Write},
     sync::{Mutex, MutexGuard},
 };
-
-use super::{ColorConfig, Shell};
 
 lazy_static! {
     static ref STDOUT: Mutex<RefCell<Shell>> = {
@@ -37,7 +36,7 @@ pub enum Stream {
 impl Stream {
     /// Get a shell for this stream type
     #[allow(unknown_lints)]
-    pub(crate) fn lock_shell(&self) -> MutexGuard<RefCell<Shell>> {
+    pub(crate) fn lock_shell(&self) -> MutexGuard<'_, RefCell<Shell>> {
         match self {
             // TODO: better handle `PoisonError`?
             Stream::Stdout => STDOUT.lock().unwrap(),
@@ -46,7 +45,7 @@ impl Stream {
     }
 
     /// Get a boxed writer for this stream
-    pub(crate) fn writer(self) -> Box<Write + Send> {
+    pub(crate) fn writer(self) -> Box<dyn Write + Send> {
         match self {
             Stream::Stdout => Box::new(io::stdout()),
             Stream::Stderr => Box::new(io::stderr()),

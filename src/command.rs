@@ -1,11 +1,9 @@
 //! Application (sub)command(s), i.e. app entry points
 
-use std::{fmt::Debug, process::exit};
-
 #[cfg(feature = "application")]
 use crate::application::Application;
-use crate::options::Options;
-use crate::util::CanonicalPathBuf;
+use crate::{options::Options, util::CanonicalPathBuf};
+use std::{fmt::Debug, process::exit};
 
 /// Something which can be called
 pub trait Callable {

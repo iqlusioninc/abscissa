@@ -4,14 +4,6 @@
 //!
 //! These portions are redistributed under the same license as Cargo
 
-use std::{
-    fmt::Display,
-    io::{self, Write},
-};
-
-pub use term::color::{self, Color};
-use term::Attr;
-
 mod color_config;
 #[cfg(feature = "application")]
 mod component;
@@ -23,6 +15,12 @@ pub use self::component::ShellComponent;
 use self::terminal::Terminal;
 pub use self::{color_config::ColorConfig, stream::Stream};
 use crate::error::FrameworkError;
+use std::{
+    fmt::Display,
+    io::{self, Write},
+};
+pub use term::color::{self, Color};
+use term::Attr;
 
 /// Say a status message with the given color
 pub fn status<T, U>(stream: Stream, color: Color, status: T, message: U, justified: bool)

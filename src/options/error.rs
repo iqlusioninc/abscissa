@@ -6,7 +6,7 @@ pub type Error = error::Error<ErrorKind>;
 
 impl Error {
     /// Returns an error for a failed attempt at parsing an option value.
-    pub fn failed_parse(opt: Opt, err: String) -> Error {
+    pub fn failed_parse(opt: Opt<'_>, err: String) -> Error {
         ErrorKind::FailedParse {
             opt: opt.to_string(),
             err,
@@ -21,7 +21,7 @@ impl Error {
 
     /// Returns an error for an option expecting two or more arguments not
     /// receiving the expected number of arguments.
-    pub fn insufficient_arguments(opt: Opt, expected: usize, found: usize) -> Error {
+    pub fn insufficient_arguments(opt: Opt<'_>, expected: usize, found: usize) -> Error {
         ErrorKind::InsufficientArguments {
             option: opt.to_string(),
             expected,
@@ -32,7 +32,7 @@ impl Error {
 
     /// Returns an error for an option receiving an unexpected argument value,
     /// e.g. `--option=value`.
-    pub fn unexpected_argument(opt: Opt) -> Error {
+    pub fn unexpected_argument(opt: Opt<'_>) -> Error {
         ErrorKind::UnexpectedArgument {
             opt: opt.to_string(),
         }
@@ -43,7 +43,7 @@ impl Error {
     /// receiving only one in the long form, e.g. `--option=value`.
     ///
     /// These options must be passed as, e.g. `--option value second-value [...]`.
-    pub fn unexpected_single_argument(opt: Opt, n: usize) -> Error {
+    pub fn unexpected_single_argument(opt: Opt<'_>, n: usize) -> Error {
         ErrorKind::UnexpectedSingleArgument {
             opt: opt.to_string(),
             n,
@@ -52,7 +52,7 @@ impl Error {
     }
 
     /// Returns an error for a missing required argument.
-    pub fn missing_argument(opt: Opt) -> Error {
+    pub fn missing_argument(opt: Opt<'_>) -> Error {
         ErrorKind::MissingArgument {
             opt: opt.to_string(),
         }
@@ -100,7 +100,7 @@ impl Error {
     }
 
     /// Returns an error for an unrecognized option.
-    pub fn unrecognized_option(opt: Opt) -> Error {
+    pub fn unrecognized_option(opt: Opt<'_>) -> Error {
         match opt {
             Opt::Short(short) => Error::unrecognized_short(short),
             Opt::Long(long) | Opt::LongWithArg(long, _) => Error::unrecognized_long(long),

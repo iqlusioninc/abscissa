@@ -1,9 +1,9 @@
 //! Marker newtype for more carefully handling secret values
-/// (e.g. passwords, cryptographic keys, access tokens or other credentials)
-use serde::de::{Deserialize, DeserializeOwned, Deserializer};
-use std::fmt::{self, Debug};
+//! (e.g. passwords, cryptographic keys, access tokens or other credentials)
 
 use crate::util::Zeroize;
+use serde::de::{Deserialize, DeserializeOwned, Deserializer};
+use std::fmt::{self, Debug};
 
 /// Marker newtype for serde-serializable values that contain secrets
 /// (e.g. passwords, cryptographic keys, access tokens or other credentials)
@@ -25,7 +25,7 @@ impl<T> Debug for Secret<T>
 where
     T: Zeroize + Clone + DebugSecret + DeserializeOwned + Sized,
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Secret({})", self.0.debug_secret())
     }
 }

@@ -6,12 +6,14 @@ mod components;
 pub mod exit;
 
 pub use self::components::{Component, Components};
-use crate::command::Command;
-use crate::config::{ConfigReader, GlobalConfig, LoadConfig};
-use crate::error::FrameworkError;
-use crate::logging::{LoggingComponent, LoggingConfig};
-use crate::shell::{ColorConfig, ShellComponent};
-use crate::util::{self, CanonicalPathBuf, Version};
+use crate::{
+    command::Command,
+    config::{ConfigReader, GlobalConfig, LoadConfig},
+    error::FrameworkError,
+    logging::{LoggingComponent, LoggingConfig},
+    shell::{ColorConfig, ShellComponent},
+    util::{self, CanonicalPathBuf, Version},
+};
 
 /// Core Abscissa trait used for managing the application lifecycle.
 ///
@@ -108,12 +110,12 @@ pub trait Application: Send + Sized + Sync {
     }
 
     /// Register a componen\t with this application. By default do nothing.
-    fn register(&self, component: &Component) -> Result<(), FrameworkError> {
+    fn register(&self, component: &dyn Component) -> Result<(), FrameworkError> {
         Ok(())
     }
 
     /// Register a component with this application. By default do nothing.
-    fn unregister(&self, component: &Component) -> Result<(), FrameworkError> {
+    fn unregister(&self, component: &dyn Component) -> Result<(), FrameworkError> {
         Ok(())
     }
 

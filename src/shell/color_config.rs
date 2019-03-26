@@ -1,9 +1,10 @@
+use crate::error::{FrameworkError, FrameworkErrorKind::ParseError};
 #[cfg(feature = "serde_derive")]
 use serde::Deserialize;
-use std::fmt::{self, Display};
-use std::str::FromStr;
-
-use crate::error::{FrameworkError, FrameworkErrorKind::ParseError};
+use std::{
+    fmt::{self, Display},
+    str::FromStr,
+};
 
 /// Color configuration
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -26,7 +27,7 @@ impl Default for ColorConfig {
 }
 
 impl Display for ColorConfig {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             ColorConfig::Always => "always",
             ColorConfig::Auto => "auto",
