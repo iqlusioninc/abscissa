@@ -36,14 +36,6 @@ where
     pub fn kind(&self) -> &Kind {
         self.inner.get_context()
     }
-
-    /// Get the error's description
-    pub fn description(&self) -> &str {
-        self.description
-            .as_ref()
-            .map(|s| s.as_str())
-            .unwrap_or("(none)")
-    }
 }
 
 impl<Kind> Display for Error<Kind>

@@ -14,6 +14,11 @@ circle-ci = { repository = "iqlusioninc/abscissa" }
 [lib]
 proc-macro = true
 
+[dependencies]
+proc-macro2 = "0.4"
+quote = "0.6"
+syn = "0.15"
+
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--document-private-items"] # Document all modules
