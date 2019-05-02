@@ -50,8 +50,6 @@
 //! # }
 //! ```
 
-#![crate_name = "abscissa"]
-#![crate_type = "rlib"]
 #![deny(
     warnings,
     missing_docs,
@@ -64,11 +62,9 @@
     html_root_url = "https://docs.rs/abscissa/0.0.6"
 )]
 
-// TODO: our own proc macros
-//#[macro_use]
+#[allow(unused_imports)]
+#[macro_use]
 extern crate abscissa_derive;
-
-pub use failure;
 #[cfg(any(feature = "errors", feature = "options"))]
 #[macro_use]
 extern crate failure_derive;
@@ -79,7 +75,6 @@ extern crate isatty;
 extern crate lazy_static;
 #[cfg(feature = "logging")]
 pub extern crate log;
-
 #[cfg(feature = "logging")]
 extern crate simplelog;
 #[cfg(feature = "shell")]
@@ -105,21 +100,24 @@ pub mod secrets;
 pub mod shell;
 pub mod util;
 
-#[cfg(feature = "application")]
-pub use crate::application::{boot, Application, ApplicationPath, Component, Components};
-#[cfg(feature = "options")]
-pub use crate::command::{Callable, Command};
-#[cfg(feature = "config")]
-pub use crate::config::{ConfigReader, GlobalConfig, LoadConfig};
-#[cfg(feature = "errors")]
-pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
-#[cfg(feature = "logging")]
-pub use crate::logging::LoggingConfig;
-#[cfg(feature = "secrets")]
-pub use crate::secrets::Secret;
-#[cfg(feature = "shell")]
-pub use crate::shell::{status, ColorConfig, Stream};
-#[cfg(feature = "application")]
-pub use crate::util::{CanonicalPath, CanonicalPathBuf, Version};
+#[doc(hidden)]
+pub use abscissa_derive::*;
 #[cfg(feature = "options")]
 pub use gumdrop::Options;
+
+#[cfg(feature = "application")]
+pub use application::{boot, Application, ApplicationPath, Component, Components};
+#[cfg(feature = "options")]
+pub use command::{Callable, Command};
+#[cfg(feature = "config")]
+pub use config::{ConfigReader, GlobalConfig, LoadConfig};
+#[cfg(feature = "errors")]
+pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
+#[cfg(feature = "logging")]
+pub use logging::LoggingConfig;
+#[cfg(feature = "secrets")]
+pub use secrets::Secret;
+#[cfg(feature = "shell")]
+pub use shell::{status, ColorConfig, Stream};
+#[cfg(feature = "application")]
+pub use util::{CanonicalPath, CanonicalPathBuf, Version};

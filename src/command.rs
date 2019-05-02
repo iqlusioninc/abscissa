@@ -165,3 +165,23 @@ pub trait CommandConfig {
         None
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Command;
+    use crate::{Callable, Options};
+
+    #[derive(Command, Debug, Options)]
+    pub struct DummyCommand {}
+
+    impl Callable for DummyCommand {
+        fn call(&self) {
+            panic!("unimplemented");
+        }
+    }
+
+    #[test]
+    fn derived_command_test() {
+        assert_eq!(DummyCommand::name(), "abscissa");
+    }
+}

@@ -1,9 +1,5 @@
 //! Macros defined by this crate
 
-#[cfg(feature = "options")]
-#[macro_use]
-pub mod command;
-
 #[cfg(feature = "config")]
 #[macro_use]
 pub mod config;
