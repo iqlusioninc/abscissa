@@ -65,11 +65,6 @@
 #[allow(unused_imports)]
 #[macro_use]
 extern crate abscissa_derive;
-#[cfg(any(feature = "errors", feature = "options"))]
-#[macro_use]
-extern crate failure_derive;
-#[cfg(feature = "shell")]
-extern crate isatty;
 #[cfg(feature = "shell")]
 #[macro_use]
 extern crate lazy_static;

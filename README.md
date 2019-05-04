@@ -6,17 +6,6 @@
 [![Build Status][build-image]][build-link]
 [![Appveyor Status][appveyor-image]][appveyor-link]
 
-[crate-image]: https://img.shields.io/crates/v/abscissa.svg
-[crate-link]: https://crates.io/crates/abscissa
-[docs-image]: https://docs.rs/abscissa/badge.svg
-[docs-link]: https://docs.rs/abscissa/
-[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
-[build-image]: https://circleci.com/gh/iqlusioninc/abscissa.svg?style=shield
-[build-link]: https://circleci.com/gh/iqlusioninc/abscissa
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
-[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
-
 Abscissa is a microframework for building Rust applications (either CLI tools
 or network/web services), aiming to provide a large number of features with a
 *minimal number of dependencies*, and with a *strong focus on security*.
@@ -63,28 +52,28 @@ Here are all of Abscissa's transitive dependencies:
 | #  | Crate Name       | Origin          | License        | `unsafe`? | Description             |
 |----|------------------|-----------------|----------------|-----------|-------------------------|
 | 1  | [abscissa]       | [iqlusion]      | Apache-2.0     | yes       | App microframework      |
-| 2  | [backtrace]      | [@alexcrichton] | MIT/Apache-2.0 | yes       | Capture stack traces    |
-| 3  | [backtrace-sys]  | [@alexcrichton] | MIT/Apache-2.0 | yes       | Capture stack traces    |
-| 4  | [byteorder]      | [@BurntSushi]   | MIT/Unlicense  | yes       | Convert endianness      |
-| 5  | [canonical-path] | [iqlusion]      | Apache-2.0     | yes       | Get canonical fs paths  |
-| 6  | [chrono]         | [chronotope]    | MIT/Apache-2.0 | yes       | Time/date library       |
-| 7  | [failure]        | [@withoutboats] | MIT/Apache-2.0 | yes       | Error handling          |
-| 8  | [isatty]         | [@dtolnay]      | MIT/Apache-2.0 | yes       | Are stdout/stderr TTYs? |
-| 9  | [lazy_static]    | [rust-lang]     | MIT/Apache-2.0 | yes       | Heap-allocated statics  |
-| 10 | [libc]           | [rust-lang]     | MIT/Apache-2.0 | yes       | C library wrapper       |
-| 11 | [log]            | [rust-lang]     | MIT/Apache-2.0 | yes       | Logging facade library  |
-| 12 | [num-integer]    | [rust-num]      | MIT/Apache-2.0 | yes       | `Integer` trait         |
-| 13 | [num-traits]     | [rust-num]      | MIT/Apache-2.0 | yes       | Numeric traits          |
+| 2  | [atty]           | [@softprops]    | MIT            | yes       | Are stdout/stderr TTYs? |
+| 3  | [backtrace]      | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
+| 4  | [backtrace-sys]  | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
+| 5  | [byteorder]      | [@BurntSushi]   | MIT/Unlicense  | yes       | Convert endianness      |
+| 6  | [canonical-path] | [iqlusion]      | Apache-2.0     | yes       | Get canonical fs paths  |
+| 7  | [chrono]         | [chronotope]    | Apache-2.0/MIT | yes       | Time/date library       |
+| 8  | [failure]        | [@withoutboats] | Apache-2.0/MIT | yes       | Error handling          |
+| 9  | [lazy_static]    | [rust-lang]     | Apache-2.0/MIT | yes       | Heap-allocated statics  |
+| 10 | [libc]           | [rust-lang]     | Apache-2.0/MIT | yes       | C library wrapper       |
+| 11 | [log]            | [rust-lang]     | Apache-2.0/MIT | yes       | Logging facade library  |
+| 12 | [num-integer]    | [rust-num]      | Apache-2.0/MIT | yes       | `Integer` trait         |
+| 13 | [num-traits]     | [rust-num]      | Apache-2.0/MIT | yes       | Numeric traits          |
 | 14 | [redox_syscall]  | [redox-os]      | MIT            | yes       | Redox OS syscall API    |
-| 15 | [rustc_demangle] | [@alexcrichton] | MIT/Apache-2.0 | yes       | Symbol demangling       |
-| 16 | [semver]         | [@steveklabnik] | MIT/Apache-2.0 | yes       | Semantic versioning     |
-| 17 | [semver-parser]  | [@steveklabnik] | MIT/Apache-2.0 | no†       | Parser for semver spec  |
-| 18 | [serde]          | [serde-rs]      | MIT/Apache-2.0 | yes       | Serialization framework |
-| 19 | [simplelog]      | [@drakulix]     | MIT/Apache-2.0 | yes       | Simple logging facility |
-| 20 | [term]           | [@Stebalien]    | MIT/Apache-2.0 | yes‡      | Terminal color support  |
-| 21 | [time]           | [rust-lang]     | MIT/Apache-2.0 | yes       | Time/date library       |
-| 22 | [toml]           | [@alexcrichton] | MIT/Apache-2.0 | no        | TOML parser library     |
-| 23 | [winapi]§        | [@retep998]     | MIT/Apache-2.0 | yes       | Windows API bindings    |
+| 15 | [rustc_demangle] | [@alexcrichton] | Apache-2.0/MIT | yes       | Symbol demangling       |
+| 16 | [semver]         | [@steveklabnik] | Apache-2.0/MIT | yes       | Semantic versioning     |
+| 17 | [semver-parser]  | [@steveklabnik] | Apache-2.0/MIT | no†       | Parser for semver spec  |
+| 18 | [serde]          | [serde-rs]      | Apache-2.0/MIT | yes       | Serialization framework |
+| 19 | [simplelog]      | [@drakulix]     | Apache-2.0/MIT | yes       | Simple logging facility |
+| 20 | [term]           | [@Stebalien]    | Apache-2.0/MIT | yes‡      | Terminal color support  |
+| 21 | [time]           | [rust-lang]     | Apache-2.0/MIT | yes       | Time/date library       |
+| 22 | [toml]           | [@alexcrichton] | Apache-2.0/MIT | no        | TOML parser library     |
+| 23 | [winapi]§        | [@retep998]     | Apache-2.0/MIT | yes       | Windows API bindings    |
 | 24 | [zeroize]        | [iqlusion]      | Apache-2.0     | yes       | Zero out sensitive data |
 
 * † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
@@ -97,16 +86,16 @@ Here are all of Abscissa's transitive dependencies:
 | #  | Crate Name        | Origin           | License        | `unsafe`? | Description             |
 |----|-------------------|------------------|----------------|-----------|-------------------------|
 | 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | yes       | Abscissa custom derive  |
-| 2  | [cc]              | [@alexcrichton]  | MIT/Apache-2.0 | yes       | C/C++ compiler wrapper  |
-| 3  | [cfg-if]          | [@alexcrichton]  | MIT/Apache-2.0 | no        | If-like `#[cfg]` macros |
-| 4  | [failure_derive]  | [@withoutboats]  | MIT/Apache-2.0 | yes       | failure custom derive   |
-| 5  | [proc-macro2]     | [@alexcrichton]  | MIT/Apache-2.0 | yes       | Shim for Macros 2.0 API |
-| 6  | [quote]           | [@dtolnay]       | MIT/Apache-2.0 | no        | Rust AST to token macro |
-| 7  | [serde_derive]    | [serde-rs]       | MIT/Apache-2.0 | no        | `serde` custom derive   |
-| 8  | [syn]             | [@dtolnay]       | MIT/Apache-2.0 | yes       | Rust source code parser |
-| 9  | [synstructure]    | [@mystor]        | MIT/Apache-2.0 | no        | `syn` structure macros  |
-| 10 | [unicode-xid]     | [unicode-rs]     | MIT/Apache-2.0 | no        | Identify valid Unicode  |
-| 11 | [version_check]   | [@SergioBenitez] | MIT/Apache-2.0 | no        | rustc feature detection |
+| 2  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | yes       | C/C++ compiler wrapper  |
+| 3  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | no        | If-like `#[cfg]` macros |
+| 4  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | yes       | failure custom derive   |
+| 5  | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | yes       | Shim for Macros 2.0 API |
+| 6  | [quote]           | [@dtolnay]       | Apache-2.0/MIT | no        | Rust AST to token macro |
+| 7  | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | no        | `serde` custom derive   |
+| 8  | [syn]             | [@dtolnay]       | Apache-2.0/MIT | yes       | Rust source code parser |
+| 9  | [synstructure]    | [@mystor]        | Apache-2.0/MIT | no        | `syn` structure macros  |
+| 10 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | no        | Identify valid Unicode  |
+| 11 | [version_check]   | [@SergioBenitez] | Apache-2.0/MIT | no        | rustc feature detection |
 
 ### Dependency Relationships
 
@@ -128,14 +117,14 @@ so you only compile the parts you need.
 | [chrono]          | `logging`        | -         | [simplelog] |
 | [failure]         | mandatory        | -         | [abscissa]  |
 | [failure_derive]  | mandatory        | -         | [failure]   |
-| [isatty]          | `shell`          | -         | [abscissa]  |
+| [atty]            | `shell`          | -         | [abscissa]  |
 | [lazy_static]     | mandatory        | -         | [abscissa]  |
-| [libc]            | `shell`          | `unix`    | [isatty]    |
+| [libc]            | `shell`          | `unix`    | [atty]    |
 | [log]             | `logging`        | -         | [abscissa]  |
 | [num-integer]     | `logging`        | -         | [chrono]    |
 | [num-traits]      | `logging`        | -         | [chrono], [num-integer] |
 | [proc-macro2]     | mandatory        | -         | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
-| [redox_syscall]   | `shell`          | `redox`   | [isatty]    |
+| [redox_syscall]   | `shell`          | `redox`   | [atty]    |
 | [rustc_demangle]  | mandatory        | -         | [backtrace] |
 | [semver]          | `application`    | -         | [abscissa]  |
 | [semver-parser]   | `application`    | -         | [abscissa]  |
@@ -146,7 +135,7 @@ so you only compile the parts you need.
 | [time]            | `logging`        | -         | [chrono]    |
 | [unicode-xid]     | mandatory        | -         | [proc-macro2] |
 | [version_check]   | mandatory        | -         | [lazy_static] |
-| [winapi]§         | `shell`          | `windows` | [isatty]    |
+| [winapi]§         | `shell`          | `windows` | [atty]    |
 | [zeroize]         | mandatory        | -         | [abscissa]  |
 
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
@@ -185,12 +174,24 @@ Parts of this code were taken from the [Cargo] project, which is
 Copyright (c) 2014 The Rust Project Developers and also licensed
 under the terms of the Apache License (Version 2.0).
 
+[//]: # (badges)
+
+[crate-image]: https://img.shields.io/crates/v/abscissa.svg
+[crate-link]: https://crates.io/crates/abscissa
+[docs-image]: https://docs.rs/abscissa/badge.svg
+[docs-link]: https://docs.rs/abscissa/
+[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
+[license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
+[build-image]: https://travis-ci.org/iqlusioninc/abscissa.svg?branch=develop
+[build-link]: https://travis-ci.org/iqlusioninc/abscissa
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
+[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
+
 [//]: # (general links)
 
 [cargo]: https://github.com/rust-lang/cargo
 [cargo features]: https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section
 [Kryptos K2]: https://en.wikipedia.org/wiki/Kryptos#Solution_of_passage_2
-[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
 
 [//]: # (crate links)
 
@@ -206,7 +207,7 @@ under the terms of the Apache License (Version 2.0).
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
 [gumdrop]: https://crates.io/crates/gumdrop
-[isatty]: https://crates.io/crates/isatty
+[atty]: https://crates.io/crates/atty
 [lazy_static]: https://crates.io/crates/lazy_static
 [libc]: https://crates.io/crates/libc
 [log]: https://crates.io/crates/log
@@ -243,6 +244,7 @@ under the terms of the Apache License (Version 2.0).
 [@mystor]: https://github.com/mystor
 [@retep998]: https://github.com/retep998
 [@SergioBenitez]: https://github.com/SergioBenitez
+[@softprops]: https://github.com/softprops
 [@Stebalien]: https://github.com/Stebalien
 [@steveklabnik]: https://github.com/steveklabnik
 [@withoutboats]: https://github.com/withoutboats

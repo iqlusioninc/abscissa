@@ -1,7 +1,6 @@
 //! Access to standard output and standard error
 
 use super::{ColorConfig, Shell};
-use isatty;
 use std::{
     cell::RefCell,
     io::{self, Write},
@@ -53,9 +52,9 @@ impl Stream {
 
     /// Is this stream a TTY?
     pub fn is_tty(self) -> bool {
-        match self {
-            Stream::Stdout => isatty::stdout_isatty(),
-            Stream::Stderr => isatty::stderr_isatty(),
-        }
+        atty::is(match self {
+            Stream::Stdout => atty::Stream::Stdout,
+            Stream::Stderr => atty::Stream::Stderr,
+        })
     }
 }

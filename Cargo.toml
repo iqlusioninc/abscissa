@@ -9,26 +9,25 @@ license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
 homepage    = "https://github.com/iqlusioninc/abscissa/"
-repository  = "https://github.com/iqlusioninc/abscissa/tree/master/"
+repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/"
 readme      = "README.md"
 categories  = ["command-line-interface", "rust-patterns", "web-programming"]
 keywords    = ["application", "container", "microservices", "framework", "service"]
 
 [dependencies]
 abscissa_derive = { version = "0", path = "abscissa_derive" }
+atty = { version = "0.2", optional = true }
 canonical-path = "0.1"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
-failure_derive = "0.1"
 gumdrop = { version = "0.5", optional = true }
-isatty = { version = "0.1", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true }
 semver = { version = "0.9", optional = true }
-serde = { version = "1.0", optional = true }
+serde = { version = "1", optional = true }
 simplelog = { version = "0.5", optional = true }
 term = { version = "0.5", optional = true }
-toml = { version = "0.4", optional = true }
+toml = { version = "0.5", optional = true }
 zeroize = "0.6"
 
 [dev-dependencies]
@@ -62,14 +61,14 @@ options = [
 ]
 secrets = []
 shell = [
+    "atty",
     "errors",
-    "isatty",
     "term",
 ]
 status = ["shell"]
 
 [badges]
-travis-ci = { repository = "iqlusioninc/abscissa" }
+travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [workspace]
 members = [".", "abscissa_derive"]
