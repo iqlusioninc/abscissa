@@ -1,6 +1,5 @@
-use std::{fmt::Debug, slice::Iter};
-
 use crate::{error::FrameworkError, util::Version};
+use std::{fmt::Debug, slice::Iter};
 
 /// Framework subcomponents. Handles framework initialization (but could
 /// be used for a lot more).

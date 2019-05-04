@@ -1,26 +1,26 @@
 use std::{ops::Deref, sync::RwLockReadGuard};
 
-use super::GlobalConfig;
+use super::Config;
 
 /// Generic RwLockReadGuard for a static lifetime
-type ConfigGuard<C> = RwLockReadGuard<'static, Option<C>>;
+type ReaderGuard<C> = RwLockReadGuard<'static, Option<C>>;
 
 /// Wrapper around a `RwLockReadGuard` for reading global configuration data
 /// from global static values defined by the `init_config!` macro.
-pub struct ConfigReader<C: 'static + GlobalConfig>(ConfigGuard<C>);
+pub struct Reader<C: 'static + Config>(ReaderGuard<C>);
 
-impl<C: GlobalConfig> ConfigReader<C> {
+impl<C: Config> Reader<C> {
     /// Obtain a read-only handle to the inner configuration from an `RwLock`.
     /// This is intended to be used with a global static configuration defined
     /// by the `init_config!` macro.
     ///
     /// Panics if the configuration has not been loaded.
-    pub fn new(config_guard: ConfigGuard<C>) -> Self {
-        ConfigReader(config_guard)
+    pub fn new(config_guard: ReaderGuard<C>) -> Self {
+        Reader(config_guard)
     }
 }
 
-impl<C: GlobalConfig> Deref for ConfigReader<C> {
+impl<C: Config> Deref for Reader<C> {
     type Target = C;
 
     fn deref(&self) -> &C {

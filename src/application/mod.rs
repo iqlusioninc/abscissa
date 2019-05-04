@@ -7,13 +7,14 @@ pub mod exit;
 pub use self::components::{Component, Components};
 use crate::{
     command::Command,
-    config::{ConfigReader, GlobalConfig, LoadConfig},
+    config::{self, Config, Loader as _},
     error::FrameworkError,
     logging::{LoggingComponent, LoggingConfig},
     shell::{ColorConfig, ShellComponent},
     util::{self, CanonicalPathBuf, Version},
 };
 
+/// Core Abscissa trait used for managing the application lifecycle.
 /// Core Abscissa trait used for managing the application lifecycle.
 ///
 /// The `Application` trait ties together the `GlobalConfig`, `Options`, and
@@ -25,18 +26,16 @@ use crate::{
 #[allow(unused_variables)]
 pub trait Application: Send + Sized + Sync {
     /// Application (sub)command which serves as the main entry point
-    type Cmd: Command + LoadConfig<Self::Config>;
+    type Cmd: Command + config::Loader<Self::Config>;
 
     /// Configuration type used by this application
-    type Config: GlobalConfig;
+    type Config: Config;
 
     /// Boot the application
     fn boot() -> !;
 
     /// Get a read lock on the application's global configuration
-    fn config(&self) -> ConfigReader<Self::Config> {
-        Self::Config::get_global()
-    }
+    fn config(&self) -> config::Reader<Self::Config>;
 
     /// Name of this application as a string
     fn name(&self) -> &'static str {
@@ -70,11 +69,15 @@ pub trait Application: Send + Sized + Sync {
     }
 
     /// Load this application's configuration and initialize its components
-    fn init(&self, command: &Self::Cmd) -> Result<Components, FrameworkError> {
-        // Load the global configuration via the command's `LoadConfig` trait.
+    fn init(
+        &mut self,
+        command: &Self::Cmd,
+        config: &config::Guard<Self::Config>,
+    ) -> Result<Components, FrameworkError> {
+        // Load configuration via the root command's `config::Loader` trait.
         // We do this first to ensure that the configuration is loaded before
         // the rest of the framework is initialized.
-        command.load_global_config()?;
+        command.load_config(config)?;
 
         // Create the application's components
         let mut components = self.components(command)?;
@@ -139,12 +142,14 @@ pub enum ApplicationPath {
 
 /// Boot an application of the given type, parsing command-line options from
 /// the environment and running the appropriate `Command` type.
-pub fn boot<A: Application>(app: A) -> ! {
+pub fn boot<A: Application>(mut app: A, config: &config::Guard<A::Config>) -> ! {
     // Parse command line options
     let command = A::Cmd::from_env_args();
 
     // Initialize the application
-    let components = app.init(&command).unwrap_or_else(|e| fatal_error!(&app, e));
+    let components = app
+        .init(&command, config)
+        .unwrap_or_else(|e| fatal_error!(&app, e));
 
     // Run the command
     command.run(&app);

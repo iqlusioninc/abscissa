@@ -1,22 +1,23 @@
-use std::path::PathBuf;
+//! Configuration loader
 
+use super::{guard::Guard, Config};
 use crate::{
-    config::GlobalConfig,
     error::{FrameworkError, FrameworkErrorKind::ConfigError},
     util::{CanonicalPath, CanonicalPathBuf},
 };
+use std::path::PathBuf;
 
 /// Support for loading configuration from a file.
 /// Does not modify the global configuration. Only handles parsing and
 /// deserializing it from files.
-pub trait LoadConfig<C: GlobalConfig> {
+pub trait Loader<C: Config> {
     /// Path to the command's configuration file. Returns an error by default.
     fn config_path(&self) -> Option<PathBuf> {
         None
     }
 
     /// Load the configuration from `self.config_path()` if present
-    fn load_global_config(&self) -> Result<(), FrameworkError> {
+    fn load_config(&self, config_guard: &Guard<C>) -> Result<(), FrameworkError> {
         // Only attempt to load configuration if `config_path` returned the
         // path to a configuration file.
         if let Some(ref path) = self.config_path() {
@@ -32,7 +33,7 @@ pub trait LoadConfig<C: GlobalConfig> {
                 )
             })?;
 
-            C::set_global(config);
+            config_guard.set(config);
         }
 
         Ok(())
