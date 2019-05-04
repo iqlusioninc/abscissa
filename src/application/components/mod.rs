@@ -31,7 +31,7 @@ impl Components {
     }
 
     /// Initialize components and register them with the given application
-    pub fn init<A: Application>(&mut self, app: &A) -> Result<(), FrameworkError> {
+    pub fn init<A: Application>(&mut self, app: &mut A) -> Result<(), FrameworkError> {
         for component in &mut self.0 {
             component.init()?;
             app.register((*component).borrow())?;

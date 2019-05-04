@@ -23,7 +23,6 @@ macro_rules! q {
 #[proc_macro_derive(Command)]
 pub fn derive_command(input: TokenStream) -> TokenStream {
     let ast: syn::DeriveInput = syn::parse(input).unwrap();
-
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 

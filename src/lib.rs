@@ -110,7 +110,7 @@ pub use application::{boot, Application, ApplicationPath, Component, Components}
 #[cfg(feature = "options")]
 pub use command::{Callable, Command};
 #[cfg(feature = "config")]
-pub use config::{ConfigReader, GlobalConfig, LoadConfig};
+pub use config::Config;
 #[cfg(feature = "errors")]
 pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
