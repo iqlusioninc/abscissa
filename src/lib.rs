@@ -62,18 +62,8 @@
     html_root_url = "https://docs.rs/abscissa/0.0.6"
 )]
 
-#[allow(unused_imports)]
-#[macro_use]
-extern crate abscissa_derive;
-#[cfg(feature = "shell")]
-#[macro_use]
-extern crate lazy_static;
 #[cfg(feature = "logging")]
-pub extern crate log;
-#[cfg(feature = "logging")]
-extern crate simplelog;
-#[cfg(feature = "shell")]
-extern crate term;
+pub use log;
 
 // Load macros first
 #[macro_use]
