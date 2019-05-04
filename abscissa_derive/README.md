@@ -8,17 +8,6 @@
 [![Build Status][build-image]][build-link]
 [![Appveyor Status][appveyor-image]][appveyor-link]
 
-[crate-image]: https://img.shields.io/crates/v/abscissa_derive.svg
-[crate-link]: https://crates.io/crates/abscissa_derive
-[docs-image]: https://docs.rs/abscissa_derive/badge.svg
-[docs-link]: https://docs.rs/abscissa_derive/
-[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/abscissa/blob/master/LICENSE
-[build-image]: https://circleci.com/gh/iqlusioninc/abscissa.svg?style=shield
-[build-link]: https://circleci.com/gh/iqlusioninc/abscissa
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
-[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
-
 This crate provides the custom derive implementations used by the
 [Abscissa] command-line app microframework.
 
@@ -40,3 +29,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+[crate-image]: https://img.shields.io/crates/v/abscissa_derive.svg
+[crate-link]: https://crates.io/crates/abscissa_derive
+[docs-image]: https://docs.rs/abscissa_derive/badge.svg
+[docs-link]: https://docs.rs/abscissa_derive/
+[license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
+[license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
+[build-image]: https://travis-ci.org/iqlusioninc/abscissa.svg?branch=develop
+[build-link]: https://travis-ci.org/iqlusioninc/abscissa
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
+[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa

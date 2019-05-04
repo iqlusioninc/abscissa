@@ -1,13 +1,13 @@
-branches:
-  only:
-    - master
-
 os: Visual Studio 2017
 
 environment:
   matrix:
     - channel: stable
       target: x86_64-pc-windows-msvc
+
+branches:
+  only:
+    - develop
 
 install:
   - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
@@ -19,4 +19,4 @@ install:
 build: false
 
 test_script:
-  - cargo test --all
+  - cargo test --all --release

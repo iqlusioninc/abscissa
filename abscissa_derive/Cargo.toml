@@ -5,11 +5,11 @@ version     = "0.0.2" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage    = "https://github.com/iqlusioninc/abscissa"
-repository  = "https://github.com/iqlusioninc/abscissa/tree/master/abscissa_derive"
+repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/abscissa_derive"
 readme      = "README.md"
 
 [badges]
-circle-ci = { repository = "iqlusioninc/abscissa" }
+circle-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [lib]
 proc-macro = true

@@ -1,10 +1,10 @@
+use super::Error;
 #[cfg(feature = "toml")]
 use crate::util::toml;
+use failure::Fail;
 use std::io;
 #[cfg(feature = "term")]
 use term;
-
-use super::Error;
 
 /// Types of errors which occur internally within the framework
 #[derive(Fail, Clone, Debug, Eq, PartialEq)]
