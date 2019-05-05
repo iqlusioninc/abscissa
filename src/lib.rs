@@ -72,6 +72,8 @@ pub mod macros;
 #[cfg(feature = "application")]
 mod application;
 #[cfg(feature = "options")]
+mod callable;
+#[cfg(feature = "options")]
 mod command;
 #[cfg(feature = "config")]
 pub mod config;
@@ -93,7 +95,9 @@ pub use gumdrop::Options;
 #[cfg(feature = "application")]
 pub use application::{boot, Application, ApplicationPath, Component, Components};
 #[cfg(feature = "options")]
-pub use command::{Callable, Command};
+pub use callable::Callable;
+#[cfg(feature = "options")]
+pub use command::Command;
 #[cfg(feature = "config")]
 pub use config::Config;
 #[cfg(feature = "errors")]

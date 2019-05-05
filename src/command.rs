@@ -2,15 +2,9 @@
 
 #[cfg(feature = "application")]
 use crate::application::Application;
-use crate::util::CanonicalPathBuf;
+use crate::{callable::Callable, util::CanonicalPathBuf};
 use gumdrop::Options;
 use std::{fmt::Debug, process::exit};
-
-/// Something which can be called
-pub trait Callable {
-    /// Call this callable (i.e. command), running its behavior
-    fn call(&self);
-}
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `call()` method which can be used to invoke the given
