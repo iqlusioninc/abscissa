@@ -85,7 +85,7 @@ Here are all of Abscissa's transitive dependencies:
 
 | #  | Crate Name        | Origin           | License        | `unsafe`? | Description             |
 |----|-------------------|------------------|----------------|-----------|-------------------------|
-| 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | yes       | Abscissa custom derive  |
+| 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | no        | Abscissa custom derive  |
 | 2  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | yes       | C/C++ compiler wrapper  |
 | 3  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | no        | If-like `#[cfg]` macros |
 | 4  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | yes       | failure custom derive   |

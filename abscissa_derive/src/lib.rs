@@ -9,15 +9,26 @@
 )]
 
 extern crate proc_macro;
-#[macro_use]
-extern crate quote;
-extern crate syn;
 
 use proc_macro::TokenStream;
+use quote::quote;
+use synstructure::decl_derive;
 
-macro_rules! q {
-    ($($t:tt)*) => (quote_spanned!(proc_macro2::Span::call_site() => $($t)*))
+/// Custom derive for `abscissa::callable::Callable`
+fn derive_callable(s: synstructure::Structure) -> proc_macro2::TokenStream {
+    let body = s.each(|bi| {
+        quote! { #bi.call() }
+    });
+
+    s.gen_impl(quote! {
+        gen impl Callable for @Self {
+            fn call(&self) {
+                match *self { #body }
+            }
+        }
+    })
 }
+decl_derive!([Callable] => derive_callable);
 
 /// Custom derive for `abscissa::command::Command`
 #[proc_macro_derive(Command)]
@@ -26,7 +37,7 @@ pub fn derive_command(input: TokenStream) -> TokenStream {
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
-    let impl_command = q! {
+    let impl_command = quote! {
         impl #impl_generics Command for #name #ty_generics #where_clause {
             #[doc = "Name of this program as a string"]
             fn name() -> &'static str {
