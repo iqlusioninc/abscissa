@@ -168,8 +168,7 @@ pub trait CommandConfig {
 
 #[cfg(test)]
 mod tests {
-    use super::Command;
-    use crate::{Callable, Options};
+    use crate::{Callable, Command, Options};
 
     #[derive(Command, Debug, Options)]
     pub struct DummyCommand {}

@@ -1,6 +1,7 @@
 //! Access to standard output and standard error
 
 use super::{ColorConfig, Shell};
+use lazy_static::lazy_static;
 use std::{
     cell::RefCell,
     io::{self, Write},
