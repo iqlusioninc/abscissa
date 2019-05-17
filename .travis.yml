@@ -25,7 +25,7 @@ matrix:
         - cargo clippy
     - name: build
       script:
-        - cargo build --no-default-features
+        - cargo build --no-default-features --lib
         - cargo build --release --all --all-features
     - name: test
       script:
@@ -33,3 +33,11 @@ matrix:
     - name: doc
       script:
         - cargo doc --all-features
+    - name: abscissa new (fmt + test + run + clippy)
+      script:
+        - cargo run --release -- new /tmp/example_app --patch-crates-io="abscissa = { path = \"$PWD\" }"
+        - cd /tmp/example_app
+        - cargo fmt -- --check
+        - cargo test --release
+        - cargo run -- --version
+        - cargo clippy

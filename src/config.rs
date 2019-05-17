@@ -9,6 +9,8 @@ use crate::{
     error::{FrameworkError, FrameworkErrorKind::ConfigError},
     util::CanonicalPath,
 };
+#[doc(hidden)]
+pub use abscissa_derive::Config;
 use serde::{de::DeserializeOwned, Serialize};
 use std::{fmt::Debug, fs::File, io::Read};
 

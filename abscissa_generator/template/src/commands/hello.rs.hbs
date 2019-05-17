@@ -1,0 +1,27 @@
+//! `hello` subcommand - example of how to write a subcommand
+
+use abscissa::{Callable, Command, Options};
+
+/// `hello` subcommand
+///
+/// The `Options` proc macro generates an option parser based on the struct
+/// definition, and is defined in the `gumdrop` crate. See their documentation
+/// for a more comprehensive example:
+///
+/// <https://docs.rs/gumdrop/>
+#[derive(Command, Debug, Options)]
+pub struct HelloCommand {
+    /// To whom are we saying hello?
+    #[options(free)]
+    recipient: Option<String>,
+}
+
+impl Callable for HelloCommand {
+    /// Print "Hello, world!"
+    fn call(&self) {
+        match &self.recipient {
+            Some(recipient) => println!("Hello, {}!", recipient),
+            None => Self::print_usage(&[]),
+        }
+    }
+}

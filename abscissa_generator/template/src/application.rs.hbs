@@ -1,0 +1,29 @@
+//! {{title}} Abscissa Application
+
+use crate::{
+    commands::{{~command_type~}},
+    config::{ {{~config_type~}}, APP_CONFIG},
+};
+use abscissa::{self, Application, EntryPoint, LoggingConfig};
+
+/// {{title}} Application
+#[derive(Debug)]
+pub struct {{application_type~}};
+
+impl Application for {{application_type}} {
+    type Cmd = EntryPoint<{{~command_type~}}>;
+    type Config = {{config_type~}};
+
+    /// Get a read lock on the application's global configuration
+    fn config(&self) -> abscissa::config::Reader<Self::Config> {
+        APP_CONFIG.get()
+    }
+
+    fn logging_config(&self, command: &EntryPoint<{{~command_type~}}>) -> LoggingConfig {
+        if command.verbose {
+            LoggingConfig::verbose()
+        } else {
+            LoggingConfig::default()
+        }
+    }
+}
