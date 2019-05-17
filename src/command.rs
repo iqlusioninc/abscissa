@@ -1,5 +1,8 @@
 //! Application (sub)command(s), i.e. app entry points
 
+mod entrypoint;
+
+pub use self::entrypoint::EntryPoint;
 #[cfg(feature = "application")]
 use crate::application::Application;
 use crate::{callable::Callable, util::CanonicalPathBuf};
@@ -81,23 +84,37 @@ pub trait Command: Callable + Debug + Options {
 
     /// Print the authors of the current package
     fn print_package_authors() {
-        println!(
-            "{}",
-            Self::authors().split(':').collect::<Vec<_>>().join(", ")
-        );
+        if Self::authors() != "" {
+            println!(
+                "{}",
+                Self::authors().split(':').collect::<Vec<_>>().join(", ")
+            );
+        }
+    }
+
+    /// Print the description of the current package
+    fn print_package_description() {
+        let description = Self::description()
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ");
+
+        if description != "" {
+            println!("{}", description);
+        }
     }
 
     /// Print usage information for the given command to STDOUT and then exit with
     /// a usage status code (i.e. `2`).
-    fn print_usage(args: &[String]) -> ! {
+    fn print_usage(args: &[&str]) -> ! {
         Self::print_package_info();
         Self::print_package_authors();
 
         if args.len() == 1 {
-            Self::print_subcommand_usage(&args[0]);
+            Self::print_subcommand_usage(args[0]);
         }
 
-        println!("{}", Self::description());
+        Self::print_package_description();
         println!();
         println!("USAGE:");
         println!("  {} <SUBCOMMAND>", Self::name());
@@ -105,9 +122,12 @@ pub trait Command: Callable + Debug + Options {
         println!("FLAGS:");
         println!("  -h, --help     Prints help information");
         println!("  -V, --version  Prints version information");
-        println!();
-        println!("SUBCOMMANDS:");
-        println!("{}", Self::command_list().unwrap());
+
+        if let Some(subcommands) = Self::command_list() {
+            println!();
+            println!("SUBCOMMANDS:");
+            println!("{}", subcommands);
+        }
 
         exit(2)
     }
@@ -128,27 +148,29 @@ pub trait Command: Callable + Debug + Options {
     /// Print a description for a subcommand
     // TODO: less hax way of doing this
     fn print_subcommand_description(subcommand: &str) {
-        for command_info in Self::command_list().unwrap().split('\n') {
-            let mut command_info_parts = command_info.split_whitespace();
+        if let Some(command_list) = Self::command_list() {
+            for command_info in command_list.split('\n') {
+                let mut command_info_parts = command_info.split_whitespace();
 
-            if subcommand != command_info_parts.next().unwrap() {
-                continue;
+                if subcommand != command_info_parts.next().unwrap() {
+                    continue;
+                }
+
+                let command_description: Vec<_> = command_info_parts.collect();
+                println!("{}", command_description.join(" "));
             }
-
-            let command_description: Vec<_> = command_info_parts.collect();
-            println!("{}", command_description.join(" "));
         }
     }
 
     /// Print flags for a subcommand
     // TODO: less hax way of doing this
     fn print_subcommand_flags(subcommand: &str) {
-        let usage = Self::command_usage(subcommand)
-            .unwrap()
-            .replace("Optional arguments:", "OPTIONS:");
+        if let Some(command_usage) = Self::command_usage(subcommand) {
+            let usage = command_usage.replace("Optional arguments:", "OPTIONS:");
 
-        // TODO: descriptions for each command
-        println!("{}", usage);
+            // TODO: descriptions for each command
+            println!("{}", usage);
+        }
     }
 }
 

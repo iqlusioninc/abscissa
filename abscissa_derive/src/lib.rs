@@ -46,7 +46,7 @@ pub fn derive_command(input: TokenStream) -> TokenStream {
 
             #[doc = "Description of this program"]
             fn description() -> &'static str {
-                env!("CARGO_PKG_DESCRIPTION")
+                env!("CARGO_PKG_DESCRIPTION").trim()
             }
 
             #[doc = "Version of this program"]
@@ -63,3 +63,12 @@ pub fn derive_command(input: TokenStream) -> TokenStream {
 
     impl_command.into()
 }
+
+/// Custom derive for `abscissa::config::Config`
+fn derive_config(s: synstructure::Structure) -> proc_macro2::TokenStream {
+    s.gen_impl(quote! {
+        gen impl Config for @Self {
+        }
+    })
+}
+decl_derive!([Config] => derive_config);

@@ -1,10 +1,12 @@
 //! Trait for representing an Abscissa application and it's lifecycle
 
 mod components;
+mod exit;
 
-use std::str::FromStr;
-pub mod exit;
-pub use self::components::{Component, Components};
+pub use self::{
+    components::{Component, Components},
+    exit::*,
+};
 use crate::{
     command::Command,
     config::{self, Config, Loader as _},
@@ -13,6 +15,7 @@ use crate::{
     shell::{ColorConfig, ShellComponent},
     util::{self, CanonicalPathBuf, Version},
 };
+use std::str::FromStr;
 
 /// Core Abscissa trait used for managing the application lifecycle.
 /// Core Abscissa trait used for managing the application lifecycle.
@@ -30,9 +33,6 @@ pub trait Application: Send + Sized + Sync {
 
     /// Configuration type used by this application
     type Config: Config;
-
-    /// Boot the application
-    fn boot() -> !;
 
     /// Get a read lock on the application's global configuration
     fn config(&self) -> config::Reader<Self::Config>;
@@ -123,7 +123,7 @@ pub trait Application: Send + Sized + Sync {
 
     /// Shut down this application gracefully, exiting with success
     fn shutdown(&self, components: Components) -> ! {
-        exit::shutdown(self, components)
+        shutdown(self, components)
     }
 }
 

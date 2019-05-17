@@ -23,11 +23,49 @@
 //!   support autodetection). Useful for Cargo-like status messages with
 //!   easy-to-use macros.
 //!
-//! [gumdrop]: https://github.com/murarth/gumdrop
-//! [RwLock]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
-//! [lazy_static]: https://docs.rs/lazy_static
+//! # Creating a new Abscissa application
+//!
+//! If you already have Rust installed, the following commands will generate an
+//! Abscissa application skeleton:
+//!
+//! ```text
+//! $ cargo install abscissa
+//! $ abscissa new my_cool_app
+//! ```
+//!
+//! The resulting app is a Cargo project. The following files are particularly
+//! noteworthy:
+//!
+//! - `src/application.rs`: Abscissa application type for your app
+//! - `src/commands*`: application entrypoint and subcommands. Make sure to
+//!   check out the `hello.rs` example of how to make a subcommand.
+//! - `src/config.rs`: application configuration
+//! - `src/error.rs`: error types
+//!
+//! Abscissa applications are implemented as Rust libraries, but have a
+//! `src/bin` subdirectory where the binary entrypoint lives. This means you
+//! can run the following within your newly generated application:
+//!
+//! ```text
+//! $ cargo run -- hello world
+//! ```
+//!
+//! This will invoke the `hello` subcommand of your application (you'll
+//! probably want to rename that in a real app) which will print the following:
+//!
+//! ```text
+//! Hello, world!
+//! ```
+//!
+//! You can also run the following to print basic help information:
+//!
+//! ```text
+//! $ cargo run -- --help
+//! ```
 //!
 //! # Option Parser
+//!
+//! Command-line options are parsed using the [gumdrop] crate.
 //!
 //! Please see the documentation for the `options` module.
 //!
@@ -49,6 +87,10 @@
 //! status_attr_err!("error", "yep");
 //! # }
 //! ```
+//!
+//! [gumdrop]: https://github.com/murarth/gumdrop
+//! [RwLock]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
+//! [lazy_static]: https://docs.rs/lazy_static
 
 #![deny(
     warnings,
@@ -62,6 +104,9 @@
     html_root_url = "https://docs.rs/abscissa/0.0.6"
 )]
 
+/// Abscissa version
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
 #[cfg(feature = "logging")]
 pub use log;
 
@@ -70,7 +115,7 @@ pub use log;
 pub mod macros;
 
 #[cfg(feature = "application")]
-mod application;
+pub mod application;
 #[cfg(feature = "options")]
 mod callable;
 #[cfg(feature = "options")]
@@ -88,16 +133,18 @@ pub mod shell;
 pub mod util;
 
 #[doc(hidden)]
-pub use abscissa_derive::*;
+pub use abscissa_derive::{Callable, Command};
 #[cfg(feature = "options")]
 pub use gumdrop::Options;
+#[cfg(feature = "options")]
+pub use gumdrop_derive::*;
 
 #[cfg(feature = "application")]
 pub use application::{boot, Application, ApplicationPath, Component, Components};
 #[cfg(feature = "options")]
 pub use callable::Callable;
 #[cfg(feature = "options")]
-pub use command::Command;
+pub use command::{Command, EntryPoint};
 #[cfg(feature = "config")]
 pub use config::Config;
 #[cfg(feature = "errors")]

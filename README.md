@@ -34,6 +34,19 @@ or network/web services), aiming to provide a large number of features with a
   support autodetection). Useful for Cargo-like status messages with
   easy-to-use macros.
 
+## Usage
+
+If you already have Rust installed, the following commands will generate an
+Abscissa application skeleton:
+
+```
+$ cargo install abscissa
+$ abscissa new my_cool_app
+```
+
+This will generate a new Abscissa application in the `my_cool_app` directory.
+For more information, please see the [Documentation].
+
 ## Depencencies
 
 *or: "Know Your Dependencies"*
@@ -150,6 +163,39 @@ In that regard, "Abscissa" can be thought of as a pun about getting off
 the ground, or elevating your project.
 
 The word "abscissa" is also the key to the [Kryptos K2] panel.
+
+## Testing Framework Changes
+
+The main way to test framework changes is by generating an application with
+Abscissa's built-in application generator and running tests against the
+generated application (also rustfmt, clippy).
+
+If you've already run:
+
+```
+$ git clone https://github.com/iqlusioninc/abscissa/
+```
+
+...and are inside the `abscissa` directory and want to test your changes,
+you can generate an application by running the following command:
+
+```
+$ cargo run -- new /tmp/example_app --patch-crates-io='abscissa = { path = "$PWD" }'
+```
+
+This will generate a new Abscissa application in `/tmp/example_app` which
+references your local copy of Abscissa.
+
+After that, change directory to the newly generated app and run the tests
+to ensure things are still working (the tests, along with rustfmt and clippy
+are run as part of the CI process):
+
+```
+$ cd /tmp/example_app # or 'pushd /tmp/example_app' and 'popd' to return
+$ cargo test
+$ cargo fmt -- --check # generated app is expected to pass rustfmt
+$ cargo clippy
+```
 
 ## License
 

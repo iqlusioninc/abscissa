@@ -1,0 +1,28 @@
+//! {{title}} Subcommands
+
+mod hello;
+mod version;
+
+use self::{hello::HelloCommand, version::VersionCommand};
+use crate::config::{{~config_type~}};
+use abscissa::{config, Callable, Command, Options};
+use std::path::PathBuf;
+
+/// {{title}} Subcommands
+#[derive(Callable, Command, Debug, Options)]
+pub enum {{command_type}} {
+    /// The `hello` subcommand
+    #[options(help = "print hello world")]
+    Hello(HelloCommand),
+
+    /// The `version` subcommand
+    #[options(help = "display version information")]
+    Version(VersionCommand),
+}
+
+impl config::Loader<{{~config_type~}}> for {{command_type}} {
+    // TODO: parse configuration path from command-line options or `EntryPoint`
+    fn config_path(&self) -> Option<PathBuf> {
+        None
+    }
+}
