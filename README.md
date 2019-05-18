@@ -39,10 +39,7 @@ or network/web services), aiming to provide a large number of features with a
 If you already have Rust installed, the following commands will generate an
 Abscissa application skeleton:
 
-```
-$ cargo install abscissa
-$ abscissa new my_cool_app
-```
+![abscissa new my_cool_app](https://raw.githubusercontent.com/iqlusioninc/abscissa/develop/img/abscissa-new.png)
 
 This will generate a new Abscissa application in the `my_cool_app` directory.
 For more information, please see the [Documentation].
