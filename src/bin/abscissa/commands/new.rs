@@ -2,7 +2,7 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa::{status_err, status_ok, util::inflector::CamelCase, Callable, Command, Options};
+use abscissa::{status_err, status_ok, util::inflector::TitleCase, Callable, Command, Options};
 use abscissa_generator::{
     properties::{self, Properties},
     template::{Collection, Template},
@@ -136,10 +136,10 @@ impl NewCommand {
         let name: properties::name::App = app_name.parse().expect("no app name");
 
         // TODO(tarcieri): configurable title
-        let title = name.to_string().to_camel_case();
+        let title = name.to_string().to_title_case();
 
         // TODO(tarcieri): configurable description
-        let description = title.to_string();
+        let description = title.clone();
 
         // TODO(tarcieri): configurable edition
         let edition = properties::rust::Edition::Rust2018;
@@ -148,21 +148,20 @@ impl NewCommand {
 
         // TODO(tarcieri): configurable application type
         let application_type =
-            properties::name::Type::from_snake_case(&(app_name.clone() + "_application"));
+            properties::name::Type::from_snake_case(app_name.clone() + "_application");
 
         // TODO(tarcieri): configurable command type
-        let command_type =
-            properties::name::Type::from_snake_case(&(app_name.clone() + "_command"));
+        let command_type = properties::name::Type::from_snake_case(app_name.clone() + "_command");
 
         // TODO(tarcieri): configurable config type
-        let config_type = properties::name::Type::from_snake_case(&(app_name.clone() + "_config"));
+        let config_type = properties::name::Type::from_snake_case(app_name.clone() + "_config");
 
         // TODO(tarcieri): configurable error type
-        let error_type = properties::name::Type::from_snake_case(&(app_name.clone() + "_error"));
+        let error_type = properties::name::Type::from_snake_case(app_name.clone() + "_error");
 
         // TODO(tarcieri): configurable error kind type
         let error_kind_type =
-            properties::name::Type::from_snake_case(&(app_name.clone() + "_error_kind"));
+            properties::name::Type::from_snake_case(app_name.clone() + "_error_kind");
 
         let properties = Properties {
             abscissa,
