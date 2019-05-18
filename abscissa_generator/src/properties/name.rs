@@ -56,7 +56,10 @@ impl AsRef<str> for Type {
 
 impl Type {
     /// Inflect a snake case name into a type name
-    pub fn from_snake_case(s: &str) -> Type {
-        Type(s.to_camel_case())
+    pub fn from_snake_case<S>(s: S) -> Type
+    where
+        S: AsRef<str>,
+    {
+        Type(s.as_ref().to_camel_case())
     }
 }
