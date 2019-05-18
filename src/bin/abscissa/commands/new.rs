@@ -2,18 +2,16 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa::{status_err, status_ok, Callable, Command, Options};
+use abscissa::{status_err, status_ok, util::inflector::CamelCase, Callable, Command, Options};
 use abscissa_generator::{
-    properties::{AppName, Edition, FrameworkProperties, Properties, TypeName},
-    template::{AppTemplate, TemplateEntry},
-    CamelCase,
+    properties::{self, Properties},
+    template::{Collection, Template},
 };
 use failure::{bail, format_err, Error};
 use std::{
     fs,
     path::{Path, PathBuf},
     process,
-    str::FromStr,
     time::Instant,
 };
 
@@ -34,7 +32,7 @@ impl Callable for NewCommand {
     fn call(&self) {
         let started_at = Instant::now();
         let app_properties = self.parse_options().unwrap_or_else(|e| fatal_error(e));
-        let app_template = AppTemplate::default();
+        let app_template = Collection::default();
 
         self.create_parent_directory()
             .unwrap_or_else(|e| fatal_error(e));
@@ -94,8 +92,8 @@ impl NewCommand {
     /// Render an individual template file
     fn render_template_file(
         &self,
-        app_template: &AppTemplate,
-        template_file: &TemplateEntry,
+        app_template: &Collection,
+        template_file: &Template,
         app_properties: &Properties,
     ) -> Result<(), Error> {
         let output_path_rel = template_file.output_path(app_properties);
@@ -127,7 +125,7 @@ impl NewCommand {
 
     /// Parse `abscissa_generate` properties from command-line options
     fn parse_options(&self) -> Result<Properties, Error> {
-        let abscissa = FrameworkProperties::new(abscissa::VERSION);
+        let abscissa = properties::framework::Properties::new(abscissa::VERSION);
         let app_path = self.app_path()?;
 
         let app_name = app_path
@@ -135,7 +133,7 @@ impl NewCommand {
             .expect("no filename?")
             .to_string_lossy();
 
-        let name = AppName::from_str(&app_name).expect("no app name");
+        let name: properties::name::App = app_name.parse().expect("no app name");
 
         // TODO(tarcieri): configurable title
         let title = name.to_string().to_camel_case();
@@ -144,24 +142,27 @@ impl NewCommand {
         let description = title.to_string();
 
         // TODO(tarcieri): configurable edition
-        let edition = Edition::Rust2018;
+        let edition = properties::rust::Edition::Rust2018;
 
         let patch_crates_io = self.patch_crates_io.clone();
 
         // TODO(tarcieri): configurable application type
-        let application_type = TypeName::from_snake_case(&(app_name.clone() + "_application"));
+        let application_type =
+            properties::name::Type::from_snake_case(&(app_name.clone() + "_application"));
 
         // TODO(tarcieri): configurable command type
-        let command_type = TypeName::from_snake_case(&(app_name.clone() + "_command"));
+        let command_type =
+            properties::name::Type::from_snake_case(&(app_name.clone() + "_command"));
 
         // TODO(tarcieri): configurable config type
-        let config_type = TypeName::from_snake_case(&(app_name.clone() + "_config"));
+        let config_type = properties::name::Type::from_snake_case(&(app_name.clone() + "_config"));
 
         // TODO(tarcieri): configurable error type
-        let error_type = TypeName::from_snake_case(&(app_name.clone() + "_error"));
+        let error_type = properties::name::Type::from_snake_case(&(app_name.clone() + "_error"));
 
         // TODO(tarcieri): configurable error kind type
-        let error_kind_type = TypeName::from_snake_case(&(app_name.clone() + "_error_kind"));
+        let error_kind_type =
+            properties::name::Type::from_snake_case(&(app_name.clone() + "_error_kind"));
 
         let properties = Properties {
             abscissa,

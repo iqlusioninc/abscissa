@@ -23,6 +23,7 @@ chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
 gumdrop = { version = "0.5", optional = true }
 gumdrop_derive = { version = "0.5", optional = true }
+heck = { version = "0.3", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true }
 semver = { version = "0.9", optional = true }
@@ -33,7 +34,11 @@ toml = { version = "0.5", optional = true }
 zeroize = "0.6"
 
 [features]
-default = ["application", "chrono", "generator"]
+default = [
+    "application",
+    "cli", # For cargo install. Abscissa apps use default-features=false
+    "time"
+]
 application = [
     "config",
     "errors",
@@ -42,6 +47,10 @@ application = [
     "semver",
     "status"
 ]
+cli = [
+    "abscissa_generator",
+    "inflector"
+]
 config = [
     "secrets",
     "serde",
@@ -49,9 +58,7 @@ config = [
     "toml"
 ]
 errors = []
-generator = [
-    "abscissa_generator"
-]
+inflector = ["heck"]
 logging = [
     "errors",
     "log",
@@ -69,9 +76,14 @@ shell = [
     "term",
 ]
 status = ["shell"]
+time = ["chrono"]
 
 [badges]
 travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [workspace]
-members = [".", "abscissa_derive", "abscissa_generator"]
+members = [
+    ".",
+    "abscissa_derive",
+    "abscissa_generator"
+]
