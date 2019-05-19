@@ -30,14 +30,10 @@ matrix:
     - name: test
       script:
         - cargo test --release --all --all-features
+    - name: test (Rust 1.34.0)
+      rust: 1.34.0
+      script:
+        - cargo test --release --all --all-features
     - name: doc
       script:
-        - cargo doc --all-features
-    - name: abscissa new (fmt + test + run + clippy)
-      script:
-        - cargo run --release -- new /tmp/example_app --patch-crates-io="abscissa = { path = \"$PWD\" }"
-        - cd /tmp/example_app
-        - cargo fmt -- --check
-        - cargo test --release
-        - cargo run -- --version
-        - cargo clippy
+        - cargo doc --all --all-features
