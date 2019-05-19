@@ -19,9 +19,13 @@ or network/web services), aiming to provide a large number of features with a
   improvements which provide better UX and tighter integration with the other
   parts of the framework (e.g. overriding configuration settings using
   command-line options).
-- **configuration**: declarative global configuration support using an `RwLock`
-  on a `lazy_static`. Simple parsing of TOML configurations to serde-parsed
-  global structures which can be dynamically updated at runtime.
+- **components**: Abscissa uses a component architecture (similar to an ECS)
+  for extensibility/composability, with a minimalist implementation that still
+  provides such features such as calculating dependency ordering and providing
+  hooks into the application lifecycle. Newly generated apps use two components
+  by default: `shell` and `logging`.
+- **configuration**: Simple parsing of TOML configurations to serde-parsed
+  configuration types which can be dynamically updated at runtime.
 - **error handling**: generic `Error` type based on the `failure` crate, and a
   unified error-handling subsystem.
 - **logging**: uses the `log` and `simplelog` crates to automatically configure
@@ -33,6 +37,10 @@ or network/web services), aiming to provide a large number of features with a
 - **shell interactions**: support for colored terminal output (with color
   support autodetection). Useful for Cargo-like status messages with
   easy-to-use macros.
+
+## Requirements
+
+- Rust 1.34+
 
 ## Usage
 
@@ -166,6 +174,16 @@ The word "abscissa" is also the key to the [Kryptos K2] panel.
 The main way to test framework changes is by generating an application with
 Abscissa's built-in application generator and running tests against the
 generated application (also rustfmt, clippy).
+
+To generate a test application and test it automatically, you can simply do:
+
+```
+$ cargo test
+```
+
+However, when debugging test failures against a generated app, it's helpful to
+know how to drive the app generation and testing process manually. Below are
+instructions on how to do so. 
 
 If you've already run:
 
