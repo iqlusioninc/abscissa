@@ -1,159 +1,195 @@
 //! Trait for representing an Abscissa application and it's lifecycle
 
-mod components;
-mod exit;
+pub(crate) mod exit;
+mod name;
+mod reader;
+mod state;
+mod writer;
 
-pub use self::{
-    components::{Component, Components},
-    exit::*,
-};
+pub use self::{exit::fatal_error, name::Name, reader::Reader, state::State, writer::Writer};
+
 use crate::{
+    callable::Callable,
     command::Command,
-    config::{self, Config, Loader as _},
-    error::FrameworkError,
+    component::{self, Component},
+    config::{Config, Configurable},
+    error::{FrameworkError, FrameworkErrorKind::*},
     logging::{LoggingComponent, LoggingConfig},
+    path::{AbsPathBuf, ExePath, RootPath},
     shell::{ColorConfig, ShellComponent},
-    util::{self, CanonicalPathBuf, Version},
+    shutdown::Shutdown,
+    Version,
 };
-use std::str::FromStr;
+use std::{env, process, vec};
 
-/// Core Abscissa trait used for managing the application lifecycle.
-/// Core Abscissa trait used for managing the application lifecycle.
+/// Application types implementing this trait own global application state,
+/// including configuration and arbitrary other values stored within
+/// application components.
 ///
-/// The `Application` trait ties together the `GlobalConfig`, `Options`, and
-/// `Error` types for a particular application.
+/// Application lifecycle is handled by a set of components owned by types
+/// implementing this trait. It also ties together the following:
 ///
-/// It provides the main framework entrypoint: `Application::boot()`, which
-/// will parse command line options and launch a given application.
-// TODO: custom derive support, i.e. `derive(Command)`
+/// - `Cmd`: application entrypoint
+/// - `Config `: application configuration
+/// - `Paths`: paths to various resources within the application
 #[allow(unused_variables)]
-pub trait Application: Send + Sized + Sync {
-    /// Application (sub)command which serves as the main entry point
-    type Cmd: Command + config::Loader<Self::Config>;
+pub trait Application: Default + Sized {
+    /// Application (sub)command which serves as the main entry point.
+    type Cmd: Command + Configurable<Self::Cfg>;
 
-    /// Configuration type used by this application
-    type Config: Config;
+    /// Configuration type used by this application.
+    type Cfg: Config;
 
-    /// Get a read lock on the application's global configuration
-    fn config(&self) -> config::Reader<Self::Config>;
+    /// Paths to application resources,
+    type Paths: ExePath + RootPath;
 
-    /// Name of this application as a string
+    /// Run application with the given command-line arguments and running the
+    /// appropriate `Command` type.
+    fn run<I>(app_state: &'static State<Self>, args: I)
+    where
+        I: IntoIterator<Item = String>,
+    {
+        // Parse command line options
+        let command = Self::Cmd::from_args(args);
+
+        // Initialize application
+        let mut app = Self::default();
+        app.init(&command).unwrap_or_else(|e| fatal_error!(&app, e));
+        app_state.set(app);
+
+        // Run the command
+        command.call();
+
+        // Exit gracefully
+        let mut app = app_state.get_mut();
+        app.shutdown(&Shutdown::Graceful);
+    }
+
+    /// Accessor for application configuration.
+    fn config(&self) -> Option<&Self::Cfg>;
+
+    /// Borrow the component registry for this application.
+    fn components(&self) -> &component::Registry<Self>;
+
+    /// Locations of various paths used by the application.
+    fn paths(&self) -> &Self::Paths;
+
+    /// Register all components used by this application
+    fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError>;
+
+    /// Post-configuration lifecycle callback.
+    ///
+    /// Called regardless of whether config is loaded to indicate this is the
+    /// time in app lifecycle when configuration would be loaded if
+    /// possible.
+    ///
+    /// This method is responsible for invoking the `after_config` handlers on
+    /// all components in the registry. This is presently done in the standard
+    /// application template, but is not otherwise handled directly by the
+    /// framework (as ownership precludes it).
+    fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError>;
+
+    /// Load this application's configuration and initialize its components.
+    fn init(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
+        // Create and register components with the application.
+        // We do this first to calculate a proper dependency ordering before
+        // application configuration is processed
+        self.register_components(command)?;
+
+        // Load configuration
+        let config = command
+            .config_path()
+            .map(|_| self.load_config(command))
+            .transpose()?;
+
+        // Fire callback regardless of whether any config was loaded to
+        // in order to signal state in the application lifecycle
+        self.after_config(config)?;
+
+        Ok(())
+    }
+
+    /// Initialize the framework's default set of components, potentially
+    /// sourcing shell and logging options from command line arguments.
+    fn framework_components(
+        &mut self,
+        command: &Self::Cmd,
+    ) -> Result<Vec<Box<dyn Component<Self>>>, FrameworkError> {
+        let shell = ShellComponent::new(self.term_colors(command));
+        let logging = LoggingComponent::new(self.logging_config(command));
+        Ok(vec![Box::new(shell), Box::new(logging)])
+    }
+
+    /// Load configuration from command's `config_path()`.
+    ///
+    /// Returns an error if the configuration could not be loaded or if the
+    /// command's `config_path()` is none.
+    fn load_config(&mut self, command: &Self::Cmd) -> Result<Self::Cfg, FrameworkError> {
+        // Only attempt to load configuration if `config_path` returned the
+        // path to a configuration file.
+        if let Some(ref path) = command.config_path() {
+            let canonical_path = AbsPathBuf::canonicalize(path)
+                .map_err(|e| err!(ConfigError, "invalid path '{}': {}", path.display(), e))?;
+
+            command.load_config_file(&canonical_path).map_err(|e| {
+                err!(
+                    ConfigError,
+                    "error loading config from '{}': {}",
+                    canonical_path.display(),
+                    e
+                )
+            })
+        } else {
+            fail!(PathError, "no config path for command: {:?}", command);
+        }
+    }
+
+    /// Name of this application as a string.
     fn name(&self) -> &'static str {
         Self::Cmd::name()
     }
 
-    /// Description of this application
+    /// Description of this application.
     fn description(&self) -> &'static str {
         Self::Cmd::description()
     }
 
-    /// Version of this application
+    /// Version of this application.
     fn version(&self) -> Version {
-        Version::from_str(Self::Cmd::version()).unwrap_or_else(|e| fatal_error!(self, e))
+        Self::Cmd::version()
+            .parse::<Version>()
+            .unwrap_or_else(|e| fatal_error!(self, e))
     }
 
-    /// Authors of this application
+    /// Authors of this application.
     fn authors(&self) -> Vec<String> {
         Self::Cmd::authors().split(':').map(str::to_owned).collect()
     }
 
-    /// Path to this application's binary
-    fn bin(&self) -> CanonicalPathBuf {
-        // TODO: handle errors?
-        util::current_exe().unwrap()
-    }
-
-    /// Color configuration for this application
-    fn color_config(&self, command: &Self::Cmd) -> ColorConfig {
+    /// Color configuration for this application.
+    fn term_colors(&self, command: &Self::Cmd) -> ColorConfig {
         ColorConfig::default()
     }
 
-    /// Load this application's configuration and initialize its components
-    fn init(
-        &mut self,
-        command: &Self::Cmd,
-        config: &config::Guard<Self::Config>,
-    ) -> Result<Components, FrameworkError> {
-        // Load configuration via the root command's `config::Loader` trait.
-        // We do this first to ensure that the configuration is loaded before
-        // the rest of the framework is initialized.
-        command.load_config(config)?;
-
-        // Create the application's components
-        let mut components = self.components(command)?;
-
-        // Initialize the components
-        components.init(self)?;
-
-        // Return the components
-        Ok(components)
-    }
-
-    /// Get this application's components
-    fn components(&self, command: &Self::Cmd) -> Result<Components, FrameworkError> {
-        Ok(Components::new(vec![
-            Box::new(ShellComponent::new(self.color_config(command))),
-            Box::new(LoggingComponent::new(self.logging_config(command))),
-        ]))
-    }
-
-    /// Get the logging configuration for this application
+    /// Get the logging configuration for this application.
     fn logging_config(&self, command: &Self::Cmd) -> LoggingConfig {
         LoggingConfig::default()
     }
 
-    /// Get a path associated with this application
-    fn path(&self, path_type: ApplicationPath) -> Result<CanonicalPathBuf, FrameworkError> {
-        Ok(match path_type {
-            ApplicationPath::AppRoot => self.bin().parent()?,
-            ApplicationPath::Bin => self.bin(),
-            ApplicationPath::Secrets => self.bin().parent()?.join("secrets")?,
-        })
-    }
-
-    /// Register a componen\t with this application. By default do nothing.
-    fn register(&self, component: &dyn Component) -> Result<(), FrameworkError> {
-        Ok(())
-    }
-
-    /// Register a component with this application. By default do nothing.
-    fn unregister(&self, component: &dyn Component) -> Result<(), FrameworkError> {
-        Ok(())
-    }
-
-    /// Shut down this application gracefully, exiting with success
-    fn shutdown(&self, components: Components) -> ! {
-        shutdown(self, components)
+    /// Shut down this application gracefully, exiting with success.
+    fn shutdown(&mut self, shutdown: &Shutdown) -> ! {
+        match self.components().shutdown(self, shutdown) {
+            Ok(()) => process::exit(0),
+            Err(e) => fatal_error(self, &e.into()),
+        }
     }
 }
 
-/// Various types of paths within an application
-#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
-pub enum ApplicationPath {
-    /// Root directory for this application
-    AppRoot,
-
-    /// Path to the application's compiled binary
-    Bin,
-
-    /// Path to the application's secrets directory
-    Secrets,
-}
-
-/// Boot an application of the given type, parsing command-line options from
-/// the environment and running the appropriate `Command` type.
-pub fn boot<A: Application>(mut app: A, config: &config::Guard<A::Config>) -> ! {
-    // Parse command line options
-    let command = A::Cmd::from_env_args();
-
-    // Initialize the application
-    let components = app
-        .init(&command, config)
-        .unwrap_or_else(|e| fatal_error!(&app, e));
-
-    // Run the command
-    command.run(&app);
-
-    // Exit gracefully
-    app.shutdown(components)
+/// Boot the given application, parsing subcommand and options from
+/// command-line arguments, and terminating when complete.
+pub fn boot<A: Application>(app_state: &'static State<A>) -> ! {
+    let mut args = env::args();
+    assert!(args.next().is_some(), "expected one argument but got zero");
+    A::run(app_state, args);
+    process::exit(0);
 }

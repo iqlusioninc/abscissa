@@ -3,18 +3,13 @@
 use failure::Error;
 use std::process;
 
-use super::{Application, Component, Components};
-
-/// Exit gracefully (returning a status code of 0)
-pub fn shutdown<A: Application>(app: &A, components: Components) -> ! {
-    match components.shutdown(app) {
-        Ok(()) => process::exit(0),
-        Err(e) => fatal_error(app, &e.into()),
-    }
-}
+use super::{Application, Component};
 
 /// Print a fatal error message and exit
-pub fn fatal_error<A: Application>(app: &A, err: &Error) -> ! {
+pub fn fatal_error<A>(app: &A, err: &Error) -> !
+where
+    A: Application,
+{
     status_err!("{} fatal error: {}", app.name(), err);
     process::exit(1)
 }
@@ -23,18 +18,12 @@ pub fn fatal_error<A: Application>(app: &A, err: &Error) -> ! {
 /// This is a barebones implementation using basic std facilities
 /// because it might be called before the shell component has been
 /// started, and we can't use it to log errors about itself.
-pub(crate) fn bad_component_order(a: &dyn Component, b: &dyn Component) -> ! {
+pub(crate) fn bad_component_order<A>(a: &dyn Component<A>, b: &dyn Component<A>) -> !
+where
+    A: Application,
+{
     eprintln!("*** error(abscissa): couldn't determine startup order for components:");
     eprintln!(" - {:?}", a);
     eprintln!(" - {:?}", b);
     process::exit(1)
-}
-
-/// Exit because we encountered a duplicate component name
-pub(crate) fn duplicate_component_name(component: &dyn Component) -> ! {
-    eprintln!(
-        "*** error(abscissa): component with duplicate name: {:?}",
-        component
-    );
-    process::exit(1);
 }

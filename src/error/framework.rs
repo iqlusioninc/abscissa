@@ -1,10 +1,6 @@
 use super::Error;
-#[cfg(feature = "toml")]
-use crate::util::toml;
 use failure::Fail;
 use std::io;
-#[cfg(feature = "term")]
-use term;
 
 /// Types of errors which occur internally within the framework
 #[derive(Fail, Clone, Debug, Eq, PartialEq)]
@@ -25,6 +21,10 @@ pub enum FrameworkErrorKind {
     /// Couldn't parse the given value
     #[fail(display = "parse error")]
     ParseError,
+
+    /// Errors associated with filesystem paths
+    #[fail(display = "path error")]
+    PathError,
 }
 
 impl From<io::Error> for FrameworkError {

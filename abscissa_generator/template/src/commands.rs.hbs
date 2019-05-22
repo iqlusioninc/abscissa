@@ -1,28 +1,40 @@
 //! {{title}} Subcommands
+//!
+//! This is where you specify the subcommands of your application.
+//!
+//! The default application comes with two subcommands:
+//!
+//! - `start`: launches the application
+//! - `version`: print application version
+//!
+//! See the `impl Configurable` below for how to specify the path to the
+//! application's configuration file.
 
-mod hello;
+mod start;
 mod version;
 
-use self::{hello::HelloCommand, version::VersionCommand};
+use self::{start::StartCommand, version::VersionCommand};
 use crate::config::{{~config_type~}};
-use abscissa::{config, Callable, Command, Options};
+use abscissa::{Callable, Command, Configurable, Options};
 use std::path::PathBuf;
 
 /// {{title}} Subcommands
 #[derive(Callable, Command, Debug, Options)]
 pub enum {{command_type}} {
-    /// The `hello` subcommand
-    #[options(help = "print hello world")]
-    Hello(HelloCommand),
+    /// The `start` subcommand
+    #[options(help = "start the application")]
+    Start(StartCommand),
 
     /// The `version` subcommand
     #[options(help = "display version information")]
     Version(VersionCommand),
 }
 
-impl config::Loader<{{~config_type~}}> for {{command_type}} {
-    // TODO: parse configuration path from command-line options or `EntryPoint`
+/// This trait allows you to define how applicaiton configuration is loaded.
+impl Configurable<{{~config_type~}}> for {{command_type}} {
     fn config_path(&self) -> Option<PathBuf> {
+        // Have `config_path` return `Some(path)` in order to trigger the
+        // application configuration being loaded.
         None
     }
 }

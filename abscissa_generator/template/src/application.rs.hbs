@@ -1,24 +1,95 @@
 //! {{title}} Abscissa Application
 
-use crate::{
-    commands::{{~command_type~}},
-    config::{ {{~config_type~}}, APP_CONFIG},
+use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
+use abscissa::{
+    application, component, Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths,
 };
-use abscissa::{self, Application, EntryPoint, LoggingConfig};
+use lazy_static::lazy_static;
+
+lazy_static! {
+    /// Application state
+    pub static ref APPLICATION: application::State<{{~application_type~}}> = application::State::default();
+}
 
 /// {{title}} Application
 #[derive(Debug)]
-pub struct {{application_type~}};
+pub struct {{application_type}} {
+    /// Application configuration.
+    config: Option<{{~config_type~}}>,
+
+    /// Application components.
+    components: component::Registry<Self>,
+
+    /// Application paths.
+    paths: StandardPaths,
+}
+
+/// Initialize a new application instance.
+///
+/// By default no configuration is loaded, and the component set is
+/// empty. Both of these are initialized later in the application
+/// lifecycle by the callbacks below.
+impl Default for {{application_type}} {
+    fn default() -> Self {
+        Self {
+            config: None,
+            components: component::Registry::default(),
+            paths: StandardPaths::default(),
+        }
+    }
+}
 
 impl Application for {{application_type}} {
+    /// Entrypoint command for this application.
     type Cmd = EntryPoint<{{~command_type~}}>;
-    type Config = {{config_type~}};
 
-    /// Get a read lock on the application's global configuration
-    fn config(&self) -> abscissa::config::Reader<Self::Config> {
-        APP_CONFIG.get()
+    /// Application configuration.
+    type Cfg = {{config_type~}};
+
+    /// Paths to resources within the application.
+    type Paths = StandardPaths;
+
+    /// Accessor for application configuration.
+    fn config(&self) -> Option<&{{~config_type}}> {
+        self.config.as_ref()
     }
 
+    /// Borrow the component registry for this application.
+    fn components(&self) -> &component::Registry<Self> {
+        &self.components
+    }
+
+    /// Locations of various paths used by the application.
+    fn paths(&self) -> &StandardPaths {
+        &self.paths
+    }
+
+    /// Register all components used by this application.
+    ///
+    /// If you would like to add additional components to your application
+    /// beyond the default ones provided by the framework, this is the place
+    /// to do so.
+    fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
+        let components = self.framework_components(command)?;
+        self.components.register(components)
+    }
+
+    /// Post-configuration lifecycle callback.
+    ///
+    /// Called regardless of whether config is loaded to indicate this is the
+    /// time in app lifecycle when configuration would be loaded if
+    /// possible.
+    fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError> {
+        // Provide configuration to all component `after_config()` handlers
+        for component in self.components.iter_mut() {
+            component.after_config(config.as_ref())?;
+        }
+
+        self.config = config;
+        Ok(())
+    }
+
+    /// Get logging configuration from command-line options
     fn logging_config(&self, command: &EntryPoint<{{~command_type~}}>) -> LoggingConfig {
         if command.verbose {
             LoggingConfig::verbose()

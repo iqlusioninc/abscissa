@@ -1,4 +1,4 @@
-//! Callables are callbacks used commands
+//! Callables are callbacks (primarily intended to provide the entrypoint for commands)
 
 /// Something which can be called
 pub trait Callable {

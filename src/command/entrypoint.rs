@@ -1,6 +1,6 @@
 //! Toplevel entrypoint command.
 
-use crate::{config, Callable, Command, Options};
+use crate::{Callable, Command, Config, Configurable, Options};
 use std::path::PathBuf;
 
 /// Toplevel entrypoint command.
@@ -74,13 +74,13 @@ where
     }
 }
 
-impl<Cfg, Cmd> config::Loader<Cfg> for EntryPoint<Cmd>
+impl<Cfg, Cmd> Configurable<Cfg> for EntryPoint<Cmd>
 where
-    Cmd: Callable + Command + config::Loader<Cfg>,
-    Cfg: config::Config,
+    Cmd: Callable + Command + Configurable<Cfg>,
+    Cfg: Config,
 {
     /// Path to the command's configuration file. Returns an error by default.
     fn config_path(&self) -> Option<PathBuf> {
-        self.command.as_ref().and_then(config::Loader::config_path)
+        self.command.as_ref().and_then(Configurable::config_path)
     }
 }

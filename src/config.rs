@@ -1,13 +1,11 @@
 //! Support for managing global configuration, as well as loading it from TOML
 
-mod guard;
-mod loader;
-mod reader;
+mod configurable;
 
-pub use self::{guard::Guard, loader::Loader, reader::Reader};
+pub use self::configurable::Configurable;
 use crate::{
     error::{FrameworkError, FrameworkErrorKind::ConfigError},
-    util::CanonicalPath,
+    path::AbsPath,
 };
 #[doc(hidden)]
 pub use abscissa_derive::Config;
@@ -25,7 +23,7 @@ pub trait Config: Clone + Debug + DeserializeOwned + Serialize {
     /// If an error occurs reading or parsing the file, print it out and exit.
     fn load_toml_file<P>(path: &P) -> Result<Self, FrameworkError>
     where
-        P: AsRef<CanonicalPath>,
+        P: AsRef<AbsPath>,
     {
         let mut file = File::open(path.as_ref()).map_err(|e| {
             err!(

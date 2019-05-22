@@ -2,7 +2,7 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa::{status_err, status_ok, util::inflector::TitleCase, Callable, Command, Options};
+use abscissa::{inflector::TitleCase, status_err, status_ok, Callable, Command, Options};
 use abscissa_generator::{
     properties::{self, Properties},
     template::{Collection, Template},

@@ -1,9 +1,9 @@
 //! Marker newtype for more carefully handling secret values
 //! (e.g. passwords, cryptographic keys, access tokens or other credentials)
 
-use crate::util::Zeroize;
 use serde::de::{Deserialize, DeserializeOwned, Deserializer};
 use std::fmt::{self, Debug};
+use zeroize::Zeroize;
 
 /// Marker newtype for serde-serializable values that contain secrets
 /// (e.g. passwords, cryptographic keys, access tokens or other credentials)

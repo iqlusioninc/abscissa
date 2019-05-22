@@ -1,13 +1,11 @@
 //! {{title}} Config
+//!
+//! See instructions in `commands.rs` to specify the path to your
+//! application's configuration file and/or command-line options
+//! for specifying it.
 
-use abscissa::config::{Config, Guard};
-use lazy_static::lazy_static;
+use abscissa::Config;
 use serde::{Deserialize, Serialize};
-
-lazy_static! {
-    /// Application configuration
-    pub static ref APP_CONFIG: Guard<{{~config_type~}}> = Guard::default();
-}
 
 /// {{title}} Configuration
 #[derive(Clone, Config, Debug, Deserialize, Serialize)]
