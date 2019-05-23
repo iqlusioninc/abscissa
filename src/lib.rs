@@ -130,8 +130,6 @@ pub mod error;
 pub mod logging;
 #[cfg(feature = "errors")]
 pub mod path;
-#[cfg(feature = "secrets")]
-pub mod secrets;
 #[cfg(feature = "shell")]
 pub mod shell;
 #[cfg(feature = "application")]
@@ -173,5 +171,7 @@ pub use crate::{
 pub use chrono as time;
 #[cfg(feature = "inflector")]
 pub use heck as inflector;
+#[cfg(feature = "secrets")]
+pub use secrecy as secrets;
 #[cfg(feature = "application")]
 pub use semver::Version;
