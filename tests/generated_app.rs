@@ -8,7 +8,7 @@ use tempfile::TempDir;
 const APP_NAME: &str = "generated_test_app";
 
 /// Cargo commands to run against the generated application
-const CARGO_COMMANDS: &[&str] = &[
+const TEST_COMMANDS: &[&str] = &[
     "fmt -- --check",
     "test --release",
     "run -- --version",
@@ -24,11 +24,11 @@ fn test_generated_app() {
     generate_app(&app_path);
     assert!(env::set_current_dir(&app_path).is_ok());
 
-    Command::new("cat").arg("Cargo.toml").status().unwrap();
-
-    for test_command in CARGO_COMMANDS {
+    for test_command in TEST_COMMANDS {
         run_cargo(test_command.split(" "));
     }
+
+    // TODO(tarcieri): Upon a successful test run, cache the target dir
 }
 
 /// Generate the app

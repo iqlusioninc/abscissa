@@ -3,9 +3,7 @@
 mod entrypoint;
 
 pub use self::entrypoint::EntryPoint;
-#[cfg(feature = "application")]
-use crate::application::Application;
-use crate::{callable::Callable, util::CanonicalPathBuf};
+use crate::{callable::Callable, path::AbsPathBuf};
 use gumdrop::Options;
 use std::{fmt::Debug, process::exit};
 
@@ -62,20 +60,6 @@ pub trait Command: Callable + Debug + Options {
         assert!(args.next().is_some(), "expected one argument but got zero");
         Self::from_args(args)
     }
-
-    /// Main entry point for commands run as part of applications. This is
-    /// called for the `Application::Cmd` associated type after parsing the
-    /// `Command`, loading the application's configuration, and initializing
-    /// all of its subcomponents (e.g. shell renderer, logging)
-    #[cfg(feature = "application")]
-    #[allow(unused_variables)]
-    fn run<A: Application>(&self, app: &A) {
-        self.call();
-    }
-
-    //
-    // TODO: the methods below should probably be factored into `Option`
-    //
 
     /// Print package name and version
     fn print_package_info() {
@@ -177,7 +161,7 @@ pub trait Command: Callable + Debug + Options {
 /// Commands which know the path to their configuration
 pub trait CommandConfig {
     /// Path from which to load this command's configuration
-    fn config_path(&self) -> Option<CanonicalPathBuf> {
+    fn config_path(&self) -> Option<AbsPathBuf> {
         None
     }
 }

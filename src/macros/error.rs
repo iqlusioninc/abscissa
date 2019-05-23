@@ -30,6 +30,19 @@ macro_rules! fail {
     };
 }
 
+/// Ensure a condition holds, returning an error if it doesn't (ala assert)
+#[macro_export]
+macro_rules! ensure {
+    ($cond:expr, $kind:path, $msg:expr) => {
+        if !($cond) {
+            return Err(err!($kind, $msg).into());
+        }
+    };
+    ($cond:expr, $kind:path, $fmt:expr, $($arg:tt)+) => {
+        ensure!($cond, $kind, format!($fmt, $($arg)+))
+    };
+}
+
 /// Terminate the application with a fatal error, running Abscissa's shutdown hooks.
 ///
 /// This macro is useful in cases where you don't have a particular error type

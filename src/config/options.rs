@@ -1,4 +1,7 @@
-use options::Options;
+//! Support for sourcing/overriding configuration values from arguments
+//! given on the command-line.
+
+use crate::options::Options;
 
 /// Merge the given options into this configuration. This allows setting of
 /// global configuration values using command-line options, and also unifies

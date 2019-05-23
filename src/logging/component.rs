@@ -1,5 +1,5 @@
 use super::LoggingConfig;
-use crate::{Component, FrameworkError, Version};
+use crate::{component, Application, Component, FrameworkError, Version};
 
 /// Abscissa component for initializing the logging subsystem
 #[derive(Debug, Default)]
@@ -12,10 +12,14 @@ impl LoggingComponent {
     }
 }
 
-impl Component for LoggingComponent {
+// TODO: shutdown handler?
+impl<A> Component<A> for LoggingComponent
+where
+    A: Application,
+{
     /// Name of this component
-    fn name(&self) -> &'static str {
-        "logging"
+    fn name(&self) -> component::Name {
+        component::Name("LoggingComponent")
     }
 
     /// Version of this component
@@ -24,8 +28,7 @@ impl Component for LoggingComponent {
     }
 
     /// Initialize this component at the time the framework boots
-    fn init(&mut self) -> Result<(), FrameworkError> {
-        // TODO: shutdown handler?
+    fn after_config(&mut self, _config: Option<&A::Cfg>) -> Result<(), FrameworkError> {
         super::init(self.0)
     }
 }

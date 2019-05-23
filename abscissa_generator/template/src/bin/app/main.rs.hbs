@@ -1,9 +1,8 @@
 //! Main entry point for {{title}}
 
-use {{name}}::application::{{~application_type~}};
-use {{name}}::config::APP_CONFIG;
+use {{name}}::application::APPLICATION;
 
 /// Boot {{title}}
 fn main() {
-    abscissa::boot({{~application_type~}}, &APP_CONFIG);
+    abscissa::boot(&APPLICATION);
 }

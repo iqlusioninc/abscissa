@@ -1,8 +1,8 @@
-//! `hello` subcommand - example of how to write a subcommand
+//! `start` subcommand - example of how to write a subcommand
 
 use abscissa::{Callable, Command, Options};
 
-/// `hello` subcommand
+/// `start` subcommand
 ///
 /// The `Options` proc macro generates an option parser based on the struct
 /// definition, and is defined in the `gumdrop` crate. See their documentation
@@ -10,13 +10,13 @@ use abscissa::{Callable, Command, Options};
 ///
 /// <https://docs.rs/gumdrop/>
 #[derive(Command, Debug, Options)]
-pub struct HelloCommand {
+pub struct StartCommand {
     /// To whom are we saying hello?
     #[options(free)]
     recipient: Option<String>,
 }
 
-impl Callable for HelloCommand {
+impl Callable for StartCommand {
     /// Print "Hello, world!"
     fn call(&self) {
         match &self.recipient {

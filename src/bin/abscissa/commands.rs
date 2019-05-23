@@ -5,7 +5,7 @@ mod version;
 
 use self::{new::NewCommand, version::VersionCommand};
 use super::config::CliConfig;
-use abscissa::{config, Callable, Command, Options};
+use abscissa::{Callable, Command, Configurable, Options};
 use std::path::PathBuf;
 
 /// Abscissa CLI Subcommands
@@ -18,7 +18,7 @@ pub enum CliCommand {
     Version(VersionCommand),
 }
 
-impl config::Loader<CliConfig> for CliCommand {
+impl Configurable<CliConfig> for CliCommand {
     fn config_path(&self) -> Option<PathBuf> {
         None
     }

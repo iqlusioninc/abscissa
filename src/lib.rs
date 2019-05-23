@@ -120,17 +120,22 @@ pub mod application;
 mod callable;
 #[cfg(feature = "options")]
 mod command;
+#[cfg(feature = "application")]
+pub mod component;
 #[cfg(feature = "config")]
 pub mod config;
 #[cfg(feature = "errors")]
 pub mod error;
 #[cfg(feature = "logging")]
 pub mod logging;
+#[cfg(feature = "errors")]
+pub mod path;
 #[cfg(feature = "secrets")]
 pub mod secrets;
 #[cfg(feature = "shell")]
 pub mod shell;
-pub mod util;
+#[cfg(feature = "application")]
+mod shutdown;
 
 #[doc(hidden)]
 pub use abscissa_derive::{Callable, Command};
@@ -139,21 +144,34 @@ pub use gumdrop::Options;
 #[cfg(feature = "options")]
 pub use gumdrop_derive::*;
 
-#[cfg(feature = "application")]
-pub use application::{boot, Application, ApplicationPath, Component, Components};
-#[cfg(feature = "options")]
-pub use callable::Callable;
-#[cfg(feature = "options")]
-pub use command::{Command, EntryPoint};
 #[cfg(feature = "config")]
-pub use config::Config;
+pub use crate::config::{Config, Configurable};
 #[cfg(feature = "errors")]
-pub use error::{Error, Fail, FrameworkError, FrameworkErrorKind};
+pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
-pub use logging::LoggingConfig;
+pub use crate::logging::LoggingConfig;
 #[cfg(feature = "secrets")]
-pub use secrets::Secret;
+pub use crate::secrets::Secret;
 #[cfg(feature = "shell")]
-pub use shell::{status, ColorConfig, Stream};
+pub use crate::shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
-pub use util::{CanonicalPath, CanonicalPathBuf, Version};
+pub use crate::{
+    application::{boot, Application},
+    component::Component,
+    shutdown::Shutdown,
+};
+#[cfg(feature = "options")]
+pub use crate::{
+    callable::Callable,
+    command::{Command, EntryPoint},
+    path::StandardPaths,
+};
+
+// Re-exported modules/types from third-party crates
+
+#[cfg(feature = "time")]
+pub use chrono as time;
+#[cfg(feature = "inflector")]
+pub use heck as inflector;
+#[cfg(feature = "application")]
+pub use semver::Version;
