@@ -67,9 +67,15 @@ where
     I: IntoIterator<Item = S> + Clone,
     S: AsRef<OsStr>,
 {
+    let prefix = if atty::is(atty::Stream::Stdout) {
+        "\x1b[1;32m+\x1b[1;37m run\x1b[0m: cargo"
+    } else {
+        "+ run: cargo"
+    };
+
     // Display the cargo command we're executing before we run it
     assert!(Command::new("echo")
-        .arg("+ cargo")
+        .arg(prefix)
         .args(args.clone())
         .status()
         .unwrap()

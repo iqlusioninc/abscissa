@@ -112,8 +112,6 @@ pub mod macros;
 #[cfg(feature = "application")]
 pub mod application;
 #[cfg(feature = "options")]
-mod callable;
-#[cfg(feature = "options")]
 mod command;
 #[cfg(feature = "application")]
 pub mod component;
@@ -125,17 +123,22 @@ pub mod error;
 pub mod logging;
 #[cfg(feature = "errors")]
 pub mod path;
+mod runnable;
 #[cfg(feature = "shell")]
 pub mod shell;
 #[cfg(feature = "application")]
 mod shutdown;
 
+// Proc macros
+
 #[doc(hidden)]
-pub use abscissa_derive::{Callable, Command};
+pub use abscissa_derive::{Command, Runnable};
 #[cfg(feature = "options")]
 pub use gumdrop::Options;
 #[cfg(feature = "options")]
 pub use gumdrop_derive::*;
+
+// Re-exports
 
 #[cfg(feature = "config")]
 pub use crate::config::{Config, Configurable};
@@ -143,6 +146,7 @@ pub use crate::config::{Config, Configurable};
 pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
+pub use crate::runnable::Runnable;
 #[cfg(feature = "secrets")]
 pub use crate::secrets::Secret;
 #[cfg(feature = "shell")]
@@ -155,7 +159,6 @@ pub use crate::{
 };
 #[cfg(feature = "options")]
 pub use crate::{
-    callable::Callable,
     command::{Command, EntryPoint},
     path::StandardPaths,
 };

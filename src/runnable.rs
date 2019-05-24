@@ -1,18 +1,22 @@
-//! Callables are callbacks (primarily intended to provide the entrypoint for commands)
+//! `Runnable` trait.
 
-/// Something which can be called
-pub trait Callable {
+/// `Runnable` is a common trait for things which can be run without any
+/// arguments.
+///
+/// Its primary intended purpose is for use in conjunction with `Command`.
+
+pub trait Runnable {
     /// Call this callable (i.e. command), running its behavior
-    fn call(&self);
+    fn run(&self);
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::Callable;
+    use crate::Runnable;
     use std::sync::Mutex;
 
     #[allow(dead_code)]
-    #[derive(Callable)]
+    #[derive(Runnable)]
     enum TestEnum {
         A(VariantA),
         B(VariantB),
@@ -21,8 +25,8 @@ mod tests {
     #[allow(dead_code)]
     struct VariantA {}
 
-    impl Callable for VariantA {
-        fn call(&self) {
+    impl Runnable for VariantA {
+        fn run(&self) {
             panic!("don't call this!")
         }
     }
@@ -39,8 +43,8 @@ mod tests {
         }
     }
 
-    impl Callable for VariantB {
-        fn call(&self) {
+    impl Runnable for VariantB {
+        fn run(&self) {
             let mut called = self.called.lock().unwrap();
             *called = true;
         }
@@ -52,7 +56,7 @@ mod tests {
         assert!(!variant_b.was_called());
 
         let ex = TestEnum::B(variant_b);
-        ex.call();
+        ex.run();
 
         let variant_b = match ex {
             TestEnum::A(_) => panic!("this shouldn't be!"),

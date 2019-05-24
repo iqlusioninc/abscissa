@@ -3,15 +3,14 @@
 mod entrypoint;
 
 pub use self::entrypoint::EntryPoint;
-use crate::{callable::Callable, path::AbsPathBuf};
+use crate::{path::AbsPathBuf, runnable::Runnable};
 use gumdrop::Options;
 use std::{fmt::Debug, process::exit};
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `call()` method which can be used to invoke the given
 /// (sub)command.
-// TODO: custom derive support, i.e. `derive(Command)`
-pub trait Command: Callable + Debug + Options {
+pub trait Command: Debug + Options + Runnable {
     /// Name of this program as a string
     fn name() -> &'static str;
 
@@ -168,13 +167,13 @@ pub trait CommandConfig {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Callable, Command, Options};
+    use crate::{Command, Options, Runnable};
 
     #[derive(Command, Debug, Options)]
     pub struct DummyCommand {}
 
-    impl Callable for DummyCommand {
-        fn call(&self) {
+    impl Runnable for DummyCommand {
+        fn run(&self) {
             panic!("unimplemented");
         }
     }

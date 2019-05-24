@@ -1,6 +1,6 @@
 //! `start` subcommand - example of how to write a subcommand
 
-use abscissa::{Callable, Command, Options};
+use abscissa::{Command, Options, Runnable};
 
 /// `start` subcommand
 ///
@@ -16,9 +16,9 @@ pub struct StartCommand {
     recipient: Option<String>,
 }
 
-impl Callable for StartCommand {
+impl Runnable for StartCommand {
     /// Print "Hello, world!"
-    fn call(&self) {
+    fn run(&self) {
         match &self.recipient {
             Some(recipient) => println!("Hello, {}!", recipient),
             None => Self::print_usage(&[]),

@@ -14,22 +14,6 @@ use proc_macro::TokenStream;
 use quote::quote;
 use synstructure::decl_derive;
 
-/// Custom derive for `abscissa::callable::Callable`
-fn derive_callable(s: synstructure::Structure) -> proc_macro2::TokenStream {
-    let body = s.each(|bi| {
-        quote! { #bi.call() }
-    });
-
-    s.gen_impl(quote! {
-        gen impl Callable for @Self {
-            fn call(&self) {
-                match *self { #body }
-            }
-        }
-    })
-}
-decl_derive!([Callable] => derive_callable);
-
 /// Custom derive for `abscissa::command::Command`
 #[proc_macro_derive(Command)]
 pub fn derive_command(input: TokenStream) -> TokenStream {
@@ -72,3 +56,19 @@ fn derive_config(s: synstructure::Structure) -> proc_macro2::TokenStream {
     })
 }
 decl_derive!([Config] => derive_config);
+
+/// Custom derive for `abscissa::runnable::Runnable`
+fn derive_runnable(s: synstructure::Structure) -> proc_macro2::TokenStream {
+    let body = s.each(|bi| {
+        quote! { #bi.run() }
+    });
+
+    s.gen_impl(quote! {
+        gen impl Runnable for @Self {
+            fn run(&self) {
+                match *self { #body }
+            }
+        }
+    })
+}
+decl_derive!([Runnable] => derive_runnable);
