@@ -3,6 +3,7 @@
 
 use std::{env, ffi::OsStr, fs, path::Path, process::Command};
 use tempfile::TempDir;
+use walkdir::WalkDir;
 
 /// Name of our test application
 const APP_NAME: &str = "generated_test_app";
@@ -22,13 +23,48 @@ fn test_generated_app() {
     let app_path = tmp.path().join(APP_NAME);
 
     generate_app(&app_path);
+
+    let target = env::current_dir()
+        .unwrap()
+        .join("target")
+        .canonicalize()
+        .unwrap();
+    let target_cache_dir = target.join(APP_NAME);
+
+    restore_target_cache(&target_cache_dir, &app_path.join("target"));
     assert!(env::set_current_dir(&app_path).is_ok());
 
     for test_command in TEST_COMMANDS {
         run_cargo(test_command.split(" "));
     }
 
-    // TODO(tarcieri): Upon a successful test run, cache the target dir
+    if target_cache_dir.exists() {
+        fs::remove_dir_all(&target_cache_dir).unwrap();
+    }
+
+    fs::rename("target", &target_cache_dir).unwrap();
+}
+
+/// Restore the cached `target/` directory (if one exists)
+fn restore_target_cache(src: &Path, dst: &Path) {
+    // No cache available
+    if !src.exists() {
+        return;
+    }
+
+    for entry in WalkDir::new(src) {
+        let src_path = entry.unwrap().path().to_owned();
+        let dst_path = dst.join(src_path.strip_prefix(src).unwrap());
+
+        if src_path.is_file() && !dst_path.exists() {
+            let parent = dst_path.parent().unwrap();
+
+            if !parent.exists() {
+                fs::create_dir_all(parent).unwrap();
+                fs::copy(src_path, dst_path).unwrap();
+            }
+        }
+    }
 }
 
 /// Generate the app
