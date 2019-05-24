@@ -92,13 +92,8 @@
 //! [RwLock]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
 //! [lazy_static]: https://docs.rs/lazy_static
 
-#![deny(
-    warnings,
-    missing_docs,
-    unsafe_code,
-    unused_import_braces,
-    unused_qualifications
-)]
+#![deny(warnings, missing_docs, unused_import_braces, unused_qualifications)]
+#![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
     html_root_url = "https://docs.rs/abscissa/0.0.6"
