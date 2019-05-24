@@ -5,11 +5,11 @@ mod version;
 
 use self::{new::NewCommand, version::VersionCommand};
 use super::config::CliConfig;
-use abscissa::{Callable, Command, Configurable, Options};
+use abscissa::{Command, Configurable, Options, Runnable};
 use std::path::PathBuf;
 
 /// Abscissa CLI Subcommands
-#[derive(Callable, Command, Debug, Options)]
+#[derive(Runnable, Command, Debug, Options)]
 pub enum CliCommand {
     #[options(help = "create a new Abscissa application from a template")]
     New(NewCommand),

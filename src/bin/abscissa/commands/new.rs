@@ -2,7 +2,7 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa::{inflector::TitleCase, status_err, status_ok, Callable, Command, Options};
+use abscissa::{inflector::TitleCase, status_err, status_ok, Command, Options, Runnable};
 use abscissa_generator::{
     properties::{self, Properties},
     template::{Collection, Template},
@@ -27,9 +27,9 @@ pub struct NewCommand {
     app_path: Option<PathBuf>,
 }
 
-impl Callable for NewCommand {
+impl Runnable for NewCommand {
     /// Run the Abscissa application generator
-    fn call(&self) {
+    fn run(&self) {
         let started_at = Instant::now();
         let app_properties = self.parse_options().unwrap_or_else(|e| fatal_error(e));
         let app_template = Collection::default();

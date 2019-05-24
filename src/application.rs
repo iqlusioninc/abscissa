@@ -9,13 +9,13 @@ mod writer;
 pub use self::{exit::fatal_error, name::Name, reader::Reader, state::State, writer::Writer};
 
 use crate::{
-    callable::Callable,
     command::Command,
     component::{self, Component},
     config::{Config, Configurable},
     error::{FrameworkError, FrameworkErrorKind::*},
     logging::{LoggingComponent, LoggingConfig},
     path::{AbsPathBuf, ExePath, RootPath},
+    runnable::Runnable,
     shell::{ColorConfig, ShellComponent},
     shutdown::Shutdown,
     Version,
@@ -58,7 +58,7 @@ pub trait Application: Default + Sized {
         app_state.set(app);
 
         // Run the command
-        command.call();
+        command.run();
 
         // Exit gracefully
         let mut app = app_state.get_mut();

@@ -1,13 +1,13 @@
 //! Toplevel entrypoint command.
 
-use crate::{Callable, Command, Config, Configurable, Options};
+use crate::{Command, Config, Configurable, Options, Runnable};
 use std::path::PathBuf;
 
 /// Toplevel entrypoint command.
 ///
 /// Handles obtaining toplevel help as well as verbosity settings.
 #[derive(Debug, Options)]
-pub struct EntryPoint<Cmd: Callable + Command> {
+pub struct EntryPoint<Cmd: Runnable + Command> {
     /// Path to the configuration file
     #[options(help = "path to configuration file")]
     pub config: Option<PathBuf>,
@@ -30,7 +30,7 @@ pub struct EntryPoint<Cmd: Callable + Command> {
 
 impl<Cmd> EntryPoint<Cmd>
 where
-    Cmd: Callable + Command,
+    Cmd: Runnable + Command,
 {
     /// Borrow the underlying command type or print usage info and exit
     fn command(&self) -> &Cmd {
@@ -40,18 +40,18 @@ where
     }
 }
 
-impl<Cmd> Callable for EntryPoint<Cmd>
+impl<Cmd> Runnable for EntryPoint<Cmd>
 where
-    Cmd: Callable + Command,
+    Cmd: Runnable + Command,
 {
-    fn call(&self) {
-        self.command().call()
+    fn run(&self) {
+        self.command().run()
     }
 }
 
 impl<Cmd> Command for EntryPoint<Cmd>
 where
-    Cmd: Callable + Command,
+    Cmd: Runnable + Command,
 {
     /// Name of this program as a string
     fn name() -> &'static str {
@@ -76,7 +76,7 @@ where
 
 impl<Cfg, Cmd> Configurable<Cfg> for EntryPoint<Cmd>
 where
-    Cmd: Callable + Command + Configurable<Cfg>,
+    Cmd: Runnable + Command + Configurable<Cfg>,
     Cfg: Config,
 {
     /// Path to the command's configuration file. Returns an error by default.
