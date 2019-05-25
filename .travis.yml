@@ -10,6 +10,10 @@ branches:
   only:
     - develop
 
+env:
+  global:
+    - RUST_BACKTRACE=1
+
 matrix:
   include:
     - name: audit
@@ -42,7 +46,7 @@ matrix:
       os: linux
       script:
         - cargo test --release --all --all-features
-    - name: test (rustc stable/osx)
+    - name: test (rustc stable/macos)
       rust: stable
       os: osx
       script:
