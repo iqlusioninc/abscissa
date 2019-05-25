@@ -4,10 +4,27 @@
 /// arguments.
 ///
 /// Its primary intended purpose is for use in conjunction with `Command`.
-
 pub trait Runnable {
-    /// Call this callable (i.e. command), running its behavior
+    /// Run this `Runnable`
     fn run(&self);
+}
+
+/// `RunnableMut` is a `Runnable` that takes a mutable reference to `self`.
+pub trait RunnableMut {
+    /// Run this `RunnableMut`
+    fn run(&mut self);
+}
+
+impl Runnable for Box<dyn Fn() -> ()> {
+    fn run(&self) {
+        self();
+    }
+}
+
+impl RunnableMut for Box<dyn FnMut() -> ()> {
+    fn run(&mut self) {
+        self();
+    }
 }
 
 #[cfg(test)]
