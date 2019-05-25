@@ -11,7 +11,7 @@ edition     = "2018"
 homepage    = "https://github.com/iqlusioninc/abscissa/"
 repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/"
 readme      = "README.md"
-categories  = ["command-line-interface", "rust-patterns", "web-programming"]
+categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
@@ -30,7 +30,7 @@ secrecy = { version = "0.1", optional = true }
 semver = { version = "0.9", optional = true }
 serde = { version = "1", optional = true, features = ["serde_derive"] }
 simplelog = { version = "0.5", optional = true }
-term = { version = "0.5", optional = true, default-features = false }
+termcolor = { version = "1", optional = true }
 toml = { version = "0.5", optional = true }
 
 [dev-dependencies]
@@ -47,7 +47,7 @@ inflector = ["heck"]
 logging = ["errors", "log", "simplelog"]
 options = ["errors", "gumdrop", "gumdrop_derive"]
 secrets = ["secrecy"]
-shell = ["atty", "errors", "term"]
+shell = ["atty", "errors", "termcolor"]
 status = ["shell"]
 time = ["chrono"]
 
@@ -55,8 +55,4 @@ time = ["chrono"]
 travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [workspace]
-members = [
-    ".",
-    "abscissa_derive",
-    "abscissa_generator"
-]
+members = [".", "abscissa_derive", "abscissa_generator"]

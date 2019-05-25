@@ -90,14 +90,13 @@ Here are all of Abscissa's transitive dependencies:
 | 17 | [semver-parser]  | [@steveklabnik] | Apache-2.0/MIT | no†       | Parser for semver spec  |
 | 18 | [serde]          | [serde-rs]      | Apache-2.0/MIT | yes       | Serialization framework |
 | 19 | [simplelog]      | [@drakulix]     | Apache-2.0/MIT | yes       | Simple logging facility |
-| 20 | [term]           | [@Stebalien]    | Apache-2.0/MIT | yes‡      | Terminal color support  |
+| 20 | [termcolor]      | [@BurntSushi]   | MIT/Unlicense  | no        | Terminal color support  |
 | 21 | [time]           | [rust-lang]     | Apache-2.0/MIT | yes       | Time/date library       |
 | 22 | [toml]           | [@alexcrichton] | Apache-2.0/MIT | no        | TOML parser library     |
 | 23 | [winapi]§        | [@retep998]     | Apache-2.0/MIT | yes       | Windows API bindings    |
 | 24 | [zeroize]        | [iqlusion]      | Apache-2.0     | yes       | Zero out sensitive data |
 
 * † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
-* ‡ `term` has one usage of unsafe on Windows. Other platforms do not use unsafe.
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
     which are omitted for brevity.
 
@@ -130,7 +129,6 @@ so you only compile the parts you need.
 | [abscissa_derive] | mandatory        | -         | [abscissa]  |
 | [backtrace]       | mandatory        | -         | [failure]   |
 | [backtrace-sys]   | mandatory        | -         | [backtrace] |
-| [byteorder]       | `shell`          | -         | [term]      |
 | [canonical-path]  | mandatory        | -         | [abscissa]  |
 | [cc]              | mandatory        | -         | [backtrace-sys], [zeroize] |
 | [cfg-if]          | mandatory        | -         | [backtrace] |
@@ -139,7 +137,7 @@ so you only compile the parts you need.
 | [failure_derive]  | mandatory        | -         | [failure]   |
 | [atty]            | `shell`          | -         | [abscissa]  |
 | [lazy_static]     | mandatory        | -         | [abscissa]  |
-| [libc]            | `shell`          | `unix`    | [atty]    |
+| [libc]            | `shell`          | `unix`    | [atty]      |
 | [log]             | `logging`        | -         | [abscissa]  |
 | [num-integer]     | `logging`        | -         | [chrono]    |
 | [num-traits]      | `logging`        | -         | [chrono], [num-integer] |
@@ -151,11 +149,11 @@ so you only compile the parts you need.
 | [serde]           | `config`         | -         | [abscissa]  |
 | [serde_derive]    | `config`         | -         | [serde]     |
 | [simplelog]       | `logging`        | -         | [abscissa]  |
-| [term]            | `shell`          | -         | [abscissa]  |
+| [termcolor]       | `shell`          | -         | [abscissa]  |
 | [time]            | `logging`        | -         | [chrono]    |
 | [unicode-xid]     | mandatory        | -         | [proc-macro2] |
 | [version_check]   | mandatory        | -         | [lazy_static] |
-| [winapi]§         | `shell`          | `windows` | [atty]    |
+| [winapi]§         | `shell`          | `windows` | [atty]      |
 | [zeroize]         | mandatory        | -         | [abscissa]  |
 
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
@@ -233,10 +231,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Parts of this code were taken from the [Cargo] project, which is
-Copyright (c) 2014 The Rust Project Developers and also licensed
-under the terms of the Apache License (Version 2.0).
-
 ## Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally
@@ -296,7 +290,7 @@ without any additional terms or conditions.
 [simplelog]: https://crates.io/crates/simplelog
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/
-[term]: https://crates.io/crates/term
+[termcolor]: https://crates.io/crates/termcolor
 [time]: https://crates.io/crates/time
 [toml]: https://crates.io/crates/toml
 [unicode-xid]: https://crates.io/crates/unicode-xid
@@ -317,7 +311,6 @@ without any additional terms or conditions.
 [@retep998]: https://github.com/retep998
 [@SergioBenitez]: https://github.com/SergioBenitez
 [@softprops]: https://github.com/softprops
-[@Stebalien]: https://github.com/Stebalien
 [@steveklabnik]: https://github.com/steveklabnik
 [@withoutboats]: https://github.com/withoutboats
 [chronotope]: https://github.com/chronotope/

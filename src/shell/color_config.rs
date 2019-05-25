@@ -1,14 +1,15 @@
 use crate::error::{FrameworkError, FrameworkErrorKind::ParseError};
-#[cfg(feature = "serde_derive")]
+#[cfg(feature = "serde")]
 use serde::Deserialize;
 use std::{
     fmt::{self, Display},
     str::FromStr,
 };
+use termcolor::ColorChoice;
 
 /// Color configuration
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-#[cfg_attr(feature = "serde_derive", derive(Deserialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize))]
 pub enum ColorConfig {
     /// Pick colors automatically based on whether we're using a TTY
     Auto,
@@ -54,5 +55,15 @@ impl ColorConfig {
     /// Initialize the shell using this color configuration
     pub fn init(self) {
         super::config(self)
+    }
+}
+
+impl From<ColorConfig> for ColorChoice {
+    fn from(config: ColorConfig) -> ColorChoice {
+        match config {
+            ColorConfig::Auto => ColorChoice::Auto,
+            ColorConfig::Always => ColorChoice::Always,
+            ColorConfig::Never => ColorChoice::Never,
+        }
     }
 }
