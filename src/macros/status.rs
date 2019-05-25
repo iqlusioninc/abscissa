@@ -44,7 +44,7 @@
 #[macro_export]
 macro_rules! status {
     ($stream:expr, $color:expr, $status:expr, $msg:expr) => {
-        $crate::status($stream, $color, $status, $msg, true);
+        $crate::status($stream, $color, true, $status, $msg, true).unwrap();
     };
     ($stream:expr, $color:expr, $status:expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status!($stream, $color, $status, format!($fmt, $($arg)+));
@@ -55,7 +55,7 @@ macro_rules! status {
 #[macro_export]
 macro_rules! status_nojust {
     ($stream:expr, $color:expr, $status:expr, $msg:expr) => {
-        $crate::status($stream, $color, $status, $msg, false);
+        $crate::status($stream, $color, true, $status, $msg, false).unwrap();
     };
     ($stream:expr, $color:expr, $status:expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status!($stream, $color, $status, format!($fmt, $($arg)+));
@@ -74,7 +74,7 @@ macro_rules! status_nojust {
 #[macro_export]
 macro_rules! status_ok {
     ($status:expr, $msg:expr) => {
-        $crate::status!($crate::Stream::Stdout, $crate::shell::color::GREEN, $status, $msg);
+        $crate::status!($crate::Stream::Stdout, $crate::shell::Color::Green, $status, $msg);
     };
     ($status:expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status_ok!($status, format!($fmt, $($arg)+));
@@ -93,7 +93,7 @@ macro_rules! status_ok {
 #[macro_export]
 macro_rules! status_info {
     ($status:expr, $msg:expr) => {
-        $crate::status!($crate::Stream::Stdout, $crate::shell::color::BRIGHT_CYAN, $status, $msg);
+        $crate::status!($crate::Stream::Stdout, $crate::shell::Color::Cyan, $status, $msg);
     };
     ($status:expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status_info!($status, format!($fmt, $($arg)+));
@@ -112,7 +112,7 @@ macro_rules! status_info {
 #[macro_export]
 macro_rules! status_warn {
     ($msg:expr) => {
-        $crate::status_nojust!($crate::Stream::Stdout, $crate::shell::color::YELLOW, "warning:", $msg);
+        $crate::status_nojust!($crate::Stream::Stdout, $crate::shell::Color::Yellow, "warning:", $msg);
     };
     ($fmt:expr, $($arg:tt)+) => {
         $crate::status_warn!(format!($fmt, $($arg)+));
@@ -131,7 +131,7 @@ macro_rules! status_warn {
 #[macro_export]
 macro_rules! status_err {
     ($msg:expr) => {
-        $crate::status_nojust!($crate::Stream::Stderr, $crate::shell::color::RED, "error:", $msg);
+        $crate::status_nojust!($crate::Stream::Stderr, $crate::shell::Color::Red, "error:", $msg);
     };
     ($fmt:expr, $($arg:tt)+) => {
         $crate::status_err!(format!($fmt, $($arg)+));
@@ -173,7 +173,7 @@ macro_rules! status_attr {
 #[macro_export]
 macro_rules! status_attr_ok {
     ($attr:expr, $msg:expr) => {
-        $crate::status_attr!($crate::Stream::Stdout, $crate::shell::color::GREEN, $attr, $msg);
+        $crate::status_attr!($crate::Stream::Stdout, $crate::shell::Color::Green, $attr, $msg);
     };
     ($attr: expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status_attr_ok!($attr, format!($fmt, $($arg)+));
@@ -192,7 +192,7 @@ macro_rules! status_attr_ok {
 #[macro_export]
 macro_rules! status_attr_err {
     ($attr:expr, $msg:expr) => {
-        $crate::status_attr!($crate::Stream::Stderr, $crate::shell::color::RED, $attr, $msg);
+        $crate::status_attr!($crate::Stream::Stderr, $crate::shell::Color::Red, $attr, $msg);
     };
     ($attr: expr, $fmt:expr, $($arg:tt)+) => {
         $crate::status_attr_err!($attr, format!($fmt, $($arg)+));
