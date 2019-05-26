@@ -25,6 +25,10 @@ pub enum FrameworkErrorKind {
     /// Errors associated with filesystem paths
     #[fail(display = "path error")]
     PathError,
+
+    /// Errors involving multithreading
+    #[fail(display = "thread error")]
+    ThreadError,
 }
 
 impl From<io::Error> for FrameworkError {
