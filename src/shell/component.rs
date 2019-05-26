@@ -28,7 +28,7 @@ where
 
     /// Initialize this component at the time the framework boots
     fn after_config(&mut self, _app: Option<&A::Cfg>) -> Result<(), FrameworkError> {
-        // TODO(tarcieri): actually configure
+        self.0.init();
         Ok(())
     }
 }

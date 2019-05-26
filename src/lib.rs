@@ -117,17 +117,16 @@ mod command;
 pub mod component;
 #[cfg(feature = "config")]
 pub mod config;
-#[cfg(feature = "errors")]
 pub mod error;
 #[cfg(feature = "logging")]
 pub mod logging;
-#[cfg(feature = "errors")]
 pub mod path;
 mod runnable;
 #[cfg(feature = "shell")]
 pub mod shell;
 #[cfg(feature = "application")]
 mod shutdown;
+pub mod thread;
 
 // Proc macros
 
@@ -142,7 +141,6 @@ pub use gumdrop_derive::*;
 
 #[cfg(feature = "config")]
 pub use crate::config::{Config, Configurable};
-#[cfg(feature = "errors")]
 pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
