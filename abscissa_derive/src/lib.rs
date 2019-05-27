@@ -10,65 +10,12 @@
 
 extern crate proc_macro;
 
-use proc_macro::TokenStream;
-use quote::quote;
+mod command;
+mod config;
+mod runnable;
+
 use synstructure::decl_derive;
 
-/// Custom derive for `abscissa::command::Command`
-#[proc_macro_derive(Command)]
-pub fn derive_command(input: TokenStream) -> TokenStream {
-    let ast: syn::DeriveInput = syn::parse(input).unwrap();
-    let name = &ast.ident;
-    let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
-
-    let impl_command = quote! {
-        impl #impl_generics Command for #name #ty_generics #where_clause {
-            #[doc = "Name of this program as a string"]
-            fn name() -> &'static str {
-                env!("CARGO_PKG_NAME")
-            }
-
-            #[doc = "Description of this program"]
-            fn description() -> &'static str {
-                env!("CARGO_PKG_DESCRIPTION").trim()
-            }
-
-            #[doc = "Version of this program"]
-            fn version() -> &'static str {
-                env!("CARGO_PKG_VERSION")
-            }
-
-            #[doc = "Authors of this program"]
-            fn authors() -> &'static str {
-                env!("CARGO_PKG_AUTHORS")
-            }
-        }
-    };
-
-    impl_command.into()
-}
-
-/// Custom derive for `abscissa::config::Config`
-fn derive_config(s: synstructure::Structure) -> proc_macro2::TokenStream {
-    s.gen_impl(quote! {
-        gen impl Config for @Self {
-        }
-    })
-}
-decl_derive!([Config] => derive_config);
-
-/// Custom derive for `abscissa::runnable::Runnable`
-fn derive_runnable(s: synstructure::Structure) -> proc_macro2::TokenStream {
-    let body = s.each(|bi| {
-        quote! { #bi.run() }
-    });
-
-    s.gen_impl(quote! {
-        gen impl Runnable for @Self {
-            fn run(&self) {
-                match *self { #body }
-            }
-        }
-    })
-}
-decl_derive!([Runnable] => derive_runnable);
+decl_derive!([Command]  => command::derive_command);
+decl_derive!([Config]   => config::derive_config);
+decl_derive!([Runnable] => runnable::derive_runnable);
