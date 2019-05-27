@@ -1,16 +1,17 @@
 //! Trait for representing an Abscissa application and it's lifecycle
 
 pub(crate) mod exit;
+pub mod lock;
 mod name;
-mod reader;
 mod state;
-mod writer;
 
-pub use self::{exit::fatal_error, name::Name, reader::Reader, state::State, writer::Writer};
+pub use self::{exit::fatal_error, lock::Lock, name::Name, state::State};
 
+#[cfg(all(feature = "signals", unix))]
+use crate::signal::Signal;
 use crate::{
     command::Command,
-    component::{self, Component},
+    component::Component,
     config::{Config, Configurable},
     error::{FrameworkError, FrameworkErrorKind::*},
     logging::{LoggingComponent, LoggingConfig},
@@ -41,11 +42,11 @@ pub trait Application: Default + Sized {
     type Cfg: Config;
 
     /// Paths to application resources,
-    type Paths: ExePath + RootPath;
+    type Paths: Default + ExePath + RootPath;
 
     /// Run application with the given command-line arguments and running the
     /// appropriate `Command` type.
-    fn run<I>(app_state: &'static State<Self>, args: I)
+    fn run<I>(app_lock: &'static Lock<Self>, args: I)
     where
         I: IntoIterator<Item = String>,
     {
@@ -55,24 +56,24 @@ pub trait Application: Default + Sized {
         // Initialize application
         let mut app = Self::default();
         app.init(&command).unwrap_or_else(|e| fatal_error!(&app, e));
-        app_state.set(app);
+        app_lock.set(app);
 
         // Run the command
         command.run();
 
         // Exit gracefully
-        let mut app = app_state.get_mut();
-        app.shutdown(&Shutdown::Graceful);
+        let mut app = app_lock.write();
+        app.shutdown(Shutdown::Graceful);
     }
 
     /// Accessor for application configuration.
     fn config(&self) -> Option<&Self::Cfg>;
 
-    /// Borrow the component registry for this application.
-    fn components(&self) -> &component::Registry<Self>;
+    /// Borrow the application state immutably.
+    fn state(&self) -> &State<Self>;
 
-    /// Locations of various paths used by the application.
-    fn paths(&self) -> &Self::Paths;
+    /// Borrow the application state mutably.
+    fn state_mut(&mut self) -> &mut State<Self>;
 
     /// Register all components used by this application
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError>;
@@ -176,9 +177,16 @@ pub trait Application: Default + Sized {
         LoggingConfig::default()
     }
 
+    /// Handle a Unix signal received by this application
+    #[cfg(all(feature = "signals", unix))]
+    fn handle_signal(&mut self, signal: Signal) -> Result<(), FrameworkError> {
+        info!("received signal: {} - shutting down", signal.number());
+        self.shutdown(Shutdown::Graceful)
+    }
+
     /// Shut down this application gracefully, exiting with success.
-    fn shutdown(&mut self, shutdown: &Shutdown) -> ! {
-        match self.components().shutdown(self, shutdown) {
+    fn shutdown(&mut self, shutdown: Shutdown) -> ! {
+        match self.state().components.shutdown(self, shutdown) {
             Ok(()) => process::exit(0),
             Err(e) => fatal_error(self, &e.into()),
         }
@@ -187,9 +195,9 @@ pub trait Application: Default + Sized {
 
 /// Boot the given application, parsing subcommand and options from
 /// command-line arguments, and terminating when complete.
-pub fn boot<A: Application>(app_state: &'static State<A>) -> ! {
+pub fn boot<A: Application>(app_lock: &'static Lock<A>) -> ! {
     let mut args = env::args();
     assert!(args.next().is_some(), "expected one argument but got zero");
-    A::run(app_state, args);
+    A::run(app_lock, args);
     process::exit(0);
 }

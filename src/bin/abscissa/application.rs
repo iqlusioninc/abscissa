@@ -2,35 +2,30 @@
 
 use super::{commands::CliCommand, config::CliConfig};
 use abscissa::{
-    self, application, component, Application, EntryPoint, FrameworkError, LoggingConfig,
-    StandardPaths,
+    self, application, Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths,
 };
 use lazy_static::lazy_static;
 
 lazy_static! {
     /// Application state
-    pub static ref APPLICATION: application::State<CliApplication> = application::State::default();
+    pub static ref APPLICATION: application::Lock<CliApplication> = application::Lock::default();
 }
 
 /// Abscissa CLI Application
 #[derive(Debug)]
 pub struct CliApplication {
-    /// Application configuration
+    /// Application configuration.
     config: Option<CliConfig>,
 
-    /// Application components
-    components: component::Registry<Self>,
-
-    /// Application paths
-    paths: StandardPaths,
+    /// Application state.
+    state: application::State<Self>,
 }
 
 impl Default for CliApplication {
     fn default() -> Self {
         Self {
             config: None,
-            components: component::Registry::default(),
-            paths: StandardPaths::default(),
+            state: Default::default(),
         }
     }
 }
@@ -44,21 +39,21 @@ impl Application for CliApplication {
         self.config.as_ref()
     }
 
-    fn components(&self) -> &component::Registry<Self> {
-        &self.components
+    fn state(&self) -> &application::State<Self> {
+        &self.state
     }
 
-    fn paths(&self) -> &StandardPaths {
-        &self.paths
+    fn state_mut(&mut self) -> &mut application::State<Self> {
+        &mut self.state
     }
 
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
         let components = self.framework_components(command)?;
-        self.components.register(components)
+        self.state.components.register(components)
     }
 
     fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError> {
-        for component in self.components.iter_mut() {
+        for component in self.state.components.iter_mut() {
             component.after_config(config.as_ref())?;
         }
 

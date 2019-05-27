@@ -43,7 +43,7 @@ where
     }
 
     /// Perform any tasks which should occur before the app exits
-    fn before_shutdown(&self, kind: &Shutdown) -> Result<(), FrameworkError> {
+    fn before_shutdown(&self, kind: Shutdown) -> Result<(), FrameworkError> {
         Ok(())
     }
 }

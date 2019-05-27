@@ -74,7 +74,7 @@ where
     }
 
     /// Shutdown components (in the reverse order they were started)
-    pub fn shutdown(&self, app: &A, shutdown: &Shutdown) -> Result<(), FrameworkError> {
+    pub fn shutdown(&self, app: &A, shutdown: Shutdown) -> Result<(), FrameworkError> {
         for component in self.components.iter().rev() {
             component.before_shutdown(shutdown)?;
         }

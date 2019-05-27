@@ -1,14 +1,13 @@
 //! {{title}} Abscissa Application
 
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
-use abscissa::{
-    application, component, Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths,
-};
+use abscissa::application;
+use abscissa::{Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths};
 use lazy_static::lazy_static;
 
 lazy_static! {
     /// Application state
-    pub static ref APPLICATION: application::State<{{~application_type~}}> = application::State::default();
+    pub static ref APPLICATION: application::Lock<{{~application_type~}}> = application::Lock::default();
 }
 
 /// {{title}} Application
@@ -17,11 +16,8 @@ pub struct {{application_type}} {
     /// Application configuration.
     config: Option<{{~config_type~}}>,
 
-    /// Application components.
-    components: component::Registry<Self>,
-
-    /// Application paths.
-    paths: StandardPaths,
+    /// Application state.
+    state: application::State<Self>,
 }
 
 /// Initialize a new application instance.
@@ -33,8 +29,7 @@ impl Default for {{application_type}} {
     fn default() -> Self {
         Self {
             config: None,
-            components: component::Registry::default(),
-            paths: StandardPaths::default(),
+            state: application::State::default(),
         }
     }
 }
@@ -54,14 +49,14 @@ impl Application for {{application_type}} {
         self.config.as_ref()
     }
 
-    /// Borrow the component registry for this application.
-    fn components(&self) -> &component::Registry<Self> {
-        &self.components
+    /// Borrow the application state immutably.
+    fn state(&self) -> &application::State<Self> {
+        &self.state
     }
 
-    /// Locations of various paths used by the application.
-    fn paths(&self) -> &StandardPaths {
-        &self.paths
+    /// Borrow the application state mutably.
+    fn state_mut(&mut self) -> &mut application::State<Self> {
+        &mut self.state
     }
 
     /// Register all components used by this application.
@@ -71,7 +66,7 @@ impl Application for {{application_type}} {
     /// to do so.
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
         let components = self.framework_components(command)?;
-        self.components.register(components)
+        self.state.components.register(components)
     }
 
     /// Post-configuration lifecycle callback.
@@ -81,7 +76,7 @@ impl Application for {{application_type}} {
     /// possible.
     fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError> {
         // Provide configuration to all component `after_config()` handlers
-        for component in self.components.iter_mut() {
+        for component in self.state.components.iter_mut() {
             component.after_config(config.as_ref())?;
         }
 

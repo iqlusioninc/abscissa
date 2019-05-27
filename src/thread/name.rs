@@ -1,7 +1,7 @@
 use std::fmt;
 
 /// Thread names
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub struct Name(String);
 
 impl Name {

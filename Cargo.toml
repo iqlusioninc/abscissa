@@ -33,12 +33,16 @@ simplelog = { version = "0.5", optional = true }
 termcolor = { version = "1", optional = true }
 toml = { version = "0.5", optional = true }
 
+[target.'cfg(unix)'.dependencies]
+libc = { version = "0.2", optional = true }
+signal-hook = { version = "0.1", optional = true }
+
 [dev-dependencies]
 tempfile = "3"
 walkdir = "2"
 
 [features]
-default = ["application", "cli", "time"]
+default = ["application", "cli", "signals", "time"]
 application = ["config", "logging", "options", "semver", "status"]
 cli = ["abscissa_generator", "inflector"]
 config = ["secrets", "serde", "status", "toml"]
@@ -46,6 +50,7 @@ inflector = ["heck"]
 logging = ["log", "simplelog"]
 options = ["gumdrop", "gumdrop_derive"]
 secrets = ["secrecy"]
+signals = ["libc", "signal-hook"]
 shell = ["atty", "termcolor"]
 status = ["shell"]
 time = ["chrono"]

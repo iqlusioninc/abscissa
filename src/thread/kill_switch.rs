@@ -4,7 +4,7 @@
 
 thread_local! {
     /// Boolean flag signaling to a thread to terminate
-    static KILL_SWITCH: RefCell<Option<KillSwitch>> = RefCell::new(None);
+    static KILL_SWITCH: RefCell<Option<Arc<KillSwitch>>> = RefCell::new(None);
 }
 
 use std::{
@@ -18,13 +18,13 @@ use std::{
 /// Thread kill switch.
 ///
 /// This is a signal that the thread should terminate.
-#[derive(Clone, Debug)]
-pub(super) struct KillSwitch(Arc<AtomicBool>);
+#[derive(Debug)]
+pub(super) struct KillSwitch(AtomicBool);
 
 impl KillSwitch {
     /// Create a new kill switch
     pub fn new() -> KillSwitch {
-        KillSwitch(Arc::new(AtomicBool::new(false)))
+        KillSwitch(AtomicBool::new(false))
     }
 
     /// Throw the kill switch, indicating it's time to terminate
@@ -51,6 +51,6 @@ pub(super) fn is_thrown() -> bool {
 }
 
 /// Set the kill switch value for the current thread
-pub(super) fn set(kill_switch: KillSwitch) {
+pub(super) fn set(kill_switch: Arc<KillSwitch>) {
     KILL_SWITCH.with(|ks| *ks.borrow_mut() = Some(kill_switch));
 }

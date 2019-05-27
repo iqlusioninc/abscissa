@@ -1,8 +1,7 @@
 //! Application shutdown support
 
 /// Types of shutdown recognized by Abscissa
-// TODO(tarcieri): either add variant fields e.g. crash info or derive `Copy`
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Shutdown {
     /// Graceful shutdowns may take prolonged periods of time, allowing
     /// components to take their time to ensure shutdowns occur cleanly
