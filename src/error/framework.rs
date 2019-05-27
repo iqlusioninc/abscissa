@@ -26,6 +26,10 @@ pub enum FrameworkErrorKind {
     #[fail(display = "path error")]
     PathError,
 
+    /// Errors involving signals
+    #[fail(display = "signal error")]
+    SignalError,
+
     /// Errors involving multithreading
     #[fail(display = "thread error")]
     ThreadError,

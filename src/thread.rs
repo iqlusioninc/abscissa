@@ -3,13 +3,14 @@
 //! These types provide simple wrappers for Rust's core threading primitives.
 
 mod kill_switch;
+mod manager;
 mod name;
 
-pub use self::name::Name;
+pub use self::{manager::Manager, name::Name};
 
 use self::kill_switch::KillSwitch;
 use crate::error::{FrameworkError, FrameworkErrorKind::ThreadError};
-use std::{io, thread};
+use std::{io, sync::Arc, thread};
 
 /// Threads spawned and managed by Abscissa
 #[derive(Debug)]
@@ -21,7 +22,7 @@ where
     name: Name,
 
     /// Kill switch used to terminate the thread
-    kill_switch: KillSwitch,
+    kill_switch: Arc<KillSwitch>,
 
     /// Join handle to the thread
     handle: thread::JoinHandle<T>,
@@ -31,22 +32,14 @@ impl<T> Thread<T>
 where
     T: Send + 'static,
 {
-    /// Check whether the currently running thread should exit, as signaled by
-    /// `Thread::request_termination()`.
-    ///
-    /// Panics if called outside a thread spawned by `abscissa::Thread`.
-    pub fn should_terminate() -> bool {
-        kill_switch::is_thrown()
-    }
-
     /// Spawn a new thread, executing the given runnable
     pub fn spawn<F>(name: Name, f: F) -> Result<Self, FrameworkError>
     where
         F: FnOnce() -> T,
         F: Send + 'static,
     {
-        let kill_switch = KillSwitch::new();
-        let handle = spawn_thread(name.to_string(), kill_switch.clone(), f)?;
+        let kill_switch = Arc::new(KillSwitch::new());
+        let handle = spawn_thread(name.to_string(), Arc::clone(&kill_switch), f)?;
 
         Ok(Self {
             name,
@@ -84,10 +77,18 @@ where
     }
 }
 
+/// Check whether the currently running thread should exit, as signaled by
+/// `Thread::request_termination()`.
+///
+/// Panics if called outside a thread spawned by `abscissa::Thread`.
+pub fn should_terminate() -> bool {
+    kill_switch::is_thrown()
+}
+
 /// Spawn a thread
 fn spawn_thread<F, T>(
     name: String,
-    kill_switch: KillSwitch,
+    kill_switch: Arc<KillSwitch>,
     f: F,
 ) -> Result<thread::JoinHandle<T>, io::Error>
 where

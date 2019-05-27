@@ -8,9 +8,8 @@
 //!
 //! - **command-line option parsing**: simple declarative option parser built on
 //!   top of the [gumdrop] crate.
-//! - **configuration**: declarative global configuration support using a [RwLock]
-//!   on a [lazy_static]. Simple parsing of TOML configurations to serde-parsed
-//!   global structures which can be dynamically updated at runtime.
+//! - **configuration**: TOML configuration file parsing on application-defined
+//!   configuration structures which can be dynamically updated at runtime.
 //! - **error handling**: generic `Error` type based on the `failure` crate, and a
 //!   unified error-handling subsystem.
 //! - **logging**: uses the `log` and `simplelog` crates to automatically configure
@@ -103,7 +102,9 @@
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg(feature = "logging")]
-pub use log;
+#[allow(unused_imports)]
+#[macro_use]
+extern crate log;
 
 // Load macros first
 #[macro_use]
@@ -126,6 +127,8 @@ mod runnable;
 pub mod shell;
 #[cfg(feature = "application")]
 mod shutdown;
+#[cfg(all(feature = "signals", unix))]
+pub mod signal;
 pub mod thread;
 
 // Proc macros
@@ -145,8 +148,6 @@ pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
 pub use crate::runnable::Runnable;
-#[cfg(feature = "secrets")]
-pub use crate::secrets::Secret;
 #[cfg(feature = "shell")]
 pub use crate::shell::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
@@ -163,11 +164,13 @@ pub use crate::{
 
 // Re-exported modules/types from third-party crates
 
+#[cfg(feature = "secrets")]
+pub use crate::secret::Secret;
 #[cfg(feature = "time")]
 pub use chrono as time;
 #[cfg(feature = "inflector")]
 pub use heck as inflector;
 #[cfg(feature = "secrets")]
-pub use secrecy as secrets;
+pub use secrecy as secret;
 #[cfg(feature = "application")]
 pub use semver::Version;
