@@ -1,5 +1,10 @@
 //! `start` subcommand - example of how to write a subcommand
 
+/// App-local prelude includes `app_reader()`/`app_writer()`/`app_config()`
+/// accessors along with logging macros. Customize as you see fit.
+#[allow(unused_imports)]
+use crate::prelude::*;
+
 use abscissa::{Command, Options, Runnable};
 
 /// `start` subcommand

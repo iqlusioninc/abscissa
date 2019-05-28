@@ -1,13 +1,32 @@
 //! {{title}} Abscissa Application
 
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
-use abscissa::application;
+use abscissa::{application, config};
 use abscissa::{Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths};
 use lazy_static::lazy_static;
 
 lazy_static! {
     /// Application state
     pub static ref APPLICATION: application::Lock<{{~application_type~}}> = application::Lock::default();
+}
+
+/// Obtain a read-only (multi-reader) lock on the application state.
+///
+/// Panics if the application state has not been initialized.
+pub fn app_reader() -> application::lock::Reader<{{~application_type~}}> {
+    APPLICATION.read()
+}
+
+/// Obtain an exclusive mutable lock on the application state.
+pub fn app_writer() -> application::lock::Writer<{{~application_type~}}> {
+    APPLICATION.write()
+}
+
+/// Obtain a read-only (multi-reader) lock on the application configuration.
+///
+/// Panics if the application configuration has not been loaded.
+pub fn app_config() -> config::Reader<{{~application_type~}}> {
+    config::Reader::new(&APPLICATION)
 }
 
 /// {{title}} Application
@@ -22,9 +41,8 @@ pub struct {{application_type}} {
 
 /// Initialize a new application instance.
 ///
-/// By default no configuration is loaded, and the component set is
-/// empty. Both of these are initialized later in the application
-/// lifecycle by the callbacks below.
+/// By default no configuration is loaded, and the framework state is
+/// initialized to a default, empty state (no components, threads, etc).
 impl Default for {{application_type}} {
     fn default() -> Self {
         Self {

@@ -104,7 +104,7 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[cfg(feature = "logging")]
 #[allow(unused_imports)]
 #[macro_use]
-extern crate log;
+pub extern crate log;
 
 // Load macros first
 #[macro_use]
