@@ -1,8 +1,10 @@
 //! Support for managing global configuration, as well as loading it from TOML
 
 mod configurable;
+mod merge;
+mod reader;
 
-pub use self::configurable::Configurable;
+pub use self::{configurable::Configurable, merge::MergeOptions, reader::Reader};
 use crate::{
     error::{FrameworkError, FrameworkErrorKind::ConfigError},
     path::AbsPath,
