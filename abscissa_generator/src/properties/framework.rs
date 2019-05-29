@@ -7,7 +7,7 @@ pub use semver::Version;
 use serde::{Deserialize, Serialize};
 
 /// Default Cargo features to enable in the `abscissa` crate
-const DEFAULT_CARGO_FEATURES: &[&str] = &["application", "config", "time"];
+const DEFAULT_CARGO_FEATURES: &[&str] = &["application", "signals", "secrets", "time"];
 
 /// Abscissa framework-related properties
 #[derive(Clone, Debug, Deserialize, Serialize)]
