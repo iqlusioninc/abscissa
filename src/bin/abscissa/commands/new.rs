@@ -156,13 +156,6 @@ impl NewCommand {
         // TODO(tarcieri): configurable config type
         let config_type = properties::name::Type::from_snake_case(app_name.clone() + "_config");
 
-        // TODO(tarcieri): configurable error type
-        let error_type = properties::name::Type::from_snake_case(app_name.clone() + "_error");
-
-        // TODO(tarcieri): configurable error kind type
-        let error_kind_type =
-            properties::name::Type::from_snake_case(app_name.clone() + "_error_kind");
-
         let properties = Properties {
             abscissa,
             name,
@@ -175,8 +168,6 @@ impl NewCommand {
             application_type,
             command_type,
             config_type,
-            error_type,
-            error_kind_type,
         };
 
         Ok(properties)

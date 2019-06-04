@@ -44,10 +44,4 @@ pub struct Properties {
 
     /// Configuration type name
     pub config_type: name::Type,
-
-    /// Error type name
-    pub error_type: name::Type,
-
-    /// Error kind type name
-    pub error_kind_type: name::Type,
 }

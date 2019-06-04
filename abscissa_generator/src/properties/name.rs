@@ -55,6 +55,14 @@ impl AsRef<str> for Type {
 }
 
 impl Type {
+    /// Create a new camel case name
+    pub fn from_camel_case<S>(s: S) -> Type
+    where
+        S: ToString,
+    {
+        Type(s.to_string())
+    }
+
     /// Inflect a snake case name into a type name
     pub fn from_snake_case<S>(s: S) -> Type
     where

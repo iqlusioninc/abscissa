@@ -212,6 +212,12 @@ $ cargo fmt -- --check # generated app is expected to pass rustfmt
 $ cargo clippy
 ```
 
+## Code of Conduct
+
+We abide by the [Contributor Covenant][cc] and ask that you do as well.
+
+For more information, please see [CODE_OF_CONDUCT.md].
+
 ## License
 
 The **abscissa** crate is distributed under the terms of the
@@ -258,6 +264,8 @@ without any additional terms or conditions.
 [cargo]: https://github.com/rust-lang/cargo
 [cargo features]: https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section
 [Kryptos K2]: https://en.wikipedia.org/wiki/Kryptos#Solution_of_passage_2
+[cc]: https://contributor-covenant.org
+[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
 
 [//]: # (crate links)
 

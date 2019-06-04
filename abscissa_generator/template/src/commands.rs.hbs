@@ -30,7 +30,7 @@ pub enum {{command_type}} {
     Version(VersionCommand),
 }
 
-/// This trait allows you to define how applicaiton configuration is loaded.
+/// This trait allows you to define how application configuration is loaded.
 impl Configurable<{{~config_type~}}> for {{command_type}} {
     fn config_path(&self) -> Option<PathBuf> {
         // Have `config_path` return `Some(path)` in order to trigger the
