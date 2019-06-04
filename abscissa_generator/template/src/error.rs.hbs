@@ -1,16 +1,16 @@
 //! Error types
 
-use abscissa::{err, Error};
+use abscissa::err;
 use failure::Fail;
 use std::{fmt, io};
 
 /// Error type
 #[derive(Debug)]
-pub struct {{error_type}}(Error<{{error_kind_type}}>);
+pub struct Error(abscissa::Error<ErrorKind>);
 
 /// Kinds of errors
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Fail)]
-pub enum {{error_kind_type}} {
+pub enum ErrorKind {
     /// Error in configuration file
     #[fail(display = "config error")]
     Config,
@@ -20,20 +20,20 @@ pub enum {{error_kind_type}} {
     Io,
 }
 
-impl fmt::Display for {{error_type}} {
+impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }
 }
 
-impl From<Error<{{error_kind_type}}>> for {{error_type}} {
-    fn from(other: Error<{{error_kind_type}}>) -> Self {
-        {{error_type}}(other)
+impl From<abscissa::Error<ErrorKind>> for Error {
+    fn from(other: abscissa::Error<ErrorKind>) -> Self {
+        Error(other)
     }
 }
 
-impl From<io::Error> for {{error_type}} {
+impl From<io::Error> for Error {
     fn from(other: io::Error) -> Self {
-        err!({{error_kind_type}}::Io, other).into()
+        err!(ErrorKind::Io, other).into()
     }
 }
