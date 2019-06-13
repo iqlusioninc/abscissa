@@ -31,7 +31,8 @@ fn test_generated_app() {
         .unwrap();
     let target_cache_dir = target.join(APP_NAME);
 
-    restore_target_cache(&target_cache_dir, &app_path.join("target"));
+    // TODO(tarcieri): fix caching
+    // restore_target_cache(&target_cache_dir, &app_path.join("target"));
     assert!(env::set_current_dir(&app_path).is_ok());
 
     for test_command in TEST_COMMANDS {
@@ -46,6 +47,8 @@ fn test_generated_app() {
 }
 
 /// Restore the cached `target/` directory (if one exists)
+// TODO(tarcieri): fix caching
+#[allow(dead_code)]
 fn restore_target_cache(src: &Path, dst: &Path) {
     // No cache available
     if !src.exists() {

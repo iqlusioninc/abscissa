@@ -1,4 +1,4 @@
-//! Abscissa: an app microframework
+//! Abscissa: an application microframework
 //!
 //! Abscissa is a microframework for building Rust applications (either CLI tools
 //! or network services), aiming to provide a large number of features with a
@@ -12,13 +12,12 @@
 //!   configuration structures which can be dynamically updated at runtime.
 //! - **error handling**: generic `Error` type based on the `failure` crate, and a
 //!   unified error-handling subsystem.
-//! - **logging**: uses the `log` and `simplelog` crates to automatically configure
-//!   application-level logging, presently to standard output or files.
+//! - **logging**: uses the `log` crate to provide application-level logging.
 //! - **secrets management**: the (optional) `secrets` module includes a `Secret`
 //!  type which derives serde's `Deserialize` and can be used to represent secret
 //!  values parsed from configuration files or elsewhere (e.g. credentials loaded
 //!  from the environment or network requests)
-//! - **shell interactions**: support for colored terminal output (with color
+//! - **terminal interactions**: support for colored terminal output (with color
 //!   support autodetection). Useful for Cargo-like status messages with
 //!   easy-to-use macros.
 //!
@@ -123,12 +122,12 @@ pub mod error;
 pub mod logging;
 pub mod path;
 mod runnable;
-#[cfg(feature = "shell")]
-pub mod shell;
 #[cfg(feature = "application")]
 mod shutdown;
 #[cfg(all(feature = "signals", unix))]
 pub mod signal;
+#[cfg(feature = "terminal")]
+pub mod terminal;
 pub mod thread;
 
 // Proc macros
@@ -148,8 +147,8 @@ pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
 pub use crate::runnable::Runnable;
-#[cfg(feature = "shell")]
-pub use crate::shell::{status, ColorConfig, Stream};
+#[cfg(feature = "terminal")]
+pub use crate::terminal::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
 pub use crate::{
     application::{boot, Application},

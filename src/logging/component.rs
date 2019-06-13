@@ -1,14 +1,21 @@
-use super::LoggingConfig;
+//! Abscissa logging component
+
+// TODO(tarcieri): logfile support?
+
+use super::{config::LoggingConfig, logger};
 use crate::{component, Application, Component, FrameworkError, Version};
 
 /// Abscissa component for initializing the logging subsystem
 #[derive(Debug, Default)]
-pub struct LoggingComponent(LoggingConfig);
+pub struct LoggingComponent {
+    config: LoggingConfig,
+}
 
 impl LoggingComponent {
-    /// Create a new `LoggingComponent` with the given configuration
-    pub fn new(config: LoggingConfig) -> Self {
-        LoggingComponent(config)
+    /// Create a new logging component
+    pub fn new(config: LoggingConfig) -> Result<Self, FrameworkError> {
+        logger::init();
+        Ok(Self { config })
     }
 }
 
@@ -19,7 +26,7 @@ where
 {
     /// Name of this component
     fn name(&self) -> component::Name {
-        component::Name("LoggingComponent")
+        component::Name("abscissa::logging")
     }
 
     /// Version of this component
@@ -29,6 +36,7 @@ where
 
     /// Initialize this component at the time the framework boots
     fn after_config(&mut self, _config: Option<&A::Cfg>) -> Result<(), FrameworkError> {
-        super::init(self.0)
+        // TODO(tarcieri): set logging configuration
+        Ok(())
     }
 }

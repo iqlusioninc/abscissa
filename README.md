@@ -7,6 +7,7 @@
 [![forbid(unsafe_code)][unsafe-image]][unsafe-link]
 [![Build Status][build-image]][build-link]
 [![Appveyor Status][appveyor-image]][appveyor-link]
+[![Gitter Chat][gitter-image]][gitter-link]
 
 Abscissa is a microframework for building Rust applications (either CLI tools
 or network/web services), aiming to provide a large number of features with a
@@ -25,18 +26,17 @@ or network/web services), aiming to provide a large number of features with a
   for extensibility/composability, with a minimalist implementation that still
   provides such features such as calculating dependency ordering and providing
   hooks into the application lifecycle. Newly generated apps use two components
-  by default: `shell` and `logging`.
+  by default: `terminal` and `logging`.
 - **configuration**: Simple parsing of TOML configurations to serde-parsed
   configuration types which can be dynamically updated at runtime.
 - **error handling**: generic `Error` type based on the `failure` crate, and a
   unified error-handling subsystem.
-- **logging**: uses the `log` and `simplelog` crates to automatically configure
-  application-level logging, presently to standard output or files.
+- **logging**: based on the `log` to provide application-level logging.
 - **secrets management**: the (optional) `secrets` module includes a `Secret`
   type which derives serde's `Deserialize` and can be used to represent secret
   values parsed from configuration files or elsewhere (e.g. credentials loaded
   from the environment or network requests)
-- **shell interactions**: support for colored terminal output (with color
+- **terminal interactions**: support for colored terminal output (with color
   support autodetection). Useful for Cargo-like status messages with
   easy-to-use macros.
 
@@ -72,13 +72,13 @@ Here are all of Abscissa's transitive dependencies:
 | #  | Crate Name       | Origin          | License        | `unsafe`? | Description             |
 |----|------------------|-----------------|----------------|-----------|-------------------------|
 | 1  | [abscissa]       | [iqlusion]      | Apache-2.0     | yes       | App microframework      |
-| 2  | [atty]           | [@softprops]    | MIT            | yes       | Are stdout/stderr TTYs? |
-| 3  | [backtrace]      | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
-| 4  | [backtrace-sys]  | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
-| 5  | [byteorder]      | [@BurntSushi]   | MIT/Unlicense  | yes       | Convert endianness      |
-| 6  | [canonical-path] | [iqlusion]      | Apache-2.0     | yes       | Get canonical fs paths  |
-| 7  | [chrono]         | [chronotope]    | Apache-2.0/MIT | yes       | Time/date library       |
-| 8  | [failure]        | [@withoutboats] | Apache-2.0/MIT | yes       | Error handling          |
+| 2  | [backtrace]      | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
+| 3  | [backtrace-sys]  | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
+| 4  | [byteorder]      | [@BurntSushi]   | MIT/Unlicense  | yes       | Convert endianness      |
+| 5  | [canonical-path] | [iqlusion]      | Apache-2.0     | yes       | Get canonical fs paths  |
+| 6  | [chrono]         | [chronotope]    | Apache-2.0/MIT | yes       | Time/date library       |
+| 7  | [failure]        | [@withoutboats] | Apache-2.0/MIT | no       | Error handling          |
+| 8  | [gumdrop]        | [Murarth]       | Apache-2.0/MIT | no        | Command-line options    |
 | 9  | [lazy_static]    | [rust-lang]     | Apache-2.0/MIT | yes       | Heap-allocated statics  |
 | 10 | [libc]           | [rust-lang]     | Apache-2.0/MIT | yes       | C library wrapper       |
 | 11 | [log]            | [rust-lang]     | Apache-2.0/MIT | yes       | Logging facade library  |
@@ -89,12 +89,11 @@ Here are all of Abscissa's transitive dependencies:
 | 16 | [semver]         | [@steveklabnik] | Apache-2.0/MIT | yes       | Semantic versioning     |
 | 17 | [semver-parser]  | [@steveklabnik] | Apache-2.0/MIT | no†       | Parser for semver spec  |
 | 18 | [serde]          | [serde-rs]      | Apache-2.0/MIT | yes       | Serialization framework |
-| 19 | [simplelog]      | [@drakulix]     | Apache-2.0/MIT | yes       | Simple logging facility |
-| 20 | [termcolor]      | [@BurntSushi]   | MIT/Unlicense  | no        | Terminal color support  |
-| 21 | [time]           | [rust-lang]     | Apache-2.0/MIT | yes       | Time/date library       |
-| 22 | [toml]           | [@alexcrichton] | Apache-2.0/MIT | no        | TOML parser library     |
-| 23 | [winapi]§        | [@retep998]     | Apache-2.0/MIT | yes       | Windows API bindings    |
-| 24 | [zeroize]        | [iqlusion]      | Apache-2.0     | yes       | Zero out sensitive data |
+| 19 | [termcolor]      | [@BurntSushi]   | MIT/Unlicense  | no        | Terminal color support  |
+| 20 | [time]           | [rust-lang]     | Apache-2.0/MIT | yes       | Time/date library       |
+| 21 | [toml]           | [@alexcrichton] | Apache-2.0/MIT | no        | TOML parser library     |
+| 22 | [winapi]§        | [@retep998]     | Apache-2.0/MIT | yes       | Windows API bindings    |
+| 23 | [zeroize]        | [iqlusion]      | Apache-2.0/MIT | yes       | Zero out sensitive data |
 
 * † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
@@ -107,7 +106,8 @@ Here are all of Abscissa's transitive dependencies:
 | 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | no        | Abscissa custom derive  |
 | 2  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | yes       | C/C++ compiler wrapper  |
 | 3  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | no        | If-like `#[cfg]` macros |
-| 4  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | yes       | failure custom derive   |
+| 4  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | no        | failure custom derive   |
+| 5  | [gumdrop_derive]  | [Murarth]        | Apache-2.0/MIT | no        | Command-line options    |
 | 5  | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | yes       | Shim for Macros 2.0 API |
 | 6  | [quote]           | [@dtolnay]       | Apache-2.0/MIT | no        | Rust AST to token macro |
 | 7  | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | no        | `serde` custom derive   |
@@ -132,28 +132,25 @@ so you only compile the parts you need.
 | [canonical-path]  | mandatory        | -         | [abscissa]  |
 | [cc]              | mandatory        | -         | [backtrace-sys], [zeroize] |
 | [cfg-if]          | mandatory        | -         | [backtrace] |
-| [chrono]          | `logging`        | -         | [simplelog] |
+| [chrono]          | `time`           | -         | [abscissa]  |
 | [failure]         | mandatory        | -         | [abscissa]  |
 | [failure_derive]  | mandatory        | -         | [failure]   |
-| [atty]            | `shell`          | -         | [abscissa]  |
+| [gumdrop]         | `options`        | -         | [abscissa]  |
+| [gumdrop_derive]  | `options`        | -         | [gumdrop]   |
 | [lazy_static]     | mandatory        | -         | [abscissa]  |
-| [libc]            | `shell`          | `unix`    | [atty]      |
 | [log]             | `logging`        | -         | [abscissa]  |
 | [num-integer]     | `logging`        | -         | [chrono]    |
 | [num-traits]      | `logging`        | -         | [chrono], [num-integer] |
 | [proc-macro2]     | mandatory        | -         | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
-| [redox_syscall]   | `shell`          | `redox`   | [atty]    |
 | [rustc_demangle]  | mandatory        | -         | [backtrace] |
 | [semver]          | `application`    | -         | [abscissa]  |
 | [semver-parser]   | `application`    | -         | [abscissa]  |
 | [serde]           | `config`         | -         | [abscissa]  |
 | [serde_derive]    | `config`         | -         | [serde]     |
-| [simplelog]       | `logging`        | -         | [abscissa]  |
-| [termcolor]       | `shell`          | -         | [abscissa]  |
+| [termcolor]       | `terminal`       | -         | [abscissa]  |
 | [time]            | `logging`        | -         | [chrono]    |
 | [unicode-xid]     | mandatory        | -         | [proc-macro2] |
 | [version_check]   | mandatory        | -         | [lazy_static] |
-| [winapi]§         | `shell`          | `windows` | [atty]      |
 | [zeroize]         | mandatory        | -         | [abscissa]  |
 
 * § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
@@ -168,6 +165,10 @@ In that regard, "Abscissa" can be thought of as a pun about getting off
 the ground, or elevating your project.
 
 The word "abscissa" is also the key to the [Kryptos K2] panel.
+
+### Q2: "Abscissa" is a hard name to remember! Got any tips?
+
+**A2**: Imagine you're A-B testing a couple of scissors... with attitude.
 
 ## Testing Framework Changes
 
@@ -258,6 +259,8 @@ without any additional terms or conditions.
 [build-link]: https://travis-ci.com/iqlusioninc/abscissa/
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
 [appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
+[gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
+[gitter-link]: https://gitter.im/iqlusioninc/community
 
 [//]: # (general links)
 
@@ -295,7 +298,6 @@ without any additional terms or conditions.
 [semver-parser]: https://crates.io/crates/semver-parser
 [serde]: https://crates.io/crates/serde
 [serde_derive]: https://crates.io/crates/serde_derive
-[simplelog]: https://crates.io/crates/simplelog
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/
 [termcolor]: https://crates.io/crates/termcolor

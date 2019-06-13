@@ -1,17 +1,18 @@
-//! Shell/terminal colors and interactions
+//! Terminal handling (TTY interactions, colors, etc)
 
-mod color_config;
+mod color;
 #[cfg(feature = "application")]
 mod component;
+mod stream;
 
-pub use self::color_config::ColorConfig;
 #[cfg(feature = "application")]
-pub use self::component::ShellComponent;
+pub use self::component::TerminalComponent;
+pub use self::{color::ColorConfig, stream::Stream};
 use crate::error::FrameworkError;
 use lazy_static::lazy_static;
 use std::{fmt::Display, io::Write, sync::RwLock};
 pub use termcolor::Color;
-use termcolor::{ColorSpec, StandardStream, WriteColor};
+use termcolor::{ColorSpec, WriteColor};
 
 lazy_static! {
     /// Color configuration
@@ -48,34 +49,8 @@ where
     Ok(())
 }
 
-// TODO(tarcieri): hold onto shell streams in the shell component
+// TODO(tarcieri): open terminal streams persistently
 fn config(color_config: ColorConfig) {
     let mut global_config = COLOR_CONFIG.write().unwrap();
     *global_config = color_config;
-}
-
-/// Terminal streams
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub enum Stream {
-    /// Standard output
-    Stdout,
-
-    /// Standard error
-    Stderr,
-}
-
-impl Stream {
-    /// Open the given stream
-    fn open(self) -> StandardStream {
-        let color_choice = {
-            let cfg = COLOR_CONFIG.read().unwrap();
-            *cfg
-        }
-        .into();
-
-        match self {
-            Stream::Stdout => StandardStream::stdout(color_choice),
-            Stream::Stderr => StandardStream::stderr(color_choice),
-        }
-    }
 }

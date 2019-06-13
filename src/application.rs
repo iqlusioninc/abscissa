@@ -17,8 +17,8 @@ use crate::{
     logging::{LoggingComponent, LoggingConfig},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
-    shell::{ColorConfig, ShellComponent},
     shutdown::Shutdown,
+    terminal::{ColorConfig, TerminalComponent},
     Version,
 };
 use std::{env, process, vec};
@@ -111,14 +111,16 @@ pub trait Application: Default + Sized {
     }
 
     /// Initialize the framework's default set of components, potentially
-    /// sourcing shell and logging options from command line arguments.
+    /// sourcing terminal and logging options from command line arguments.
     fn framework_components(
         &mut self,
         command: &Self::Cmd,
     ) -> Result<Vec<Box<dyn Component<Self>>>, FrameworkError> {
-        let shell = ShellComponent::new(self.term_colors(command));
-        let logging = LoggingComponent::new(self.logging_config(command));
-        Ok(vec![Box::new(shell), Box::new(logging)])
+        let terminal = TerminalComponent::new(self.term_colors(command));
+        let logging = LoggingComponent::new(self.logging_config(command))
+            .expect("logging subsystem failed to initialize");
+
+        Ok(vec![Box::new(terminal), Box::new(logging)])
     }
 
     /// Load configuration from command's `config_path()`.
