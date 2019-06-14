@@ -16,7 +16,7 @@ where
 
 /// Exit because component startup ordering could not be determined.
 /// This is a barebones implementation using basic std facilities
-/// because it might be called before the shell component has been
+/// because it might be called before the terminal component has been
 /// started, and we can't use it to log errors about itself.
 pub(crate) fn bad_component_order<A>(a: &dyn Component<A>, b: &dyn Component<A>) -> !
 where

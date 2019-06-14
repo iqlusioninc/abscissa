@@ -1,24 +1,24 @@
-use super::ColorConfig;
+use super::color::ColorConfig;
 use crate::{component, Application, Component, FrameworkError, Version};
 
-/// Abscissa component for initializing the shell subsystem
+/// Abscissa terminal subsystem component
 #[derive(Default, Debug)]
-pub struct ShellComponent(ColorConfig);
+pub struct TerminalComponent(ColorConfig);
 
-impl ShellComponent {
-    /// Create a new `ShellComponent` with the given `ColorConfig`
-    pub fn new(config: ColorConfig) -> ShellComponent {
-        ShellComponent(config)
+impl TerminalComponent {
+    /// Create a new `TerminalComponent` with the given `ColorConfig`
+    pub fn new(config: ColorConfig) -> TerminalComponent {
+        TerminalComponent(config)
     }
 }
 
-impl<A> Component<A> for ShellComponent
+impl<A> Component<A> for TerminalComponent
 where
     A: Application,
 {
     /// Name of this component
     fn name(&self) -> component::Name {
-        component::Name("shell")
+        component::Name("abscissa::terminal")
     }
 
     /// Version of this component

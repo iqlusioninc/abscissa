@@ -2,9 +2,9 @@
 
 #[cfg(feature = "application")]
 mod component;
-mod simplelog;
+mod config;
+mod logger;
 
 #[cfg(feature = "application")]
 pub use self::component::LoggingComponent;
-// `simplelog` is the only logger we presently support
-pub use self::simplelog::{init, LoggingConfig};
+pub use self::config::LoggingConfig;

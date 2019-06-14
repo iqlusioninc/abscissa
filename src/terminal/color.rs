@@ -1,3 +1,5 @@
+//! Terminal color support
+
 use crate::error::{FrameworkError, FrameworkErrorKind::ParseError};
 #[cfg(feature = "serde")]
 use serde::Deserialize;
@@ -52,7 +54,7 @@ impl FromStr for ColorConfig {
 }
 
 impl ColorConfig {
-    /// Initialize the shell using this color configuration
+    /// Initialize the terminal using this color configuration
     pub fn init(self) {
         super::config(self)
     }
