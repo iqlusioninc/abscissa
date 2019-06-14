@@ -1,14 +1,19 @@
-use super::color::ColorConfig;
+//! Terminal component
+
+use super::stream;
 use crate::{component, Application, Component, FrameworkError, Version};
+use std::fmt;
+use termcolor::ColorChoice;
 
 /// Abscissa terminal subsystem component
-#[derive(Default, Debug)]
-pub struct TerminalComponent(ColorConfig);
+pub struct TerminalComponent {}
 
 impl TerminalComponent {
-    /// Create a new `TerminalComponent` with the given `ColorConfig`
-    pub fn new(config: ColorConfig) -> TerminalComponent {
-        TerminalComponent(config)
+    /// Create a new `TerminalComponent` with the given `ColorChoice`
+    pub fn new(color_choice: ColorChoice) -> TerminalComponent {
+        // TODO(tarcieri): handle terminal reinit (without panicing)
+        stream::set_color_choice(color_choice);
+        Self {}
     }
 }
 
@@ -28,7 +33,12 @@ where
 
     /// Initialize this component at the time the framework boots
     fn after_config(&mut self, _app: Option<&A::Cfg>) -> Result<(), FrameworkError> {
-        self.0.init();
         Ok(())
+    }
+}
+
+impl fmt::Debug for TerminalComponent {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "TerminalComponent {{ stdout, stderr }}")
     }
 }

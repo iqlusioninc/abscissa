@@ -18,7 +18,7 @@ use crate::{
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
-    terminal::{ColorConfig, TerminalComponent},
+    terminal::{component::TerminalComponent, ColorChoice},
     Version,
 };
 use std::{env, process, vec};
@@ -170,8 +170,8 @@ pub trait Application: Default + Sized {
     }
 
     /// Color configuration for this application.
-    fn term_colors(&self, command: &Self::Cmd) -> ColorConfig {
-        ColorConfig::default()
+    fn term_colors(&self, command: &Self::Cmd) -> ColorChoice {
+        ColorChoice::Auto
     }
 
     /// Get the logging configuration for this application.

@@ -1,33 +1,35 @@
 //! Terminal streams (STDOUT and STDIN)
 
-use super::{color::ColorConfig, COLOR_CONFIG};
-use termcolor::StandardStream;
+use lazy_static::lazy_static;
+use std::sync::Mutex;
+use termcolor::{ColorChoice, StandardStream};
 
-/// Terminal streams
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub enum Stream {
+lazy_static! {
+    /// Color configuration
+    static ref COLOR_CHOICE: Mutex<Option<ColorChoice>> = Mutex::new(None);
+
     /// Standard output
-    Stdout,
+    pub static ref STDOUT: StandardStream = StandardStream::stdout(get_color_choice());
 
     /// Standard error
-    Stderr,
+    pub static ref STDERR: StandardStream = StandardStream::stderr(get_color_choice());
 }
 
-impl Stream {
-    /// Open the given stream
-    pub(super) fn open_with_config(self, color_config: ColorConfig) -> StandardStream {
-        let color_choice = color_config.into();
+/// Obtain the color configuration.
+///
+/// Panics if no configuration has been provided.
+fn get_color_choice() -> ColorChoice {
+    let choice = COLOR_CHOICE.lock().unwrap();
+    *choice
+        .as_ref()
+        .expect("terminal stream accessed before initialized!")
+}
 
-        match self {
-            Stream::Stdout => StandardStream::stdout(color_choice),
-            Stream::Stderr => StandardStream::stderr(color_choice),
-        }
-    }
-
-    /// Open using the global color config
-    // TODO(tarcieri): have `terminal` component manage/own all streams
-    pub(crate) fn open(self) -> StandardStream {
-        let color_config = COLOR_CONFIG.read().unwrap();
-        self.open_with_config(*color_config)
-    }
+/// Set the color configuration.
+///
+/// Panics if the terminal has already been configured.
+pub(super) fn set_color_choice(color_choice: ColorChoice) {
+    let mut choice = COLOR_CHOICE.lock().unwrap();
+    assert!(choice.is_none(), "terminal colors already configured!");
+    *choice = Some(color_choice);
 }
