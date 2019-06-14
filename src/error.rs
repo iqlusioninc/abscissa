@@ -1,5 +1,7 @@
 //! Error types used by this crate
 
+#[macro_use]
+pub mod macros;
 mod framework;
 
 pub use self::framework::{FrameworkError, FrameworkErrorKind};

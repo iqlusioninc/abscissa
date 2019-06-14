@@ -1,7 +1,7 @@
 //! Logging subsystem
 
 #[cfg(feature = "application")]
-mod component;
+pub mod component;
 mod config;
 mod logger;
 

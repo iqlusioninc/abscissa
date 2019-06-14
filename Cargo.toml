@@ -42,16 +42,15 @@ walkdir = "2"
 
 [features]
 default = ["application", "cli", "signals", "secrets", "time"]
-application = ["config", "logging", "options", "semver", "status"]
+application = ["config", "logging", "options", "semver", "terminal"]
 cli = ["abscissa_generator", "inflector"]
-config = ["secrets", "serde", "status", "toml"]
+config = ["secrets", "serde", "terminal", "toml"]
 inflector = ["heck"]
 logging = ["log"]
 options = ["gumdrop", "gumdrop_derive"]
 secrets = ["secrecy"]
 signals = ["libc", "signal-hook"]
 terminal = ["termcolor"]
-status = ["terminal"]
 time = ["chrono"]
 
 [badges]

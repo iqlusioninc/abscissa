@@ -69,7 +69,7 @@
 //!
 //! # Status Macros
 //!
-//! ```
+//! ```norun
 //! # #[macro_use] extern crate abscissa;
 //! # fn main() {
 //! // Print a Cargo-like justified status to STDOUT
@@ -105,9 +105,15 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[macro_use]
 pub extern crate log;
 
-// Load macros first
+// Modules with macro exports
+
 #[macro_use]
-pub mod macros;
+pub mod error;
+#[cfg(feature = "terminal")]
+#[macro_use]
+pub mod terminal;
+
+// Other modules
 
 #[cfg(feature = "application")]
 pub mod application;
@@ -117,7 +123,6 @@ mod command;
 pub mod component;
 #[cfg(feature = "config")]
 pub mod config;
-pub mod error;
 #[cfg(feature = "logging")]
 pub mod logging;
 pub mod path;
@@ -126,8 +131,6 @@ mod runnable;
 mod shutdown;
 #[cfg(all(feature = "signals", unix))]
 pub mod signal;
-#[cfg(feature = "terminal")]
-pub mod terminal;
 pub mod thread;
 
 // Proc macros
@@ -147,8 +150,6 @@ pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
 #[cfg(feature = "logging")]
 pub use crate::logging::LoggingConfig;
 pub use crate::runnable::Runnable;
-#[cfg(feature = "terminal")]
-pub use crate::terminal::{status, ColorConfig, Stream};
 #[cfg(feature = "application")]
 pub use crate::{
     application::{boot, Application},
@@ -163,13 +164,13 @@ pub use crate::{
 
 // Re-exported modules/types from third-party crates
 
-#[cfg(feature = "secrets")]
-pub use crate::secret::Secret;
 #[cfg(feature = "time")]
 pub use chrono as time;
 #[cfg(feature = "inflector")]
 pub use heck as inflector;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;
+#[cfg(feature = "secrets")]
+pub use secrecy::Secret;
 #[cfg(feature = "application")]
 pub use semver::Version;

@@ -1,11 +1,11 @@
 //! Abscissa logger which displays through the terminal subsystem
 // TODO(tarcieri): logfile support?
 
-use crate::terminal::Stream;
+use crate::terminal::stream::{STDERR, STDOUT};
 use lazy_static::lazy_static;
 use log::{Level, LevelFilter, Log, Metadata, Record};
 use std::io::{Error, Write};
-use termcolor::{Color, ColorSpec, StandardStream, WriteColor};
+use termcolor::{Color, ColorSpec, StandardStreamLock, WriteColor};
 
 /// Default loglevel
 const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
@@ -56,13 +56,12 @@ impl Logger {
     }
 
     /// Get the stream to which a particular loglevel should be displayed
-    fn level_stream(&self, record: &Record) -> StandardStream {
-        // TODO(tarcieri): persistent streams managed by `terminal` component
+    fn level_stream(&self, record: &Record) -> StandardStreamLock {
         match record.level() {
-            Level::Error => Stream::Stderr,
-            _ => Stream::Stdout,
+            Level::Error => &*STDERR,
+            _ => &*STDOUT,
         }
-        .open()
+        .lock()
     }
 
     /// Get the color used to display a particular level
@@ -93,8 +92,7 @@ impl Log for Logger {
     }
 
     fn flush(&self) {
-        // TODO(tarcieri): persistent streams managed by `terminal` component
-        let mut stdout = Stream::Stdout.open();
+        let mut stdout = STDOUT.lock();
         let stdout_result = stdout.flush();
 
         debug_assert!(
@@ -103,7 +101,7 @@ impl Log for Logger {
             stdout_result.err().unwrap()
         );
 
-        let mut stderr = Stream::Stderr.open();
+        let mut stderr = STDERR.lock();
         let stderr_result = stderr.flush();
 
         debug_assert!(
