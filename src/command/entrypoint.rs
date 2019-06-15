@@ -76,11 +76,11 @@ where
 
 impl<Cfg, Cmd> Configurable<Cfg> for EntryPoint<Cmd>
 where
-    Cmd: Runnable + Command + Configurable<Cfg>,
+    Cmd: Runnable + Command,
     Cfg: Config,
 {
-    /// Path to the command's configuration file. Returns an error by default.
+    /// Path to the command's configuration file
     fn config_path(&self) -> Option<PathBuf> {
-        self.command.as_ref().and_then(Configurable::config_path)
+        self.config.clone()
     }
 }
