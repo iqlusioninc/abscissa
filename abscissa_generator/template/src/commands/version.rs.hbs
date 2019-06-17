@@ -2,15 +2,20 @@
 
 #![allow(clippy::never_loop)]
 
+use super::{{~command_type~}};
 use abscissa::{Command, Options, Runnable};
 
 /// `version` subcommand
-#[derive(Debug, Default, Options)]
+#[derive(Command, Debug, Default, Options)]
 pub struct VersionCommand {}
 
 impl Runnable for VersionCommand {
     /// Print version message
     fn run(&self) {
-        super::{{~command_type~}}::print_package_info();
+        println!(
+            "{} {}",
+            {{command_type~}}::name(),
+            {{command_type~}}::version()
+        );
     }
 }

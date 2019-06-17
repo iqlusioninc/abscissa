@@ -1,11 +1,13 @@
 //! Application (sub)command(s), i.e. app entry points
 
 mod entrypoint;
+mod help;
+mod usage;
 
-pub use self::entrypoint::EntryPoint;
-use crate::{path::AbsPathBuf, runnable::Runnable};
+pub use self::{entrypoint::EntryPoint, help::Help, usage::Usage};
+use crate::{runnable::Runnable, terminal};
 use gumdrop::Options;
-use std::{fmt::Debug, process::exit};
+use std::fmt::Debug;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `call()` method which can be used to invoke the given
@@ -27,29 +29,9 @@ pub trait Command: Debug + Options + Runnable {
     fn from_args<A: IntoIterator<Item = String>>(into_args: A) -> Self {
         let args: Vec<_> = into_args.into_iter().collect();
 
-        if args.len() == 1 {
-            // TODO: hax! This can be replaced with `#[options(command)]`
-            match args[0].as_ref() {
-                "-h" | "--help" => {
-                    Self::print_usage(&[]);
-                }
-                "-V" | "--version" => {
-                    Self::print_package_info();
-                    exit(0);
-                }
-                _ => (),
-            }
-        }
-
-        Self::parse_args_default(args.as_slice()).unwrap_or_else(|e| {
-            match e.to_string().as_ref() {
-                // Show usage if no command name is given or if "help" is given
-                // TODO: don't gate on a string, handle the error properly
-                "missing command name" => Self::print_usage(&[]),
-                string => eprintln!("{}: {}", args[0], string),
-            }
-
-            exit(2);
+        Self::parse_args_default(args.as_slice()).unwrap_or_else(|err| {
+            terminal::init();
+            Usage::for_command::<Self>().print_error_and_exit(err, args.as_slice());
         })
     }
 
@@ -60,107 +42,13 @@ pub trait Command: Debug + Options + Runnable {
         Self::from_args(args)
     }
 
-    /// Print package name and version
-    fn print_package_info() {
-        println!("{} {}", Self::name(), Self::version());
+    /// Print usage information and exit
+    fn print_usage_and_exit(args: &[String]) -> ! {
+        Usage::for_command::<Self>().print_subcommand_and_exit(args);
     }
 
-    /// Print the authors of the current package
-    fn print_package_authors() {
-        if Self::authors() != "" {
-            println!(
-                "{}",
-                Self::authors().split(':').collect::<Vec<_>>().join(", ")
-            );
-        }
-    }
-
-    /// Print the description of the current package
-    fn print_package_description() {
-        let description = Self::description()
-            .split_whitespace()
-            .collect::<Vec<_>>()
-            .join(" ");
-
-        if description != "" {
-            println!("{}", description);
-        }
-    }
-
-    /// Print usage information for the given command to STDOUT and then exit with
-    /// a usage status code (i.e. `2`).
-    fn print_usage(args: &[&str]) -> ! {
-        Self::print_package_info();
-        Self::print_package_authors();
-
-        if args.len() == 1 {
-            Self::print_subcommand_usage(args[0]);
-        }
-
-        Self::print_package_description();
-        println!();
-        println!("USAGE:");
-        println!("  {} <SUBCOMMAND>", Self::name());
-        println!();
-        println!("FLAGS:");
-        println!("  -h, --help     Prints help information");
-        println!("  -V, --version  Prints version information");
-
-        if let Some(subcommands) = Self::command_list() {
-            println!();
-            println!("SUBCOMMANDS:");
-            println!("{}", subcommands);
-        }
-
-        exit(2)
-    }
-
-    /// Print subcommand usage
-    // TODO: less hax way of doing this
-    fn print_subcommand_usage(subcommand: &str) -> ! {
-        Self::print_subcommand_description(subcommand);
-        println!();
-        println!("USAGE:");
-        println!("  {} {} [OPTIONS]", Self::name(), subcommand);
-        println!();
-        Self::print_subcommand_flags(subcommand);
-
-        exit(2)
-    }
-
-    /// Print a description for a subcommand
-    // TODO: less hax way of doing this
-    fn print_subcommand_description(subcommand: &str) {
-        if let Some(command_list) = Self::command_list() {
-            for command_info in command_list.split('\n') {
-                let mut command_info_parts = command_info.split_whitespace();
-
-                if subcommand != command_info_parts.next().unwrap() {
-                    continue;
-                }
-
-                let command_description: Vec<_> = command_info_parts.collect();
-                println!("{}", command_description.join(" "));
-            }
-        }
-    }
-
-    /// Print flags for a subcommand
-    // TODO: less hax way of doing this
-    fn print_subcommand_flags(subcommand: &str) {
-        if let Some(command_usage) = Self::command_usage(subcommand) {
-            let usage = command_usage.replace("Optional arguments:", "OPTIONS:");
-
-            // TODO: descriptions for each command
-            println!("{}", usage);
-        }
-    }
-}
-
-/// Commands which know the path to their configuration
-pub trait CommandConfig {
-    /// Path from which to load this command's configuration
-    fn config_path(&self) -> Option<AbsPathBuf> {
+    /// Get usage information for a particular subcommand (if available)
+    fn subcommand_usage(_command: &str) -> Option<Usage> {
         None
     }
 }

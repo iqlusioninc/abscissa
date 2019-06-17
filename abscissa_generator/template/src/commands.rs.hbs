@@ -15,12 +15,16 @@ mod version;
 
 use self::{start::StartCommand, version::VersionCommand};
 use crate::config::{{~config_type~}};
-use abscissa::{Command, Configurable, Options, Runnable};
+use abscissa::{Command, Configurable, Help, Options, Runnable};
 use std::path::PathBuf;
 
 /// {{title}} Subcommands
 #[derive(Command, Debug, Options, Runnable)]
 pub enum {{command_type}} {
+    /// The `help` subcommand
+    #[options(help = "get usage information")]
+    Help(Help<Self>),
+
     /// The `start` subcommand
     #[options(help = "start the application")]
     Start(StartCommand),
