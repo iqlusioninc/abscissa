@@ -12,7 +12,7 @@ const APP_NAME: &str = "generated_test_app";
 const TEST_COMMANDS: &[&str] = &[
     "fmt -- --check",
     "test --release",
-    "run -- --version",
+    "run -- version",
     "clippy",
 ];
 

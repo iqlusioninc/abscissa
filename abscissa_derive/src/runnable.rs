@@ -37,19 +37,13 @@ mod tests {
                         fn run(&self) {
                             match *self {
                                 MyRunnable::A(ref __binding_0,) => {
-                                    {
-                                        __binding_0.run()
-                                    }
+                                    { __binding_0.run() }
                                 }
                                 MyRunnable::B(ref __binding_0,) => {
-                                    {
-                                        __binding_0.run()
-                                    }
+                                    { __binding_0.run() }
                                 }
                                 MyRunnable::C(ref __binding_0,) => {
-                                    {
-                                        __binding_0.run()
-                                    }
+                                    { __binding_0.run() }
                                 }
                             }
                         }

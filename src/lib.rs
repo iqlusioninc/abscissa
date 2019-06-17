@@ -118,7 +118,7 @@ pub mod terminal;
 #[cfg(feature = "application")]
 pub mod application;
 #[cfg(feature = "options")]
-mod command;
+pub mod command;
 #[cfg(feature = "application")]
 pub mod component;
 #[cfg(feature = "config")]
@@ -158,7 +158,7 @@ pub use crate::{
 };
 #[cfg(feature = "options")]
 pub use crate::{
-    command::{Command, EntryPoint},
+    command::{Command, EntryPoint, Help},
     path::StandardPaths,
 };
 

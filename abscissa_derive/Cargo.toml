@@ -16,6 +16,7 @@ circle-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 proc-macro = true
 
 [dependencies]
+heck = "0.3"
 proc-macro2 = "0.4"
 quote = "0.6"
 syn = "0.15"

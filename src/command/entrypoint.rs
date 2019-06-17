@@ -1,6 +1,7 @@
 //! Toplevel entrypoint command.
 
-use crate::{Command, Config, Configurable, Options, Runnable};
+use super::Command;
+use crate::{Config, Configurable, Options, Runnable};
 use std::path::PathBuf;
 
 /// Toplevel entrypoint command.
@@ -17,7 +18,7 @@ pub struct EntryPoint<Cmd: Runnable + Command> {
     pub help: bool,
 
     /// Increase verbosity setting
-    #[options(help = "be verbose")]
+    #[options(short = "v", help = "be verbose")]
     pub verbose: bool,
 
     /// Subcommand to execute.
@@ -36,7 +37,7 @@ where
     fn command(&self) -> &Cmd {
         self.command
             .as_ref()
-            .unwrap_or_else(|| Cmd::print_usage(&[]))
+            .unwrap_or_else(|| Cmd::print_usage_and_exit(&[]))
     }
 }
 
