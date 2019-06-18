@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 [[package]]
 name = "abscissa"
-version = "0.1.0-pre.1"
+version = "0.1.0-pre.2"
 dependencies = [
- "abscissa_derive 0.1.0-pre.1",
- "abscissa_generator 0.1.0-pre.1",
+ "abscissa_derive 0.1.0-pre.2",
+ "abscissa_generator 0.1.0-pre.2",
  "atty 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "canonical-path 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -28,7 +28,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_derive"
-version = "0.1.0-pre.1"
+version = "0.1.0-pre.2"
 dependencies = [
  "heck 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "proc-macro2 0.4.30 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -39,7 +39,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_generator"
-version = "0.1.0-pre.1"
+version = "0.1.0-pre.2"
 dependencies = [
  "failure 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars 2.0.0-beta.2 (registry+https://github.com/rust-lang/crates.io-index)",

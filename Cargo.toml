@@ -4,7 +4,7 @@ description = """
               Application microframework with support for command-line option parsing,
               configuration, error handling, logging, and terminal interactions
               """
-version     = "0.1.0-pre.1" # Also update html_root_url in lib.rs when bumping this
+version     = "0.1.0-pre.2" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
@@ -15,8 +15,8 @@ categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
-abscissa_derive = { version = "0.1.0-pre.1", path = "abscissa_derive" }
-abscissa_generator = { version = "0.1.0-pre.1", optional = true, path = "abscissa_generator" }
+abscissa_derive = { version = "0.1.0-pre.2", path = "abscissa_derive" }
+abscissa_generator = { version = "0.1.0-pre.2", optional = true, path = "abscissa_generator" }
 canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
