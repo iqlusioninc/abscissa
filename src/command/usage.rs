@@ -143,24 +143,30 @@ impl Usage {
     }
 
     /// Print information about a usage error
-    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, _args: &[String]) -> ! {
-        // TODO(tarcieri): introspect args and print a better message
-        let mut stdout = STDOUT.lock();
-        stdout.reset().unwrap();
+    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, args: &[String]) -> ! {
+        // TODO(tarcieri): better personalize errors based on args
+        if args.is_empty() {
+            self.print_info().unwrap();
+            self.print_usage().unwrap();
+            process::exit(0);
+        } else {
+            let mut stdout = STDOUT.lock();
+            stdout.reset().unwrap();
 
-        let mut red = ColorSpec::new();
-        red.set_fg(Some(Color::Red));
-        red.set_bold(true);
+            let mut red = ColorSpec::new();
+            red.set_fg(Some(Color::Red));
+            red.set_bold(true);
 
-        stdout.set_color(&red).unwrap();
-        write!(stdout, "error: ").unwrap();
-        stdout.reset().unwrap();
+            stdout.set_color(&red).unwrap();
+            write!(stdout, "error: ").unwrap();
+            stdout.reset().unwrap();
 
-        writeln!(stdout, "{}", err).unwrap();
-        writeln!(stdout).unwrap();
+            writeln!(stdout, "{}", err).unwrap();
+            writeln!(stdout).unwrap();
 
-        self.print_usage().unwrap();
-        process::exit(1);
+            self.print_usage().unwrap();
+            process::exit(1);
+        }
     }
 
     /// Print information about an unrecognized command
