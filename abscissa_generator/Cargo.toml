@@ -16,8 +16,8 @@ circle-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [dependencies]
 failure = "0.1"
-handlebars = "2.0.0-beta.2"
-hashbrown = "0.2"
+handlebars = "2.0.0-beta.3"
+hashbrown = "0.4"
 heck = "0.3"
 log = "0.4"
 semver = { version = "0.9", features = ["serde"] }
