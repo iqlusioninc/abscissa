@@ -26,6 +26,10 @@ pub enum FrameworkErrorKind {
     #[fail(display = "path error")]
     PathError,
 
+    /// Errors occurring in subprocess
+    #[fail(display = "subprocess error")]
+    ProcessError,
+
     /// Errors involving signals
     #[fail(display = "signal error")]
     SignalError,
@@ -33,6 +37,10 @@ pub enum FrameworkErrorKind {
     /// Errors involving multithreading
     #[fail(display = "thread error")]
     ThreadError,
+
+    /// Timeout performing operation
+    #[fail(display = "operation timed out")]
+    TimeoutError,
 }
 
 impl From<io::Error> for FrameworkError {
