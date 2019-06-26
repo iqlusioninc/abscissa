@@ -131,6 +131,8 @@ mod runnable;
 mod shutdown;
 #[cfg(all(feature = "signals", unix))]
 pub mod signal;
+#[cfg(feature = "testing")]
+pub mod testing;
 pub mod thread;
 
 // Proc macros

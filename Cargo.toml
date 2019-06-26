@@ -30,18 +30,17 @@ semver = { version = "0.9", optional = true }
 serde = { version = "1", optional = true, features = ["serde_derive"] }
 termcolor = { version = "1", optional = true }
 toml = { version = "0.5", optional = true }
+wait-timeout = { version = "0.2", optional = true }
 
 [target.'cfg(unix)'.dependencies]
 libc = { version = "0.2", optional = true }
 signal-hook = { version = "0.1", optional = true }
 
 [dev-dependencies]
-atty = "0.2"
 tempfile = "3"
-walkdir = "2"
 
 [features]
-default = ["application", "cli", "signals", "secrets", "time"]
+default = ["application", "cli", "signals", "secrets", "testing", "time"]
 application = ["config", "logging", "options", "semver", "terminal"]
 cli = ["abscissa_generator", "inflector"]
 config = ["secrets", "serde", "terminal", "toml"]
@@ -51,6 +50,7 @@ options = ["gumdrop", "gumdrop_derive"]
 secrets = ["secrecy"]
 signals = ["libc", "signal-hook"]
 terminal = ["termcolor"]
+testing = ["wait-timeout"]
 time = ["chrono"]
 
 [badges]
