@@ -2,19 +2,19 @@
 
 // TODO(tarcieri): logfile support?
 
-use super::{config::LoggingConfig, logger};
+use super::{config::Config, logger};
 use crate::{component, Application, Component, FrameworkError, Version};
 
 /// Abscissa component for initializing the logging subsystem
 #[derive(Debug, Default)]
 pub struct LoggingComponent {
-    config: LoggingConfig,
+    config: Config,
 }
 
 impl LoggingComponent {
     /// Create a new logging component
-    pub fn new(config: LoggingConfig) -> Result<Self, FrameworkError> {
-        logger::init();
+    pub fn new(config: Config) -> Result<Self, FrameworkError> {
+        logger::init(&config);
         Ok(Self { config })
     }
 }

@@ -7,4 +7,4 @@ mod logger;
 
 #[cfg(feature = "application")]
 pub use self::component::LoggingComponent;
-pub use self::config::LoggingConfig;
+pub use self::config::Config;

@@ -1,29 +1,18 @@
 //! Abscissa logger which displays through the terminal subsystem
 // TODO(tarcieri): logfile support?
 
+use super::config::Config;
 use crate::terminal::stream::{STDERR, STDOUT};
-use lazy_static::lazy_static;
 use log::{Level, LevelFilter, Log, Metadata, Record};
 use std::io::{Error, Write};
 use termcolor::{Color, ColorSpec, StandardStreamLock, WriteColor};
 
-/// Default loglevel
-const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
-
-lazy_static! {
-    /// Global logger.
-    ///
-    /// The `log` crate only supports one global logger, and it must be
-    /// initialized exactly once.
-    static ref LOGGER: Logger = Logger::default();
-}
-
 /// Initialize the global logger.
 ///
 /// Panics if called more than once.
-pub(super) fn init() {
-    log::set_logger(&*LOGGER).expect("error configuring global logger");
-    log::set_max_level(DEFAULT_LOG_LEVEL);
+pub(super) fn init(config: &Config) {
+    log::set_boxed_logger(Box::new(Logger::new(config))).expect("error configuring global logger");
+    log::set_max_level(config.level_filter);
 }
 
 /// Abscissa component for initializing the logging subsystem
@@ -32,17 +21,16 @@ pub struct Logger {
     level: LevelFilter,
 }
 
-impl Default for Logger {
-    fn default() -> Logger {
+impl Logger {
+    /// Create a new logger at the given log level
+    pub fn new(config: &Config) -> Self {
         Logger {
-            level: DEFAULT_LOG_LEVEL,
+            level: config.level_filter,
         }
     }
-}
 
-impl Logger {
     /// Attempt to log
-    fn try_log(&self, record: &Record) -> Result<(), Error> {
+    pub fn try_log(&self, record: &Record) -> Result<(), Error> {
         let mut stream = self.level_stream(record);
         let now = chrono::Utc::now();
         write!(&mut stream, "{} ", now.format("%H:%M:%S"))?;
