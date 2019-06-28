@@ -149,8 +149,6 @@ pub use gumdrop_derive::*;
 #[cfg(feature = "config")]
 pub use crate::config::{Config, Configurable};
 pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
-#[cfg(feature = "logging")]
-pub use crate::logging::LoggingConfig;
 pub use crate::runnable::Runnable;
 #[cfg(feature = "application")]
 pub use crate::{

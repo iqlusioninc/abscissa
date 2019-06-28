@@ -4,32 +4,32 @@ use log::LevelFilter;
 
 /// Logging configuration
 // TODO: more configurability
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
-pub struct LoggingConfig {
-    level_filter: LevelFilter,
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Config {
+    pub(super) level_filter: LevelFilter,
 }
 
-impl LoggingConfig {
+impl Config {
     /// Create a new LoggingConfig object with verbose logging
     pub fn verbose() -> Self {
         LevelFilter::Debug.into()
     }
 }
 
-impl Default for LoggingConfig {
+impl Default for Config {
     fn default() -> Self {
         LevelFilter::Info.into()
     }
 }
 
-impl From<LevelFilter> for LoggingConfig {
-    fn from(level_filter: LevelFilter) -> LoggingConfig {
+impl From<LevelFilter> for Config {
+    fn from(level_filter: LevelFilter) -> Config {
         Self { level_filter }
     }
 }
 
-impl From<LoggingConfig> for LevelFilter {
-    fn from(logging_config: LoggingConfig) -> LevelFilter {
+impl From<Config> for LevelFilter {
+    fn from(logging_config: Config) -> LevelFilter {
         logging_config.level_filter
     }
 }

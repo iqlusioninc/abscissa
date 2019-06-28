@@ -24,7 +24,7 @@ gumdrop = { version = "0.6", optional = true }
 gumdrop_derive = { version = "0.6", optional = true }
 heck = { version = "0.3", optional = true }
 lazy_static = "1"
-log = { version = "0.4", optional = true }
+log = { version = "0.4", optional = true, features = ["std"] }
 regex = { version = "1", optional = true }
 secrecy = { version = "0.2", optional = true, features = ["serde"] }
 semver = { version = "0.9", optional = true }

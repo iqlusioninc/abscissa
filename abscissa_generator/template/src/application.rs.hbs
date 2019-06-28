@@ -1,8 +1,9 @@
 //! {{title}} Abscissa Application
 
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
-use abscissa::{application, config};
-use abscissa::{Application, EntryPoint, FrameworkError, LoggingConfig, StandardPaths};
+use abscissa::{
+    application, config, logging, Application, EntryPoint, FrameworkError, StandardPaths,
+};
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -103,11 +104,11 @@ impl Application for {{application_type}} {
     }
 
     /// Get logging configuration from command-line options
-    fn logging_config(&self, command: &EntryPoint<{{~command_type~}}>) -> LoggingConfig {
+    fn logging_config(&self, command: &EntryPoint<{{~command_type~}}>) -> logging::Config {
         if command.verbose {
-            LoggingConfig::verbose()
+            logging::Config::verbose()
         } else {
-            LoggingConfig::default()
+            logging::Config::default()
         }
     }
 }

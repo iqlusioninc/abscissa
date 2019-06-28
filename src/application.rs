@@ -14,7 +14,7 @@ use crate::{
     component::Component,
     config::{Config, Configurable},
     error::{FrameworkError, FrameworkErrorKind::*},
-    logging::{LoggingComponent, LoggingConfig},
+    logging::{self, LoggingComponent},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
@@ -175,8 +175,8 @@ pub trait Application: Default + Sized {
     }
 
     /// Get the logging configuration for this application.
-    fn logging_config(&self, command: &Self::Cmd) -> LoggingConfig {
-        LoggingConfig::default()
+    fn logging_config(&self, command: &Self::Cmd) -> logging::Config {
+        logging::Config::default()
     }
 
     /// Handle a Unix signal received by this application
