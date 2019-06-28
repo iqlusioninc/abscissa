@@ -8,12 +8,7 @@ use abscissa::testing::CmdRunner;
 
 #[test]
 fn start_no_args() {
-    let mut cmd = CmdRunner::default()
-        .arg("start")
-        .capture_stdout()
-        .run()
-        .unwrap();
-
+    let mut cmd = CmdRunner::default().arg("start").capture_stdout().run();
     cmd.stdout().expect_line("Hello, world!");
     cmd.wait().unwrap().expect_success();
 }
@@ -23,8 +18,7 @@ fn start_with_args() {
     let mut cmd = CmdRunner::default()
         .args(&["start", "acceptance", "test"])
         .capture_stdout()
-        .run()
-        .unwrap();
+        .run();
 
     cmd.stdout().expect_line("Hello, acceptance test!");
     cmd.wait().unwrap().expect_success();

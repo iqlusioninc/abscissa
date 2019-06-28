@@ -7,7 +7,6 @@ fn no_args() {
     CmdRunner::default()
         .capture_stdout()
         .status()
-        .unwrap()
         .expect_success();
 }
 
@@ -17,6 +16,5 @@ fn invalid_args() {
         .arg("foobar") // invalid arg
         .capture_stdout()
         .status()
-        .unwrap()
         .expect_code(1);
 }
