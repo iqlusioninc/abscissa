@@ -1,6 +1,6 @@
 //! Templating engine for generating new Abscissa applications
 
-#![deny(warnings, unsafe_code, unused_import_braces, unused_qualifications)]
+#![deny(warnings, unsafe_code, unused_qualifications)]
 #![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",

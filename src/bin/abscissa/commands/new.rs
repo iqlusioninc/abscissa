@@ -12,7 +12,7 @@ use abscissa_generator::{
 };
 use failure::{bail, format_err, Error};
 use std::{
-    fs,
+    fs, io,
     path::{Path, PathBuf},
     process,
     time::Instant,
@@ -52,6 +52,9 @@ impl Runnable for NewCommand {
             self.render_template_file(&app_template, &template_file, &app_properties)
                 .unwrap_or_else(|e| fatal_error(e));
         }
+
+        // TODO(tarcieri): make this optional?
+        self.run_git_init().unwrap_or_else(|e| fatal_error(e));
 
         let duration = started_at.elapsed();
 
@@ -134,6 +137,45 @@ impl NewCommand {
 
         app_template.render(template_file, &app_properties, &mut output_file)?;
         status_ok!("Created", "new file: {}", output_path_rel.display());
+
+        Ok(())
+    }
+
+    /// Run `git init` on the resulting directory
+    fn run_git_init(&self) -> Result<(), Error> {
+        let path = self.app_path()?;
+
+        if path.join(".git").exists() {
+            status_warn!("'.git' directory already exists");
+            return Ok(());
+        }
+
+        status_ok!("Running", "git init {}", path.display());
+        let status = process::Command::new("git")
+            .stdout(process::Stdio::null())
+            .arg("init")
+            .arg(path)
+            .status();
+
+        match status {
+            Ok(status) => {
+                if !status.success() {
+                    status_warn!(
+                        "git init exited with error code: {}",
+                        status
+                            .code()
+                            .map(|n| n.to_string())
+                            .unwrap_or_else(|| "unknown".to_owned())
+                    );
+                }
+            }
+            // Ignore errors if git isn't installed
+            Err(e) => {
+                if e.kind() != io::ErrorKind::NotFound {
+                    fatal_error(format_err!("error running git init: {}", e));
+                }
+            }
+        }
 
         Ok(())
     }
