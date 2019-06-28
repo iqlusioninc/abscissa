@@ -18,15 +18,16 @@ use abscissa::{Command, Options, Runnable};
 pub struct StartCommand {
     /// To whom are we saying hello?
     #[options(free)]
-    recipient: Option<String>,
+    recipient: Vec<String>,
 }
 
 impl Runnable for StartCommand {
     /// Print "Hello, world!"
     fn run(&self) {
-        match &self.recipient {
-            Some(recipient) => println!("Hello, {}!", recipient),
-            None => println!("Hello, world!"),
+        if self.recipient.is_empty() {
+            println!("Hello, world!");
+        } else {
+            println!("Hello, {}!", self.recipient.join(" "));
         }
     }
 }

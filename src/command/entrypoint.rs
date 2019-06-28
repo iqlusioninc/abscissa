@@ -1,6 +1,6 @@
 //! Toplevel entrypoint command.
 
-use super::Command;
+use super::{Command, Usage};
 use crate::{Config, Configurable, Options, Runnable};
 use std::path::PathBuf;
 
@@ -72,6 +72,11 @@ where
     /// Authors of this program
     fn authors() -> &'static str {
         Cmd::authors()
+    }
+
+    /// Get usage information for a particular subcommand (if available)
+    fn subcommand_usage(command: &str) -> Option<Usage> {
+        Cmd::subcommand_usage(command)
     }
 }
 
