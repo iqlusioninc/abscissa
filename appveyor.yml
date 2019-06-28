@@ -2,11 +2,6 @@ os: Visual Studio 2017
 
 environment:
   matrix:
-    # Minimum supported rustc
-    - channel: 1.35.0
-      target: x86_64-pc-windows-msvc
-
-    # Stable channel should always be supported too
     - channel: stable
       target: x86_64-pc-windows-msvc
 

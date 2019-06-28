@@ -143,30 +143,54 @@ impl Usage {
     }
 
     /// Print information about a usage error
-    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, args: &[String]) -> ! {
+    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, mut args: &[String]) -> ! {
         // TODO(tarcieri): better personalize errors based on args
         if args.is_empty() {
             self.print_info().unwrap();
             self.print_usage().unwrap();
             process::exit(0);
-        } else {
-            let mut stdout = STDOUT.lock();
-            stdout.reset().unwrap();
-
-            let mut red = ColorSpec::new();
-            red.set_fg(Some(Color::Red));
-            red.set_bold(true);
-
-            stdout.set_color(&red).unwrap();
-            write!(stdout, "error: ").unwrap();
-            stdout.reset().unwrap();
-
-            writeln!(stdout, "{}", err).unwrap();
-            writeln!(stdout).unwrap();
-
-            self.print_usage().unwrap();
-            process::exit(1);
         }
+
+        let mut cmd = self;
+        let mut description = None;
+
+        while let Some(sub) = self.subcommands.iter().find(|cmd| cmd.name == args[0]) {
+            cmd = &sub.usage;
+            description = Some(&sub.description);
+            args = &args[1..];
+        }
+
+        let mut stdout = STDOUT.lock();
+        stdout.reset().unwrap();
+
+        let mut red = ColorSpec::new();
+        red.set_fg(Some(Color::Red));
+        red.set_bold(true);
+
+        stdout.set_color(&red).unwrap();
+        write!(stdout, "error: ").unwrap();
+        stdout.reset().unwrap();
+
+        writeln!(stdout, "{}", err).unwrap();
+        writeln!(stdout).unwrap();
+
+        cmd.print_info().unwrap();
+
+        if let Some(desc) = description {
+            let mut white = ColorSpec::new();
+            white.set_fg(Some(Color::White));
+            white.set_bold(true);
+
+            stdout.set_color(&white).unwrap();
+            writeln!(stdout, "DESCRIPTION:").unwrap();
+            stdout.reset().unwrap();
+
+            writeln!(stdout, "    {}", desc).unwrap();
+            writeln!(stdout).unwrap();
+        }
+
+        cmd.print_usage().unwrap();
+        process::exit(1);
     }
 
     /// Print information about an unrecognized command
