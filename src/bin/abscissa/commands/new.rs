@@ -2,7 +2,10 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa::{inflector::TitleCase, status_err, status_ok, Command, Options, Runnable};
+use abscissa::{
+    inflector::TitleCase, status_err, status_info, status_ok, status_warn, Command, Options,
+    Runnable,
+};
 use abscissa_generator::{
     properties::{self, Properties},
     template::{Collection, Template},
@@ -18,6 +21,10 @@ use std::{
 /// `new` subcommand - generate a new Abscissa application
 #[derive(Command, Debug, Default, Options)]
 pub struct NewCommand {
+    /// Overwrite files that already exist
+    #[options(help = "overwrite existing files")]
+    force: bool,
+
     /// Add a `[patch.crates-io]` section to Cargo.toml
     #[options(no_short, help = "add patch.crates-io to Cargo.toml")]
     patch_crates_io: Option<String>,
@@ -71,10 +78,15 @@ impl NewCommand {
         let app_path = self.app_path()?;
 
         if app_path.exists() {
-            fatal_error(format_err!(
-                "destination `{}` already exists",
-                app_path.display()
-            ));
+            if self.force {
+                status_info!("Exists", "`{}` (application directory)", app_path.display());
+                return Ok(());
+            } else {
+                fatal_error(format_err!(
+                    "destination `{}` already exists",
+                    app_path.display()
+                ));
+            }
         }
 
         fs::create_dir(app_path)
@@ -100,10 +112,14 @@ impl NewCommand {
         let output_path = self.app_path()?.join(&output_path_rel);
 
         if output_path.exists() {
-            fatal_error(format_err!(
-                "file already exists: {}",
-                output_path.display()
-            ));
+            if self.force {
+                status_warn!("overwriting: {}", output_path.display())
+            } else {
+                fatal_error(format_err!(
+                    "file already exists: {}",
+                    output_path.display()
+                ));
+            }
         }
 
         // We should always have a parent directory
@@ -117,7 +133,6 @@ impl NewCommand {
             .map_err(|e| format_err!("couldn't create {}: {}", output_path.display(), e))?;
 
         app_template.render(template_file, &app_properties, &mut output_file)?;
-
         status_ok!("Created", "new file: {}", output_path_rel.display());
 
         Ok(())
