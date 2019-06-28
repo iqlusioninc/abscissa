@@ -18,5 +18,5 @@ fn invalid_args() {
         .capture_stdout()
         .status()
         .unwrap()
-        .expect_code(101);
+        .expect_code(1);
 }
