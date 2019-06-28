@@ -31,6 +31,7 @@ const DEFAULT_TEMPLATE_FILES: &[(&str, &str)] = &[
     template!("src/error.rs.hbs"),
     template!("src/lib.rs.hbs"),
     template!("src/prelude.rs.hbs"),
+    template!("tests/acceptance.rs.hbs"),
 ];
 
 /// Abscissa application template renderer

@@ -33,7 +33,7 @@ fn test_generated_app() {
         CargoRunner::new(test_command.split(" "))
             .status()
             .unwrap()
-            .assert_success();
+            .expect_success();
     }
 }
 
@@ -52,7 +52,7 @@ fn generate_app(path: &Path) {
         ])
         .status()
         .unwrap()
-        .assert_success();
+        .expect_success();
 
     let app_test_dir = path.join("tests");
 
