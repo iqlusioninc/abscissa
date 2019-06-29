@@ -7,7 +7,7 @@ mod registry;
 
 pub use self::{name::Name, registry::Registry};
 use crate::{application::Application, error::FrameworkError, shutdown::Shutdown, Version};
-use std::{fmt::Debug, slice::Iter};
+use std::{cmp::Ordering, fmt::Debug, slice::Iter};
 
 /// Application components.
 ///
@@ -45,5 +45,33 @@ where
     /// Perform any tasks which should occur before the app exits
     fn before_shutdown(&self, kind: Shutdown) -> Result<(), FrameworkError> {
         Ok(())
+    }
+}
+
+impl<A> PartialEq for Box<dyn Component<A>>
+where
+    A: Application,
+{
+    fn eq(&self, other: &Self) -> bool {
+        self.name() == other.name()
+    }
+}
+
+impl<A> PartialOrd for Box<dyn Component<A>>
+where
+    A: Application,
+{
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        if other.dependencies().any(|dep| *dep == self.name()) {
+            if self.dependencies().any(|dep| *dep == other.name()) {
+                None
+            } else {
+                Some(Ordering::Greater)
+            }
+        } else if self.dependencies().any(|dep| *dep == other.name()) {
+            Some(Ordering::Less)
+        } else {
+            Some(Ordering::Equal)
+        }
     }
 }
