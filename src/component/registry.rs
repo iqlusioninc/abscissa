@@ -6,7 +6,7 @@ use crate::{
     error::{FrameworkError, FrameworkErrorKind::ComponentError},
     shutdown::Shutdown,
 };
-use std::{borrow::Borrow, cmp::Ordering, collections::HashSet, slice};
+use std::{borrow::Borrow, collections::HashSet, slice};
 
 /// The component registry provides a system for runtime registration of
 /// application components which can interact with each other dynamically.
@@ -86,20 +86,10 @@ where
     /// on others after their dependencies.
     ///
     /// Exits the application if the ordering cannot be resolved.
-    // TODO(tarcieri): impl `PartialOrd` on `Component`
     fn sort(&mut self) {
         self.components.sort_by(|a, b| {
-            if b.dependencies().any(|dep| *dep == a.name()) {
-                if a.dependencies().any(|dep| *dep == b.name()) {
-                    application::exit::bad_component_order(a.borrow(), b.borrow());
-                } else {
-                    Ordering::Greater
-                }
-            } else if a.dependencies().any(|dep| *dep == b.name()) {
-                Ordering::Less
-            } else {
-                Ordering::Equal
-            }
+            a.partial_cmp(b)
+                .unwrap_or_else(|| application::exit::bad_component_order(a.borrow(), b.borrow()))
         })
     }
 }
