@@ -1,4 +1,4 @@
-//! Abscissa: an application microframework
+//! ![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg)
 //!
 //! Abscissa is a microframework for building Rust applications (either CLI tools
 //! or network services), aiming to provide a large number of features with a
@@ -23,8 +23,7 @@
 //!
 //! # Creating a new Abscissa application
 //!
-//! If you already have Rust installed, the following commands will generate an
-//! Abscissa application skeleton:
+//! The following commands will generate an Abscissa application skeleton:
 //!
 //! ```text
 //! $ cargo install abscissa

@@ -99,7 +99,7 @@ impl CargoRunner {
     }
 
     /// Run the given subcommand
-    pub fn run(&self) -> Result<Process, FrameworkError> {
+    pub fn run(&self) -> Process {
         self.print_command().unwrap();
 
         let stdout = if self.capture_stdout {
@@ -119,14 +119,19 @@ impl CargoRunner {
             .stdin(Stdio::piped())
             .stdout(stdout)
             .stderr(stderr)
-            .spawn()?;
+            .spawn()
+            .unwrap_or_else(|e| {
+                panic!("error running command: {}", e);
+            });
 
-        Ok(Process::new(child, self.timeout))
+        Process::new(child, self.timeout)
     }
 
     /// Get the exit status for the given subcommand
-    pub fn status(&self) -> Result<ExitStatus, FrameworkError> {
-        self.run()?.wait()
+    pub fn status(&self) -> ExitStatus {
+        self.run().wait().unwrap_or_else(|e| {
+            panic!("error waiting for subprocess to terminate: {}", e);
+        })
     }
 
     /// Print the command we're about to run
@@ -225,7 +230,17 @@ impl CmdRunner {
     }
 
     /// Invoke `cargo run` with the given arguments
-    pub fn run(&self) -> Result<Process, FrameworkError> {
+    pub fn run(&self) -> Process {
+        self.runner().run()
+    }
+
+    /// Get the exit status after invoking the given command
+    pub fn status(&self) -> ExitStatus {
+        self.runner().status()
+    }
+
+    /// Construct a `CargoRunner` based on the configuration
+    fn runner(&self) -> CargoRunner {
         let mut runner = CargoRunner::default();
 
         // Invoke `cargo run`.
@@ -250,12 +265,7 @@ impl CmdRunner {
             runner.capture_stderr();
         }
 
-        runner.run()
-    }
-
-    /// Get the exit status after invoking the given command
-    pub fn status(&self) -> Result<ExitStatus, FrameworkError> {
-        self.run()?.wait()
+        runner
     }
 }
 

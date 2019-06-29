@@ -28,7 +28,6 @@ fn test_generated_app() {
     for test_command in TEST_COMMANDS {
         CargoRunner::new(test_command.split(" "))
             .status()
-            .unwrap()
             .expect_success();
     }
 }
@@ -48,7 +47,6 @@ fn generate_app(path: &Path) {
             &abscissa_crate_patch,
         ])
         .status()
-        .unwrap()
         .expect_success();
 
     let app_test_dir = path.join("tests");
