@@ -6,7 +6,7 @@ use crate::{
     error::{FrameworkError, FrameworkErrorKind::ComponentError},
     shutdown::Shutdown,
 };
-use std::{borrow::Borrow, collections::HashSet, slice};
+use std::{any::Any, borrow::Borrow, collections::HashSet, slice};
 
 /// The component registry provides a system for runtime registration of
 /// application components which can interact with each other dynamically.
@@ -91,5 +91,40 @@ where
             a.partial_cmp(b)
                 .unwrap_or_else(|| application::exit::bad_component_order(a.borrow(), b.borrow()))
         })
+    }
+}
+
+impl<A> Registry<A>
+where
+    A: Application + 'static,
+{
+    /// Get a reference to a component of the given type, if one has been registered
+    pub fn get_ref<C>(&self) -> Option<&C>
+    where
+        C: Component<A> + 'static,
+    {
+        // TODO(tarcieri): more efficient implementation
+        for component in self.components.iter() {
+            if let Some(result) = (component as &dyn Any).downcast_ref::<C>() {
+                return Some(result);
+            }
+        }
+
+        None
+    }
+
+    /// Get a mutable reference component of the given type, if one has been registered
+    pub fn get_mut<C>(&mut self) -> Option<&mut C>
+    where
+        C: Component<A> + 'static,
+    {
+        // TODO(tarcieri): more efficient implementation
+        for component in self.components.iter_mut() {
+            if let Some(result) = (component as &mut dyn Any).downcast_mut::<C>() {
+                return Some(result);
+            }
+        }
+
+        None
     }
 }
