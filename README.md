@@ -67,54 +67,66 @@ surface and therefore a potential liability. We have therefore been very
 conscientious about the dependencies we use and will not add additional
 dependencies without due consideration.
 
-Here are all of Abscissa's transitive dependencies:
+Here are all of Abscissa's transitive dependencies when configured with the
+default set of features in the application:
 
-| #  | Crate Name       | Origin          | License        | `unsafe`? | Description             |
-|----|------------------|-----------------|----------------|-----------|-------------------------|
-| 1  | [abscissa]       | [iqlusion]      | Apache-2.0     | yes       | App microframework      |
-| 2  | [backtrace]      | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
-| 3  | [backtrace-sys]  | [@alexcrichton] | Apache-2.0/MIT | yes       | Capture stack traces    |
-| 4  | [byteorder]      | [@BurntSushi]   | MIT/Unlicense  | yes       | Convert endianness      |
-| 5  | [canonical-path] | [iqlusion]      | Apache-2.0     | yes       | Get canonical fs paths  |
-| 6  | [chrono]         | [chronotope]    | Apache-2.0/MIT | yes       | Time/date library       |
-| 7  | [failure]        | [@withoutboats] | Apache-2.0/MIT | no       | Error handling          |
-| 8  | [gumdrop]        | [Murarth]       | Apache-2.0/MIT | no        | Command-line options    |
-| 9  | [lazy_static]    | [rust-lang]     | Apache-2.0/MIT | yes       | Heap-allocated statics  |
-| 10 | [libc]           | [rust-lang]     | Apache-2.0/MIT | yes       | C library wrapper       |
-| 11 | [log]            | [rust-lang]     | Apache-2.0/MIT | yes       | Logging facade library  |
-| 12 | [num-integer]    | [rust-num]      | Apache-2.0/MIT | yes       | `Integer` trait         |
-| 13 | [num-traits]     | [rust-num]      | Apache-2.0/MIT | yes       | Numeric traits          |
-| 14 | [redox_syscall]  | [redox-os]      | MIT            | yes       | Redox OS syscall API    |
-| 15 | [rustc_demangle] | [@alexcrichton] | Apache-2.0/MIT | yes       | Symbol demangling       |
-| 16 | [semver]         | [@steveklabnik] | Apache-2.0/MIT | yes       | Semantic versioning     |
-| 17 | [semver-parser]  | [@steveklabnik] | Apache-2.0/MIT | no†       | Parser for semver spec  |
-| 18 | [serde]          | [serde-rs]      | Apache-2.0/MIT | yes       | Serialization framework |
-| 19 | [termcolor]      | [@BurntSushi]   | MIT/Unlicense  | no        | Terminal color support  |
-| 20 | [time]           | [rust-lang]     | Apache-2.0/MIT | yes       | Time/date library       |
-| 21 | [toml]           | [@alexcrichton] | Apache-2.0/MIT | no        | TOML parser library     |
-| 22 | [winapi]§        | [@retep998]     | Apache-2.0/MIT | yes       | Windows API bindings    |
-| 23 | [zeroize]        | [iqlusion]      | Apache-2.0/MIT | yes       | Zero out sensitive data |
+| #  | Crate Name             | Origin          | License        | Description             |
+|----|------------------------|-----------------|----------------|-------------------------|
+| 1  | [abscissa]             | [iqlusion]      | Apache-2.0     | App microframework      |
+| 2  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
+| 3  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
+| 4  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 5  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 6  | [byteorder]            | [@BurntSushi]   | MIT/Unlicense  | Convert endianness      |
+| 7  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
+| 8  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
+| 9  | [failure]              | [@withoutboats] | Apache-2.0/MIT | Error handling          |
+| 10 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
+| 11 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
+| 12 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
+| 13 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
+| 14 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
+| 15 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
+| 16 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
+| 17 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
+| 18 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
+| 19 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
+| 20 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
+| 21 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
+| 22 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
+| 23 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
+| 24 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
+| 25 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
+| 26 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
+| 27 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
+| 28 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
+| 29 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
+| 30 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
 
-* † `semver-parser` has one usage of `unsafe` which is not compiled by Abscissa.
-* § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
-    which are omitted for brevity.
+### Build / Development / Testing Dependencies
 
-### Build / Development Dependencies
-
-| #  | Crate Name        | Origin           | License        | `unsafe`? | Description             |
-|----|-------------------|------------------|----------------|-----------|-------------------------|
-| 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | no        | Abscissa custom derive  |
-| 2  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | yes       | C/C++ compiler wrapper  |
-| 3  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | no        | If-like `#[cfg]` macros |
-| 4  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | no        | failure custom derive   |
-| 5  | [gumdrop_derive]  | [Murarth]        | Apache-2.0/MIT | no        | Command-line options    |
-| 5  | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | yes       | Shim for Macros 2.0 API |
-| 6  | [quote]           | [@dtolnay]       | Apache-2.0/MIT | no        | Rust AST to token macro |
-| 7  | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | no        | `serde` custom derive   |
-| 8  | [syn]             | [@dtolnay]       | Apache-2.0/MIT | yes       | Rust source code parser |
-| 9  | [synstructure]    | [@mystor]        | Apache-2.0/MIT | no        | `syn` structure macros  |
-| 10 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | no        | Identify valid Unicode  |
-| 11 | [version_check]   | [@SergioBenitez] | Apache-2.0/MIT | no        | rustc feature detection |
+| #  | Crate Name        | Origin           | License        | Description             |
+|----|-------------------|------------------|----------------|-------------------------|
+| 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | Abscissa custom derive  |
+| 2  | [aho-corasick]    | [@BurntSushi]    | MIT/Unlicense  | Pattern-matching alg    |
+| 3  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
+| 4  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
+| 5  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | failure custom derive   |
+| 6  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 7  | [heck]            | [@withoutboats]  | Apache-2.0/MIT | Case conversion utils   |
+| 8  | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimize byte search    |
+| 9  | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
+| 10 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
+| 11 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
+| 12 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
+| 13 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
+| 14 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
+| 15 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
+| 16 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
+| 17 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
+| 18 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 19 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
+| 20 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -123,38 +135,55 @@ an Abscissa dependency and whether or not it is optional. Abscissa uses
 [cargo features] to allow parts of it you aren't using to be easily disabled,
 so you only compile the parts you need.
 
-| Crate Name        | [Cargo Features] | Platform  | Required By |
-|-------------------|------------------|-----------|-------------|
-| [abscissa]        | mandatory        | -         | -           |
-| [abscissa_derive] | mandatory        | -         | [abscissa]  |
-| [backtrace]       | mandatory        | -         | [failure]   |
-| [backtrace-sys]   | mandatory        | -         | [backtrace] |
-| [canonical-path]  | mandatory        | -         | [abscissa]  |
-| [cc]              | mandatory        | -         | [backtrace-sys], [zeroize] |
-| [cfg-if]          | mandatory        | -         | [backtrace] |
-| [chrono]          | `time`           | -         | [abscissa]  |
-| [failure]         | mandatory        | -         | [abscissa]  |
-| [failure_derive]  | mandatory        | -         | [failure]   |
-| [gumdrop]         | `options`        | -         | [abscissa]  |
-| [gumdrop_derive]  | `options`        | -         | [gumdrop]   |
-| [lazy_static]     | mandatory        | -         | [abscissa]  |
-| [log]             | `logging`        | -         | [abscissa]  |
-| [num-integer]     | `logging`        | -         | [chrono]    |
-| [num-traits]      | `logging`        | -         | [chrono], [num-integer] |
-| [proc-macro2]     | mandatory        | -         | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
-| [rustc_demangle]  | mandatory        | -         | [backtrace] |
-| [semver]          | `application`    | -         | [abscissa]  |
-| [semver-parser]   | `application`    | -         | [abscissa]  |
-| [serde]           | `config`         | -         | [abscissa]  |
-| [serde_derive]    | `config`         | -         | [serde]     |
-| [termcolor]       | `terminal`       | -         | [abscissa]  |
-| [time]            | `logging`        | -         | [chrono]    |
-| [unicode-xid]     | mandatory        | -         | [proc-macro2] |
-| [version_check]   | mandatory        | -         | [lazy_static] |
-| [zeroize]         | mandatory        | -         | [abscissa]  |
+| Crate Name             | [Cargo Features] | Required By     |
+|------------------------|------------------|-----------------|
+| [abscissa]             | -                | ⊤               |
+| [abscissa_derive]      | -                | [abscissa]      |
+| [aho-corasick]         | `testing`        | [regex]         |
+| [arc-swap]             | `signals`        | [signal-hook-registry] |
+| [autocfg]              | `time`           | [num-integer]   |
+| [backtrace]            | -                | [failure]       |
+| [backtrace-sys]        | -                | [backtrace]     |
+| [canonical-path]       | -                | [abscissa]      |
+| [cc]                   | -                | [backtrace-sys] |
+| [cfg-if]               | -                | [backtrace], [log] |
+| [chrono]               | `time`           | [abscissa]      |
+| [failure]              | -                | [abscissa]      |
+| [failure_derive]       | -                | [failure]       |
+| [gumdrop]              | `options`        | [abscissa]      |
+| [gumdrop_derive]       | `options`        | [gumdrop]       |
+| [heck]                 | `inflector`      | [abscissa]      |
+| [lazy_static]          | -                | [abscissa]      |
+| [libc]                 | `signals`        | [abscissa]      |
+| [log]                  | `logging`        | [abscissa]      |
+| [memchr]               | `testing`        | [aho-corasick]  |
+| [num-integer]          | `time`           | [chrono]        |
+| [num-traits]           | `time`           | [chrono], [num-integer] |
+| [proc-macro2]          | -                | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
+| [redox_syscall]        | `time`           | [time]          |
+| [regex]                | `testing`        | [abscissa]      |
+| [rustc-demangle]       | -                | [backtrace]     |
+| [secrecy]              | `secrets`        | [abscissa]      |
+| [semver]               | `application`    | [abscissa]      |
+| [semver-parser]        | `application`    | [abscissa]      |
+| [serde]                | `config`         | [abscissa]      |
+| [serde_derive]         | `config`         | [serde]         |
+| [signal-hook]          | `signals`        | [abscissa]      |
+| [signal-hook-registry] | `signals`        | [signal-hook] |
+| [termcolor]            | `terminal`       | [abscissa]      |
+| [thread_local]         | `testing`        | [regex]         |
+| [time]                 | `logging`        | [chrono]        |
+| [ucd-util]             | `testing`        | [regex-syntax]  |
+| [unicode-xid]          | -                | [proc-macro2]   |
+| [utf8-ranges]          | `testing`        | [regex]         |
+| [wait-timeout]         | `testing`        | [abscissa]      |
+| [winapi]§              | -                | [termcolor], [time], [winapi-util] |
+| [winapi-util]          | -                | [termcolor]     |
+| [zeroize]              | -                | [abscissa]      |
 
-* § `winapi` also pulls in either [winapi-i686-pc-windows-gnu] or [winapi-x86_64-pc-windows-gnu]
-    which are omitted for brevity.
+* § `winapi` is a facade for either [winapi-i686-pc-windows-gnu] or
+    [winapi-x86_64-pc-windows-gnu] which aren't explicitly listed for brevity
+    and are only required on Windows platforms.
 
 ## Frequently Asked Questions (FAQ)
 
@@ -274,6 +303,9 @@ without any additional terms or conditions.
 
 [abscissa]: https://crates.io/crates/abscissa
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
+[aho-corasick]: https://crates.io/crates/arc-swap
+[arc-swap]: https://crates.io/crates/arc-swap
+[autocfg]: https://crates.io/crates/autocfg
 [backtrace]: https://crates.io/crates/backtrace
 [backtrace-sys]: https://crates.io/crates/backtrace-sys
 [byteorder]: https://crates.io/crates/byteorder
@@ -284,44 +316,57 @@ without any additional terms or conditions.
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
 [gumdrop]: https://crates.io/crates/gumdrop
-[atty]: https://crates.io/crates/atty
+[gumdrop_derive]: https://crates.io/crates/gumdrop_derive
+[heck]: https://crates.io/crates/heck
 [lazy_static]: https://crates.io/crates/lazy_static
 [libc]: https://crates.io/crates/libc
 [log]: https://crates.io/crates/log
+[memchr]: https://crates.io/crates/memchr
 [num-integer]: https://crates.io/crates/num-integer
 [num-traits]: https://crates.io/crates/num-traits
 [proc-macro2]: https://crates.io/crates/proc-macro2
 [quote]: https://crates.io/crates/quote
 [redox_syscall]: https://crates.io/crates/redox_syscall
-[rustc_demangle]: https://crates.io/crates/rustc_demangle
+[regex]: https://crates.io/crates/regex
+[regex-syntax]: https://crates.io/crates/regex-syntax
+[rustc-demangle]: https://crates.io/crates/rustc_demangle
+[secrecy]: https://crates.io/crates/secrecy
 [semver]: https://crates.io/crates/semver
 [semver-parser]: https://crates.io/crates/semver-parser
 [serde]: https://crates.io/crates/serde
 [serde_derive]: https://crates.io/crates/serde_derive
+[signal-hook]: https://crates.io/crates/signal-hook
+[signal-hook-registry]: https://crates.io/crates/signal-hook
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/
 [termcolor]: https://crates.io/crates/termcolor
+[thread_local]: https://crates.io/crates/thread_local
 [time]: https://crates.io/crates/time
 [toml]: https://crates.io/crates/toml
+[ucd-util]: https://crates.io/crates/ucd-util
 [unicode-xid]: https://crates.io/crates/unicode-xid
-[version_check]: https://crates.io/crates/version_check
+[utf8-ranges]: https://crates.io/crates/utf8-ranges
+[wait-timeout]: https://crates.io/crates/wait-timeout
 [winapi]: https://crates.io/crates/winapi
+[winapi-util]: https://crates.io/crates/winapi
 [winapi-i686-pc-windows-gnu]: https://crates.io/crates/winapi-i686-pc-windows-gnu
 [winapi-x86_64-pc-windows-gnu]: https://crates.io/crates/winapi-x86_64-pc-windows-gnu
+[wincolor]: https://crates.io/crates/winapi
 [zeroize]: https://crates.io/crates/zeroize
 
 [//]: # (author links)
 
 [@alexcrichton]: https://github.com/alexcrichton
+[@Amanieu]: https://github.com/Amanieu
 [@BurntSushi]: https://github.com/BurntSushi
-[@cesarb]: https://github.com/cesarb
-[@drakulix]: https://github.com/drakulix
+[@cuviper]: https://github.com/cuviper
 [@dtolnay]: https://github.com/dtolnay
+[@Murarth]: https://github.com/Murarth
 [@mystor]: https://github.com/mystor
 [@retep998]: https://github.com/retep998
 [@SergioBenitez]: https://github.com/SergioBenitez
-[@softprops]: https://github.com/softprops
 [@steveklabnik]: https://github.com/steveklabnik
+[@vorner]: https://github.com/vorner
 [@withoutboats]: https://github.com/withoutboats
 [chronotope]: https://github.com/chronotope/
 [iqlusion]: https://www.iqlusion.io
