@@ -303,7 +303,7 @@ without any additional terms or conditions.
 
 [abscissa]: https://crates.io/crates/abscissa
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
-[aho-corasick]: https://crates.io/crates/arc-swap
+[aho-corasick]: https://crates.io/crates/aho-corasick
 [arc-swap]: https://crates.io/crates/arc-swap
 [autocfg]: https://crates.io/crates/autocfg
 [backtrace]: https://crates.io/crates/backtrace
@@ -312,7 +312,7 @@ without any additional terms or conditions.
 [canonical-path]: https://crates.io/crates/canonical-path
 [cc]: https://crates.io/crates/cc
 [cfg-if]: https://crates.io/crates/cfg-if
-[chrono]: https://crates.io/crates/chrono/
+[chrono]: https://crates.io/crates/chrono
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
 [gumdrop]: https://crates.io/crates/gumdrop
