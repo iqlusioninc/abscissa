@@ -18,8 +18,10 @@ features = [{{~#each abscissa.cargo_features~}}
     {{~#unless @last}}, {{/unless~}}
 {{/each}}]
 
-[dev-dependencies]
-abscissa = { version = "{{abscissa.version}}", features = ["testing"] }
+[dev-dependencies.abscissa]
+version = "{{abscissa.version}}"
+default-features = false
+features = ["testing"]
 
 {{#if patch_crates_io~}}
 [patch.crates-io]
