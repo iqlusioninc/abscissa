@@ -16,7 +16,7 @@ travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 
 [dependencies]
 failure = "0.1"
-handlebars = "2.0.0-beta.3"
+handlebars = "2"
 hashbrown = "0.4"
 heck = "0.3"
 log = "0.4"
