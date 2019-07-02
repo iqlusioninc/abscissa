@@ -1,3 +1,32 @@
+## [0.1.0] (2019-07-02)
+
+- components: Add basic downcasting support ([#72])
+- components: impl `PartialOrd` for `Box<dyn Component>` ([#71])
+- generator: Run `git init` automatically ([#69])
+- abscissa new: add `--force` option ([#68])
+- testing: Support for capturing/asserting on streams ([#65])
+- testing: Add initial testing subsystem ([#64])
+- Upgrade to `gumdrop` v0.6 ([#63])
+- command: Show full usage on error with no args ([#61])
+- Command usage improvements ([#59])
+- entrypoint: Use config arg ([#58])
+- terminal: Persistent stdout/stderr streams ([#57])
+- Integrated logging support ([#56])
+- abscissa_generator: Use `Error`/`ErrorKind` names ([#55])
+- Add `app_config()`/`app_reader()`/`app_writer()` and `prelude` to template ([#52])
+- abscissa_derive: Test all proc macros ([#51])
+- Signal handling using the signal-hook crate ([#50])
+- thread: Wrappers for spawning threads ([#49])
+- Impl `Runnable`/`RunnableMut` for `Box<dyn Fn/FnMut>` ([#48])
+- Switch from `term` crate to `termcolor` crate ([#47])
+- Rename `Callable` to `Runnable` ([#45])
+- Bump minimum Rust version to 1.35.0 ([#44])
+- Use `secrecy` crate for secret-keeping ([#43], [#53])
+- Refactor `Application` and `Config` ([#42])
+- abscissa_generator: Generate new apps with `abscissa new` ([#38], [#39], [#40], [#41])
+- config: Refactor to eliminate `macro_rules!` ([#34])
+- Update to Rust 2018 edition ([#30], [#36])
+
 ## [0.0.6] (2018-10-12)
 
 - Upgrade to zeroize v0.4 ([#24])
@@ -28,6 +57,38 @@
 
 - Initial release
 
+[0.1.0]: https://github.com/iqlusioninc/abscissa/pull/77
+[#72]: https://github.com/iqlusioninc/abscissa/pull/72
+[#71]: https://github.com/iqlusioninc/abscissa/pull/71
+[#69]: https://github.com/iqlusioninc/abscissa/pull/69
+[#68]: https://github.com/iqlusioninc/abscissa/pull/68
+[#65]: https://github.com/iqlusioninc/abscissa/pull/65
+[#64]: https://github.com/iqlusioninc/abscissa/pull/64
+[#63]: https://github.com/iqlusioninc/abscissa/pull/63
+[#61]: https://github.com/iqlusioninc/abscissa/pull/61
+[#59]: https://github.com/iqlusioninc/abscissa/pull/59
+[#58]: https://github.com/iqlusioninc/abscissa/pull/58
+[#57]: https://github.com/iqlusioninc/abscissa/pull/57
+[#56]: https://github.com/iqlusioninc/abscissa/pull/56
+[#55]: https://github.com/iqlusioninc/abscissa/pull/55
+[#53]: https://github.com/iqlusioninc/abscissa/pull/53
+[#52]: https://github.com/iqlusioninc/abscissa/pull/52
+[#51]: https://github.com/iqlusioninc/abscissa/pull/51
+[#50]: https://github.com/iqlusioninc/abscissa/pull/50
+[#49]: https://github.com/iqlusioninc/abscissa/pull/49
+[#48]: https://github.com/iqlusioninc/abscissa/pull/48
+[#47]: https://github.com/iqlusioninc/abscissa/pull/47
+[#45]: https://github.com/iqlusioninc/abscissa/pull/45
+[#44]: https://github.com/iqlusioninc/abscissa/pull/44
+[#43]: https://github.com/iqlusioninc/abscissa/pull/43
+[#42]: https://github.com/iqlusioninc/abscissa/pull/42
+[#41]: https://github.com/iqlusioninc/abscissa/pull/41
+[#40]: https://github.com/iqlusioninc/abscissa/pull/40
+[#39]: https://github.com/iqlusioninc/abscissa/pull/39
+[#38]: https://github.com/iqlusioninc/abscissa/pull/38
+[#36]: https://github.com/iqlusioninc/abscissa/pull/36
+[#34]: https://github.com/iqlusioninc/abscissa/pull/34
+[#30]: https://github.com/iqlusioninc/abscissa/pull/30
 [0.0.6]: https://github.com/iqlusioninc/abscissa/pull/25
 [#24]: https://github.com/iqlusioninc/abscissa/pull/24
 [0.0.5]: https://github.com/iqlusioninc/abscissa/pull/23

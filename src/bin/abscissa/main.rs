@@ -1,6 +1,7 @@
 //! Main entry point for the Abscissa CLI application
 
-#![deny(warnings, unsafe_code, unused_qualifications)]
+#![deny(warnings, missing_docs, trivial_casts, unused_qualifications)]
+#![forbid(unsafe_code)]
 
 mod application;
 mod commands;
