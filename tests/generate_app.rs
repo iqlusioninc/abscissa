@@ -4,7 +4,8 @@
 #![deny(warnings, missing_docs, unused_import_braces, unused_qualifications)]
 #![forbid(unsafe_code)]
 
-use abscissa::testing::{CargoRunner, CmdRunner};
+use abscissa::testing::prelude::*;
+use lazy_static::lazy_static;
 use std::{env, fs, path::Path};
 
 /// Name of our test application
@@ -18,6 +19,14 @@ const TEST_COMMANDS: &[&str] = &[
     "clippy",
 ];
 
+lazy_static! {
+    pub static ref RUNNER: CmdRunner = {
+        let mut runner = CmdRunner::new("cargo");
+        runner.exclusive();
+        runner
+    };
+}
+
 /// Run tests against the generated application
 #[test]
 fn test_generated_app() {
@@ -26,7 +35,9 @@ fn test_generated_app() {
     env::set_current_dir(&app_path).unwrap();
 
     for test_command in TEST_COMMANDS {
-        CargoRunner::new(test_command.split(" "))
+        let mut runner = RUNNER.clone();
+        runner
+            .args(test_command.split(" "))
             .status()
             .expect_success();
     }

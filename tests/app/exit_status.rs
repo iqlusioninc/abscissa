@@ -1,18 +1,22 @@
 //! Tests for different exit status codes for different usage patterns
 
 use abscissa::testing::CmdRunner;
+use lazy_static::lazy_static;
+
+lazy_static! {
+    pub static ref RUNNER: CmdRunner = CmdRunner::default();
+}
 
 #[test]
 fn no_args() {
-    CmdRunner::default()
-        .capture_stdout()
-        .status()
-        .expect_success();
+    let mut runner = RUNNER.clone();
+    runner.capture_stdout().status().expect_success();
 }
 
 #[test]
 fn invalid_args() {
-    CmdRunner::default()
+    let mut runner = RUNNER.clone();
+    runner
         .arg("foobar") // invalid arg
         .capture_stdout()
         .status()
