@@ -5,7 +5,8 @@
 #[allow(unused_imports)]
 use crate::prelude::*;
 
-use abscissa::{Command, Options, Runnable};
+use crate::config::{{~config_type~}};
+use abscissa::{config, Command, FrameworkError, Options, Runnable};
 
 /// `start` subcommand
 ///
@@ -29,5 +30,21 @@ impl Runnable for StartCommand {
         } else {
             println!("Hello, {}!", self.recipient.join(" "));
         }
+    }
+}
+
+impl config::Override<{{~config_type~}}> for StartCommand {
+    // Process the given command line options, overriding settings from
+    // a configuration file using explicit flags taken from command-line
+    // arguments.
+    fn override_config(
+        &self,
+        mut config: {{config_type}},
+    ) -> Result<{{config_type}}, FrameworkError> {
+        if !self.recipient.is_empty() {
+            config.example_section.example_value = self.recipient.join(" ");
+        }
+
+        Ok(config)
     }
 }
