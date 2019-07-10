@@ -18,10 +18,9 @@ or network/web services), aiming to provide a large number of features with a
 ## Features
 
 - **command-line option parsing**: simple declarative option parser based on
-  (i.e. forked from) [gumdrop]. The option parser in Abcissa contains numerous
-  improvements which provide better UX and tighter integration with the other
-  parts of the framework (e.g. overriding configuration settings using
-  command-line options).
+  [gumdrop]. The option parser in Abcissa contains numerous improvements which
+  provide better UX and tighter integration with the other parts of the
+  framework (e.g. overriding configuration settings using command-line options).
 - **components**: Abscissa uses a component architecture (similar to an ECS)
   for extensibility/composability, with a minimalist implementation that still
   provides such features such as calculating dependency ordering and providing
@@ -49,7 +48,7 @@ or network/web services), aiming to provide a large number of features with a
 If you already have Rust installed, the following commands will generate an
 Abscissa application skeleton:
 
-![abscissa new my_cool_app](https://raw.githubusercontent.com/iqlusioninc/abscissa/develop/img/abscissa-new.png)
+![abscissa new my_cool_app](https://raw.githubusercontent.com/iqlusioninc/abscissa/develop/img/abscissa-new-screenshot.png)
 
 This will generate a new Abscissa application in the `my_cool_app` directory.
 For more information, please see the [Documentation][docs-link].
