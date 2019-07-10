@@ -15,21 +15,10 @@ env:
     - RUST_BACKTRACE=1
 
 matrix:
+  allow_failures:
+    - os: osx
+  fast_finish: true
   include:
-    - name: audit
-      rust: stable
-      os: linux
-      script:
-        - cargo audit
-    - name: rustfmt
-      rust: stable
-      os: linux
-      script:
-        - cargo fmt -- --check
-    - name: clippy
-      rust: stable
-      script:
-        - cargo clippy
     - name: build
       rust: stable
       os: linux
@@ -51,6 +40,20 @@ matrix:
       os: osx
       script:
         - cargo test --release --all --all-features
+    - name: rustfmt
+      rust: stable
+      os: linux
+      script:
+        - cargo fmt -- --check
+    - name: clippy
+      rust: stable
+      script:
+        - cargo clippy
+    - name: audit
+      rust: stable
+      os: linux
+      script:
+        - cargo audit
     - name: doc
       rust: stable
       os: linux
