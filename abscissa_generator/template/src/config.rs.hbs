@@ -12,12 +12,38 @@ use serde::{Deserialize, Serialize};
 #[serde(deny_unknown_fields)]
 pub struct {{config_type}} {
     /// An example configuration section
-    pub example_section: ExampleSection,
+    pub hello: ExampleSection,
 }
 
-/// Example configuration section
+/// Default configuration settings.
+///
+/// Customize this to meet your needs, or delete it if you don't intend to
+/// use it. However, keep in mind it may be useful for testing (see acceptance
+/// tests for ways to use it).
+///
+/// Also note: if your needs are as simple as below, you can
+/// use `#[derive(Default)]` instead.
+impl Default for {{config_type}} {
+    fn default() -> Self {
+        {{config_type}} {
+            hello: ExampleSection::default(),
+        }
+    }
+}
+
+/// Example configuration section.
+///
+/// Delete this and replace it with your actual configuration structs.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ExampleSection {
     /// Example configuration value
-    pub example_value: String,
+    pub recipient: String,
+}
+
+impl Default for ExampleSection {
+    fn default() -> Self {
+        Self {
+            recipient: "world".to_owned(),
+        }
+    }
 }
