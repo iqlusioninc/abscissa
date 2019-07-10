@@ -42,7 +42,7 @@ impl config::Override<{{~config_type~}}> for StartCommand {
         mut config: {{config_type}},
     ) -> Result<{{config_type}}, FrameworkError> {
         if !self.recipient.is_empty() {
-            config.example_section.example_value = self.recipient.join(" ");
+            config.hello.recipient = self.recipient.join(" ");
         }
 
         Ok(config)
