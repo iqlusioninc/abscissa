@@ -15,7 +15,7 @@ mod version;
 
 use self::{start::StartCommand, version::VersionCommand};
 use crate::config::{{~config_type~}};
-use abscissa::{Command, Configurable, Help, Options, Runnable};
+use abscissa::{config::Override, Command, Configurable, FrameworkError, Help, Options, Runnable};
 use std::path::PathBuf;
 
 /// {{title}} Subcommands
@@ -36,9 +36,23 @@ pub enum {{command_type}} {
 
 /// This trait allows you to define how application configuration is loaded.
 impl Configurable<{{~config_type~}}> for {{command_type}} {
+    // Have `config_path` return `Some(path)` in order to trigger the
+    // application configuration being loaded.
     fn config_path(&self) -> Option<PathBuf> {
-        // Have `config_path` return `Some(path)` in order to trigger the
-        // application configuration being loaded.
         None
+    }
+
+    // Apply changes to the config after it's been loaded, e.g. overriding
+    // values in a config file using command-line options.
+    //
+    // This can be safely deleted if you don't intend to use it.
+    fn process_config(
+        &self,
+        config: {{config_type}},
+    ) -> Result<{{~config_type~}}, FrameworkError> {
+        match self {
+            {{command_type}}::Start(cmd) => cmd.override_config(config),
+            _ => Ok(config),
+        }
     }
 }

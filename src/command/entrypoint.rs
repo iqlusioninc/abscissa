@@ -1,14 +1,17 @@
 //! Toplevel entrypoint command.
 
 use super::{Command, Usage};
-use crate::{Config, Configurable, Options, Runnable};
+use crate::{Config, Configurable, FrameworkError, Options, Runnable};
 use std::path::PathBuf;
 
 /// Toplevel entrypoint command.
 ///
 /// Handles obtaining toplevel help as well as verbosity settings.
 #[derive(Debug, Options)]
-pub struct EntryPoint<Cmd: Runnable + Command> {
+pub struct EntryPoint<Cmd>
+where
+    Cmd: Command + Runnable,
+{
     /// Path to the configuration file
     #[options(help = "path to configuration file")]
     pub config: Option<PathBuf>,
@@ -31,7 +34,7 @@ pub struct EntryPoint<Cmd: Runnable + Command> {
 
 impl<Cmd> EntryPoint<Cmd>
 where
-    Cmd: Runnable + Command,
+    Cmd: Command + Runnable,
 {
     /// Borrow the underlying command type or print usage info and exit
     fn command(&self) -> &Cmd {
@@ -43,7 +46,7 @@ where
 
 impl<Cmd> Runnable for EntryPoint<Cmd>
 where
-    Cmd: Runnable + Command,
+    Cmd: Command + Runnable,
 {
     fn run(&self) {
         self.command().run()
@@ -52,7 +55,7 @@ where
 
 impl<Cmd> Command for EntryPoint<Cmd>
 where
-    Cmd: Runnable + Command,
+    Cmd: Command + Runnable,
 {
     /// Name of this program as a string
     fn name() -> &'static str {
@@ -82,11 +85,26 @@ where
 
 impl<Cfg, Cmd> Configurable<Cfg> for EntryPoint<Cmd>
 where
-    Cmd: Runnable + Command,
+    Cmd: Command + Configurable<Cfg> + Runnable,
     Cfg: Config,
 {
     /// Path to the command's configuration file
     fn config_path(&self) -> Option<PathBuf> {
-        self.config.clone()
+        match &self.config {
+            // Use explicit `-c`/`--config` argument if passed
+            Some(cfg) => Some(cfg.clone()),
+
+            // Otherwise defer to the toplevel command's config path logic
+            None => self.command.as_ref().and_then(|cmd| cmd.config_path()),
+        }
+    }
+
+    /// Process the configuration after it has been loaded, potentially
+    /// modifying it or returning an error if options are incompatible
+    fn process_config(&self, config: Cfg) -> Result<Cfg, FrameworkError> {
+        match &self.command {
+            Some(cmd) => cmd.process_config(config),
+            None => Ok(config),
+        }
     }
 }

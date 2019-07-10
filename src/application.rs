@@ -21,7 +21,7 @@ use crate::{
     terminal::{component::TerminalComponent, ColorChoice},
     Version,
 };
-use std::{env, process, vec};
+use std::{env, path::Path, process, vec};
 
 /// Application types implementing this trait own global application state,
 /// including configuration and arbitrary other values stored within
@@ -100,7 +100,7 @@ pub trait Application: Default + Sized {
         // Load configuration
         let config = command
             .config_path()
-            .map(|_| self.load_config(command))
+            .map(|path| command.process_config(self.load_config(&path)?))
             .transpose()?;
 
         // Fire callback regardless of whether any config was loaded to
@@ -123,28 +123,21 @@ pub trait Application: Default + Sized {
         Ok(vec![Box::new(terminal), Box::new(logging)])
     }
 
-    /// Load configuration from command's `config_path()`.
+    /// Load configuration from the given path.
     ///
-    /// Returns an error if the configuration could not be loaded or if the
-    /// command's `config_path()` is none.
-    fn load_config(&mut self, command: &Self::Cmd) -> Result<Self::Cfg, FrameworkError> {
-        // Only attempt to load configuration if `config_path` returned the
-        // path to a configuration file.
-        if let Some(ref path) = command.config_path() {
-            let canonical_path = AbsPathBuf::canonicalize(path)
-                .map_err(|e| err!(ConfigError, "invalid path '{}': {}", path.display(), e))?;
+    /// Returns an error if the configuration could not be loaded.
+    fn load_config(&mut self, path: &Path) -> Result<Self::Cfg, FrameworkError> {
+        let canonical_path = AbsPathBuf::canonicalize(path)
+            .map_err(|e| err!(ConfigError, "invalid path '{}': {}", path.display(), e))?;
 
-            command.load_config_file(&canonical_path).map_err(|e| {
-                err!(
-                    ConfigError,
-                    "error loading config from '{}': {}",
-                    canonical_path.display(),
-                    e
-                )
-            })
-        } else {
-            fail!(PathError, "no config path for command: {:?}", command);
-        }
+        Self::Cfg::load_toml_file(&canonical_path).map_err(|e| {
+            err!(
+                ConfigError,
+                "error loading config from '{}': {}",
+                canonical_path.display(),
+                e
+            )
+        })
     }
 
     /// Name of this application as a string.
