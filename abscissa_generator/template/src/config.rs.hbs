@@ -25,7 +25,7 @@ pub struct {{config_type}} {
 /// use `#[derive(Default)]` instead.
 impl Default for {{config_type}} {
     fn default() -> Self {
-        {{config_type}} {
+        Self {
             hello: ExampleSection::default(),
         }
     }
@@ -35,6 +35,7 @@ impl Default for {{config_type}} {
 ///
 /// Delete this and replace it with your actual configuration structs.
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct ExampleSection {
     /// Example configuration value
     pub recipient: String,
