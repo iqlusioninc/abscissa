@@ -1,6 +1,6 @@
 //! Streams (i.e. pipes) for communicating with a subprocess
 
-use regex::Regex;
+use crate::testing::Regex;
 use std::{
     io::{self, BufRead, BufReader},
     ops::{Deref, DerefMut},
@@ -34,16 +34,18 @@ where
     /// Read a line and test it against the given regex.
     ///
     /// Panics if the line does not match the regex.
-    fn expect_regex(&mut self, regex: &str) {
-        let r = Regex::new(regex)
-            .unwrap_or_else(|e| panic!("error compiling regex {:?}: {}", regex, e));
+    fn expect_regex<T>(&mut self, regex: T)
+    where
+        T: Into<Regex>,
+    {
+        let regex: Regex = regex.into();
 
         let mut line = String::new();
         self.read_line(&mut line)
             .unwrap_or_else(|e| panic!("error reading line from {}: {}", stringify!($name), e));
 
         assert!(
-            r.is_match(line.trim_end_matches('\n')),
+            regex.is_match(line.trim_end_matches('\n')),
             "regex {:?} did not match line: {:?}",
             regex,
             line

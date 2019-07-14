@@ -11,6 +11,7 @@
 mod config;
 pub mod prelude;
 pub mod process;
+mod regex;
 mod runner;
 
-pub use self::runner::CmdRunner;
+pub use self::{regex::Regex, runner::CmdRunner};
