@@ -1,5 +1,8 @@
 //! Tests for different exit status codes for different usage patterns
 
+#![deny(warnings, missing_docs, trivial_casts, unused_qualifications)]
+#![forbid(unsafe_code)]
+
 use abscissa::testing::CmdRunner;
 use lazy_static::lazy_static;
 

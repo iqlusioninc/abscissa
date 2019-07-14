@@ -38,7 +38,7 @@ where
 
     /// Lifecycle event called when application configuration should be loaded
     /// if it were possible.
-    fn after_config(&mut self, app: Option<&A::Cfg>) -> Result<(), FrameworkError> {
+    fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
         Ok(())
     }
 

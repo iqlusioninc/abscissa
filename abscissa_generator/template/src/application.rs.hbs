@@ -64,8 +64,8 @@ impl Application for {{application_type}} {
     type Paths = StandardPaths;
 
     /// Accessor for application configuration.
-    fn config(&self) -> Option<&{{~config_type}}> {
-        self.config.as_ref()
+    fn config(&self) -> &{{~config_type}} {
+        self.config.as_ref().expect("config not loaded")
     }
 
     /// Borrow the application state immutably.
@@ -93,13 +93,10 @@ impl Application for {{application_type}} {
     /// Called regardless of whether config is loaded to indicate this is the
     /// time in app lifecycle when configuration would be loaded if
     /// possible.
-    fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError> {
-        // Provide configuration to all component `after_config()` handlers
-        for component in self.state.components.iter_mut() {
-            component.after_config(config.as_ref())?;
-        }
-
-        self.config = config;
+    fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError> {
+        // Configure components
+        self.state.components.after_config(&config)?;
+        self.config = Some(config);
         Ok(())
     }
 

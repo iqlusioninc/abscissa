@@ -67,7 +67,7 @@ pub trait Application: Default + Sized {
     }
 
     /// Accessor for application configuration.
-    fn config(&self) -> Option<&Self::Cfg>;
+    fn config(&self) -> &Self::Cfg;
 
     /// Borrow the application state immutably.
     fn state(&self) -> &State<Self>;
@@ -88,7 +88,7 @@ pub trait Application: Default + Sized {
     /// all components in the registry. This is presently done in the standard
     /// application template, but is not otherwise handled directly by the
     /// framework (as ownership precludes it).
-    fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError>;
+    fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError>;
 
     /// Load this application's configuration and initialize its components.
     fn init(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
@@ -100,12 +100,13 @@ pub trait Application: Default + Sized {
         // Load configuration
         let config = command
             .config_path()
-            .map(|path| command.process_config(self.load_config(&path)?))
-            .transpose()?;
+            .map(|path| self.load_config(&path))
+            .transpose()?
+            .unwrap_or_default();
 
         // Fire callback regardless of whether any config was loaded to
         // in order to signal state in the application lifecycle
-        self.after_config(config)?;
+        self.after_config(command.process_config(config)?)?;
 
         Ok(())
     }

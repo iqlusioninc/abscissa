@@ -4,7 +4,7 @@ use abscissa::config::Config;
 use serde::{Deserialize, Serialize};
 
 /// Abscissa CLI Config
-#[derive(Config, Clone, Debug, Deserialize, Serialize)]
+#[derive(Config, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct CliConfig {
     // TODO(tarcieri): configuration file?

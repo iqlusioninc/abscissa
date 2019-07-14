@@ -26,14 +26,6 @@ where
     type Target = A::Cfg;
 
     fn deref(&self) -> &A::Cfg {
-        self.0.config().unwrap_or_else(|| not_loaded())
+        self.0.config()
     }
-}
-
-/// Error handler called if `get()` is invoked before the global
-/// application config has been loaded.
-///
-/// This indicates a bug in the program accessing this type.
-fn not_loaded() -> ! {
-    panic!("Abscissa application config accessed before it has been initialized!")
 }

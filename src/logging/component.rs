@@ -35,8 +35,8 @@ where
     }
 
     /// Initialize this component at the time the framework boots
-    fn after_config(&mut self, _config: Option<&A::Cfg>) -> Result<(), FrameworkError> {
-        // TODO(tarcieri): set logging configuration
+    fn after_config(&mut self, _config: &A::Cfg) -> Result<(), FrameworkError> {
+        // TODO(tarcieri): set logging configuration here instead of earlier?
         Ok(())
     }
 }

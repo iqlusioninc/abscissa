@@ -63,6 +63,15 @@ where
         Ok(())
     }
 
+    /// Callback fired by application when configuration has been loaded
+    pub fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
+        for component in self.iter_mut() {
+            component.after_config(config)?;
+        }
+
+        Ok(())
+    }
+
     /// Iterate over the components mutably.
     pub fn iter(&mut self) -> slice::Iter<Box<dyn Component<A>>> {
         self.components.iter()

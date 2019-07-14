@@ -35,8 +35,8 @@ impl Application for CliApplication {
     type Cfg = CliConfig;
     type Paths = StandardPaths;
 
-    fn config(&self) -> Option<&CliConfig> {
-        self.config.as_ref()
+    fn config(&self) -> &CliConfig {
+        self.config.as_ref().expect("config not loaded")
     }
 
     fn state(&self) -> &application::State<Self> {
@@ -52,12 +52,12 @@ impl Application for CliApplication {
         self.state.components.register(components)
     }
 
-    fn after_config(&mut self, config: Option<Self::Cfg>) -> Result<(), FrameworkError> {
+    fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError> {
         for component in self.state.components.iter_mut() {
-            component.after_config(config.as_ref())?;
+            component.after_config(&config)?;
         }
 
-        self.config = config;
+        self.config = Some(config);
         Ok(())
     }
 

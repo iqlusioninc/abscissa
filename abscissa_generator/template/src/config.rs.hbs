@@ -17,12 +17,8 @@ pub struct {{config_type}} {
 
 /// Default configuration settings.
 ///
-/// Customize this to meet your needs, or delete it if you don't intend to
-/// use it. However, keep in mind it may be useful for testing (see acceptance
-/// tests for ways to use it).
-///
-/// Also note: if your needs are as simple as below, you can
-/// use `#[derive(Default)]` instead.
+/// Note: if your needs are as simple as below, you can
+/// use `#[derive(Default)]` on {{config_type}} instead.
 impl Default for {{config_type}} {
     fn default() -> Self {
         Self {

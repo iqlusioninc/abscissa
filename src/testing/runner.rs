@@ -1,6 +1,10 @@
 //! Subcommand runners which execute subprocesses
 
-use super::process::{ExitStatus, Process};
+use super::{
+    config::ConfigFile,
+    process::{ExitStatus, Process},
+};
+use serde::Serialize;
 use std::{
     ffi::OsString,
     io::{self, Write},
@@ -22,11 +26,11 @@ pub struct CmdRunner {
     /// Program to run
     program: OsString,
 
+    /// Target binary name
+    target_bin: Option<OsString>,
+
     /// Arguments to pass to the executable
     args: Vec<OsString>,
-
-    /// Timeout after which command should complete.
-    timeout: Option<Duration>,
 
     /// Capture standard output to a pipe
     capture_stdout: bool,
@@ -34,11 +38,17 @@ pub struct CmdRunner {
     /// Capture standard error to a pipe
     capture_stderr: bool,
 
+    /// Optional configuration file (deleted when no-longer used)
+    config: Option<Arc<ConfigFile>>,
+
     /// Print invocation info
     print_info: bool,
 
     /// Optional mutex for serializing usages of this command
     mutex: Option<Arc<Mutex<()>>>,
+
+    /// Timeout after which command should complete.
+    timeout: Option<Duration>,
 }
 
 impl Default for CmdRunner {
@@ -67,6 +77,10 @@ impl CmdRunner {
         // Start with default settings
         let mut cmd = Self::default();
 
+        // Set memoized target bin
+        let bin = bin.into();
+        cmd.target_bin = Some(bin.clone());
+
         // Clear arguments and replace them with ones for the given bin
         cmd.args.clear();
         cmd.arg("run");
@@ -84,12 +98,14 @@ impl CmdRunner {
     {
         Self {
             program: program.into(),
+            target_bin: None,
             args: vec![],
-            timeout: None,
             capture_stdout: false,
             capture_stderr: false,
+            config: None,
             print_info: true,
             mutex: None,
+            timeout: None,
         }
     }
 
@@ -112,14 +128,6 @@ impl CmdRunner {
         self
     }
 
-    /// Set the timeout after which the command should complete.
-    ///
-    /// By default `CargoRunner` timeout will be used (30 minutes).
-    pub fn timeout(&mut self, duration: Duration) -> &mut Self {
-        self.timeout = Some(duration);
-        self
-    }
-
     /// Enable capturing of standard output
     pub fn capture_stdout(&mut self) -> &mut Self {
         self.capture_stdout = true;
@@ -132,9 +140,28 @@ impl CmdRunner {
         self
     }
 
-    /// Disable printing a `+ run: ...` logline when running command
-    pub fn quiet(&mut self) -> &mut Self {
-        self.print_info = false;
+    /// Add the given configuration file
+    pub fn config<C>(&mut self, config: &C) -> &mut Self
+    where
+        C: Serialize,
+    {
+        if self.config.is_some() {
+            panic!("config file already added");
+        }
+
+        let target_bin = self
+            .target_bin
+            .as_ref()
+            .cloned()
+            .unwrap_or_else(|| "app".into());
+
+        let config_file = ConfigFile::create(&target_bin, config);
+
+        // Add `abscissa::EntryPoint`-compatible args to override config
+        self.arg("-c");
+        self.arg(config_file.path());
+
+        self.config = Some(Arc::new(config_file));
         self
     }
 
@@ -143,6 +170,20 @@ impl CmdRunner {
         if self.mutex.is_none() {
             self.mutex = Some(Arc::new(Mutex::new(())))
         }
+        self
+    }
+
+    /// Disable printing a `+ run: ...` logline when running command
+    pub fn quiet(&mut self) -> &mut Self {
+        self.print_info = false;
+        self
+    }
+
+    /// Set the timeout after which the command should complete.
+    ///
+    /// By default `CargoRunner` timeout will be used (30 minutes).
+    pub fn timeout(&mut self, duration: Duration) -> &mut Self {
+        self.timeout = Some(duration);
         self
     }
 

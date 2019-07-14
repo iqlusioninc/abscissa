@@ -13,11 +13,11 @@ where
     Cmd: Command + Runnable,
 {
     /// Path to the configuration file
-    #[options(help = "path to configuration file")]
+    #[options(short = "c", help = "path to configuration file")]
     pub config: Option<PathBuf>,
 
     /// Obtain help about the current command
-    #[options(help = "print help message")]
+    #[options(short = "h", help = "print help message")]
     pub help: bool,
 
     /// Increase verbosity setting
