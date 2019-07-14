@@ -8,6 +8,7 @@
 //!
 //! The main entrypoint for running tests is [abscissa::testing::CmdRunner].
 
+mod config;
 pub mod prelude;
 pub mod process;
 mod runner;

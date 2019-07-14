@@ -15,7 +15,7 @@ use serde::de::DeserializeOwned;
 use std::{fmt::Debug, fs::File, io::Read};
 
 /// Trait for Abscissa configuration data structures
-pub trait Config: Debug + DeserializeOwned {
+pub trait Config: Debug + Default + DeserializeOwned {
     /// Load the configuration from the given TOML string
     fn load_toml<T: AsRef<str>>(toml_string: T) -> Result<Self, FrameworkError> {
         Ok(toml::from_str(toml_string.as_ref())?)

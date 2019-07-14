@@ -2,7 +2,6 @@
 
 /// App-local prelude includes `app_reader()`/`app_writer()`/`app_config()`
 /// accessors along with logging macros. Customize as you see fit.
-#[allow(unused_imports)]
 use crate::prelude::*;
 
 use crate::config::{{~config_type~}};
@@ -23,13 +22,10 @@ pub struct StartCommand {
 }
 
 impl Runnable for StartCommand {
-    /// Print "Hello, world!"
+    /// Start the application.
     fn run(&self) {
-        if self.recipient.is_empty() {
-            println!("Hello, world!");
-        } else {
-            println!("Hello, {}!", self.recipient.join(" "));
-        }
+        let config = app_config();
+        println!("Hello, {}!", &config.hello.recipient);
     }
 }
 

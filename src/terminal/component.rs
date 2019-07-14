@@ -32,7 +32,7 @@ where
     }
 
     /// Initialize this component at the time the framework boots
-    fn after_config(&mut self, _app: Option<&A::Cfg>) -> Result<(), FrameworkError> {
+    fn after_config(&mut self, _config: &A::Cfg) -> Result<(), FrameworkError> {
         Ok(())
     }
 }
