@@ -75,3 +75,11 @@ fn start_with_config_and_args() {
     cmd.stdout().expect_line("Hello, acceptance test!");
     cmd.wait().unwrap().expect_success();
 }
+
+/// Example of a test which matches a regular expression
+#[test]
+fn version_no_args() {
+    let mut runner = RUNNER.clone();
+    let mut cmd = runner.arg("version").capture_stdout().run();
+    cmd.stdout().expect_regex(r"\A\w+ [\d\.\-]+\z");
+}
