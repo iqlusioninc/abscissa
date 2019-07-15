@@ -73,7 +73,14 @@ impl Collection {
 
     /// Iterate over the templates in the collection
     pub fn iter(&self) -> Iter {
-        Iter::new(self.0.get_templates().iter())
+        // TODO: better way of constructing this `Iter`
+        Iter::new(
+            self.0
+                .get_templates()
+                .iter()
+                .map(|(path, template)| Template::new(path.as_ref(), template))
+                .collect(),
+        )
     }
 
     /// Render a template
