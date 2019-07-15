@@ -4,7 +4,7 @@ pub mod framework;
 pub mod name;
 pub mod rust;
 
-pub use semver::Version;
+pub use abscissa_core::Version;
 use serde::{Deserialize, Serialize};
 
 /// Application properties: configurable and computed values for names and

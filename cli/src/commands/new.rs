@@ -2,11 +2,11 @@
 
 #![allow(clippy::never_loop)]
 
-use abscissa_core::{status_err, status_info, status_ok, status_warn, Command, Options, Runnable};
-use abscissa_generator::{
+use crate::{
     properties::{self, Properties},
     template::{Collection, Template},
 };
+use abscissa_core::{status_err, status_info, status_ok, status_warn, Command, Options, Runnable};
 use failure::{bail, format_err, Error};
 use heck::TitleCase;
 use std::{
