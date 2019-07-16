@@ -69,8 +69,6 @@
 //! # Status Macros
 //!
 //! ```norun
-//! # #[macro_use] extern crate abscissa;
-//! # fn main() {
 //! // Print a Cargo-like justified status to STDOUT
 //! status_ok!("Loaded", "app loaded successfully");
 //!
@@ -82,7 +80,6 @@
 //!
 //! // Print an error attribute to STDERR
 //! status_attr_err!("error", "yep");
-//! # }
 //! ```
 //!
 //! [gumdrop]: https://github.com/murarth/gumdrop
@@ -93,7 +90,7 @@
 #![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa/0.2.0-rc.0"
+    html_root_url = "https://docs.rs/abscissa_core/0.2.0-rc.0"
 )]
 
 /// Abscissa version
