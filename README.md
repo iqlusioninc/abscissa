@@ -281,10 +281,10 @@ without any additional terms or conditions.
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/abscissa.svg
-[crate-link]: https://crates.io/crates/abscissa
-[docs-image]: https://docs.rs/abscissa/badge.svg
-[docs-link]: https://docs.rs/abscissa/
+[crate-image]: https://img.shields.io/crates/v/abscissa_core.svg
+[crate-link]: https://crates.io/crates/abscissa_core
+[docs-image]: https://docs.rs/abscissa_core/badge.svg
+[docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
 [rustc-image]: https://img.shields.io/badge/rustc-1.35+-blue.svg
@@ -307,7 +307,7 @@ without any additional terms or conditions.
 
 [//]: # (crate links)
 
-[abscissa]: https://crates.io/crates/abscissa
+[abscissa]: https://crates.io/crates/abscissa_core
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
 [aho-corasick]: https://crates.io/crates/aho-corasick
 [arc-swap]: https://crates.io/crates/arc-swap

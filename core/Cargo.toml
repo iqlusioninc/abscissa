@@ -11,7 +11,7 @@ authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
 homepage    = "https://github.com/iqlusioninc/abscissa/"
 repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/"
-readme      = "README.md"
+readme      = "../README.md"
 categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
