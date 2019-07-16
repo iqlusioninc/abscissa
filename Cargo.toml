@@ -1,2 +1,2 @@
 [workspace]
-members = ["core", "cli", "derive", "generator"]
+members = ["core", "cli", "derive"]

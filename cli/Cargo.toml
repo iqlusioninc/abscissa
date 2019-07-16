@@ -15,9 +15,13 @@ readme      = "README.md"
 categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
+[badges]
+travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
+
 [dependencies]
 failure = "0.1"
 gumdrop = "0.6"
+handlebars = "2"
 heck = "0.3"
 lazy_static = "1"
 serde = { version = "1", features = ["serde_derive"] }
@@ -26,14 +30,7 @@ serde = { version = "1", features = ["serde_derive"] }
 version = "0.2.0-rc.0"
 path = "../core"
 
-[dependencies.abscissa_generator]
-version = "0.2.0-rc.0"
-path = "../generator"
-
 [dev-dependencies.abscissa_core]
 version = "0.2.0-rc.0"
 features = ["testing"]
 path = "../core"
-
-[badges]
-travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }

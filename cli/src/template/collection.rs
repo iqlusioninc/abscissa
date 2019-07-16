@@ -2,10 +2,9 @@
 //! generate an Abscissa application.
 
 use super::{iter::Iter, Template};
-use crate::properties::Properties;
+use crate::{prelude::*, properties::Properties};
 use failure::{format_err, Error};
 use handlebars::Handlebars;
-use log::debug;
 use std::io;
 
 /// Include a file from the application template

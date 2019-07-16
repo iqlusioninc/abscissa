@@ -2,7 +2,7 @@
 //!
 //! These are presently not very configurable, but could be made to be.
 
-pub use semver::Version;
+use abscissa_core::Version;
 use serde::{Deserialize, Serialize};
 
 /// Abscissa framework-related properties

@@ -7,5 +7,9 @@
     html_root_url = "https://docs.rs/abscissa_generator/0.2.0-rc.0"
 )]
 
+pub mod application;
+pub mod commands;
+pub mod config;
+pub mod prelude;
 pub mod properties;
 pub mod template;
