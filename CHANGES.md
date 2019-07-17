@@ -1,3 +1,15 @@
+## [0.2.0] (2019-07-16)
+
+- Merge `abscissa_generator` into `abscissa` CLI crate ([#95])
+- Rename `abscissa` crate to `abscissa_core` ([#94])
+- generator: Remove `hashbrown` dependency ([#93])
+- testing: Add Regex newtype ([#91])
+- config: Mandate `Default` bound + testing support ([#84], [#90])
+- generator: Add `serde(deny_unknown_fields)` ([#88])
+- generator: Add config filename boilerplate to template ([#82])
+- Configuration loading improvements ([#81])
+- Refactor and improve `abscissa::testing` ([#78])
+
 ## [0.1.0] (2019-07-02)
 
 - components: Add basic downcasting support ([#72])
@@ -57,6 +69,17 @@
 
 - Initial release
 
+[0.2.0]: https://github.com/iqlusioninc/abscissa/pull/96
+[#95]: https://github.com/iqlusioninc/abscissa/pull/95
+[#94]: https://github.com/iqlusioninc/abscissa/pull/94
+[#93]: https://github.com/iqlusioninc/abscissa/pull/93
+[#91]: https://github.com/iqlusioninc/abscissa/pull/91
+[#84]: https://github.com/iqlusioninc/abscissa/pull/84
+[#90]: https://github.com/iqlusioninc/abscissa/pull/90
+[#88]: https://github.com/iqlusioninc/abscissa/pull/88
+[#82]: https://github.com/iqlusioninc/abscissa/pull/82
+[#81]: https://github.com/iqlusioninc/abscissa/pull/81
+[#78]: https://github.com/iqlusioninc/abscissa/pull/78
 [0.1.0]: https://github.com/iqlusioninc/abscissa/pull/77
 [#72]: https://github.com/iqlusioninc/abscissa/pull/72
 [#71]: https://github.com/iqlusioninc/abscissa/pull/71

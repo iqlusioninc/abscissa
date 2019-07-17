@@ -90,7 +90,7 @@
 #![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_core/0.2.0-rc.1"
+    html_root_url = "https://docs.rs/abscissa_core/0.2.0"
 )]
 
 /// Abscissa version
