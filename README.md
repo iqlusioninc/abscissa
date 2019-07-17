@@ -275,9 +275,11 @@ limitations under the License.
 
 ## Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally
-submitted for inclusion in the work by you shall be dual licensed as above,
-without any additional terms or conditions.
+If you are interested in contributing to this repository, please make sure to
+read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
+
+[CONTRIBUTING.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CONTRIBUTING.md
+[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
 
 [//]: # (badges)
 
