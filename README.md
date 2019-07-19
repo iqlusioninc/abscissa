@@ -195,7 +195,7 @@ so you only compile the parts you need.
 
 ### Q1: Why is it called "abscissa"?
 
-**A1:** An abscissa represents the elevation of a point above the y-axis.
+**A1:** An abscissa represents the elevation of a point above the x-axis.
 In that regard, "Abscissa" can be thought of as a pun about getting off
 the ground, or elevating your project.
 
