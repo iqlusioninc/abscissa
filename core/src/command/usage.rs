@@ -154,10 +154,14 @@ impl Usage {
         let mut cmd = self;
         let mut description = None;
 
-        while let Some(sub) = self.subcommands.iter().find(|cmd| cmd.name == args[0]) {
-            cmd = &sub.usage;
-            description = Some(&sub.description);
-            args = &args[1..];
+        while !args.is_empty() {
+            if let Some(sub) = self.subcommands.iter().find(|cmd| cmd.name == args[0]) {
+                cmd = &sub.usage;
+                description = Some(&sub.description);
+                args = &args[1..];
+            } else {
+                break;
+            }
         }
 
         let mut stdout = STDOUT.lock();
