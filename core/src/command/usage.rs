@@ -79,18 +79,18 @@ impl Usage {
         stdout.reset()?;
 
         let mut recognized = vec![];
-        let mut cmd = self;
+        let mut command = self;
         let mut description = None;
 
         for arg in args {
-            match cmd.subcommands.iter().find(|cmd| cmd.name == args[0]) {
+            match command.subcommands.iter().find(|cmd| &cmd.name == arg) {
                 Some(subcommand) => {
                     recognized.push(arg.clone());
                     description = Some(&subcommand.description);
-                    cmd = &subcommand.usage;
+                    command = &subcommand.usage;
                 }
                 None => {
-                    cmd.print_unrecognized_command(arg, &recognized)?;
+                    command.print_unrecognized_command(arg, &recognized)?;
 
                     // Force error status exit code
                     return Err(io::ErrorKind::NotFound.into());
@@ -98,7 +98,7 @@ impl Usage {
             }
         }
 
-        cmd.print_info()?;
+        command.print_info()?;
 
         let mut white = ColorSpec::new();
         white.set_fg(Some(Color::White));
@@ -112,7 +112,7 @@ impl Usage {
         usage_items.extend(recognized.iter().map(|s| s.to_string()));
         let usage_string = usage_items.join(" ");
 
-        if cmd.subcommands.is_empty() {
+        if command.subcommands.is_empty() {
             writeln!(stdout, "    {} <OPTIONS>", &usage_string)?;
         } else {
             writeln!(stdout, "    {} <SUBCOMMAND>", &usage_string)?;
@@ -129,7 +129,7 @@ impl Usage {
             writeln!(stdout)?;
         }
 
-        cmd.print_usage()
+        command.print_usage()
     }
 
     /// Print usage for a particular subcommand and exit
@@ -143,7 +143,7 @@ impl Usage {
     }
 
     /// Print information about a usage error
-    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, mut args: &[String]) -> ! {
+    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, args: &[String]) -> ! {
         // TODO(tarcieri): better personalize errors based on args
         if args.is_empty() {
             self.print_info().unwrap();
@@ -151,14 +151,13 @@ impl Usage {
             process::exit(0);
         }
 
-        let mut cmd = self;
+        let mut command = self;
         let mut description = None;
 
-        while !args.is_empty() {
-            if let Some(sub) = self.subcommands.iter().find(|cmd| cmd.name == args[0]) {
-                cmd = &sub.usage;
+        for arg in args {
+            if let Some(sub) = command.subcommands.iter().find(|cmd| &cmd.name == arg) {
+                command = &sub.usage;
                 description = Some(&sub.description);
-                args = &args[1..];
             } else {
                 break;
             }
@@ -178,7 +177,7 @@ impl Usage {
         writeln!(stdout, "{}", err).unwrap();
         writeln!(stdout).unwrap();
 
-        cmd.print_info().unwrap();
+        command.print_info().unwrap();
 
         if let Some(desc) = description {
             let mut white = ColorSpec::new();
@@ -193,7 +192,7 @@ impl Usage {
             writeln!(stdout).unwrap();
         }
 
-        cmd.print_usage().unwrap();
+        command.print_usage().unwrap();
         process::exit(1);
     }
 
