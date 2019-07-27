@@ -1,3 +1,8 @@
+## [0.2.1] (2019-07-27)
+
+- usage: Fix bugs when traversing subcommands ([#107])
+- usage: Fix panic when printing usage on error ([#106])
+
 ## [0.2.0] (2019-07-16)
 
 - Merge `abscissa_generator` into `abscissa` CLI crate ([#95])
@@ -69,6 +74,9 @@
 
 - Initial release
 
+[0.2.1]: https://github.com/iqlusioninc/abscissa/pull/108
+[#107]: https://github.com/iqlusioninc/abscissa/pull/107
+[#106]: https://github.com/iqlusioninc/abscissa/pull/106
 [0.2.0]: https://github.com/iqlusioninc/abscissa/pull/96
 [#95]: https://github.com/iqlusioninc/abscissa/pull/95
 [#94]: https://github.com/iqlusioninc/abscissa/pull/94
