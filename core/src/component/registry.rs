@@ -72,8 +72,8 @@ where
         Ok(())
     }
 
-    /// Iterate over the components mutably.
-    pub fn iter(&mut self) -> slice::Iter<Box<dyn Component<A>>> {
+    /// Iterate over the components.
+    pub fn iter(&self) -> slice::Iter<Box<dyn Component<A>>> {
         self.components.iter()
     }
 
