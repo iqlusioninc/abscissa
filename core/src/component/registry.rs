@@ -50,16 +50,18 @@ where
         // Ensure all component names are unique
         let mut names = HashSet::new();
 
-        for component in &result.components {
+        result.sort();
+
+        for component in result.components {
             ensure!(
                 names.insert(component.name()),
                 ComponentError,
                 "duplicate component name: {}",
                 component.name()
             );
+            self.components.push(component);
         }
 
-        result.sort();
         Ok(())
     }
 
