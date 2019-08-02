@@ -1,12 +1,20 @@
 //! Abscissa's component registry
 
-pub use super::Component;
+mod iter;
+
+pub use self::iter::{Iter, IterMut};
+
+use super::{handle::Handle, id::Id, Component};
 use crate::{
     application::{self, Application},
     error::{FrameworkError, FrameworkErrorKind::ComponentError},
     shutdown::Shutdown,
 };
-use std::{any::Any, borrow::Borrow, collections::HashSet, slice};
+use generational_arena::{Arena, Index};
+use std::{borrow::Borrow, collections::BTreeMap};
+
+/// Index of component identifiers to their arena locations
+type IndexMap = BTreeMap<Id, Index>;
 
 /// The component registry provides a system for runtime registration of
 /// application components which can interact with each other dynamically.
@@ -15,7 +23,11 @@ use std::{any::Any, borrow::Borrow, collections::HashSet, slice};
 /// in-order, and at application termination time, shut down in reverse order.
 #[derive(Debug)]
 pub struct Registry<A: Application> {
-    components: Vec<Box<dyn Component<A>>>,
+    /// Generational arena of registered components
+    components: Arena<Box<dyn Component<A>>>,
+
+    /// Map of component identifiers to their indexes
+    index_map: IndexMap,
 }
 
 impl<A> Default for Registry<A>
@@ -23,7 +35,10 @@ where
     A: Application,
 {
     fn default() -> Self {
-        Registry { components: vec![] }
+        Registry {
+            components: Arena::new(),
+            index_map: IndexMap::new(),
+        }
     }
 }
 
@@ -43,23 +58,21 @@ where
             "no support for registering additional components (yet)"
         );
 
-        let mut result = Registry {
-            components: components.into_iter().collect::<Vec<_>>(),
-        };
+        let mut components = components.into_iter().collect::<Vec<_>>();
 
-        // Ensure all component names are unique
-        let mut names = HashSet::new();
+        components.sort_by(|a, b| {
+            a.partial_cmp(b)
+                .unwrap_or_else(|| application::exit::bad_component_order(a.borrow(), b.borrow()))
+        });
 
-        result.sort();
+        for component in components {
+            let id = component.id();
+            let index = self.components.insert(component);
 
-        for component in result.components {
-            ensure!(
-                names.insert(component.name()),
-                ComponentError,
-                "duplicate component name: {}",
-                component.name()
-            );
-            self.components.push(component);
+            if self.index_map.insert(id, index).is_some() {
+                self.components.remove(index);
+                fail!(ComponentError, "duplicate component ID: {}", id);
+            }
         }
 
         Ok(())
@@ -67,75 +80,74 @@ where
 
     /// Callback fired by application when configuration has been loaded
     pub fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
-        for component in self.iter_mut() {
-            component.after_config(config)?;
+        let mut component_indexes: Vec<(Index, Vec<Index>)> = vec![];
+
+        for (index, component) in self.components.iter() {
+            let mut dep_indexes = vec![];
+
+            for id in component.dependencies() {
+                if let Some(index) = self.index_map.get(id) {
+                    dep_indexes.push(*index);
+                } else {
+                    fail!(ComponentError, "unregistered dependency ID: {}", id);
+                }
+            }
+
+            component_indexes.push((index, dep_indexes));
+        }
+
+        for (component_index, dep_indexes) in component_indexes {
+            {
+                let component = self.components.get_mut(component_index).unwrap();
+                component.after_config(config)?;
+            }
+
+            for dep_index in dep_indexes {
+                if let (Some(component), Some(dep)) =
+                    self.components.get2_mut(component_index, dep_index)
+                {
+                    let dep_handle = Handle::new(dep.id(), dep_index);
+                    component.register_dependency(dep_handle, dep)?;
+                } else {
+                    fail!(ComponentError, "unregistered component dependency");
+                }
+            }
         }
 
         Ok(())
     }
 
+    /// Get a component reference by its handle
+    pub fn get(&self, handle: Handle) -> Option<&dyn Component<A>> {
+        self.components.get(handle.index).map(Borrow::borrow)
+    }
+
+    /// Get a component's handle by its ID
+    pub fn get_handle_by_id(&self, id: Id) -> Option<Handle> {
+        Some(Handle::new(id, *self.index_map.get(&id)?))
+    }
+
+    /// Get a component ref by its ID
+    pub fn get_by_id(&self, id: Id) -> Option<&dyn Component<A>> {
+        self.get(self.get_handle_by_id(id)?)
+    }
+
     /// Iterate over the components.
-    pub fn iter(&self) -> slice::Iter<Box<dyn Component<A>>> {
-        self.components.iter()
+    pub fn iter(&self) -> Iter<A> {
+        Iter::new(self.components.iter())
     }
 
     /// Iterate over the components mutably.
-    pub fn iter_mut(&mut self) -> slice::IterMut<Box<dyn Component<A>>> {
-        self.components.iter_mut()
+    pub fn iter_mut(&mut self) -> IterMut<A> {
+        IterMut::new(self.components.iter_mut())
     }
 
     /// Shutdown components (in the reverse order they were started)
     pub fn shutdown(&self, app: &A, shutdown: Shutdown) -> Result<(), FrameworkError> {
-        for component in self.components.iter().rev() {
+        for (_, component) in self.components.iter().rev() {
             component.before_shutdown(shutdown)?;
         }
 
         Ok(())
-    }
-
-    /// Sort components by dependency ordering, loading the components that depend
-    /// on others after their dependencies.
-    ///
-    /// Exits the application if the ordering cannot be resolved.
-    fn sort(&mut self) {
-        self.components.sort_by(|a, b| {
-            a.partial_cmp(b)
-                .unwrap_or_else(|| application::exit::bad_component_order(a.borrow(), b.borrow()))
-        })
-    }
-}
-
-impl<A> Registry<A>
-where
-    A: Application + 'static,
-{
-    /// Get a reference to a component of the given type, if one has been registered
-    pub fn get_ref<C>(&self) -> Option<&C>
-    where
-        C: Component<A> + 'static,
-    {
-        // TODO(tarcieri): more efficient implementation
-        for component in self.components.iter() {
-            if let Some(result) = (component as &dyn Any).downcast_ref::<C>() {
-                return Some(result);
-            }
-        }
-
-        None
-    }
-
-    /// Get a mutable reference component of the given type, if one has been registered
-    pub fn get_mut<C>(&mut self) -> Option<&mut C>
-    where
-        C: Component<A> + 'static,
-    {
-        // TODO(tarcieri): more efficient implementation
-        for component in self.components.iter_mut() {
-            if let Some(result) = (component as &mut dyn Any).downcast_mut::<C>() {
-                return Some(result);
-            }
-        }
-
-        None
     }
 }

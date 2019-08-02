@@ -53,10 +53,7 @@ impl Application for CliApplication {
     }
 
     fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError> {
-        for component in self.state.components.iter_mut() {
-            component.after_config(&config)?;
-        }
-
+        self.state.components.after_config(&config)?;
         self.config = Some(config);
         Ok(())
     }

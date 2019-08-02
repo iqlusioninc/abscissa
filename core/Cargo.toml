@@ -5,7 +5,7 @@ description = """
               configuration, error handling, logging, and terminal interactions.
               This crate contains the framework's core functionality.
               """
-version     = "0.2.1" # Also update html_root_url in lib.rs when bumping this
+version     = "0.3.0-rc.0" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
@@ -16,10 +16,11 @@ categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
-abscissa_derive = { version = "0.2", path = "../derive" }
+abscissa_derive = { version = "0.3.0-rc.0", path = "../derive" }
 canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
+generational-arena = { version = "0.2", optional = true }
 gumdrop = { version = "0.6", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true, features = ["std"] }
@@ -36,7 +37,7 @@ libc = { version = "0.2", optional = true }
 signal-hook = { version = "0.1", optional = true }
 
 [features]
-default = ["application", "signals", "secrets", "testing", "time"]
+default = ["application", "generational-arena", "signals", "secrets", "testing", "time"]
 application = ["config", "logging", "options", "semver/serde", "terminal"]
 config = ["secrets", "serde", "terminal", "toml"]
 logging = ["log"]
