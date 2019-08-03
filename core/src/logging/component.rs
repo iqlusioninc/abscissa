@@ -25,8 +25,8 @@ where
     A: Application,
 {
     /// Name of this component
-    fn name(&self) -> component::Name {
-        component::Name("abscissa_core::logging")
+    fn id(&self) -> component::Id {
+        component::Id::new("abscissa_core::logging")
     }
 
     /// Version of this component

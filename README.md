@@ -87,27 +87,28 @@ default set of features in the application:
 | 6  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
 | 7  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
 | 8  | [failure]              | [@withoutboats] | Apache-2.0/MIT | Error handling          |
-| 9  | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
-| 10 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
-| 11 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
-| 12 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
-| 13 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
-| 14 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
-| 15 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
-| 16 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
-| 17 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
-| 18 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
-| 19 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
-| 20 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
-| 21 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
-| 22 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
-| 23 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
-| 24 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
-| 25 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
-| 26 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
-| 27 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
-| 28 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
-| 29 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
+| 9  | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
+| 10 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
+| 11 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
+| 12 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
+| 13 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
+| 14 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
+| 15 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
+| 16 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
+| 17 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
+| 18 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
+| 19 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
+| 20 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
+| 21 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
+| 22 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
+| 23 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
+| 24 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
+| 25 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
+| 26 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
+| 27 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
+| 28 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
+| 29 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
+| 30 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
 
 ### Build / Development / Testing Dependencies
 
@@ -156,6 +157,7 @@ so you only compile the parts you need.
 | [chrono]               | `time`           | [abscissa]      |
 | [failure]              | -                | [abscissa]      |
 | [failure_derive]       | -                | [failure]       |
+| [generational-arena]   | `application`    | [abscissa]      |
 | [gumdrop]              | `options`        | [abscissa]      |
 | [gumdrop_derive]       | `options`        | [gumdrop]       |
 | [heck]                 | `inflector`      | [abscissa]      |
@@ -323,6 +325,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [chrono]: https://crates.io/crates/chrono
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
+[generational-arena]: https://github.com/fitzgen/generational-arena
 [gumdrop]: https://crates.io/crates/gumdrop
 [gumdrop_derive]: https://crates.io/crates/gumdrop_derive
 [heck]: https://crates.io/crates/heck
@@ -369,6 +372,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [@BurntSushi]: https://github.com/BurntSushi
 [@cuviper]: https://github.com/cuviper
 [@dtolnay]: https://github.com/dtolnay
+[@fitzgen]: https://github.com/fitzgen
 [@Murarth]: https://github.com/Murarth
 [@mystor]: https://github.com/mystor
 [@retep998]: https://github.com/retep998

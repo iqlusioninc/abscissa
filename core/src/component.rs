@@ -2,10 +2,11 @@
 
 #![allow(unused_variables)]
 
-mod name;
+mod handle;
+mod id;
 mod registry;
 
-pub use self::{name::Name, registry::Registry};
+pub use self::{handle::Handle, id::Id, registry::Registry};
 use crate::{application::Application, error::FrameworkError, shutdown::Shutdown, Version};
 use std::{cmp::Ordering, fmt::Debug, slice::Iter};
 
@@ -25,20 +26,33 @@ pub trait Component<A>: Debug + Send + Sync
 where
     A: Application,
 {
-    /// Name of this component
-    fn name(&self) -> Name;
+    /// Identifier for this component.
+    ///
+    /// These are the Rust path (e.g. `crate_name:foo::Foo`) by convention.
+    fn id(&self) -> Id;
 
     /// Version of this component
     fn version(&self) -> Version;
 
     /// Names of the components this components depends on
-    fn dependencies(&self) -> Iter<'_, Name> {
+    fn dependencies(&self) -> Iter<'_, Id> {
         [].iter()
     }
 
     /// Lifecycle event called when application configuration should be loaded
     /// if it were possible.
     fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
+        Ok(())
+    }
+
+    /// Register a dependency of this component (a.k.a. "dependency injection")
+    // TODO(tarcieri): fix clippy warning
+    #[allow(clippy::borrowed_box)]
+    fn register_dependency(
+        &mut self,
+        handle: Handle,
+        dependency: &mut Box<dyn Component<A>>,
+    ) -> Result<(), FrameworkError> {
         Ok(())
     }
 
@@ -53,7 +67,7 @@ where
     A: Application,
 {
     fn eq(&self, other: &Self) -> bool {
-        self.name() == other.name()
+        self.id() == other.id()
     }
 }
 
@@ -62,13 +76,13 @@ where
     A: Application,
 {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        if other.dependencies().any(|dep| *dep == self.name()) {
-            if self.dependencies().any(|dep| *dep == other.name()) {
+        if other.dependencies().any(|dep| *dep == self.id()) {
+            if self.dependencies().any(|dep| *dep == other.id()) {
                 None
             } else {
                 Some(Ordering::Greater)
             }
-        } else if self.dependencies().any(|dep| *dep == other.name()) {
+        } else if self.dependencies().any(|dep| *dep == other.id()) {
             Some(Ordering::Less)
         } else {
             Some(Ordering::Equal)
