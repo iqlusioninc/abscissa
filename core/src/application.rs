@@ -34,7 +34,7 @@ use std::{env, path::Path, process, vec};
 /// - `Config `: application configuration
 /// - `Paths`: paths to various resources within the application
 #[allow(unused_variables)]
-pub trait Application: Default + Sized {
+pub trait Application: Default + Sized + 'static {
     /// Application (sub)command which serves as the main entry point.
     type Cmd: Command + Configurable<Self::Cfg>;
 

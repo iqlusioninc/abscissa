@@ -88,7 +88,7 @@ where
     }
 }
 
-/// Trait used to downcast trait objects back to their concrete types
+/// Dynamic type helper trait
 // TODO(tarcieri): eliminate this trait or hide it from the public API
 pub trait AsAny: Any {
     /// Borrow this concrete type as a `&dyn Any`
@@ -98,7 +98,10 @@ pub trait AsAny: Any {
     fn as_mut_any(&mut self) -> &mut dyn Any;
 }
 
-impl<T: Any> AsAny for T {
+impl<T> AsAny for T
+where
+    T: Any,
+{
     fn as_any(&self) -> &dyn Any {
         self
     }

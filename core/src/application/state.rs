@@ -4,7 +4,7 @@ use crate::{application::Application, component, thread};
 
 /// Framework-managed application state
 #[derive(Debug, Default)]
-pub struct State<A: Application> {
+pub struct State<A: Application + 'static> {
     /// Application components.
     pub components: component::Registry<A>,
 

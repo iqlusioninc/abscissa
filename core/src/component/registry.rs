@@ -11,10 +11,16 @@ use crate::{
     shutdown::Shutdown,
 };
 use generational_arena::{Arena, Index};
-use std::{borrow::Borrow, collections::BTreeMap};
+use std::{any::TypeId, borrow::Borrow, collections::BTreeMap};
+
+/// Map type used by the registry
+type Map<K, V> = BTreeMap<K, V>;
 
 /// Index of component identifiers to their arena locations
-type IndexMap = BTreeMap<Id, Index>;
+type IdMap = Map<Id, Index>;
+
+/// Index of component type IDs to their arena locations
+type TypeMap = Map<TypeId, Index>;
 
 /// The component registry provides a system for runtime registration of
 /// application components which can interact with each other dynamically.
@@ -22,29 +28,33 @@ type IndexMap = BTreeMap<Id, Index>;
 /// Components are sorted according to a dependency ordering, started
 /// in-order, and at application termination time, shut down in reverse order.
 #[derive(Debug)]
-pub struct Registry<A: Application> {
+pub struct Registry<A: Application + 'static> {
     /// Generational arena of registered components
     components: Arena<Box<dyn Component<A>>>,
 
     /// Map of component identifiers to their indexes
-    index_map: IndexMap,
+    id_map: IdMap,
+
+    /// Map of component types to their identifiers
+    type_map: TypeMap,
 }
 
 impl<A> Default for Registry<A>
 where
-    A: Application,
+    A: Application + 'static,
 {
     fn default() -> Self {
         Registry {
             components: Arena::new(),
-            index_map: IndexMap::new(),
+            id_map: IdMap::new(),
+            type_map: TypeMap::new(),
         }
     }
 }
 
 impl<A> Registry<A>
 where
-    A: Application,
+    A: Application + 'static,
 {
     /// Register components, determining their dependency order
     pub fn register<I>(&mut self, components: I) -> Result<(), FrameworkError>
@@ -67,11 +77,18 @@ where
 
         for component in components {
             let id = component.id();
+            let type_id = (*component).type_id();
             let index = self.components.insert(component);
 
-            if self.index_map.insert(id, index).is_some() {
+            if self.id_map.insert(id, index).is_some() {
                 self.components.remove(index);
                 fail!(ComponentError, "duplicate component ID: {}", id);
+            }
+
+            if self.type_map.insert(type_id, index).is_some() {
+                self.components.remove(index);
+                self.id_map.remove(&id);
+                fail!(ComponentError, "duplicate component type: {}", id);
             }
         }
 
@@ -86,7 +103,7 @@ where
             let mut dep_indexes = vec![];
 
             for id in component.dependencies() {
-                if let Some(index) = self.index_map.get(id) {
+                if let Some(index) = self.id_map.get(id) {
                     dep_indexes.push(*index);
                 } else {
                     fail!(ComponentError, "unregistered dependency ID: {}", id);
@@ -138,7 +155,7 @@ where
     }
     /// Get a component's handle by its ID
     pub fn get_handle_by_id(&self, id: Id) -> Option<Handle> {
-        Some(Handle::new(id, *self.index_map.get(&id)?))
+        Some(Handle::new(id, *self.id_map.get(&id)?))
     }
 
     /// Get a component ref by its ID
@@ -169,25 +186,16 @@ where
 
         Ok(())
     }
-}
 
-impl<A> Registry<A>
-where
-    A: Application + 'static,
-{
     /// Get a component reference by its type
     pub fn get_downcast_ref<C>(&self) -> Option<&C>
     where
         C: Component<A>,
     {
-        // TODO(tarcieri): index components by `TypeId` for faster lookup
-        for (_, box_component) in &self.components {
-            if let Some(component) = (*(*box_component)).as_any().downcast_ref::<C>() {
-                return Some(component);
-            }
-        }
-
-        None
+        let index = *self.type_map.get(&TypeId::of::<C>())?;
+        self.components
+            .get(index)
+            .and_then(|box_component| (*(*box_component)).as_any().downcast_ref())
     }
 
     /// Get a mutable component reference by its type
@@ -195,13 +203,9 @@ where
     where
         C: Component<A>,
     {
-        // TODO(tarcieri): index components by `TypeId` for faster lookup
-        for (_, box_component) in &mut self.components {
-            if let Some(component) = (*(*box_component)).as_mut_any().downcast_mut::<C>() {
-                return Some(component);
-            }
-        }
-
-        None
+        let index = *self.type_map.get(&TypeId::of::<C>())?;
+        self.components
+            .get_mut(index)
+            .and_then(|box_component| (*(*box_component)).as_mut_any().downcast_mut())
     }
 }
