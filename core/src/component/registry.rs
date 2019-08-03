@@ -11,7 +11,7 @@ use crate::{
     shutdown::Shutdown,
 };
 use generational_arena::{Arena, Index};
-use std::{borrow::Borrow, collections::BTreeMap, ops::DerefMut};
+use std::{borrow::Borrow, collections::BTreeMap};
 
 /// Index of component identifiers to their arena locations
 type IndexMap = BTreeMap<Id, Index>;
@@ -107,7 +107,7 @@ where
                     self.components.get2_mut(component_index, dep_index)
                 {
                     let dep_handle = Handle::new(dep.id(), dep_index);
-                    component.register_dependency(dep_handle, dep.deref_mut())?;
+                    component.register_dependency(dep_handle, dep.as_mut())?;
                 } else {
                     unreachable!();
                 }
@@ -119,7 +119,13 @@ where
 
     /// Get a component reference by its handle
     pub fn get(&self, handle: Handle) -> Option<&dyn Component<A>> {
-        self.components.get(handle.index).map(Borrow::borrow)
+        self.components.get(handle.index).map(AsRef::as_ref)
+    }
+
+    /// Get a mutable component reference by its handle
+    #[allow(clippy::borrowed_box)]
+    pub fn get_mut(&mut self, handle: Handle) -> Option<&mut (dyn Component<A> + 'static)> {
+        self.components.get_mut(handle.index).map(AsMut::as_mut)
     }
 
     /// Get a component's handle by its ID
@@ -130,6 +136,12 @@ where
     /// Get a component ref by its ID
     pub fn get_by_id(&self, id: Id) -> Option<&dyn Component<A>> {
         self.get(self.get_handle_by_id(id)?)
+    }
+
+    /// Get a mutable component ref by its ID
+    #[allow(clippy::borrowed_box)]
+    pub fn get_mut_by_id(&mut self, id: Id) -> Option<&mut (dyn Component<A> + 'static)> {
+        self.get_mut(self.get_handle_by_id(id)?)
     }
 
     /// Iterate over the components.
