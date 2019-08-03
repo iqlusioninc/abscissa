@@ -11,7 +11,7 @@ use crate::{
     shutdown::Shutdown,
 };
 use generational_arena::{Arena, Index};
-use std::{borrow::Borrow, collections::BTreeMap};
+use std::{borrow::Borrow, collections::BTreeMap, ops::DerefMut};
 
 /// Index of component identifiers to their arena locations
 type IndexMap = BTreeMap<Id, Index>;
@@ -107,9 +107,9 @@ where
                     self.components.get2_mut(component_index, dep_index)
                 {
                     let dep_handle = Handle::new(dep.id(), dep_index);
-                    component.register_dependency(dep_handle, dep)?;
+                    component.register_dependency(dep_handle, dep.deref_mut())?;
                 } else {
-                    fail!(ComponentError, "unregistered component dependency");
+                    unreachable!();
                 }
             }
         }

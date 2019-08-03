@@ -46,12 +46,10 @@ where
     }
 
     /// Register a dependency of this component (a.k.a. "dependency injection")
-    // TODO(tarcieri): fix clippy warning
-    #[allow(clippy::borrowed_box)]
     fn register_dependency(
         &mut self,
         handle: Handle,
-        dependency: &mut Box<dyn Component<A>>,
+        dependency: &mut dyn Component<A>,
     ) -> Result<(), FrameworkError> {
         Ok(())
     }
