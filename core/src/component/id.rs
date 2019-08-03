@@ -15,7 +15,7 @@ pub struct Id(&'static str);
 impl Id {
     /// Create a new component identifier
     // TODO(tarcieri): make this method private in the future
-    pub fn new(id: &'static str) -> Id {
+    pub const fn new(id: &'static str) -> Id {
         Id(id)
     }
 }

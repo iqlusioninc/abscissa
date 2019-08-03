@@ -5,6 +5,9 @@
 use super::{config::Config, logger};
 use crate::{component, Application, Component, FrameworkError, Version};
 
+/// Lopgging component ID
+pub const ID: component::Id = component::Id::new("abscissa_core::logging::LoggingComponent");
+
 /// Abscissa component for initializing the logging subsystem
 #[derive(Debug, Default)]
 pub struct LoggingComponent {
@@ -26,7 +29,7 @@ where
 {
     /// Name of this component
     fn id(&self) -> component::Id {
-        component::Id::new("abscissa_core::logging")
+        ID
     }
 
     /// Version of this component

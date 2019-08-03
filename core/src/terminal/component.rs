@@ -5,6 +5,9 @@ use crate::{component, Application, Component, FrameworkError, Version};
 use std::fmt;
 use termcolor::ColorChoice;
 
+/// Terminal component ID
+pub const ID: component::Id = component::Id::new("abscissa_core::terminal::TerminalComponent");
+
 /// Abscissa terminal subsystem component
 pub struct TerminalComponent {}
 
@@ -21,9 +24,9 @@ impl<A> Component<A> for TerminalComponent
 where
     A: Application,
 {
-    /// Name of this component
+    /// ID for this component
     fn id(&self) -> component::Id {
-        component::Id::new("abscissa_core::terminal")
+        ID
     }
 
     /// Version of this component

@@ -117,13 +117,22 @@ where
         Ok(())
     }
 
+    /// Get the number of currently registered components
+    pub fn len(&self) -> usize {
+        self.components.len()
+    }
+
+    /// Is the registry empty?
+    pub fn is_empty(&self) -> bool {
+        self.components.is_empty()
+    }
+
     /// Get a component reference by its handle
     pub fn get(&self, handle: Handle) -> Option<&dyn Component<A>> {
         self.components.get(handle.index).map(AsRef::as_ref)
     }
 
     /// Get a mutable component reference by its handle
-    #[allow(clippy::borrowed_box)]
     pub fn get_mut(&mut self, handle: Handle) -> Option<&mut (dyn Component<A> + 'static)> {
         self.components.get_mut(handle.index).map(AsMut::as_mut)
     }
@@ -139,7 +148,6 @@ where
     }
 
     /// Get a mutable component ref by its ID
-    #[allow(clippy::borrowed_box)]
     pub fn get_mut_by_id(&mut self, id: Id) -> Option<&mut (dyn Component<A> + 'static)> {
         self.get_mut(self.get_handle_by_id(id)?)
     }
