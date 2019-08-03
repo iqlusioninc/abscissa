@@ -48,3 +48,20 @@ fn component_registration() {
     let foo = registry.get_by_id(FOO_COMPONENT_ID).unwrap();
     assert_eq!(foo.id(), FOO_COMPONENT_ID);
 }
+
+#[test]
+fn get_downcast_ref() {
+    let mut registry = component::Registry::default();
+    let component = Box::new(FooComponent::default()) as Box<dyn Component<ExampleApp>>;
+    registry.register(vec![component]).unwrap();
+
+    {
+        let foo_mut = registry.get_downcast_mut::<FooComponent>().unwrap();
+        foo_mut.set_state("mutated!");
+    }
+
+    {
+        let foo = registry.get_downcast_ref::<FooComponent>().unwrap();
+        assert_eq!(foo.state.as_ref().unwrap(), "mutated!");
+    }
+}
