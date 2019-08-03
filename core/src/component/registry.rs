@@ -136,7 +136,6 @@ where
     pub fn get_mut(&mut self, handle: Handle) -> Option<&mut (dyn Component<A> + 'static)> {
         self.components.get_mut(handle.index).map(AsMut::as_mut)
     }
-
     /// Get a component's handle by its ID
     pub fn get_handle_by_id(&self, id: Id) -> Option<Handle> {
         Some(Handle::new(id, *self.index_map.get(&id)?))
@@ -169,5 +168,40 @@ where
         }
 
         Ok(())
+    }
+}
+
+impl<A> Registry<A>
+where
+    A: Application + 'static,
+{
+    /// Get a component reference by its type
+    pub fn get_downcast_ref<C>(&self) -> Option<&C>
+    where
+        C: Component<A>,
+    {
+        // TODO(tarcieri): index components by `TypeId` for faster lookup
+        for (_, box_component) in &self.components {
+            if let Some(component) = (*(*box_component)).as_any().downcast_ref::<C>() {
+                return Some(component);
+            }
+        }
+
+        None
+    }
+
+    /// Get a mutable component reference by its type
+    pub fn get_downcast_mut<C>(&mut self) -> Option<&mut C>
+    where
+        C: Component<A>,
+    {
+        // TODO(tarcieri): index components by `TypeId` for faster lookup
+        for (_, box_component) in &mut self.components {
+            if let Some(component) = (*(*box_component)).as_mut_any().downcast_mut::<C>() {
+                return Some(component);
+            }
+        }
+
+        None
     }
 }

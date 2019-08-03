@@ -8,7 +8,7 @@ mod registry;
 
 pub use self::{handle::Handle, id::Id, registry::Registry};
 use crate::{application::Application, error::FrameworkError, shutdown::Shutdown, Version};
-use std::{cmp::Ordering, fmt::Debug, slice::Iter};
+use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 
 /// Application components.
 ///
@@ -22,7 +22,7 @@ use std::{cmp::Ordering, fmt::Debug, slice::Iter};
 ///
 /// Additionally, they receive a callback prior to application shutdown.
 // TODO(tarcieri): downcast support for accessing components as concrete types?
-pub trait Component<A>: Debug + Send + Sync
+pub trait Component<A>: AsAny + Debug + Send + Sync
 where
     A: Application,
 {
@@ -85,5 +85,25 @@ where
         } else {
             Some(Ordering::Equal)
         }
+    }
+}
+
+/// Trait used to downcast trait objects back to their concrete types
+// TODO(tarcieri): eliminate this trait or hide it from the public API
+pub trait AsAny: Any {
+    /// Borrow this concrete type as a `&dyn Any`
+    fn as_any(&self) -> &dyn Any;
+
+    /// Borrow this concrete type as a `&mut dyn Any`
+    fn as_mut_any(&mut self) -> &mut dyn Any;
+}
+
+impl<T: Any> AsAny for T {
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+
+    fn as_mut_any(&mut self) -> &mut dyn Any {
+        self
     }
 }
