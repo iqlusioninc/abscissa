@@ -5,12 +5,13 @@ mod overrides;
 mod reader;
 
 pub use self::{configurable::Configurable, overrides::Override, reader::Reader};
+#[doc(hidden)]
+pub use abscissa_derive::Config;
+
 use crate::{
     error::{FrameworkError, FrameworkErrorKind::ConfigError},
     path::AbsPath,
 };
-#[doc(hidden)]
-pub use abscissa_derive::Config;
 use serde::de::DeserializeOwned;
 use std::{fmt::Debug, fs::File, io::Read};
 

@@ -2,14 +2,14 @@
 
 mod example_app;
 
-use self::example_app::{ExampleApp, ExampleConfig};
-use abscissa_core::{component, Component, FrameworkError, Version};
+use self::example_app::ExampleApp;
+use abscissa_core::{component, Component};
 
 /// ID for `FooComponent`
-const FOO_COMPONENT_ID: component::Id = component::Id::new("FooComponent");
+const FOO_COMPONENT_ID: component::Id = component::Id::new("component::FooComponent");
 
 /// Example component
-#[derive(Clone, Debug, Default)]
+#[derive(Component, Debug, Default)]
 pub struct FooComponent {
     /// Component state
     pub state: Option<String>,
@@ -22,26 +22,14 @@ impl FooComponent {
     }
 }
 
-impl Component<ExampleApp> for FooComponent {
-    fn id(&self) -> component::Id {
-        FOO_COMPONENT_ID
-    }
-
-    fn version(&self) -> Version {
-        Version::new(0, 0, 0)
-    }
-
-    fn after_config(&mut self, _config: &ExampleConfig) -> Result<(), FrameworkError> {
-        Ok(())
-    }
-}
-
 #[test]
 fn component_registration() {
     let mut registry = component::Registry::default();
     assert!(registry.is_empty());
 
     let component = Box::new(FooComponent::default()) as Box<dyn Component<ExampleApp>>;
+    assert_eq!(component.id(), FOO_COMPONENT_ID);
+
     registry.register(vec![component]).unwrap();
     assert!(!registry.is_empty());
 

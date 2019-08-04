@@ -1,5 +1,8 @@
 //! `Runnable` trait.
 
+#[doc(hidden)]
+pub use abscissa_derive::Runnable;
+
 /// `Runnable` is a common trait for things which can be run without any
 /// arguments.
 ///

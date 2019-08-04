@@ -1,4 +1,6 @@
-//! Application components.
+//! Application components: extensions/plugins for Abscissa applications.
+//!
+//! See docs on the `Component` trait for more information.
 
 #![allow(unused_variables)]
 
@@ -7,6 +9,9 @@ mod id;
 mod registry;
 
 pub use self::{handle::Handle, id::Id, registry::Registry};
+#[doc(hidden)]
+pub use abscissa_derive::Component;
+
 use crate::{application::Application, error::FrameworkError, shutdown::Shutdown, Version};
 use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 
@@ -18,10 +23,25 @@ use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 /// and can (potentially in the future) support runtime reinitialization.
 ///
 /// During application initialization, callbacks are sent to all components
-/// upon events like application configuration being loaded.
+/// upon events like application configuration being loaded. The
+/// `register_dependency` callback is called for each dependency returned
+/// by the `dependencies` method.
 ///
 /// Additionally, they receive a callback prior to application shutdown.
-// TODO(tarcieri): downcast support for accessing components as concrete types?
+///
+/// ## Custom Derive
+///
+/// The main intended way to impl this trait is by using the built-in custom
+/// derive functionality.
+///
+/// ```rust
+/// use abscissa_core::Component;
+///
+/// #[derive(Component, Debug)]
+/// pub struct MyComponent {}
+/// ```
+///
+/// This will automatically implement the entire trait for you.
 pub trait Component<A>: AsAny + Debug + Send + Sync
 where
     A: Application,
