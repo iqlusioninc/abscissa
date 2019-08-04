@@ -14,5 +14,5 @@ pub use termcolor::{Color, ColorChoice};
 /// This is useful when Abscissa internally leverages the terminal subsystem
 /// without booting a full application, such as displaying usage information.
 pub(crate) fn init() {
-    self::component::TerminalComponent::new(ColorChoice::Auto);
+    self::component::Terminal::new(ColorChoice::Auto);
 }

@@ -14,11 +14,11 @@ use crate::{
     component::Component,
     config::{Config, Configurable},
     error::{FrameworkError, FrameworkErrorKind::*},
-    logging::{self, LoggingComponent},
+    logging::{self, Logging},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
-    terminal::{component::TerminalComponent, ColorChoice},
+    terminal::{component::Terminal, ColorChoice},
     Version,
 };
 use std::{env, path::Path, process, vec};
@@ -117,8 +117,8 @@ pub trait Application: Default + Sized + 'static {
         &mut self,
         command: &Self::Cmd,
     ) -> Result<Vec<Box<dyn Component<Self>>>, FrameworkError> {
-        let terminal = TerminalComponent::new(self.term_colors(command));
-        let logging = LoggingComponent::new(self.logging_config(command))
+        let terminal = Terminal::new(self.term_colors(command));
+        let logging = Logging::new(self.logging_config(command))
             .expect("logging subsystem failed to initialize");
 
         Ok(vec![Box::new(terminal), Box::new(logging)])

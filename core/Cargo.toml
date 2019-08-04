@@ -15,6 +15,10 @@ readme      = "../README.md"
 categories  = ["command-line-interface", "rust-patterns"]
 keywords    = ["abscissa", "cli", "application", "framework", "service"]
 
+[badges]
+travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
+maintenance = { status = "actively-developed" }
+
 [dependencies]
 abscissa_derive = { version = "0.3.0-rc.0", path = "../derive" }
 canonical-path = "2"
@@ -47,6 +51,3 @@ signals = ["libc", "signal-hook"]
 terminal = ["termcolor"]
 testing = ["regex", "wait-timeout"]
 time = ["chrono"]
-
-[badges]
-travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }

@@ -1,18 +1,19 @@
 //! Custom derive support for `abscissa_core::component::Component`.
 
-use proc_macro2::{Span, TokenStream};
+use darling::{FromDeriveInput, FromMeta};
+use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
-use syn::{Attribute, Ident, Meta, NestedMeta};
 use synstructure::Structure;
-
-/// Ident name for component attributes
-const COMPONENT_IDENT: &str = "component";
 
 /// Custom derive for `abscissa_core::component::Component`
 pub fn derive_component(s: Structure) -> TokenStream {
-    let derive_attributes = DeriveAttributes::parse(&s);
-    let abscissa_core = derive_attributes.crate_name;
+    let attrs = ComponentAttributes::from_derive_input(s.ast()).unwrap_or_else(|e| {
+        panic!("error parsing component attributes: {}", e);
+    });
+
     let name = &s.ast().ident;
+    let abscissa_core = attrs.abscissa_core_crate();
+    let dependency_methods = attrs.dependency_methods();
 
     s.gen_impl(quote! {
         gen impl<A> Component<A> for @Self
@@ -29,69 +30,120 @@ pub fn derive_component(s: Structure) -> TokenStream {
             fn version(&self) -> #abscissa_core::Version {
                 #abscissa_core::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()
             }
+
+            #dependency_methods
         }
     })
 }
 
-/// Derive attributes: parser for #[component(...)] attributes
-// TODO(tarcieri): replace this with e.g. `darling`?
-struct DeriveAttributes {
-    /// Crate name for `abscissa_core`.
+/// Parsed `#[component(...)]` attribute fields
+#[derive(Debug, FromDeriveInput)]
+#[darling(attributes(component))]
+struct ComponentAttributes {
+    /// Special attribute used by `abscissa_core` to `derive(Component)`.
     ///
-    /// Workaround for using this custom derive in `abscissa_core` itself. See:
+    /// Workaround for using custom derive on traits defined in the same crate:
     /// <https://github.com/rust-lang/rust/issues/54363>
-    crate_name: Ident,
+    #[darling(default)]
+    core: bool,
+
+    /// Dependent components to inject into the current component
+    #[darling(multiple)]
+    inject: Vec<InjectAttribute>,
 }
 
-impl Default for DeriveAttributes {
-    fn default() -> Self {
-        Self {
-            crate_name: Ident::new("abscissa_core", Span::call_site()),
-        }
-    }
-}
+impl ComponentAttributes {
+    /// Ident for the `abscissa_core` crate.
+    ///
+    /// Allows `abscissa_core` itself to override this so it can consume its
+    /// own traits/custom derives.
+    pub fn abscissa_core_crate(&self) -> Ident {
+        let crate_name = if self.core { "crate" } else { "abscissa_core" };
 
-impl DeriveAttributes {
-    /// Parse `#[component(...)]` attributes from the incoming AST
-    fn parse(s: &Structure) -> Self {
-        let mut result = Self::default();
-
-        for v in s.variants().iter() {
-            result.parse_attributes(v.ast().attrs);
-        }
-
-        result
+        Ident::new(crate_name, Span::call_site())
     }
 
-    /// Parse `#[component(...)]` attributes
-    fn parse_attributes(&mut self, attributes: &[Attribute]) {
-        for attr in attributes {
-            let meta = attr
-                .parse_meta()
-                .unwrap_or_else(|e| panic!("error parsing attribute: {} ({})", attr.tts, e));
+    /// Generate `Component::dependencies()` and `register_dependencies()`
+    pub fn dependency_methods(&self) -> TokenStream {
+        if self.inject.is_empty() {
+            return quote!();
+        }
 
-            if let Meta::List(list) = meta {
-                if list.ident != COMPONENT_IDENT {
-                    return;
-                }
+        let abscissa_core = self.abscissa_core_crate();
+        let ids = self
+            .inject
+            .iter()
+            .map(|inject| inject.id_tokens(&abscissa_core));
 
-                for nested_meta in &list.nested {
-                    if let NestedMeta::Meta(Meta::Word(ident)) = nested_meta {
-                        self.parse_ident_attribute(ident);
-                    } else {
-                        panic!("malformed #[component] attribute: {:?}", nested_meta);
-                    }
+        let match_arms = self.inject.iter().map(|inject| inject.match_arm());
+
+        quote! {
+            fn dependencies(&self) -> std::slice::Iter<'_, #abscissa_core::component::Id> {
+                const DEPENDENCIES: &[#abscissa_core::component::Id] = &[#(#ids),*];
+                DEPENDENCIES.iter()
+            }
+
+            fn register_dependency(
+                &mut self,
+                handle: #abscissa_core::component::Handle,
+                dependency: &mut dyn Component<A>,
+            ) -> Result<(), FrameworkError> {
+                match dependency.id().as_ref() {
+                    #(#match_arms),*
+                    _ => unreachable!()
                 }
             }
         }
     }
+}
 
-    /// Parse a `#[component(...)]` attribute containing a single ident (e.g. `core`)
-    fn parse_ident_attribute(&mut self, ident: &Ident) {
-        if ident == "core" {
-            self.crate_name = Ident::new("crate", Span::call_site());
-        } else {
-            panic!("unknown #[component] attribute type: {}", ident);
+/// Attribute declaring a dependency which should be injected
+#[derive(Debug, FromMeta)]
+pub struct InjectAttribute(String);
+
+impl InjectAttribute {
+    /// Parse an inject attribute into its component parse
+    fn parse(&self) -> (&str, &str) {
+        assert!(
+            self.0.ends_with(')'),
+            "expected {} to end with ')'",
+            &self.0
+        );
+
+        let mut paren_parts = self.0[..(self.0.len() - 1)].split('(');
+        let callback = paren_parts.next().unwrap();
+        let component_id = paren_parts.next().unwrap();
+        assert_eq!(paren_parts.next(), None);
+
+        (callback, component_id)
+    }
+
+    /// Get the callback associated with this inject attribute
+    pub fn callback(&self) -> Ident {
+        Ident::new(self.parse().0, Span::call_site())
+    }
+
+    /// Get the component ID associated with this inject attribute
+    pub fn component_id(&self) -> &str {
+        self.parse().1
+    }
+
+    /// Get the tokens representing a component ID
+    pub fn id_tokens(&self, abscissa_core: &Ident) -> TokenStream {
+        let component_id = self.component_id();
+        quote! { #abscissa_core::component::Id::new(#component_id) }
+    }
+
+    /// Get match arm that invokes a concrete callback
+    pub fn match_arm(&self) -> TokenStream {
+        let id_str = self.component_id();
+        let callback = self.callback();
+
+        quote! {
+            #id_str => {
+                let component_ref = (*dependency).as_mut_any().downcast_mut().unwrap();
+                self.#callback(component_ref)
+            }
         }
     }
 }
@@ -102,7 +154,7 @@ mod tests {
     use synstructure::test_derive;
 
     #[test]
-    fn derive_command_on_struct() {
+    fn derive_component_struct() {
         test_derive! {
             derive_component {
                 struct MyComponent {}
