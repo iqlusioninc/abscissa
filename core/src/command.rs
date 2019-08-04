@@ -5,6 +5,9 @@ mod help;
 mod usage;
 
 pub use self::{entrypoint::EntryPoint, help::Help, usage::Usage};
+#[doc(hidden)]
+pub use abscissa_derive::Command;
+
 use crate::{runnable::Runnable, terminal};
 use gumdrop::Options;
 use std::fmt::Debug;

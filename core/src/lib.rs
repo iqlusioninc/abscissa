@@ -133,8 +133,6 @@ pub mod thread;
 
 // Proc macros
 
-#[doc(hidden)]
-pub use abscissa_derive::{Command, Runnable};
 #[cfg(feature = "options")]
 pub use gumdrop::Options;
 
