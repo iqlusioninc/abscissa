@@ -217,20 +217,19 @@ where
         let id = component.id();
         let version = component.version();
         let type_id = (*component).type_id();
+
+        ensure!(
+            !self.id_map.contains_key(&id) && !self.type_map.contains_key(&type_id),
+            ComponentError,
+            "duplicate component registration: {}",
+            id
+        );
+
         let index = self.components.insert(component);
 
-        // Index component by ID
-        if self.id_map.insert(id, index).is_some() {
-            self.components.remove(index);
-            fail!(ComponentError, "duplicate component ID: {}", id);
-        }
-
-        // Index component by type
-        if self.type_map.insert(type_id, index).is_some() {
-            self.components.remove(index);
-            self.id_map.remove(&id);
-            fail!(ComponentError, "duplicate component type: {}", id);
-        }
+        // Index component by ID and type
+        assert!(self.id_map.insert(id, index).is_none());
+        assert!(self.type_map.insert(type_id, index).is_none());
 
         debug!("registered component: {} (v{})", id, version);
         Ok(())
