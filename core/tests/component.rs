@@ -3,7 +3,7 @@
 mod example_app;
 
 use self::example_app::{ExampleApp, ExampleConfig};
-use abscissa_core::{component, Component, FrameworkError};
+use abscissa_core::{component, Component, FrameworkError, FrameworkErrorKind::ComponentError};
 
 /// ID for `FoobarComponent` (example component #1)
 const FOOBAR_COMPONENT_ID: component::Id = component::Id::new("component::FoobarComponent");
@@ -83,7 +83,6 @@ fn component_registration() {
     assert!(registry.is_empty());
 
     let components = init_components();
-
     registry.register(components).unwrap();
     assert_eq!(registry.len(), 3);
 
@@ -96,6 +95,23 @@ fn component_registration() {
 
     let quux = registry.get_by_id(QUUX_COMPONENT_ID).unwrap();
     assert_eq!(quux.id(), QUUX_COMPONENT_ID);
+}
+
+#[test]
+fn duplicate_component_registration() {
+    let foobar1 = Box::new(FoobarComponent::default());
+    let foobar2 = Box::new(FoobarComponent::default());
+    let components: Vec<Box<dyn Component<ExampleApp>>> = vec![foobar1, foobar2];
+
+    let mut registry = component::Registry::default();
+    assert!(registry.is_empty());
+
+    let err = registry.register(components).err().unwrap();
+    assert_eq!(*err.kind(), ComponentError);
+    assert_eq!(registry.len(), 1);
+
+    let foobar = registry.get_by_id(FOOBAR_COMPONENT_ID).unwrap();
+    assert_eq!(foobar.id(), FOOBAR_COMPONENT_ID);
 }
 
 #[test]
