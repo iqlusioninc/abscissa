@@ -54,15 +54,18 @@ where
     /// Version of this component
     fn version(&self) -> Version;
 
-    /// Names of the components this components depends on
-    fn dependencies(&self) -> Iter<'_, Id> {
-        [].iter()
-    }
-
     /// Lifecycle event called when application configuration should be loaded
     /// if it were possible.
     fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
         Ok(())
+    }
+
+    /// Names of the components this component depends on.
+    ///
+    /// After this app's `after_config` callback is fired, the
+    /// `register_dependency` callback below will be fired for each of these.
+    fn dependencies(&self) -> Iter<'_, Id> {
+        [].iter()
     }
 
     /// Register a dependency of this component (a.k.a. "dependency injection")
@@ -71,7 +74,7 @@ where
         handle: Handle,
         dependency: &mut dyn Component<A>,
     ) -> Result<(), FrameworkError> {
-        Ok(())
+        unimplemented!();
     }
 
     /// Perform any tasks which should occur before the app exits

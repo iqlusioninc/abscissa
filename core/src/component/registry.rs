@@ -76,20 +76,7 @@ where
         });
 
         for component in components {
-            let id = component.id();
-            let type_id = (*component).type_id();
-            let index = self.components.insert(component);
-
-            if self.id_map.insert(id, index).is_some() {
-                self.components.remove(index);
-                fail!(ComponentError, "duplicate component ID: {}", id);
-            }
-
-            if self.type_map.insert(type_id, index).is_some() {
-                self.components.remove(index);
-                self.id_map.remove(&id);
-                fail!(ComponentError, "duplicate component type: {}", id);
-            }
+            self.register_component(component)?;
         }
 
         Ok(())
@@ -99,7 +86,12 @@ where
     pub fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
         let mut component_indexes: Vec<(Index, Vec<Index>)> = vec![];
 
-        for (index, component) in self.components.iter() {
+        for (index, component) in &mut self.components {
+            // Fire the `after_config` callback for each subcomponent.
+            //
+            // Note that these are fired for *all* components prior to subcomponent registration
+            component.after_config(config)?;
+
             let mut dep_indexes = vec![];
 
             for id in component.dependencies() {
@@ -113,12 +105,8 @@ where
             component_indexes.push((index, dep_indexes));
         }
 
+        // Fire the `register_dependency` callbacks for each component's dependencies
         for (component_index, dep_indexes) in component_indexes {
-            {
-                let component = self.components.get_mut(component_index).unwrap();
-                component.after_config(config)?;
-            }
-
             for dep_index in dep_indexes {
                 if let (Some(component), Some(dep)) =
                     self.components.get2_mut(component_index, dep_index)
@@ -126,6 +114,7 @@ where
                     let dep_handle = Handle::new(dep.id(), dep_index);
                     component.register_dependency(dep_handle, dep.as_mut())?;
                 } else {
+                    // In theory we just looked all of these up and they should always be valid
                     unreachable!();
                 }
             }
@@ -153,9 +142,15 @@ where
     pub fn get_mut(&mut self, handle: Handle) -> Option<&mut (dyn Component<A> + 'static)> {
         self.components.get_mut(handle.index).map(AsMut::as_mut)
     }
+
     /// Get a component's handle by its ID
     pub fn get_handle_by_id(&self, id: Id) -> Option<Handle> {
         Some(Handle::new(id, *self.id_map.get(&id)?))
+    }
+
+    /// Get the handle for the given component, if it's registered
+    pub fn get_handle(&self, component: &dyn Component<A>) -> Option<Handle> {
+        self.get_handle_by_id(component.id())
     }
 
     /// Get a component ref by its ID
@@ -207,5 +202,37 @@ where
         self.components
             .get_mut(index)
             .and_then(|box_component| (*(*box_component)).as_mut_any().downcast_mut())
+    }
+
+    /// Register an individual component.
+    ///
+    /// This is an internal method used by `Registry::register`.
+    /// It shouldn't be exposed through the public API without careful
+    /// consideration, as it's not yet designed to be used outside of
+    /// that particular context.
+    fn register_component(
+        &mut self,
+        component: Box<dyn Component<A>>,
+    ) -> Result<(), FrameworkError> {
+        let id = component.id();
+        let version = component.version();
+        let type_id = (*component).type_id();
+        let index = self.components.insert(component);
+
+        // Index component by ID
+        if self.id_map.insert(id, index).is_some() {
+            self.components.remove(index);
+            fail!(ComponentError, "duplicate component ID: {}", id);
+        }
+
+        // Index component by type
+        if self.type_map.insert(type_id, index).is_some() {
+            self.components.remove(index);
+            self.id_map.remove(&id);
+            fail!(ComponentError, "duplicate component type: {}", id);
+        }
+
+        debug!("registered component: {} (v{})", id, version);
+        Ok(())
     }
 }

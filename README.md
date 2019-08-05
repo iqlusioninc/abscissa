@@ -118,22 +118,23 @@ default set of features in the application:
 | 2  | [aho-corasick]    | [@BurntSushi]    | MIT/Unlicense  | Pattern-matching alg    |
 | 3  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
 | 4  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
-| 5  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | failure custom derive   |
-| 6  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
-| 7  | [heck]            | [@withoutboats]  | Apache-2.0/MIT | Case conversion utils   |
-| 8  | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimize byte search    |
-| 9  | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
-| 10 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
-| 11 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
-| 12 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
-| 13 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
-| 14 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
-| 15 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
-| 16 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
-| 17 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
-| 18 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
-| 19 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
-| 20 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
+| 5  | [darling]         | [@TedDriggs]     | MIT            | Nifty attribute parser  |
+| 6  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | failure custom derive   |
+| 7  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 8  | [heck]            | [@withoutboats]  | Apache-2.0/MIT | Case conversion utils   |
+| 9  | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimize byte search    |
+| 10 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
+| 11 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
+| 12 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
+| 13 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
+| 14 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
+| 15 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
+| 16 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
+| 17 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
+| 18 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
+| 19 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 20 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
+| 21 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -323,6 +324,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cc]: https://crates.io/crates/cc
 [cfg-if]: https://crates.io/crates/cfg-if
 [chrono]: https://crates.io/crates/chrono
+[darling]: https://github.com/TedDriggs/darling
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
 [generational-arena]: https://github.com/fitzgen/generational-arena
@@ -378,6 +380,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [@retep998]: https://github.com/retep998
 [@SergioBenitez]: https://github.com/SergioBenitez
 [@steveklabnik]: https://github.com/steveklabnik
+[@TedDriggs]: https://github.com/TedDriggs
 [@vorner]: https://github.com/vorner
 [@withoutboats]: https://github.com/withoutboats
 [chronotope]: https://github.com/chronotope/

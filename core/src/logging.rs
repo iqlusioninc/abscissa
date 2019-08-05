@@ -6,5 +6,5 @@ mod config;
 mod logger;
 
 #[cfg(feature = "application")]
-pub use self::component::LoggingComponent;
+pub use self::component::Logging;
 pub use self::config::Config;
