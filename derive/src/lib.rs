@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_derive/0.3.0-rc.0"
+    html_root_url = "https://docs.rs/abscissa_derive/0.3.0"
 )]
 
 extern crate proc_macro;
