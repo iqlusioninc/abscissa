@@ -119,22 +119,26 @@ default set of features in the application:
 | 3  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
 | 4  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
 | 5  | [darling]         | [@TedDriggs]     | MIT            | Nifty attribute parser  |
-| 6  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | failure custom derive   |
-| 7  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
-| 8  | [heck]            | [@withoutboats]  | Apache-2.0/MIT | Case conversion utils   |
-| 9  | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimize byte search    |
-| 10 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
-| 11 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
-| 12 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
-| 13 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
-| 14 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
-| 15 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
-| 16 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
-| 17 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
-| 18 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
-| 19 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
-| 20 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
-| 21 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
+| 6  | [darling_core]    | [@TedDriggs]     | MIT            | Attribute parser core   |
+| 7  | [darling_macro]   | [@TedDriggs]     | MIT            | Attribute parser macros |
+| 8  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | `failure` custom derive |
+| 9  | [fnv]             | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
+| 10 | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 11 | [ident_case]      | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
+| 12 | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimized byte search   |
+| 13 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
+| 14 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
+| 15 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
+| 16 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
+| 17 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
+| 18 | [strsim]          | [@dguo]          | MIT            | String similarity utils |
+| 19 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
+| 20 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
+| 21 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
+| 22 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
+| 23 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 24 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
+| 25 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -143,52 +147,59 @@ an Abscissa dependency and whether or not it is optional. Abscissa uses
 [cargo features] to allow parts of it you aren't using to be easily disabled,
 so you only compile the parts you need.
 
-| Crate Name             | [Cargo Features] | Required By     |
-|------------------------|------------------|-----------------|
-| [abscissa]             | -                | ⊤               |
-| [abscissa_derive]      | -                | [abscissa]      |
-| [aho-corasick]         | `testing`        | [regex]         |
+| Crate Name             | [Cargo Features] | Required By       |
+|------------------------|------------------|-------------------|
+| [abscissa]             | -                | ⊤                 |
+| [abscissa_derive]      | -                | [abscissa]        |
+| [aho-corasick]         | `testing`        | [regex]           |
 | [arc-swap]             | `signals`        | [signal-hook-registry] |
-| [autocfg]              | `time`           | [num-integer]   |
-| [backtrace]            | -                | [failure]       |
-| [backtrace-sys]        | -                | [backtrace]     |
-| [canonical-path]       | -                | [abscissa]      |
-| [cc]                   | -                | [backtrace-sys] |
+| [autocfg]              | `time`           | [num-integer]     |
+| [backtrace]            | -                | [failure]         |
+| [backtrace-sys]        | -                | [backtrace]       |
+| [canonical-path]       | -                | [abscissa]        |
+| [cc]                   | -                | [backtrace-sys]   |
 | [cfg-if]               | -                | [backtrace], [log] |
-| [chrono]               | `time`           | [abscissa]      |
-| [failure]              | -                | [abscissa]      |
-| [failure_derive]       | -                | [failure]       |
-| [generational-arena]   | `application`    | [abscissa]      |
-| [gumdrop]              | `options`        | [abscissa]      |
-| [gumdrop_derive]       | `options`        | [gumdrop]       |
-| [heck]                 | `inflector`      | [abscissa]      |
-| [lazy_static]          | -                | [abscissa]      |
-| [libc]                 | `signals`        | [abscissa]      |
-| [log]                  | `logging`        | [abscissa]      |
-| [memchr]               | `testing`        | [aho-corasick]  |
-| [num-integer]          | `time`           | [chrono]        |
+| [chrono]               | `time`           | [abscissa]        |
+| [darling]              | -                | [abscissa_derive] |
+| [darling_core]         | -                | [darling], [darling_macro] |
+| [darling_macro]        | -                | [darling]         |
+| [failure]              | -                | [abscissa]        |
+| [failure_derive]       | -                | [failure]         |
+| [fnv]                  | -                | [darling_core]    |
+| [generational-arena]   | `application`    | [abscissa]        |
+| [gumdrop]              | `options`        | [abscissa]        |
+| [gumdrop_derive]       | `options`        | [gumdrop]         |
+| [ident_case]           | -                | [abscissa_derive], [darling_core] |
+| [lazy_static]          | -                | [abscissa]        |
+| [libc]                 | `signals`        | [abscissa]        |
+| [log]                  | `logging`        | [abscissa]        |
+| [memchr]               | `testing`        | [aho-corasick]    |
+| [num-integer]          | `time`           | [chrono]          |
 | [num-traits]           | `time`           | [chrono], [num-integer] |
-| [proc-macro2]          | -                | [abscissa_derive], [failure_derive], [quote], [serde_derive] |
-| [redox_syscall]        | `time`           | [time]          |
-| [regex]                | `testing`        | [abscissa]      |
-| [rustc-demangle]       | -                | [backtrace]     |
-| [secrecy]              | `secrets`        | [abscissa]      |
-| [semver]               | `application`    | [abscissa]      |
-| [semver-parser]        | `application`    | [abscissa]      |
-| [serde]                | `config`         | [abscissa]      |
-| [serde_derive]         | `config`         | [serde]         |
-| [signal-hook]          | `signals`        | [abscissa]      |
-| [signal-hook-registry] | `signals`        | [signal-hook] |
-| [termcolor]            | `terminal`       | [abscissa]      |
-| [thread_local]         | `testing`        | [regex]         |
-| [time]                 | `logging`        | [chrono]        |
-| [ucd-util]             | `testing`        | [regex-syntax]  |
-| [unicode-xid]          | -                | [proc-macro2]   |
-| [utf8-ranges]          | `testing`        | [regex]         |
-| [wait-timeout]         | `testing`        | [abscissa]      |
+| [proc-macro2]          | -                | [abscissa_derive], [darling], [failure_derive], [quote], [serde_derive], [syn] |
+| [quote]                | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
+| [redox_syscall]        | `time`           | [time]            |
+| [regex]                | `testing`        | [abscissa]        |
+| [rustc-demangle]       | -                | [backtrace]       |
+| [secrecy]              | `secrets`        | [abscissa]        |
+| [semver]               | `application`    | [abscissa]        |
+| [semver-parser]        | `application`    | [abscissa]        |
+| [serde]                | `config`         | [abscissa]        |
+| [serde_derive]         | `config`         | [serde]           |
+| [signal-hook]          | `signals`        | [abscissa]        |
+| [signal-hook-registry] | `signals`        | [signal-hook]     |
+| [strsim]               | -                | [darling_core]    |
+| [syn]                  | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
+| [termcolor]            | `terminal`       | [abscissa]        |
+| [thread_local]         | `testing`        | [regex]           |
+| [time]                 | `logging`        | [chrono]          |
+| [ucd-util]             | `testing`        | [regex-syntax]    |
+| [unicode-xid]          | -                | [proc-macro2], [syn] |
+| [utf8-ranges]          | `testing`        | [regex]           |
+| [wait-timeout]         | `testing`        | [abscissa]        |
 | [winapi]§              | -                | [termcolor], [time], [winapi-util] |
-| [winapi-util]          | -                | [termcolor]     |
-| [zeroize]              | -                | [abscissa]      |
+| [winapi-util]          | -                | [termcolor]       |
+| [zeroize]              | -                | [abscissa]        |
 
 * § `winapi` is a facade for either [winapi-i686-pc-windows-gnu] or
     [winapi-x86_64-pc-windows-gnu] which aren't explicitly listed for brevity
@@ -320,13 +331,16 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cc]: https://crates.io/crates/cc
 [cfg-if]: https://crates.io/crates/cfg-if
 [chrono]: https://crates.io/crates/chrono
-[darling]: https://github.com/TedDriggs/darling
+[darling]: https://crates.io/crates/darling
+[darling_core]: https://crates.io/crates/darling_core
+[darling_macro]: https://crates.io/crates/darling_macro
 [failure]: https://crates.io/crates/failure
 [failure_derive]: https://crates.io/crates/failure_derive
+[fnv]: https://crates.io/crates/fnv
 [generational-arena]: https://github.com/fitzgen/generational-arena
 [gumdrop]: https://crates.io/crates/gumdrop
 [gumdrop_derive]: https://crates.io/crates/gumdrop_derive
-[heck]: https://crates.io/crates/heck
+[ident_case]: https://crates.io/crates/ident_case
 [lazy_static]: https://crates.io/crates/lazy_static
 [libc]: https://crates.io/crates/libc
 [log]: https://crates.io/crates/log
@@ -346,6 +360,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [serde_derive]: https://crates.io/crates/serde_derive
 [signal-hook]: https://crates.io/crates/signal-hook
 [signal-hook-registry]: https://crates.io/crates/signal-hook
+[strsim]: https://crates.io/crates/darling
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/
 [termcolor]: https://crates.io/crates/termcolor
@@ -369,6 +384,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [@Amanieu]: https://github.com/Amanieu
 [@BurntSushi]: https://github.com/BurntSushi
 [@cuviper]: https://github.com/cuviper
+[@dguo]: https://github.com/dtolnay
 [@dtolnay]: https://github.com/dtolnay
 [@fitzgen]: https://github.com/fitzgen
 [@Murarth]: https://github.com/Murarth

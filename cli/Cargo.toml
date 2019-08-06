@@ -23,7 +23,7 @@ maintenance = { status = "actively-developed" }
 failure = "0.1"
 gumdrop = "0.6"
 handlebars = "2"
-heck = "0.3"
+ident_case = "1"
 lazy_static = "1"
 serde = { version = "1", features = ["serde_derive"] }
 

@@ -8,7 +8,7 @@ use crate::{
 };
 use abscissa_core::{status_err, status_info, status_ok, status_warn, Command, Options, Runnable};
 use failure::{bail, format_err, Error};
-use heck::TitleCase;
+use ident_case::RenameRule;
 use std::{
     fs, io,
     path::{Path, PathBuf},
@@ -186,12 +186,13 @@ impl NewCommand {
         let app_name = app_path
             .file_name()
             .expect("no filename?")
-            .to_string_lossy();
+            .to_string_lossy()
+            .replace("-", "_");
 
         let name: properties::name::App = app_name.parse().expect("no app name");
 
         // TODO(tarcieri): configurable title
-        let title = name.to_string().to_title_case();
+        let title = RenameRule::PascalCase.apply_to_field(&name);
 
         // TODO(tarcieri): configurable description
         let description = title.clone();
@@ -202,11 +203,10 @@ impl NewCommand {
         let patch_crates_io = self.patch_crates_io.clone();
 
         // TODO(tarcieri): configurable application type
-        let application_type =
-            properties::name::Type::from_snake_case(app_name.clone() + "_application");
+        let application_type = properties::name::Type::from_snake_case(app_name.clone() + "_app");
 
         // TODO(tarcieri): configurable command type
-        let command_type = properties::name::Type::from_snake_case(app_name.clone() + "_command");
+        let command_type = properties::name::Type::from_snake_case(app_name.clone() + "_cmd");
 
         // TODO(tarcieri): configurable config type
         let config_type = properties::name::Type::from_snake_case(app_name.clone() + "_config");
