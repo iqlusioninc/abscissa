@@ -39,6 +39,22 @@ or network/web services), aiming to provide a large number of features with a
   support autodetection). Useful for Cargo-like status messages with
   easy-to-use macros.
 
+## Projects Using Abscissa
+
+- [Tendermint KMS]: key management system for Tendermint applications
+- [canister]: deployment utility for "distroless" containers/microVMs
+- [cargo-audit]: audit Cargo projects for security vulnerabilities
+- [cargo-rpm]: build RPMs out of Cargo projects
+- [sagan]: observability tool for Tendermint applications 
+
+## Crate Structure
+
+Abscissa presently consists of three crates:
+
+- [abscissa]: CLI app and application generator - `cargo install abscissa`
+- [abscissa_core]: main framework library
+- [abscissa_derive]: custom derive support - implementation detail of `abscissa_core`
+
 ## Requirements
 
 - Rust 1.35+
@@ -79,7 +95,7 @@ default set of features in the application:
 
 | #  | Crate Name             | Origin          | License        | Description             |
 |----|------------------------|-----------------|----------------|-------------------------|
-| 1  | [abscissa]             | [iqlusion]      | Apache-2.0     | App microframework      |
+| 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework      |
 | 2  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
 | 3  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
 | 4  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
@@ -149,57 +165,57 @@ so you only compile the parts you need.
 
 | Crate Name             | [Cargo Features] | Required By       |
 |------------------------|------------------|-------------------|
-| [abscissa]             | -                | ⊤                 |
-| [abscissa_derive]      | -                | [abscissa]        |
+| [abscissa_core]        | -                | ⊤                 |
+| [abscissa_derive]      | -                | [abscissa_core]   |
 | [aho-corasick]         | `testing`        | [regex]           |
 | [arc-swap]             | `signals`        | [signal-hook-registry] |
 | [autocfg]              | `time`           | [num-integer]     |
 | [backtrace]            | -                | [failure]         |
 | [backtrace-sys]        | -                | [backtrace]       |
-| [canonical-path]       | -                | [abscissa]        |
+| [canonical-path]       | -                | [abscissa_core]   |
 | [cc]                   | -                | [backtrace-sys]   |
 | [cfg-if]               | -                | [backtrace], [log] |
-| [chrono]               | `time`           | [abscissa]        |
+| [chrono]               | `time`           | [abscissa_core]    |
 | [darling]              | -                | [abscissa_derive] |
 | [darling_core]         | -                | [darling], [darling_macro] |
 | [darling_macro]        | -                | [darling]         |
-| [failure]              | -                | [abscissa]        |
+| [failure]              | -                | [abscissa_core]   |
 | [failure_derive]       | -                | [failure]         |
 | [fnv]                  | -                | [darling_core]    |
-| [generational-arena]   | `application`    | [abscissa]        |
-| [gumdrop]              | `options`        | [abscissa]        |
+| [generational-arena]   | `application`    | [abscissa_core]   |
+| [gumdrop]              | `options`        | [abscissa_core]   |
 | [gumdrop_derive]       | `options`        | [gumdrop]         |
 | [ident_case]           | -                | [abscissa_derive], [darling_core] |
-| [lazy_static]          | -                | [abscissa]        |
-| [libc]                 | `signals`        | [abscissa]        |
-| [log]                  | `logging`        | [abscissa]        |
+| [lazy_static]          | -                | [abscissa_core]   |
+| [libc]                 | `signals`        | [abscissa_core]   |
+| [log]                  | `logging`        | [abscissa_core]   |
 | [memchr]               | `testing`        | [aho-corasick]    |
 | [num-integer]          | `time`           | [chrono]          |
 | [num-traits]           | `time`           | [chrono], [num-integer] |
 | [proc-macro2]          | -                | [abscissa_derive], [darling], [failure_derive], [quote], [serde_derive], [syn] |
 | [quote]                | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
 | [redox_syscall]        | `time`           | [time]            |
-| [regex]                | `testing`        | [abscissa]        |
+| [regex]                | `testing`        | [abscissa_core]   |
 | [rustc-demangle]       | -                | [backtrace]       |
-| [secrecy]              | `secrets`        | [abscissa]        |
-| [semver]               | `application`    | [abscissa]        |
-| [semver-parser]        | `application`    | [abscissa]        |
-| [serde]                | `config`         | [abscissa]        |
+| [secrecy]              | `secrets`        | [abscissa_core]   |
+| [semver]               | `application`    | [abscissa_core]   |
+| [semver-parser]        | `application`    | [abscissa_core]   |
+| [serde]                | `config`         | [abscissa_core]   |
 | [serde_derive]         | `config`         | [serde]           |
-| [signal-hook]          | `signals`        | [abscissa]        |
+| [signal-hook]          | `signals`        | [abscissa_core]   |
 | [signal-hook-registry] | `signals`        | [signal-hook]     |
 | [strsim]               | -                | [darling_core]    |
 | [syn]                  | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
-| [termcolor]            | `terminal`       | [abscissa]        |
+| [termcolor]            | `terminal`       | [abscissa_core]   |
 | [thread_local]         | `testing`        | [regex]           |
 | [time]                 | `logging`        | [chrono]          |
 | [ucd-util]             | `testing`        | [regex-syntax]    |
 | [unicode-xid]          | -                | [proc-macro2], [syn] |
 | [utf8-ranges]          | `testing`        | [regex]           |
-| [wait-timeout]         | `testing`        | [abscissa]        |
+| [wait-timeout]         | `testing`        | [abscissa_core]   |
 | [winapi]§              | -                | [termcolor], [time], [winapi-util] |
 | [winapi-util]          | -                | [termcolor]       |
-| [zeroize]              | -                | [abscissa]        |
+| [zeroize]              | -                | [abscissa_core]   |
 
 * § `winapi` is a facade for either [winapi-i686-pc-windows-gnu] or
     [winapi-x86_64-pc-windows-gnu] which aren't explicitly listed for brevity
@@ -317,9 +333,18 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cc]: https://contributor-covenant.org
 [CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
 
+[//]: # (projects using abscissa)
+
+[Tendermint KMS]: https://github.com/tendermint/kms
+[canister]:  https://github.com/iqlusioninc/canister
+[cargo-audit]: https://github.com/rustsec/cargo-audit
+[cargo-rpm]: https://github.com/rustrpm/cargo-rpm
+[sagan]: https://github.com/iqlusioninc/sagan
+
 [//]: # (crate links)
 
-[abscissa]: https://crates.io/crates/abscissa_core
+[abscissa]: https://crates.io/crates/abscissa
+[abscissa_core]: https://crates.io/crates/abscissa_core
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
 [aho-corasick]: https://crates.io/crates/aho-corasick
 [arc-swap]: https://crates.io/crates/arc-swap
