@@ -100,11 +100,10 @@ impl Usage {
 
         command.print_info()?;
 
-        let mut white = ColorSpec::new();
-        white.set_fg(Some(Color::White));
-        white.set_bold(true);
+        let mut bold = ColorSpec::new();
+        bold.set_bold(true);
 
-        stdout.set_color(&white)?;
+        stdout.set_color(&bold)?;
         writeln!(stdout, "USAGE:")?;
         stdout.reset()?;
 
@@ -121,7 +120,7 @@ impl Usage {
         writeln!(stdout)?;
 
         if let Some(desc) = description {
-            stdout.set_color(&white)?;
+            stdout.set_color(&bold)?;
             writeln!(stdout, "DESCRIPTION:")?;
             stdout.reset()?;
 
@@ -180,11 +179,10 @@ impl Usage {
         command.print_info().unwrap();
 
         if let Some(desc) = description {
-            let mut white = ColorSpec::new();
-            white.set_fg(Some(Color::White));
-            white.set_bold(true);
+            let mut bold = ColorSpec::new();
+            bold.set_bold(true);
 
-            stdout.set_color(&white).unwrap();
+            stdout.set_color(&bold).unwrap();
             writeln!(stdout, "DESCRIPTION:").unwrap();
             stdout.reset().unwrap();
 
@@ -235,9 +233,8 @@ impl Usage {
         writeln!(stdout, "wasn't recognized.")?;
         writeln!(stdout)?;
 
-        let mut white = ColorSpec::new();
-        white.set_fg(Some(Color::White));
-        white.set_bold(true);
+        let mut bold = ColorSpec::new();
+        bold.set_bold(true);
 
         stdout.set_color(&yellow)?;
         writeln!(stdout, "USAGE:")?;
@@ -258,11 +255,10 @@ impl Usage {
         let mut stdout = STDOUT.lock();
         stdout.reset()?;
 
-        let mut white = ColorSpec::new();
-        white.set_fg(Some(Color::White));
-        white.set_bold(true);
+        let mut bold = ColorSpec::new();
+        bold.set_bold(true);
 
-        stdout.set_color(&white)?;
+        stdout.set_color(&bold)?;
         writeln!(stdout, "{} {}", &self.package_name, &self.package_version)?;
         stdout.reset()?;
 
@@ -282,12 +278,11 @@ impl Usage {
     pub fn print_usage(&self) -> Result<(), io::Error> {
         let mut stdout = STDOUT.lock();
 
-        let mut white = ColorSpec::new();
-        white.set_fg(Some(Color::White));
-        white.set_bold(true);
+        let mut bold = ColorSpec::new();
+        bold.set_bold(true);
 
         if !self.args.is_empty() {
-            stdout.set_color(&white)?;
+            stdout.set_color(&bold)?;
             writeln!(stdout, "FLAGS:")?;
             stdout.reset()?;
 
@@ -299,7 +294,7 @@ impl Usage {
         }
 
         if !self.subcommands.is_empty() {
-            stdout.set_color(&white)?;
+            stdout.set_color(&bold)?;
             writeln!(stdout, "SUBCOMMANDS:")?;
             stdout.reset()?;
 
