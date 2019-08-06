@@ -1,3 +1,16 @@
+## [0.3.0] (2019-08-05)
+
+- usage: Use bold rather than explicit color ([#126])
+- Switch from `heck` to `ident_case` ([#124])
+- component: Ensure registration will succeed before mutating ([#122])
+- component: Add #[component(dep = "...")] attribute ([#121])
+- derive: Custom derive support for `Component` ([#119])
+- component: Index Registry by TypeId ([#118])
+- component: Add `get_downcast_ref`/`get_downcast_mut` to `Registry` ([#117])
+- component: Add get_mut methods to `Registry` ([#115])
+- component: Use `generational-arena` for component storage ([#113])
+- component: allow `Registry::iter()` without mutable reference([#110])
+
 ## [0.2.1] (2019-07-27)
 
 - usage: Fix bugs when traversing subcommands ([#107])
@@ -74,6 +87,17 @@
 
 - Initial release
 
+[0.3.0]: https://github.com/iqlusioninc/abscissa/pull/127
+[#126]: https://github.com/iqlusioninc/abscissa/pull/126
+[#124]: https://github.com/iqlusioninc/abscissa/pull/124
+[#122]: https://github.com/iqlusioninc/abscissa/pull/122
+[#121]: https://github.com/iqlusioninc/abscissa/pull/121
+[#119]: https://github.com/iqlusioninc/abscissa/pull/119
+[#118]: https://github.com/iqlusioninc/abscissa/pull/118
+[#117]: https://github.com/iqlusioninc/abscissa/pull/117
+[#115]: https://github.com/iqlusioninc/abscissa/pull/115
+[#113]: https://github.com/iqlusioninc/abscissa/pull/113
+[#110]: https://github.com/iqlusioninc/abscissa/pull/110
 [0.2.1]: https://github.com/iqlusioninc/abscissa/pull/108
 [#107]: https://github.com/iqlusioninc/abscissa/pull/107
 [#106]: https://github.com/iqlusioninc/abscissa/pull/106

@@ -5,7 +5,7 @@ description = """
               configuration, error handling, logging, and terminal interactions.
               This crate contains the framework's core functionality.
               """
-version     = "0.3.0-rc.0" # Also update html_root_url in lib.rs when bumping this
+version     = "0.3.0" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
@@ -20,7 +20,7 @@ travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 maintenance = { status = "actively-developed" }
 
 [dependencies]
-abscissa_derive = { version = "0.3.0-rc.0", path = "../derive" }
+abscissa_derive = { version = "0.3", path = "../derive" }
 canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
