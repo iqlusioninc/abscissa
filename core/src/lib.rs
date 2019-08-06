@@ -158,8 +158,6 @@ pub use crate::{
 
 #[cfg(feature = "time")]
 pub use chrono as time;
-#[cfg(feature = "inflector")]
-pub use heck as inflector;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;
 #[cfg(feature = "secrets")]

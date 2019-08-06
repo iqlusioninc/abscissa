@@ -5,13 +5,11 @@ version = "{{version}}"
 edition = "{{edition}}"
 
 [dependencies]
+abscissa_core = "{{abscissa.version}}"
 failure = "0.1"
 gumdrop = "0.6"
 lazy_static = "1"
 serde = { version = "1", features = ["serde_derive"] }
-
-[dependencies.abscissa_core]
-version = "{{abscissa.version}}"
 
 [dev-dependencies.abscissa_core]
 version = "{{abscissa.version}}"

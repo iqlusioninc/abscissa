@@ -13,7 +13,7 @@
 mod start;
 mod version;
 
-use self::{start::StartCommand, version::VersionCommand};
+use self::{start::StartCmd, version::VersionCmd};
 use crate::config::{{~config_type~}};
 use abscissa_core::{
     config::Override, Command, Configurable, FrameworkError, Help, Options, Runnable,
@@ -32,11 +32,11 @@ pub enum {{command_type}} {
 
     /// The `start` subcommand
     #[options(help = "start the application")]
-    Start(StartCommand),
+    Start(StartCmd),
 
     /// The `version` subcommand
     #[options(help = "display version information")]
-    Version(VersionCommand),
+    Version(VersionCmd),
 }
 
 /// This trait allows you to define how application configuration is loaded.

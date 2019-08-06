@@ -1,6 +1,6 @@
 //! Custom derive support for `abscissa_core::command::Command`.
 
-use heck::KebabCase;
+use ident_case::RenameRule;
 use proc_macro2::TokenStream;
 use quote::quote;
 use synstructure::Structure;
@@ -44,7 +44,7 @@ pub fn derive_command(s: Structure) -> TokenStream {
 fn impl_subcommand_usage_for_enum(data: &syn::DataEnum) -> TokenStream {
     let match_arms = data.variants.iter().map(|variant| {
         // TODO(tarcieri): support `#[options(name = "...")]` attribute
-        let name = variant.ident.to_string().to_kebab_case();
+        let name = RenameRule::KebabCase.apply_to_variant(variant.ident.to_string());
 
         let subcommand = match &variant.fields {
             syn::Fields::Unnamed(fields) => {

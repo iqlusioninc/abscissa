@@ -15,13 +15,13 @@ use abscissa_core::{config, Command, FrameworkError, Options, Runnable};
 ///
 /// <https://docs.rs/gumdrop/>
 #[derive(Command, Debug, Options)]
-pub struct StartCommand {
+pub struct StartCmd {
     /// To whom are we saying hello?
     #[options(free)]
     recipient: Vec<String>,
 }
 
-impl Runnable for StartCommand {
+impl Runnable for StartCmd {
     /// Start the application.
     fn run(&self) {
         let config = app_config();
@@ -29,7 +29,7 @@ impl Runnable for StartCommand {
     }
 }
 
-impl config::Override<{{~config_type~}}> for StartCommand {
+impl config::Override<{{~config_type~}}> for StartCmd {
     // Process the given command line options, overriding settings from
     // a configuration file using explicit flags taken from command-line
     // arguments.

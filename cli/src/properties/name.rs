@@ -1,6 +1,6 @@
 //! Names used within an Abscissa application
 
-use heck::CamelCase;
+use ident_case::RenameRule;
 use serde::{Deserialize, Serialize};
 use std::{fmt, str};
 
@@ -68,6 +68,6 @@ impl Type {
     where
         S: AsRef<str>,
     {
-        Type(s.as_ref().to_camel_case())
+        Type(RenameRule::PascalCase.apply_to_field(s))
     }
 }
