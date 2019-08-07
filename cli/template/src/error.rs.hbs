@@ -2,7 +2,7 @@
 
 use abscissa_core::err;
 use failure::Fail;
-use std::{fmt, io};
+use std::{fmt, io, ops::Deref};
 
 /// Error type
 #[derive(Debug)]
@@ -18,6 +18,14 @@ pub enum ErrorKind {
     /// Input/output error
     #[fail(display = "I/O error")]
     Io,
+}
+
+impl Deref for Error {
+    type Target = abscissa_core::Error<ErrorKind>;
+
+    fn deref(&self) -> &abscissa_core::Error<ErrorKind> {
+        &self.0
+    }
 }
 
 impl fmt::Display for Error {
