@@ -9,3 +9,4 @@ contributions under the terms of the [Apache License, Version 2.0]
 [LICENSE]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
 
 - Anthony Arcieri ([@tarcieri](https://github.com/tarcieri))
+- Jarrod Davis ([@jarrodldavis](https://github.com/jarrodldavis))
