@@ -23,8 +23,11 @@ pub struct Usage {
     /// Package description
     pub package_description: Option<String>,
 
-    /// Command-line options
-    pub args: Vec<Argument>,
+    /// Command-line positional arguments
+    pub positionals: Vec<Positional>,
+
+    /// Command-line flag arguments
+    pub flags: Vec<Flag>,
 
     /// Subcommands
     pub subcommands: Vec<Subcommand>,
@@ -45,10 +48,7 @@ impl Usage {
             .collect::<Vec<_>>()
             .join(" ");
 
-        let args = C::usage()
-            .split('\n')
-            .filter_map(Argument::parse_usage)
-            .collect();
+        let (positionals, flags) = parse_usage_sections(C::usage());
 
         let subcommands = C::command_list()
             .map(|command_list| {
@@ -68,7 +68,8 @@ impl Usage {
             } else {
                 Some(package_description)
             },
-            args,
+            positionals,
+            flags,
             subcommands,
         }
     }
@@ -281,13 +282,25 @@ impl Usage {
         let mut bold = ColorSpec::new();
         bold.set_bold(true);
 
-        if !self.args.is_empty() {
+        if !self.positionals.is_empty() {
+            stdout.set_color(&bold)?;
+            writeln!(stdout, "POSITIONAL ARGUMENTS:")?;
+            stdout.reset()?;
+
+            for positional in &self.positionals {
+                positional.print(&mut stdout)?;
+            }
+
+            // writeln!(stdout)?;
+        }
+
+        if !self.flags.is_empty() {
             stdout.set_color(&bold)?;
             writeln!(stdout, "FLAGS:")?;
             stdout.reset()?;
 
-            for arg in &self.args {
-                arg.print(&mut stdout)?;
+            for flag in &self.flags {
+                flag.print(&mut stdout)?;
             }
 
             writeln!(stdout)?;
@@ -307,9 +320,43 @@ impl Usage {
     }
 }
 
+enum UsageSection {
+    Start,
+    Positional,
+    Flag,
+}
+
+/// section-based parser for usage strings
+fn parse_usage_sections(usage: &str) -> (Vec<Positional>, Vec<Flag>) {
+    let mut section = UsageSection::Start;
+
+    let mut positionals = vec![];
+    let mut flags = vec![];
+
+    for line in usage.lines() {
+        if line.starts_with("Positional arguments:") {
+            section = UsageSection::Positional;
+            continue;
+        } else if line.starts_with("Optional arguments:") {
+            section = UsageSection::Flag;
+            continue;
+        }
+
+        match section {
+            UsageSection::Start => continue,
+            UsageSection::Positional => {
+                Positional::parse_usage(line).map(|arg| positionals.push(arg))
+            }
+            UsageSection::Flag => Flag::parse_usage(line).map(|arg| flags.push(arg)),
+        };
+    }
+
+    (positionals, flags)
+}
+
 /// Presenter for flags/options
 #[derive(Debug)]
-pub struct Argument {
+pub struct Flag {
     /// Short name (one char)
     pub short: Option<char>,
 
@@ -323,7 +370,7 @@ pub struct Argument {
     pub description: Option<String>,
 }
 
-impl Argument {
+impl Flag {
     /// Parse flags from `gumdrop` usage string.
     // TODO(tarcieri): less hacky approach
     fn parse_usage(usage: &str) -> Option<Self> {
@@ -409,6 +456,45 @@ impl Argument {
                 arg_str.push_str(param);
             }
         }
+
+        let description = self.description.as_ref().map(String::as_str).unwrap_or("");
+        writeln!(stream, "    {:<25} {}", &arg_str, description)
+    }
+}
+
+/// Presenter for positional arguments
+#[derive(Debug)]
+pub struct Positional {
+    /// Long name
+    pub name: String,
+
+    /// Description
+    pub description: Option<String>,
+}
+
+impl Positional {
+    /// Parse positional argument from `gumdrop` usage string.
+    fn parse_usage(usage: &str) -> Option<Self> {
+        let usage = usage.trim_start();
+
+        let mut iter = usage.splitn(2, char::is_whitespace);
+
+        let name = iter.next()?.to_string();
+
+        let description = match iter.next().map(|desc| desc.trim()) {
+            None => None,
+            Some(desc) if desc.is_empty() => None,
+            Some(desc) => Some(desc.to_string()),
+        };
+
+        Some(Self { name, description })
+    }
+
+    /// Print the argument to the given I/O stream
+    fn print(&self, stream: &mut impl Write) -> Result<(), io::Error> {
+        let mut arg_str = String::new();
+
+        arg_str.push_str(&self.name);
 
         let description = self.description.as_ref().map(String::as_str).unwrap_or("");
         writeln!(stream, "    {:<25} {}", &arg_str, description)
