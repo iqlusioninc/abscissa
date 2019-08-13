@@ -385,9 +385,9 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [serde_derive]: https://crates.io/crates/serde_derive
 [signal-hook]: https://crates.io/crates/signal-hook
 [signal-hook-registry]: https://crates.io/crates/signal-hook
-[strsim]: https://crates.io/crates/darling
+[strsim]: https://crates.io/crates/strsim
 [syn]: https://crates.io/crates/syn
-[synstructure]: https://crates.io/crates/
+[synstructure]: https://crates.io/crates/synstructure
 [termcolor]: https://crates.io/crates/termcolor
 [thread_local]: https://crates.io/crates/thread_local
 [time]: https://crates.io/crates/time
@@ -397,10 +397,10 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [utf8-ranges]: https://crates.io/crates/utf8-ranges
 [wait-timeout]: https://crates.io/crates/wait-timeout
 [winapi]: https://crates.io/crates/winapi
-[winapi-util]: https://crates.io/crates/winapi
+[winapi-util]: https://crates.io/crates/winapi-util
 [winapi-i686-pc-windows-gnu]: https://crates.io/crates/winapi-i686-pc-windows-gnu
 [winapi-x86_64-pc-windows-gnu]: https://crates.io/crates/winapi-x86_64-pc-windows-gnu
-[wincolor]: https://crates.io/crates/winapi
+[wincolor]: https://crates.io/crates/wincolor
 [zeroize]: https://crates.io/crates/zeroize
 
 [//]: # (author links)
@@ -409,7 +409,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [@Amanieu]: https://github.com/Amanieu
 [@BurntSushi]: https://github.com/BurntSushi
 [@cuviper]: https://github.com/cuviper
-[@dguo]: https://github.com/dtolnay
+[@dguo]: https://github.com/dguo
 [@dtolnay]: https://github.com/dtolnay
 [@fitzgen]: https://github.com/fitzgen
 [@Murarth]: https://github.com/Murarth
