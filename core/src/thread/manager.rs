@@ -23,7 +23,7 @@ impl Manager {
         }
 
         let thread = Thread::spawn(name.clone(), f)?;
-        self.threads.insert(name.clone(), thread).unwrap();
+        self.threads.insert(name.clone(), thread);
         Ok(())
     }
 

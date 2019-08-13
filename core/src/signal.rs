@@ -99,7 +99,7 @@ where
     I: IntoIterator<Item = Signal>,
 {
     let mut app = app_lock.write();
-    let thread_name = thread::Name::new("absissa::signal");
+    let thread_name = thread::Name::new("abscissa::signal");
     let signals = Signals::new(signals.into_iter().map(|s| s.number() as c_int))
         .map_err(|e| err!(ThreadError, "{}", e))?;
 
