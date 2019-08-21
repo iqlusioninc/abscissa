@@ -3,7 +3,7 @@
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
 [![Apache 2.0 Licensed][license-image]][license-link]
-![Rust 1.35+][rustc-image]
+![MSRV][rustc-image]
 [![forbid(unsafe_code)][unsafe-image]][unsafe-link]
 [![Build Status][build-image]][build-link]
 [![Appveyor Status][appveyor-image]][appveyor-link]
@@ -57,7 +57,7 @@ Abscissa presently consists of three crates:
 
 ## Requirements
 
-- Rust 1.35+
+- Rust **1.36+**
 
 ## Installation
 
@@ -315,7 +315,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
-[rustc-image]: https://img.shields.io/badge/rustc-1.35+-blue.svg
+[rustc-image]: https://img.shields.io/badge/rustc-1.36+-blue.svg
 [unsafe-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [unsafe-link]: https://internals.rust-lang.org/t/disabling-unsafe-by-default/7988
 [build-image]: https://travis-ci.com/iqlusioninc/abscissa.svg?branch=develop
