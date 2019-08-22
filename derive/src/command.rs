@@ -49,7 +49,7 @@ fn impl_subcommand_usage_for_enum(data: &syn::DataEnum) -> TokenStream {
         let subcommand = match &variant.fields {
             syn::Fields::Unnamed(fields) => {
                 if fields.unnamed.len() == 1 {
-                    Some(&fields.unnamed.first().unwrap().into_value().ty)
+                    Some(&fields.unnamed.first().unwrap().ty)
                 } else {
                     None
                 }
