@@ -17,12 +17,12 @@ maintenance = { status = "actively-developed" }
 proc-macro = true
 
 [dependencies]
-darling = "0.9"
+darling = "0.10"
 ident_case = "1"
-proc-macro2 = "0.4"
-quote = "0.6"
-syn = "0.15"
-synstructure = "0.10"
+proc-macro2 = "1"
+quote = "1"
+syn = "1"
+synstructure = "0.12"
 
 [package.metadata.docs.rs]
 all-features = true
