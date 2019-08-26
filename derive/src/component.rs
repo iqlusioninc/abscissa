@@ -6,7 +6,7 @@ use quote::quote;
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::component::Component`
-pub fn derive_component(s: Structure) -> TokenStream {
+pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let attrs = ComponentAttributes::from_derive_input(s.ast()).unwrap_or_else(|e| {
         panic!("error parsing component attributes: {}", e);
     });

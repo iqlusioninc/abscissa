@@ -164,12 +164,12 @@ where
     }
 
     /// Iterate over the components.
-    pub fn iter(&self) -> Iter<A> {
+    pub fn iter(&self) -> Iter<'_, A> {
         Iter::new(self.components.iter())
     }
 
     /// Iterate over the components mutably.
-    pub fn iter_mut(&mut self) -> IterMut<A> {
+    pub fn iter_mut(&mut self) -> IterMut<'_, A> {
         IterMut::new(self.components.iter_mut())
     }
 

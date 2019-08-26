@@ -1,7 +1,7 @@
 use quote::quote;
 
 /// Custom derive for `abscissa_core::runnable::Runnable`
-pub fn derive_runnable(s: synstructure::Structure) -> proc_macro2::TokenStream {
+pub fn derive_runnable(s: synstructure::Structure<'_>) -> proc_macro2::TokenStream {
     let body = s.each(|bi| {
         quote! { #bi.run() }
     });

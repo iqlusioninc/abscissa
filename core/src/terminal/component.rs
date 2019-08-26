@@ -20,7 +20,7 @@ impl Terminal {
 }
 
 impl fmt::Debug for Terminal {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "TerminalComponent {{ stdout, stderr }}")
     }
 }

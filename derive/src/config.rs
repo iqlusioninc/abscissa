@@ -1,7 +1,7 @@
 use quote::quote;
 
 /// Custom derive for `abscissa_core::config::Config`
-pub fn derive_config(s: synstructure::Structure) -> proc_macro2::TokenStream {
+pub fn derive_config(s: synstructure::Structure<'_>) -> proc_macro2::TokenStream {
     s.gen_impl(quote! {
         gen impl Config for @Self {}
     })

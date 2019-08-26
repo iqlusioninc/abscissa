@@ -42,7 +42,7 @@ impl<C> Options for Help<C>
 where
     C: Command,
 {
-    fn parse<S: AsRef<str>>(parser: &mut Parser<S>) -> Result<Self, Error> {
+    fn parse<S: AsRef<str>>(parser: &mut Parser<'_, S>) -> Result<Self, Error> {
         let mut opts = vec![];
 
         while let Some(opt) = parser.next_opt() {
@@ -58,7 +58,10 @@ where
         })
     }
 
-    fn parse_command<S: AsRef<str>>(_name: &str, parser: &mut Parser<S>) -> Result<Self, Error> {
+    fn parse_command<S: AsRef<str>>(
+        _name: &str,
+        parser: &mut Parser<'_, S>,
+    ) -> Result<Self, Error> {
         // TODO(tarcieri): is this necessary or the best approach?
         Self::parse(parser)
     }
