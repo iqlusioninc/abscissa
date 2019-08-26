@@ -4,8 +4,10 @@
 //!
 //! [Abscissa]: https://github.com/iqlusioninc/abscissa
 
-#![deny(warnings, missing_docs, trivial_casts, unused_qualifications)]
+// Tip: Deny warnings with `RUSTFLAGS="-D warnings"` environment variable in CI
+
 #![forbid(unsafe_code)]
+#![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
 
 pub mod application;
 pub mod commands;
