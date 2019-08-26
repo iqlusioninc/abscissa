@@ -71,7 +71,7 @@ impl Collection {
     }
 
     /// Iterate over the templates in the collection
-    pub fn iter(&self) -> Iter {
+    pub fn iter(&self) -> Iter<'_> {
         // TODO: better way of constructing this `Iter`
         Iter::new(
             self.0
@@ -85,7 +85,7 @@ impl Collection {
     /// Render a template
     pub fn render<W>(
         &self,
-        template: &Template,
+        template: &Template<'_>,
         properties: &Properties,
         output: W,
     ) -> Result<(), Error>

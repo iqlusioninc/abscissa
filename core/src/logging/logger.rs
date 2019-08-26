@@ -30,7 +30,7 @@ impl Logger {
     }
 
     /// Attempt to log
-    pub fn try_log(&self, record: &Record) -> Result<(), Error> {
+    pub fn try_log(&self, record: &Record<'_>) -> Result<(), Error> {
         let mut stream = self.level_stream(record);
         let now = chrono::Utc::now();
         write!(&mut stream, "{} ", now.format("%H:%M:%S"))?;
@@ -44,7 +44,7 @@ impl Logger {
     }
 
     /// Get the stream to which a particular loglevel should be displayed
-    fn level_stream(&self, record: &Record) -> StandardStreamLock {
+    fn level_stream(&self, record: &Record<'_>) -> StandardStreamLock<'_> {
         match record.level() {
             Level::Error => &*STDERR,
             _ => &*STDOUT,
@@ -70,11 +70,11 @@ impl Logger {
 }
 
 impl Log for Logger {
-    fn enabled(&self, metadata: &Metadata) -> bool {
+    fn enabled(&self, metadata: &Metadata<'_>) -> bool {
         metadata.level() <= self.level
     }
 
-    fn log(&self, record: &Record) {
+    fn log(&self, record: &Record<'_>) {
         let result = self.try_log(record);
         debug_assert!(result.is_ok(), "logging error: {}", result.err().unwrap());
     }

@@ -8,6 +8,7 @@ branches:
 env:
   global:
     - RUST_BACKTRACE=1
+    - RUSTFLAGS="-D warnings"
 
 install:
   - rustup component add rustfmt

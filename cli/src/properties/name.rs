@@ -15,7 +15,7 @@ impl AsRef<str> for App {
 }
 
 impl fmt::Display for App {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }

@@ -106,7 +106,7 @@ impl NewCommand {
     fn render_template_file(
         &self,
         app_template: &Collection,
-        template_file: &Template,
+        template_file: &Template<'_>,
         app_properties: &Properties,
     ) -> Result<(), Error> {
         let output_path_rel = template_file.output_path(app_properties);

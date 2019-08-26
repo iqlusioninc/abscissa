@@ -4,12 +4,12 @@
 //!
 //! <https://docs.rs/abscissa_core>
 
-#![deny(warnings, unsafe_code, unused_qualifications)]
-#![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
     html_root_url = "https://docs.rs/abscissa_core/0.3.0"
 )]
+#![forbid(unsafe_code)]
+#![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
 
 pub mod application;
 pub mod commands;

@@ -86,12 +86,12 @@
 //! [RwLock]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
 //! [lazy_static]: https://docs.rs/lazy_static
 
-#![deny(warnings, missing_docs, unused_import_braces, unused_qualifications)]
-#![forbid(unsafe_code)]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
     html_root_url = "https://docs.rs/abscissa_core/0.3.0"
 )]
+#![forbid(unsafe_code)]
+#![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
 
 /// Abscissa version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

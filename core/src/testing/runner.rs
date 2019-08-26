@@ -188,7 +188,7 @@ impl CmdRunner {
     }
 
     /// Run the given subcommand
-    pub fn run(&self) -> Process {
+    pub fn run(&self) -> Process<'_> {
         let guard = self
             .mutex
             .as_ref()
@@ -224,7 +224,7 @@ impl CmdRunner {
     }
 
     /// Get the exit status for the given subcommand
-    pub fn status(&self) -> ExitStatus {
+    pub fn status(&self) -> ExitStatus<'_> {
         self.run().wait().unwrap_or_else(|e| {
             panic!("error waiting for subprocess to terminate: {}", e);
         })

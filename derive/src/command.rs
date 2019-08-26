@@ -6,7 +6,7 @@ use quote::quote;
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::command::Command`
-pub fn derive_command(s: Structure) -> TokenStream {
+pub fn derive_command(s: Structure<'_>) -> TokenStream {
     let subcommand_usage = match &s.ast().data {
         syn::Data::Enum(data) => impl_subcommand_usage_for_enum(data),
         _ => quote!(),
