@@ -24,11 +24,11 @@ canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 failure = "0.1"
 generational-arena = { version = "0.2", optional = true }
-gumdrop = { version = "0.6", optional = true }
+gumdrop = { version = "0.7", optional = true }
 lazy_static = "1"
 log = { version = "0.4", optional = true, features = ["std"] }
 regex = { version = "1", optional = true }
-secrecy = { version = "0.3", optional = true, features = ["serde"] }
+secrecy = { version = "0.4", optional = true, features = ["serde"] }
 semver = { version = "0.9", optional = true }
 serde = { version = "1", optional = true, features = ["serde_derive"] }
 termcolor = { version = "1", optional = true }
