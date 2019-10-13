@@ -7,16 +7,21 @@ use std::collections::HashMap;
 /// Thread manager that tracks threads spawned by the application and handles
 /// shutting them down.
 #[derive(Debug, Default)]
-pub struct Manager {
-    threads: HashMap<Name, Thread>,
+pub struct Manager<T = ()>
+where
+    T: Send + 'static,
+{
+    threads: HashMap<Name, Thread<T>>,
 }
 
-impl Manager {
+impl<T> Manager<T>
+where
+    T: Send + 'static,
+{
     /// Spawn a thread within the thread manager.
     pub fn spawn<F>(&mut self, name: &Name, f: F) -> Result<(), FrameworkError>
     where
-        F: FnOnce() -> (),
-        F: Send + 'static,
+        F: FnOnce() -> T + Send + 'static,
     {
         if self.threads.contains_key(name) {
             fail!(ThreadError, "duplicate name: {}", name);

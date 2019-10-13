@@ -35,8 +35,7 @@ where
     /// Spawn a new thread, executing the given runnable
     pub fn spawn<F>(name: Name, f: F) -> Result<Self, FrameworkError>
     where
-        F: FnOnce() -> T,
-        F: Send + 'static,
+        F: FnOnce() -> T + Send + 'static,
     {
         let kill_switch = Arc::new(KillSwitch::new());
         let handle = spawn_thread(name.to_string(), Arc::clone(&kill_switch), f)?;
@@ -92,8 +91,7 @@ fn spawn_thread<F, T>(
     f: F,
 ) -> Result<thread::JoinHandle<T>, io::Error>
 where
-    F: FnOnce() -> T,
-    F: Send + 'static,
+    F: FnOnce() -> T + Send + 'static,
     T: Send + 'static,
 {
     thread::Builder::new().name(name).spawn(move || {
