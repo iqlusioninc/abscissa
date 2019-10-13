@@ -1,3 +1,13 @@
+## [0.4.0] (2019-10-13)
+
+- Update dependencies: `gumdrop` 0.7, `secrecy` 0.4 ([#141])
+- template: Lint for 2018 edition idioms; export error macros ([#136])
+- Improve lints and deny policy ([#135])
+- derive: Update to 1.0 versions of proc-macro2/quote/syn ([#134])
+- Support positional arguments in usage descriptions ([#131])
+- Fix issues with the signal handler thread ([#130])
+- template: Add `Deref` impl on Error newtype ([#129])
+
 ## [0.3.0] (2019-08-05)
 
 - usage: Use bold rather than explicit color ([#126])
@@ -87,6 +97,14 @@
 
 - Initial release
 
+[0.4.0]: https://github.com/iqlusioninc/abscissa/pull/142
+[#141]: https://github.com/iqlusioninc/abscissa/pull/141
+[#136]: https://github.com/iqlusioninc/abscissa/pull/136
+[#135]: https://github.com/iqlusioninc/abscissa/pull/135
+[#134]: https://github.com/iqlusioninc/abscissa/pull/134
+[#130]: https://github.com/iqlusioninc/abscissa/pull/130
+[#131]: https://github.com/iqlusioninc/abscissa/pull/131
+[#129]: https://github.com/iqlusioninc/abscissa/pull/129
 [0.3.0]: https://github.com/iqlusioninc/abscissa/pull/127
 [#126]: https://github.com/iqlusioninc/abscissa/pull/126
 [#124]: https://github.com/iqlusioninc/abscissa/pull/124
