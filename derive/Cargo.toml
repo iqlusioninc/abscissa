@@ -10,7 +10,6 @@ repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/abscissa_der
 readme      = "README.md"
 
 [badges]
-travis-ci = { repository = "iqlusioninc/abscissa", branch = "develop" }
 maintenance = { status = "actively-developed" }
 
 [lib]

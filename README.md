@@ -1,12 +1,11 @@
-# ![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg)
+# ![Abscissa][logo]
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
 [![Apache 2.0 Licensed][license-image]][license-link]
 ![MSRV][rustc-image]
-[![forbid(unsafe_code)][unsafe-image]][unsafe-link]
+[![Safety Dance][safety-image]][safety-link]
 [![Build Status][build-image]][build-link]
-[![Appveyor Status][appveyor-image]][appveyor-link]
 [![Gitter Chat][gitter-image]][gitter-link]
 
 Abscissa is a microframework for building Rust applications (either CLI tools
@@ -26,7 +25,7 @@ or network/web services), aiming to provide a large number of features with a
   provides such features such as calculating dependency ordering and providing
   hooks into the application lifecycle. Newly generated apps use two components
   by default: `terminal` and `logging`.
-- **configuration**: Simple parsing of TOML configurations to serde-parsed
+- **configuration**: Simple parsing of TOML configurations to `serde`-parsed
   configuration types which can be dynamically updated at runtime.
 - **error handling**: generic `Error` type based on the `failure` crate, and a
   unified error-handling subsystem.
@@ -304,11 +303,9 @@ limitations under the License.
 If you are interested in contributing to this repository, please make sure to
 read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 
-[CONTRIBUTING.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CONTRIBUTING.md
-[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
-
 [//]: # (badges)
 
+[logo]: https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg
 [crate-image]: https://img.shields.io/crates/v/abscissa_core.svg
 [crate-link]: https://crates.io/crates/abscissa_core
 [docs-image]: https://docs.rs/abscissa_core/badge.svg
@@ -316,12 +313,10 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
 [rustc-image]: https://img.shields.io/badge/rustc-1.36+-blue.svg
-[unsafe-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
-[unsafe-link]: https://internals.rust-lang.org/t/disabling-unsafe-by-default/7988
-[build-image]: https://travis-ci.com/iqlusioninc/abscissa.svg?branch=develop
-[build-link]: https://travis-ci.com/iqlusioninc/abscissa/
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/9bgh8je3rsmbyo0y?svg=true
-[appveyor-link]: https://ci.appveyor.com/project/tony-iqlusion/abscissa
+[safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
+[safety-link]: https://github.com/rust-secure-code/safety-dance/
+[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg
+[build-link]: https://github.com/iqlusioninc/abscissa/actions
 [gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
 [gitter-link]: https://gitter.im/iqlusioninc/community
 
@@ -332,6 +327,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [Kryptos K2]: https://en.wikipedia.org/wiki/Kryptos#Solution_of_passage_2
 [cc]: https://contributor-covenant.org
 [CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
+[CONTRIBUTING.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CONTRIBUTING.md
 
 [//]: # (projects using abscissa)
 
