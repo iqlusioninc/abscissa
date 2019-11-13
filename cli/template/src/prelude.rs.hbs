@@ -12,3 +12,6 @@ pub use abscissa_core::{ensure, fail, fatal};
 
 /// Logging macros
 pub use abscissa_core::log::{debug, error, info, log, log_enabled, trace, warn};
+
+/// Status macros
+pub use abscissa_core::{status_err, status_info, status_ok, status_warn};
