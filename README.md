@@ -96,34 +96,36 @@ default set of features in the application:
 |----|------------------------|-----------------|----------------|-------------------------|
 | 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework      |
 | 2  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
-| 3  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
-| 4  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 5  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 6  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
-| 7  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
-| 8  | [failure]              | [@withoutboats] | Apache-2.0/MIT | Error handling          |
-| 9  | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
-| 10 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
-| 11 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
-| 12 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
-| 13 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
-| 14 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
-| 15 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
-| 16 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
-| 17 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
-| 18 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
-| 19 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
-| 20 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
-| 21 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
-| 22 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
-| 23 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
-| 24 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
-| 25 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
-| 26 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
-| 27 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
-| 28 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
-| 29 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
-| 30 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
+| 3  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence     |
+| 4  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
+| 5  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 6  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 7  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
+| 8  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
+| 9  | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces |
+| 10 | [failure]              | [@withoutboats] | Apache-2.0/MIT | Error handling          |
+| 11 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
+| 12 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
+| 13 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
+| 14 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
+| 15 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
+| 16 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
+| 17 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
+| 18 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
+| 19 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
+| 20 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
+| 21 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
+| 22 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
+| 23 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
+| 24 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
+| 25 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
+| 26 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
+| 27 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
+| 28 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
+| 29 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
+| 30 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
+| 31 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
+| 32 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
 
 ### Build / Development / Testing Dependencies
 
@@ -168,13 +170,15 @@ so you only compile the parts you need.
 | [abscissa_derive]      | -                | [abscissa_core]   |
 | [aho-corasick]         | `testing`        | [regex]           |
 | [arc-swap]             | `signals`        | [signal-hook-registry] |
+| [atty]                 | `terminal`       | [color-backtrace] |
 | [autocfg]              | `time`           | [num-integer]     |
 | [backtrace]            | -                | [failure]         |
 | [backtrace-sys]        | -                | [backtrace]       |
 | [canonical-path]       | -                | [abscissa_core]   |
 | [cc]                   | -                | [backtrace-sys]   |
 | [cfg-if]               | -                | [backtrace], [log] |
-| [chrono]               | `time`           | [abscissa_core]    |
+| [color-backtrace]      | `terminal`       | [abscissa_core]   |
+| [chrono]               | `time`           | [abscissa_core]   |
 | [darling]              | -                | [abscissa_derive] |
 | [darling_core]         | -                | [darling], [darling_macro] |
 | [darling_macro]        | -                | [darling]         |
@@ -344,11 +348,13 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
 [aho-corasick]: https://crates.io/crates/aho-corasick
 [arc-swap]: https://crates.io/crates/arc-swap
+[atty]: https://github.com/softprops/atty
 [autocfg]: https://crates.io/crates/autocfg
 [backtrace]: https://crates.io/crates/backtrace
 [backtrace-sys]: https://crates.io/crates/backtrace-sys
 [byteorder]: https://crates.io/crates/byteorder
 [canonical-path]: https://crates.io/crates/canonical-path
+[color-backtrace]: https://github.com/athre0z/color-backtrace
 [cc]: https://crates.io/crates/cc
 [cfg-if]: https://crates.io/crates/cfg-if
 [chrono]: https://crates.io/crates/chrono
