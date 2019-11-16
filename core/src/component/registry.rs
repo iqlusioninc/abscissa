@@ -7,8 +7,9 @@ pub use self::iter::{Iter, IterMut};
 use super::{handle::Handle, id::Id, Component};
 use crate::{
     application::{self, Application},
-    error::{FrameworkError, FrameworkErrorKind::ComponentError},
     shutdown::Shutdown,
+    FrameworkError,
+    FrameworkErrorKind::ComponentError,
 };
 use generational_arena::{Arena, Index};
 use std::{any::TypeId, borrow::Borrow, collections::BTreeMap};

@@ -13,8 +13,17 @@ pub enum ErrorKind {
     /// Error in configuration file
     Config,
 
+    /// Git-related errors
+    Git,
+
     /// Input/output error
     Io,
+
+    /// Path-related errors
+    Path,
+
+    /// Template-related errors
+    Template,
 }
 
 impl ErrorKind {
@@ -28,7 +37,10 @@ impl Display for ErrorKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let description = match self {
             ErrorKind::Config => "config error",
+            ErrorKind::Git => "git error",
             ErrorKind::Io => "I/O error",
+            ErrorKind::Path => "bad path",
+            ErrorKind::Template => "template error",
         };
 
         f.write_str(description)
@@ -62,8 +74,14 @@ impl std::error::Error for Error {
 }
 
 impl From<Context<ErrorKind>> for Error {
-    fn from(context: Context<ErrorKind>) -> Self {
-        Error(Box::new(context))
+    fn from(other: Context<ErrorKind>) -> Self {
+        Error(Box::new(other))
+    }
+}
+
+impl From<handlebars::RenderError> for Error {
+    fn from(err: handlebars::RenderError) -> Self {
+        ErrorKind::Template.context(err).into()
     }
 }
 

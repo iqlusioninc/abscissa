@@ -10,22 +10,22 @@
 
 /// Create a new error (of a given kind) with a formatted message
 #[macro_export]
-macro_rules! err {
-    ($kind:path, $msg:expr) => {
-        $crate::error::Error::new($crate::error::Context::new($kind), Some($msg.to_string()))
+macro_rules! format_err {
+    ($kind:expr, $msg:expr) => {
+        $kind.context($crate::error::Message::new($msg))
     };
-    ($kind:path, $fmt:expr, $($arg:tt)+) => {
-        err!($kind, &format!($fmt, $($arg)+))
+    ($kind:expr, $fmt:expr, $($arg:tt)+) => {
+        format_err!($kind, &format!($fmt, $($arg)+))
     };
 }
 
 /// Create and return an error with a formatted message
 #[macro_export]
 macro_rules! fail {
-    ($kind:path, $msg:expr) => {
-        return Err(err!($kind, $msg).into());
+    ($kind:expr, $msg:expr) => {
+        return Err(format_err!($kind, $msg).into());
     };
-    ($kind:path, $fmt:expr, $($arg:tt)+) => {
+    ($kind:expr, $fmt:expr, $($arg:tt)+) => {
         fail!($kind, &format!($fmt, $($arg)+));
     };
 }
@@ -33,12 +33,12 @@ macro_rules! fail {
 /// Ensure a condition holds, returning an error if it doesn't (ala assert)
 #[macro_export]
 macro_rules! ensure {
-    ($cond:expr, $kind:path, $msg:expr) => {
+    ($cond:expr, $kind:expr, $msg:expr) => {
         if !($cond) {
-            return Err(err!($kind, $msg).into());
+            return Err(format_err!($kind, $msg).into());
         }
     };
-    ($cond:expr, $kind:path, $fmt:expr, $($arg:tt)+) => {
+    ($cond:expr, $kind:expr, $fmt:expr, $($arg:tt)+) => {
         ensure!($cond, $kind, format!($fmt, $($arg)+))
     };
 }
@@ -53,18 +53,9 @@ macro_rules! ensure {
 #[macro_export]
 macro_rules! fatal {
     ($app:expr, $msg:expr) => {
-        fatal_error!($app, ::failure::err_msg($smg))
+        $crate::application::exit::fatal_error($app, $crate::error::Message::new($msg))
     };
     ($app:expr, $fmt:expr, $($arg:tt)+) => {
         fatal!($app, format!($fmt, $($arg:tt)+))
     };
-}
-
-/// Terminate the application with a fatal error, running Abscissa's shutdown hooks.
-#[macro_export]
-macro_rules! fatal_error {
-    ($app:expr, $err:expr) => {{
-        let err: ::failure::Error = $err.into();
-        $crate::application::exit::fatal_error($app, &err)
-    }};
 }

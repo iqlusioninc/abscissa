@@ -44,7 +44,7 @@
 //! ```
 
 use super::stream::{STDERR, STDOUT};
-use crate::error::FrameworkError;
+use crate::FrameworkError;
 use std::io::Write;
 use termcolor::{Color, ColorSpec, StandardStream, WriteColor};
 

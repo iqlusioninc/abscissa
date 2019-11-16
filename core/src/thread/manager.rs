@@ -1,7 +1,7 @@
 //! Thread manager.
 
 use super::{Name, Thread};
-use crate::error::{FrameworkError, FrameworkErrorKind::ThreadError};
+use crate::{FrameworkError, FrameworkErrorKind::ThreadError};
 use std::collections::HashMap;
 
 /// Thread manager that tracks threads spawned by the application and handles

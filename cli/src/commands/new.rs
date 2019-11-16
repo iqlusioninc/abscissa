@@ -3,11 +3,12 @@
 #![allow(clippy::never_loop)]
 
 use crate::{
+    error::{Error, ErrorKind},
+    prelude::*,
     properties::{self, Properties},
     template::{Collection, Template},
 };
 use abscissa_core::{status_err, status_info, status_ok, status_warn, Command, Options, Runnable};
-use failure::{bail, format_err, Error};
 use ident_case::RenameRule;
 use std::{
     fs, io,
@@ -70,7 +71,7 @@ impl NewCommand {
     fn app_path(&self) -> Result<&Path, Error> {
         match &self.app_path {
             Some(path) => Ok(path.as_ref()),
-            None => bail!("no app_path given"),
+            None => fail!(ErrorKind::Path, "no app_path given"),
         }
     }
 
@@ -83,15 +84,25 @@ impl NewCommand {
                 status_info!("Exists", "`{}` (application directory)", app_path.display());
                 return Ok(());
             } else {
-                fatal_error(format_err!(
-                    "destination `{}` already exists",
-                    app_path.display()
-                ));
+                fatal_error(
+                    format_err!(
+                        ErrorKind::Path,
+                        "destination `{}` already exists",
+                        app_path.display()
+                    )
+                    .into(),
+                );
             }
         }
 
-        fs::create_dir(app_path)
-            .map_err(|e| format_err!("couldn't create {}: {}", app_path.display(), e))?;
+        fs::create_dir(app_path).map_err(|e| {
+            format_err!(
+                ErrorKind::Path,
+                "couldn't create {}: {}",
+                app_path.display(),
+                e
+            )
+        })?;
 
         status_ok!(
             "Created",
@@ -116,10 +127,14 @@ impl NewCommand {
             if self.force {
                 status_warn!("overwriting: {}", output_path.display())
             } else {
-                fatal_error(format_err!(
-                    "file already exists: {}",
-                    output_path.display()
-                ));
+                fatal_error(
+                    format_err!(
+                        ErrorKind::Path,
+                        "file already exists: {}",
+                        output_path.display()
+                    )
+                    .into(),
+                );
             }
         }
 
@@ -127,11 +142,23 @@ impl NewCommand {
         let output_dir = output_path.parent().unwrap();
 
         // Create all of the necessary parent directories
-        fs::create_dir_all(output_dir)
-            .map_err(|e| format_err!("error creating {}: {}", output_dir.display(), e))?;
+        fs::create_dir_all(output_dir).map_err(|e| {
+            format_err!(
+                ErrorKind::Path,
+                "error creating {}: {}",
+                output_dir.display(),
+                e
+            )
+        })?;
 
-        let mut output_file = fs::File::create(&output_path)
-            .map_err(|e| format_err!("couldn't create {}: {}", output_path.display(), e))?;
+        let mut output_file = fs::File::create(&output_path).map_err(|e| {
+            format_err!(
+                ErrorKind::Path,
+                "couldn't create {}: {}",
+                output_path.display(),
+                e
+            )
+        })?;
 
         app_template.render(template_file, &app_properties, &mut output_file)?;
         status_ok!("Created", "new file: {}", output_path_rel.display());
@@ -170,7 +197,9 @@ impl NewCommand {
             // Ignore errors if git isn't installed
             Err(e) => {
                 if e.kind() != io::ErrorKind::NotFound {
-                    fatal_error(format_err!("error running git init: {}", e));
+                    fatal_error(
+                        format_err!(ErrorKind::Git, "error running git init: {}", e).into(),
+                    );
                 }
             }
         }

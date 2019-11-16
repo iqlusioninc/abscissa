@@ -1,15 +1,10 @@
 //! Default exit handlers for Abscissa applications
 
-use failure::Error;
-use std::process;
-
 use super::{Application, Component};
+use std::{error::Error, process};
 
 /// Print a fatal error message and exit
-pub fn fatal_error<A>(app: &A, err: &Error) -> !
-where
-    A: Application,
-{
+pub fn fatal_error(app: &impl Application, err: &dyn Error) -> ! {
     status_err!("{} fatal error: {}", app.name(), err);
     process::exit(1)
 }

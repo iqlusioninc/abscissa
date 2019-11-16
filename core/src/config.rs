@@ -9,8 +9,9 @@ pub use self::{configurable::Configurable, overrides::Override, reader::Reader};
 pub use abscissa_derive::Config;
 
 use crate::{
-    error::{FrameworkError, FrameworkErrorKind::ConfigError},
     path::AbsPath,
+    FrameworkError,
+    FrameworkErrorKind::{ConfigError, IoError, PathError},
 };
 use serde::de::DeserializeOwned;
 use std::{fmt::Debug, fs::File, io::Read};
@@ -29,12 +30,12 @@ pub trait Config: Debug + Default + DeserializeOwned {
         P: AsRef<AbsPath>,
     {
         let mut file = File::open(path.as_ref()).map_err(|e| {
-            err!(
-                ConfigError,
-                "couldn't open {}: {}",
-                path.as_ref().display(),
-                e
-            )
+            let io_error = IoError.context(e);
+            let path_error = PathError {
+                name: Some(path.as_ref().as_path().into()),
+            }
+            .context(io_error);
+            ConfigError.context(path_error)
         })?;
 
         let mut toml_string = String::new();
