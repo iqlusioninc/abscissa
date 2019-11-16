@@ -2,8 +2,11 @@
 //! generate an Abscissa application.
 
 use super::{iter::Iter, Template};
-use crate::{prelude::*, properties::Properties};
-use failure::{format_err, Error};
+use crate::{
+    error::{Error, ErrorKind},
+    prelude::*,
+    properties::Properties,
+};
 use handlebars::Handlebars;
 use std::io;
 
@@ -63,8 +66,14 @@ impl Collection {
         for (name, contents) in template_files {
             debug!("registering template: {}", name);
 
-            hbs.register_template_string(name, contents)
-                .map_err(|e| format_err!("couldn't register template '{}': {}", name, e))?;
+            hbs.register_template_string(name, contents).map_err(|e| {
+                format_err!(
+                    ErrorKind::Template,
+                    "couldn't register template '{}': {}",
+                    name,
+                    e
+                )
+            })?;
         }
 
         Ok(Collection(hbs))
@@ -100,7 +109,7 @@ impl Collection {
         template
             .inner
             .render(&self.0, &ctx, &mut render_context, &mut output)
-            .map_err(|e| format_err!("render error: {}", e))
+            .map_err(|e| format_err!(ErrorKind::Template, "render error: {}", e).into())
     }
 }
 

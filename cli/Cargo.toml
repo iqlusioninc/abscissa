@@ -19,7 +19,6 @@ keywords    = ["abscissa", "cli", "application", "framework", "service"]
 maintenance = { status = "actively-developed" }
 
 [dependencies]
-failure = "0.1"
 gumdrop = "0.7"
 handlebars = "2"
 ident_case = "1"

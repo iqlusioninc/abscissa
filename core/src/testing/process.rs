@@ -8,7 +8,7 @@ pub use self::{
     streams::{OutputStream, Stderr, Stdout},
 };
 
-use crate::error::{
+use crate::{
     FrameworkError,
     FrameworkErrorKind::{ProcessError, TimeoutError},
 };
@@ -87,7 +87,7 @@ impl<'cmd> Process<'cmd> {
         match self.child.wait_timeout(self.timeout)? {
             Some(status) => {
                 let code = status.code().ok_or_else(|| {
-                    err!(ProcessError, "no exit status returned from subprocess!")
+                    format_err!(ProcessError, "no exit status returned from subprocess!")
                 })?;
 
                 Ok(ExitStatus::new(code, self.guard))

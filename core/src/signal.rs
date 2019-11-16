@@ -2,11 +2,8 @@
 
 use crate::{
     application::{self, Application},
-    error::{
-        FrameworkError,
-        FrameworkErrorKind::{SignalError, ThreadError},
-    },
-    thread,
+    thread, FrameworkError,
+    FrameworkErrorKind::{SignalError, ThreadError},
 };
 use libc::c_int;
 use signal_hook::iterator::Signals;
@@ -101,7 +98,7 @@ where
     let mut app = app_lock.write();
     let thread_name = thread::Name::new("abscissa::signal");
     let signals = Signals::new(signals.into_iter().map(|s| s.number() as c_int))
-        .map_err(|e| err!(ThreadError, "{}", e))?;
+        .map_err(|e| format_err!(ThreadError, "{}", e))?;
 
     app.state_mut()
         .threads

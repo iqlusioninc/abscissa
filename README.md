@@ -27,8 +27,7 @@ or network/web services), aiming to provide a large number of features with a
   by default: `terminal` and `logging`.
 - **configuration**: Simple parsing of TOML configurations to `serde`-parsed
   configuration types which can be dynamically updated at runtime.
-- **error handling**: generic `Error` type based on the `failure` crate, and a
-  unified error-handling subsystem.
+- **error handling**: unified error-handling subsystem with generic error type.
 - **logging**: based on the `log` to provide application-level logging.
 - **secrets management**: the (optional) `secrets` module includes a `Secret`
   type which derives serde's `Deserialize` and can be used to represent secret
@@ -103,29 +102,28 @@ default set of features in the application:
 | 7  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
 | 8  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
 | 9  | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces |
-| 10 | [failure]              | [@withoutboats] | Apache-2.0/MIT | Error handling          |
-| 11 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
-| 12 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
-| 13 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
-| 14 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
-| 15 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
-| 16 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
-| 17 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
-| 18 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
-| 19 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
-| 20 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
-| 21 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
-| 22 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
-| 23 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
-| 24 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
-| 25 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
-| 26 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
-| 27 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
-| 28 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
-| 29 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
-| 30 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
-| 31 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
-| 32 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
+| 10 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
+| 11 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
+| 12 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
+| 13 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
+| 14 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
+| 15 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
+| 16 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
+| 17 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
+| 18 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
+| 19 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
+| 20 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
+| 21 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
+| 22 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
+| 23 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
+| 24 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
+| 25 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
+| 26 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
+| 27 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
+| 28 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
+| 29 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
+| 30 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
+| 31 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
 
 ### Build / Development / Testing Dependencies
 
@@ -138,24 +136,23 @@ default set of features in the application:
 | 5  | [darling]         | [@TedDriggs]     | MIT            | Nifty attribute parser  |
 | 6  | [darling_core]    | [@TedDriggs]     | MIT            | Attribute parser core   |
 | 7  | [darling_macro]   | [@TedDriggs]     | MIT            | Attribute parser macros |
-| 8  | [failure_derive]  | [@withoutboats]  | Apache-2.0/MIT | `failure` custom derive |
-| 9  | [fnv]             | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
-| 10 | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
-| 11 | [ident_case]      | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
-| 12 | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimized byte search   |
-| 13 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
-| 14 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
-| 15 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
-| 16 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
-| 17 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
-| 18 | [strsim]          | [@dguo]          | MIT            | String similarity utils |
-| 19 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
-| 20 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
-| 21 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
-| 22 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
-| 23 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
-| 24 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
-| 25 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
+| 8  | [fnv]             | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
+| 9  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 10 | [ident_case]      | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
+| 11 | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimized byte search   |
+| 12 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
+| 13 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
+| 14 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
+| 15 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
+| 16 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
+| 17 | [strsim]          | [@dguo]          | MIT            | String similarity utils |
+| 18 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
+| 19 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
+| 20 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
+| 21 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
+| 22 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 23 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
+| 24 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -172,7 +169,7 @@ so you only compile the parts you need.
 | [arc-swap]             | `signals`        | [signal-hook-registry] |
 | [atty]                 | `terminal`       | [color-backtrace] |
 | [autocfg]              | `time`           | [num-integer]     |
-| [backtrace]            | -                | [failure]         |
+| [backtrace]            | -                | [abscissa_core]   |
 | [backtrace-sys]        | -                | [backtrace]       |
 | [canonical-path]       | -                | [abscissa_core]   |
 | [cc]                   | -                | [backtrace-sys]   |
@@ -182,8 +179,6 @@ so you only compile the parts you need.
 | [darling]              | -                | [abscissa_derive] |
 | [darling_core]         | -                | [darling], [darling_macro] |
 | [darling_macro]        | -                | [darling]         |
-| [failure]              | -                | [abscissa_core]   |
-| [failure_derive]       | -                | [failure]         |
 | [fnv]                  | -                | [darling_core]    |
 | [generational-arena]   | `application`    | [abscissa_core]   |
 | [gumdrop]              | `options`        | [abscissa_core]   |
@@ -195,8 +190,8 @@ so you only compile the parts you need.
 | [memchr]               | `testing`        | [aho-corasick]    |
 | [num-integer]          | `time`           | [chrono]          |
 | [num-traits]           | `time`           | [chrono], [num-integer] |
-| [proc-macro2]          | -                | [abscissa_derive], [darling], [failure_derive], [quote], [serde_derive], [syn] |
-| [quote]                | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
+| [proc-macro2]          | -                | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
+| [quote]                | -                | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [redox_syscall]        | `time`           | [time]            |
 | [regex]                | `testing`        | [abscissa_core]   |
 | [rustc-demangle]       | -                | [backtrace]       |
@@ -208,7 +203,7 @@ so you only compile the parts you need.
 | [signal-hook]          | `signals`        | [abscissa_core]   |
 | [signal-hook-registry] | `signals`        | [signal-hook]     |
 | [strsim]               | -                | [darling_core]    |
-| [syn]                  | -                | [abscissa_derive], [darling], [failure_derive], [gumdrop_derive], [serde_derive] |
+| [syn]                  | -                | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [termcolor]            | `terminal`       | [abscissa_core]   |
 | [thread_local]         | `testing`        | [regex]           |
 | [time]                 | `logging`        | [chrono]          |
@@ -361,8 +356,6 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [darling]: https://crates.io/crates/darling
 [darling_core]: https://crates.io/crates/darling_core
 [darling_macro]: https://crates.io/crates/darling_macro
-[failure]: https://crates.io/crates/failure
-[failure_derive]: https://crates.io/crates/failure_derive
 [fnv]: https://crates.io/crates/fnv
 [generational-arena]: https://github.com/fitzgen/generational-arena
 [gumdrop]: https://crates.io/crates/gumdrop

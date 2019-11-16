@@ -10,8 +10,7 @@
 //!   top of the [gumdrop] crate.
 //! - **configuration**: TOML configuration file parsing on application-defined
 //!   configuration structures which can be dynamically updated at runtime.
-//! - **error handling**: generic `Error` type based on the `failure` crate, and a
-//!   unified error-handling subsystem.
+//! - **error handling**: unified error-handling subsystem with generic errors.
 //! - **logging**: uses the `log` crate to provide application-level logging.
 //! - **secrets management**: the (optional) `secrets` module includes a `Secret`
 //!  type which derives serde's `Deserialize` and can be used to represent secret
@@ -145,7 +144,7 @@ pub use gumdrop::Options;
 
 #[cfg(feature = "config")]
 pub use crate::config::{Config, Configurable};
-pub use crate::error::{Error, Fail, FrameworkError, FrameworkErrorKind};
+pub use crate::error::framework::{FrameworkError, FrameworkErrorKind};
 pub use crate::runnable::Runnable;
 #[cfg(feature = "application")]
 pub use crate::{

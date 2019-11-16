@@ -13,12 +13,13 @@ use crate::{
     command::Command,
     component::Component,
     config::{Config, Configurable},
-    error::{FrameworkError, FrameworkErrorKind::*},
     logging::{self, Logging},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
     terminal::{component::Terminal, ColorChoice},
+    FrameworkError,
+    FrameworkErrorKind::*,
     Version,
 };
 use std::{env, path::Path, process, vec};
@@ -55,7 +56,7 @@ pub trait Application: Default + Sized + 'static {
 
         // Initialize application
         let mut app = Self::default();
-        app.init(&command).unwrap_or_else(|e| fatal_error!(&app, e));
+        app.init(&command).unwrap_or_else(|e| fatal_error(&app, &e));
         app_lock.set(app);
 
         // Run the command
@@ -128,17 +129,13 @@ pub trait Application: Default + Sized + 'static {
     ///
     /// Returns an error if the configuration could not be loaded.
     fn load_config(&mut self, path: &Path) -> Result<Self::Cfg, FrameworkError> {
-        let canonical_path = AbsPathBuf::canonicalize(path)
-            .map_err(|e| err!(ConfigError, "invalid path '{}': {}", path.display(), e))?;
-
-        Self::Cfg::load_toml_file(&canonical_path).map_err(|e| {
-            err!(
-                ConfigError,
-                "error loading config from '{}': {}",
-                canonical_path.display(),
-                e
-            )
-        })
+        let canonical_path = AbsPathBuf::canonicalize(path).map_err(|e| {
+            let path_error = PathError {
+                name: Some(path.into()),
+            };
+            FrameworkError::from(ConfigError.context(path_error))
+        })?;
+        Self::Cfg::load_toml_file(&canonical_path)
     }
 
     /// Name of this application as a string.
@@ -155,7 +152,7 @@ pub trait Application: Default + Sized + 'static {
     fn version(&self) -> Version {
         Self::Cmd::version()
             .parse::<Version>()
-            .unwrap_or_else(|e| fatal_error!(self, e))
+            .unwrap_or_else(|e| fatal_error(self, &e))
     }
 
     /// Authors of this application.
@@ -182,10 +179,11 @@ pub trait Application: Default + Sized + 'static {
 
     /// Shut down this application gracefully, exiting with success.
     fn shutdown(&mut self, shutdown: Shutdown) -> ! {
-        match self.state().components.shutdown(self, shutdown) {
-            Ok(()) => process::exit(0),
-            Err(e) => fatal_error(self, &e.into()),
+        if let Err(e) = self.state().components.shutdown(self, shutdown) {
+            fatal_error(self, &e)
         }
+
+        process::exit(0);
     }
 }
 

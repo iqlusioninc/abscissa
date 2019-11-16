@@ -9,7 +9,7 @@ mod name;
 pub use self::{manager::Manager, name::Name};
 
 use self::kill_switch::KillSwitch;
-use crate::error::{FrameworkError, FrameworkErrorKind::ThreadError};
+use crate::{FrameworkError, FrameworkErrorKind::ThreadError};
 use std::{io, sync::Arc, thread};
 
 /// Threads spawned and managed by Abscissa
@@ -70,7 +70,7 @@ where
         // Wait for the other thread to exit
         self.handle
             .join()
-            .map_err(|e| err!(ThreadError, "{:?}", e))?;
+            .map_err(|e| format_err!(ThreadError, "{:?}", e))?;
 
         Ok(())
     }

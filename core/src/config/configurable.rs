@@ -1,7 +1,7 @@
 //! Configuration loader
 
 use super::Config;
-use crate::error::FrameworkError;
+use crate::FrameworkError;
 use std::path::PathBuf;
 
 /// Command type with which a configuration file is associated

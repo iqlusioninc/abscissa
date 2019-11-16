@@ -20,10 +20,10 @@ maintenance = { status = "actively-developed" }
 
 [dependencies]
 abscissa_derive = { version = "0.4", path = "../derive" }
+backtrace = "0.3"
 canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 color-backtrace = { version = "0.3", optional = true, default-features = false }
-failure = "0.1"
 generational-arena = { version = "0.2", optional = true }
 gumdrop = { version = "0.7", optional = true }
 lazy_static = "1"
@@ -41,10 +41,31 @@ libc = { version = "0.2", optional = true }
 signal-hook = { version = "0.1", optional = true }
 
 [features]
-default = ["application", "signals", "secrets", "testing", "time"]
-application = ["config", "generational-arena", "logging", "options", "semver/serde", "terminal"]
-config = ["secrets", "serde", "terminal", "toml"]
-gimli-backtrace = ["color-backtrace/gimli-symbolize"]
+default = [
+    "application",
+    "signals",
+    "secrets",
+    "testing",
+    "time"
+]
+application = [
+    "config",
+    "generational-arena",
+    "logging",
+    "options",
+    "semver/serde",
+    "terminal"
+]
+config = [
+    "secrets",
+    "serde",
+    "terminal",
+    "toml"
+]
+gimli-backtrace = [
+    "backtrace/gimli-symbolize",
+    "color-backtrace/gimli-symbolize"
+]
 logging = ["log"]
 options = ["gumdrop"]
 secrets = ["secrecy"]

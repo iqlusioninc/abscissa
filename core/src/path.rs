@@ -8,7 +8,7 @@ pub use canonical_path::{CanonicalPath as AbsPath, CanonicalPathBuf as AbsPathBu
 // Just in case anyone gets confused why `Path` is private
 pub use std::path::{Path, PathBuf};
 
-use crate::error::FrameworkError;
+use crate::FrameworkError;
 
 /// Name of the application's secrets directory
 pub(crate) const SECRETS_DIR: &str = "secrets";

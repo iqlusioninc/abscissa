@@ -12,7 +12,7 @@ pub use self::{handle::Handle, id::Id, registry::Registry};
 #[doc(hidden)]
 pub use abscissa_derive::Component;
 
-use crate::{application::Application, error::FrameworkError, shutdown::Shutdown, Version};
+use crate::{application::Application, shutdown::Shutdown, FrameworkError, Version};
 use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 
 /// Application components.
