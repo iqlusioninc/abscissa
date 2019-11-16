@@ -10,12 +10,10 @@
 
 mod command;
 mod component;
-mod config;
 mod runnable;
 
 use synstructure::decl_derive;
 
 decl_derive!([Command] => command::derive_command);
 decl_derive!([Component, attributes(component)] => component::derive_component);
-decl_derive!([Config] => config::derive_config);
 decl_derive!([Runnable] => runnable::derive_runnable);

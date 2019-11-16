@@ -1,13 +1,13 @@
 //! Example application used for testing purposes
 
 use abscissa_core::{
-    application, Application, Command, Config, Configurable, FrameworkError, Options, Runnable,
+    application, Application, Command, Configurable, FrameworkError, Options, Runnable,
     StandardPaths,
 };
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 
-#[derive(Clone, Config, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ExampleConfig {}
 
 #[derive(Command, Debug, Options)]

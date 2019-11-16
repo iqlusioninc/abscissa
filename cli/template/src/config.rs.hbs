@@ -4,11 +4,10 @@
 //! application's configuration file and/or command-line options
 //! for specifying it.
 
-use abscissa_core::Config;
 use serde::{Deserialize, Serialize};
 
 /// {{title}} Configuration
-#[derive(Clone, Config, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct {{config_type}} {
     /// An example configuration section
