@@ -7,8 +7,8 @@ pub use abscissa_core::{Application, Command, Runnable};
 /// Error macros
 pub use abscissa_core::{ensure, fail, fatal, format_err};
 
-/// Logging macros
-pub use abscissa_core::log::{debug, error, info, log, log_enabled, trace, warn};
+/// Tracing macros
+pub use abscissa_core::tracing::{debug, error, event, info, span, trace, warn, Level};
 
 /// Status macros
 pub use abscissa_core::{status_err, status_info, status_ok, status_warn};

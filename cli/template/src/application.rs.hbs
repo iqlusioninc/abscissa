@@ -2,7 +2,7 @@
 
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
 use abscissa_core::{
-    application, config, logging, Application, EntryPoint, FrameworkError, StandardPaths,
+    application, config, trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
 use lazy_static::lazy_static;
 
@@ -100,12 +100,12 @@ impl Application for {{application_type}} {
         Ok(())
     }
 
-    /// Get logging configuration from command-line options
-    fn logging_config(&self, command: &EntryPoint<{{~command_type~}}>) -> logging::Config {
+    /// Get tracing configuration from command-line options
+    fn tracing_config(&self, command: &EntryPoint<{{~command_type~}}>) -> trace::Config {
         if command.verbose {
-            logging::Config::verbose()
+            trace::Config::verbose()
         } else {
-            logging::Config::default()
+            trace::Config::default()
         }
     }
 }

@@ -27,13 +27,15 @@ color-backtrace = { version = "0.3", optional = true, default-features = false }
 generational-arena = { version = "0.2", optional = true }
 gumdrop = { version = "0.7", optional = true }
 lazy_static = "1"
-log = { version = "0.4", optional = true, features = ["std"] }
 regex = { version = "1", optional = true }
 secrecy = { version = "0.5", optional = true, features = ["serde"] }
 semver = { version = "0.9", optional = true }
 serde = { version = "1", optional = true, features = ["serde_derive"] }
 termcolor = { version = "1", optional = true }
 toml = { version = "0.5", optional = true }
+tracing = { version = "0.1", optional = true }
+tracing-log = { version = "0.1", optional = true }
+tracing-subscriber = { version = "0.1", optional = true }
 wait-timeout = { version = "0.2", optional = true }
 
 [target.'cfg(unix)'.dependencies]
@@ -51,7 +53,7 @@ default = [
 application = [
     "config",
     "generational-arena",
-    "logging",
+    "trace",
     "options",
     "semver/serde",
     "terminal"
@@ -66,7 +68,7 @@ gimli-backtrace = [
     "backtrace/gimli-symbolize",
     "color-backtrace/gimli-symbolize"
 ]
-logging = ["log"]
+trace = ["tracing", "tracing-log", "tracing-subscriber"]
 options = ["gumdrop"]
 secrets = ["secrecy"]
 signals = ["libc", "signal-hook"]
