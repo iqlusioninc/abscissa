@@ -6,7 +6,7 @@ use tracing_log::LogTracer;
 use tracing_subscriber::{fmt::Formatter, reload::Handle, EnvFilter, FmtSubscriber};
 
 use super::config::Config;
-use crate::{Component, FrameworkError, FrameworkErrorKind};
+use crate::{terminal::ColorChoice, Component, FrameworkError, FrameworkErrorKind};
 
 /// Abscissa component for initializing the `tracing` subsystem
 #[derive(Component, Debug)]
@@ -17,7 +17,7 @@ pub struct Tracing {
 
 impl Tracing {
     /// Create a new [`Tracing`] component from the given [`Config`].
-    pub fn new(config: Config) -> Result<Self, FrameworkError> {
+    pub fn new(config: Config, color_choice: ColorChoice) -> Result<Self, FrameworkError> {
         // Configure log/tracing interoperability by setting a `LogTracer` as
         // the global logger for the log crate, which converts all log events
         // into tracing events.
@@ -25,9 +25,12 @@ impl Tracing {
 
         // Construct a tracing subscriber with the supplied filter and enable reloading.
         let builder = FmtSubscriber::builder()
-            // XXX this should use ColorChoice::should_ansi, but where
-            // do we get the color choice from?
-            .with_ansi(true)
+            .with_ansi(match color_choice {
+                ColorChoice::Always => true,
+                ColorChoice::AlwaysAnsi => true,
+                ColorChoice::Auto => true,
+                ColorChoice::Never => false,
+            })
             .with_env_filter(config.filter)
             .with_filter_reloading();
         let filter_handle = builder.reload_handle();
