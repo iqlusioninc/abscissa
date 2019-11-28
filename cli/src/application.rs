@@ -2,7 +2,7 @@
 
 use super::{commands::CliCommand, config::CliConfig};
 use abscissa_core::{
-    self, application, logging, Application, EntryPoint, FrameworkError, StandardPaths,
+    self, application, trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
 use lazy_static::lazy_static;
 
@@ -58,11 +58,11 @@ impl Application for CliApplication {
         Ok(())
     }
 
-    fn logging_config(&self, command: &EntryPoint<CliCommand>) -> logging::Config {
+    fn tracing_config(&self, command: &EntryPoint<CliCommand>) -> trace::Config {
         if command.verbose {
-            logging::Config::verbose()
+            trace::Config::verbose()
         } else {
-            logging::Config::default()
+            trace::Config::default()
         }
     }
 }

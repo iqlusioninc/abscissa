@@ -11,7 +11,8 @@
 //! - **configuration**: TOML configuration file parsing on application-defined
 //!   configuration structures which can be dynamically updated at runtime.
 //! - **error handling**: unified error-handling subsystem with generic errors.
-//! - **logging**: uses the `log` crate to provide application-level logging.
+//! - **tracing**: uses the `tracing` crate to provide async-aware application-
+//!   level tracing.
 //! - **secrets management**: the (optional) `secrets` module includes a `Secret`
 //!  type which derives serde's `Deserialize` and can be used to represent secret
 //!  values parsed from configuration files or elsewhere (e.g. credentials loaded
@@ -100,10 +101,10 @@
 /// Abscissa version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-#[cfg(feature = "logging")]
+#[cfg(feature = "trace")]
 #[allow(unused_imports)]
 #[macro_use]
-pub extern crate log;
+pub extern crate tracing;
 
 // Modules with macro exports
 
@@ -123,8 +124,6 @@ pub mod command;
 pub mod component;
 #[cfg(feature = "config")]
 pub mod config;
-#[cfg(feature = "logging")]
-pub mod logging;
 pub mod path;
 mod runnable;
 #[cfg(feature = "application")]
@@ -134,6 +133,8 @@ pub mod signal;
 #[cfg(feature = "testing")]
 pub mod testing;
 pub mod thread;
+#[cfg(feature = "trace")]
+pub mod trace;
 
 // Proc macros
 

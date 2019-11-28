@@ -13,11 +13,11 @@ use crate::{
     command::Command,
     component::Component,
     config::{Config, Configurable},
-    logging::{self, Logging},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
     terminal::{component::Terminal, ColorChoice},
+    trace::{self, Tracing},
     FrameworkError,
     FrameworkErrorKind::*,
     Version,
@@ -113,16 +113,16 @@ pub trait Application: Default + Sized + 'static {
     }
 
     /// Initialize the framework's default set of components, potentially
-    /// sourcing terminal and logging options from command line arguments.
+    /// sourcing terminal and tracing options from command line arguments.
     fn framework_components(
         &mut self,
         command: &Self::Cmd,
     ) -> Result<Vec<Box<dyn Component<Self>>>, FrameworkError> {
         let terminal = Terminal::new(self.term_colors(command));
-        let logging = Logging::new(self.logging_config(command))
-            .expect("logging subsystem failed to initialize");
+        let tracing = Tracing::new(self.tracing_config(command), self.term_colors(command))
+            .expect("tracing subsystem failed to initialize");
 
-        Ok(vec![Box::new(terminal), Box::new(logging)])
+        Ok(vec![Box::new(terminal), Box::new(tracing)])
     }
 
     /// Load configuration from the given path.
@@ -165,9 +165,9 @@ pub trait Application: Default + Sized + 'static {
         ColorChoice::Auto
     }
 
-    /// Get the logging configuration for this application.
-    fn logging_config(&self, command: &Self::Cmd) -> logging::Config {
-        logging::Config::default()
+    /// Get the tracing configuration for this application.
+    fn tracing_config(&self, command: &Self::Cmd) -> trace::Config {
+        trace::Config::default()
     }
 
     /// Handle a Unix signal received by this application
