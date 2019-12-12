@@ -1,3 +1,272 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 0.5.0 (UNRELEASED)
+### Changed
+#### Replaced `lazy_static` with `once_cell` ([#167], [#168])
+
+Abscissa primarily used `lazy_static` in two places:
+
+- To define the `APPLICATION` constant in `application.rs`
+- To provide a shared `RUNNER` object for invoking CLI tests in
+  `tests/acceptance.rs`
+
+Both usages have now been replaced with [`once_cell`], which is a better
+fit for Abscissa's internal usages, and seems to stand a reasonable
+chance of being incorporated into the Rust standard library:
+
+https://github.com/rust-lang/rfcs/pull/2788
+
+Existing applications will need to replace the `lazy_static!` directive
+in `application.rs`:
+
+```rust
+lazy_static! {
+    /// Application state
+    pub static ref APPLICATION: application::Lock<MyApplication> = application::Lock::default();
+}
+```
+
+with one based on the new [`AppCell`] type:
+
+```rust
+use abscissa_core::application::AppCell;
+
+/// Application state
+pub static APPLICATION: AppCell<MyApplication> = AppCell::new();
+```
+
+This change should otherwise be largely a drop-in replacement, and also
+means you can remove `lazy_static` from `[dependencies]` in `Cargo.toml`.
+
+For replacing `RUNNER` in `tests/acceptance.rs`, we suggest you edit
+`Cargo.toml`, adding the following:
+
+```toml
+[dev-dependencies]
+once_cell = "1.2"
+```
+
+And then changing the following in `tests/acceptance.rs`:
+
+```rust
+lazy_static! {
+    pub static ref RUNNER: CmdRunner = CmdRunner::default();
+}
+```
+
+to:
+
+```rust
+use once_cell::sync::Lazy;
+
+pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| CmdRunner::default());
+```
+
+[`once_cell`]: https://docs.rs/once_cell
+[`AppCell`]: https://docs.rs/abscissa_core/latest/abscissa_core/application/cell/type.AppCell.html
+
+#### Replaced `log` with `tracing` ([#154])
+
+[`tracing`] is a newer, more powerful application-level tracing library
+which also subsumes the functionality of a logging framework, and
+replaces Abscissa's previous `logging` component.
+
+Existing apps will need to update their `application.rs`. Change the
+following at the bottom of the trait impl:
+
+```rust
+impl Application {
+    // ...
+
+    /// Get logging configuration from command-line options
+    fn logging_config(&self, command: &MyCommand) -> logging::Config {
+        if command.verbose() {
+            logging::Config::verbose()
+        } else {
+            logging::Config::default()
+        }
+    }
+}
+```
+
+to:
+
+```rust
+use abscissa_core::trace;
+
+impl Application {
+    // ...
+
+    /// Get tracing configuration from command-line options
+    fn tracing_config(&self, command: &EntryPoint<MyCommand>) -> trace::Config {
+        if command.verbose {
+            trace::Config::verbose()
+        } else {
+            trace::Config::default()
+        }
+    }
+}
+```
+
+[`tracing`]: https://github.com/tokio-rs/tracing
+
+### Removed
+#### Replaced `Config` custom derive with blanket impl ([#152])
+
+The previous custom derive for `Config` was replaced with a blanket
+impl instead. This only requires that you remove the `derive` for
+`Config` in existing applications' `config.rs`. Change:
+
+```rust
+use abscissa_core::{Config, EntryPoint};
+
+/// MyApp Configuration
+#[derive(Clone, Config, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct MyConfig { 
+    // ...
+}
+```
+
+to:
+
+```rust
+/// MyApp Configuration
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct MyConfig { 
+    // ...
+}
+```
+
+(i.e. remove `Config` from the `#[derive(...)]` section)
+
+#### Removed `failure` ([#151])
+
+Since the time `failure` was written, `std::error::Error` has gained
+many of the features it was originally useful for. Many libraries
+now rely on it for bounds, especially in conjunction with `Box` for
+type erasure.
+
+There is no prescribed replacement for `failure` at a framework-level
+(yet, see [#144] for some discussion).
+
+The new `abscissa_core::error::Context` type subsumes the functionality
+of both the previous `abscissa_core::error::Error` type and its previous
+usages of `failure::Context`, e.g. capturing error sources and
+backtraces.
+
+All existing usages of `abscissa_core::error::Error` will need to be
+updated, per the instructions below.
+
+Existing apps are advised to do the following:
+
+- `Cargo.toml`: remove `failure`
+- `error.rs`: remove `failure` imports and `Fail` derive. `thiserror`
+  or `err-derive` are the suggested custom derive replacements.
+  The `Error` type definition should be changed from:
+  
+```rust
+/// Error type
+#[derive(Debug)]
+pub struct Error(abscissa_core::Error<ErrorKind>);
+```
+
+to:
+
+```rust
+use abscissa_core::error::Context;
+
+/// Error type
+#[derive(Debug)]
+pub struct Error(Box<Context<ErrorKind>>);
+```
+
+- `error.rs`: add `impl ErrorKind` with `context` method:
+  this is used for capturing an error source when using your own
+  application's `ErrorKind` type, ala similar functionality in
+  `failure`. Add the following impl to `ErrorKind`, allowing you to
+  capture an error context for any error type which meets the trait
+  bounds specified by the [`BoxError`] type:
+
+```rust
+use abscissa_core::error::BoxError;
+
+impl ErrorKind {
+    /// Create an error context from this error
+    pub fn context(self, source: impl Into<BoxError>) -> Context<ErrorKind> {
+        Context::new(self, Some(source.into()))
+    }
+}
+```
+
+- `error.rs`: replace `ErrorKind` impl of `From` with one for `Context`.
+  After using the above `context` method, it's useful be able to convert
+  it `into()` your application's wrapper type, particularly when writing
+  `From` coercions from foreign error types.
+  
+Change:
+ 
+```rust 
+impl From<abscissa_core::Error<ErrorKind>> for Error {
+    fn from(other: abscissa_core::Error<ErrorKind>) -> Self {
+        Error(other)
+    }
+}
+```
+
+to:
+
+```rust
+use abscissa_core::error::Context;
+
+impl From<Context<ErrorKind>> for Error {
+    fn from(context: Context<ErrorKind>) -> Self {
+        Error(Box::new(context))
+    }
+}
+```
+
+- `error.rs`: update `Error` impl of `Deref`:
+
+```rust
+impl Deref for Error {
+    type Target = abscissa_core::Error<ErrorKind>;
+
+    fn deref(&self) -> &abscissa_core::Error<ErrorKind> {
+        &self.0
+    }
+}
+```
+
+to:
+
+```rust
+impl Deref for Error {
+    type Target = Context<ErrorKind>;
+
+    fn deref(&self) -> &Context<ErrorKind> {
+        &self.0
+    }
+}
+```
+
+- `error.rs`: add a `std::error::Error` impl for the app `Error` type:
+
+```rust
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        self.0.source()
+    }
+}
+```
+
+[`BoxError`]: https://docs.rs/abscissa_core/latest/abscissa_core/error/type.BoxError.html
+
 ## [0.4.0] (2019-10-13)
 
 - Update dependencies: `gumdrop` 0.7, `secrecy` 0.4 ([#141])
@@ -97,6 +366,12 @@
 
 - Initial release
 
+[#168]: https://github.com/iqlusioninc/abscissa/pull/168
+[#167]: https://github.com/iqlusioninc/abscissa/pull/167
+[#154]: https://github.com/iqlusioninc/abscissa/pull/154
+[#152]: https://github.com/iqlusioninc/abscissa/pull/152
+[#151]: https://github.com/iqlusioninc/abscissa/pull/151
+[#144]: https://github.com/iqlusioninc/abscissa/issues/144
 [0.4.0]: https://github.com/iqlusioninc/abscissa/pull/142
 [#141]: https://github.com/iqlusioninc/abscissa/pull/141
 [#136]: https://github.com/iqlusioninc/abscissa/pull/136
