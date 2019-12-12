@@ -4,11 +4,9 @@
 #![forbid(unsafe_code)]
 
 use abscissa_core::testing::CmdRunner;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 
-lazy_static! {
-    pub static ref RUNNER: CmdRunner = CmdRunner::default();
-}
+pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| CmdRunner::default());
 
 #[test]
 fn no_args() {

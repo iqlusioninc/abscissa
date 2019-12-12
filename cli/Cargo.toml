@@ -22,12 +22,14 @@ maintenance = { status = "actively-developed" }
 gumdrop = "0.7"
 handlebars = "2"
 ident_case = "1"
-lazy_static = "1"
 serde = { version = "1", features = ["serde_derive"] }
 
 [dependencies.abscissa_core]
 version = "0.4"
 path = "../core"
+
+[dev-dependencies]
+once_cell = "1.2"
 
 [dev-dependencies.abscissa_core]
 version = "0.4"

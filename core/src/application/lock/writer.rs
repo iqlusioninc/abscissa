@@ -4,7 +4,7 @@ use super::Application;
 use std::{ops, sync::RwLockWriteGuard};
 
 /// Generic `RwLockReadGuard` for a `'static` lifetime.
-pub(crate) type WriterGuard<T> = RwLockWriteGuard<'static, Option<T>>;
+pub(crate) type WriterGuard<T> = RwLockWriteGuard<'static, T>;
 
 /// Wrapper around a `RwLockReadGuard` for reading global application state.
 pub struct Writer<A>(WriterGuard<A>)
@@ -28,7 +28,7 @@ where
     type Target = A;
 
     fn deref(&self) -> &A {
-        self.0.deref().as_ref().unwrap()
+        self.0.deref()
     }
 }
 
@@ -37,6 +37,6 @@ where
     A: 'static + Application,
 {
     fn deref_mut(&mut self) -> &mut A {
-        self.0.deref_mut().as_mut().unwrap()
+        self.0.deref_mut()
     }
 }
