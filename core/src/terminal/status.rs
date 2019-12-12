@@ -43,7 +43,7 @@
 //! # }
 //! ```
 
-use super::stream::{STDERR, STDOUT};
+use super::{stderr, stdout};
 use crate::FrameworkError;
 use std::io::Write;
 use termcolor::{Color, ColorSpec, StandardStream, WriteColor};
@@ -264,7 +264,7 @@ impl Status {
     where
         S: AsRef<str>,
     {
-        self.print(&*STDOUT, msg)
+        self.print(stdout(), msg)
     }
 
     /// Print the given message to stderr
@@ -272,7 +272,7 @@ impl Status {
     where
         S: AsRef<str>,
     {
-        self.print(&*STDERR, msg)
+        self.print(stderr(), msg)
     }
 
     /// Print the given message

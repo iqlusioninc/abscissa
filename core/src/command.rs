@@ -11,6 +11,7 @@ pub use abscissa_derive::Command;
 use crate::{runnable::Runnable, terminal};
 use gumdrop::Options;
 use std::fmt::Debug;
+use termcolor::ColorChoice;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `call()` method which can be used to invoke the given
@@ -33,7 +34,7 @@ pub trait Command: Debug + Options + Runnable {
         let args: Vec<_> = into_args.into_iter().collect();
 
         Self::parse_args_default(args.as_slice()).unwrap_or_else(|err| {
-            terminal::init();
+            terminal::init(ColorChoice::Auto);
             Usage::for_command::<Self>().print_error_and_exit(err, args.as_slice());
         })
     }
