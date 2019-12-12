@@ -61,6 +61,12 @@ impl std::error::Error for Error {
     }
 }
 
+impl From<ErrorKind> for Error {
+    fn from(kind: ErrorKind) -> Self {
+        Context::new(kind, None).into()
+    }
+}
+
 impl From<Context<ErrorKind>> for Error {
     fn from(context: Context<ErrorKind>) -> Self {
         Error(Box::new(context))
