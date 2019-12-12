@@ -5,7 +5,7 @@ Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains a CLI utility for generating new applications.
 """
-version     = "0.4.0" # Also update html_root_url in lib.rs when bumping this
+version     = "0.5.0-rc.0" # Also update html_root_url in lib.rs when bumping this
 license     = "Apache-2.0"
 authors     = ["Tony Arcieri <tony@iqlusion.io>"]
 edition     = "2018"
@@ -25,13 +25,13 @@ ident_case = "1"
 serde = { version = "1", features = ["serde_derive"] }
 
 [dependencies.abscissa_core]
-version = "0.4"
+version = "0.5.0-rc.0"
 path = "../core"
 
 [dev-dependencies]
 once_cell = "1.2"
 
 [dev-dependencies.abscissa_core]
-version = "0.4"
+version = "0.5.0-rc.0"
 features = ["testing"]
 path = "../core"

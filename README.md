@@ -39,11 +39,14 @@ or network/web services), aiming to provide a large number of features with a
 
 ## Projects Using Abscissa
 
-- [Tendermint KMS]: key management system for Tendermint applications
-- [canister]: deployment utility for "distroless" containers/microVMs
+- [Canister]: deployment utility for "distroless" containers/microVMs
 - [cargo-audit]: audit Cargo projects for security vulnerabilities
 - [cargo-rpm]: build RPMs out of Cargo projects
-- [sagan]: observability tool for Tendermint applications 
+- [OpenLibra]: open platform for financial inclusion. Not run by Facebook.
+- [Sagan]: observability tool for Tendermint applications
+- [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
+- [Tendermint KMS]: key management system for Tendermint applications
+- [Zebra]: Rust implementation of a Zcash node
 
 ## Crate Structure
 
@@ -314,7 +317,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [rustc-image]: https://img.shields.io/badge/rustc-1.36+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg
+[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=develop&event=push
 [build-link]: https://github.com/iqlusioninc/abscissa/actions
 [gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
 [gitter-link]: https://gitter.im/iqlusioninc/community
@@ -331,10 +334,13 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [//]: # (projects using abscissa)
 
 [Tendermint KMS]: https://github.com/tendermint/kms
-[canister]:  https://github.com/iqlusioninc/canister
+[Canister]:  https://github.com/iqlusioninc/canister
 [cargo-audit]: https://github.com/rustsec/cargo-audit
 [cargo-rpm]: https://github.com/rustrpm/cargo-rpm
-[sagan]: https://github.com/iqlusioninc/sagan
+[OpenLibra]: https://github.com/open-libra/cli
+[Sagan]: https://github.com/iqlusioninc/sagan
+[Synchronicity]: https://github.com/iqlusioninc/synchronicity
+[Zebra]: https://github.com/ZcashFoundation/zebra
 
 [//]: # (crate links)
 
