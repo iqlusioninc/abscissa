@@ -1,7 +1,7 @@
 //! Usage information presenter
 
 use super::Command;
-use crate::{terminal::stream::STDOUT, Version};
+use crate::{terminal::stdout, Version};
 use std::{
     io::{self, Write},
     process,
@@ -76,8 +76,8 @@ impl Usage {
 
     /// Print usage for a particular subcommand
     pub fn print_subcommand(&self, args: &[String]) -> Result<(), io::Error> {
-        let mut stdout = STDOUT.lock();
-        stdout.reset()?;
+        let mut s = stdout().lock();
+        s.reset()?;
 
         let mut recognized = vec![];
         let mut command = self;
@@ -104,29 +104,29 @@ impl Usage {
         let mut bold = ColorSpec::new();
         bold.set_bold(true);
 
-        stdout.set_color(&bold)?;
-        writeln!(stdout, "USAGE:")?;
-        stdout.reset()?;
+        s.set_color(&bold)?;
+        writeln!(s, "USAGE:")?;
+        s.reset()?;
 
         let mut usage_items = vec![self.package_name.clone()];
         usage_items.extend(recognized.iter().map(|s| s.to_string()));
         let usage_string = usage_items.join(" ");
 
         if command.subcommands.is_empty() {
-            writeln!(stdout, "    {} <OPTIONS>", &usage_string)?;
+            writeln!(s, "    {} <OPTIONS>", &usage_string)?;
         } else {
-            writeln!(stdout, "    {} <SUBCOMMAND>", &usage_string)?;
+            writeln!(s, "    {} <SUBCOMMAND>", &usage_string)?;
         }
 
-        writeln!(stdout)?;
+        writeln!(s)?;
 
         if let Some(desc) = description {
-            stdout.set_color(&bold)?;
-            writeln!(stdout, "DESCRIPTION:")?;
-            stdout.reset()?;
+            s.set_color(&bold)?;
+            writeln!(s, "DESCRIPTION:")?;
+            s.reset()?;
 
-            writeln!(stdout, "    {}", desc)?;
-            writeln!(stdout)?;
+            writeln!(s, "    {}", desc)?;
+            writeln!(s)?;
         }
 
         command.print_usage()
@@ -163,19 +163,19 @@ impl Usage {
             }
         }
 
-        let mut stdout = STDOUT.lock();
-        stdout.reset().unwrap();
+        let mut s = stdout().lock();
+        s.reset().unwrap();
 
         let mut red = ColorSpec::new();
         red.set_fg(Some(Color::Red));
         red.set_bold(true);
 
-        stdout.set_color(&red).unwrap();
-        write!(stdout, "error: ").unwrap();
-        stdout.reset().unwrap();
+        s.set_color(&red).unwrap();
+        write!(s, "error: ").unwrap();
+        s.reset().unwrap();
 
-        writeln!(stdout, "{}", err).unwrap();
-        writeln!(stdout).unwrap();
+        writeln!(s, "{}", err).unwrap();
+        writeln!(s).unwrap();
 
         command.print_info().unwrap();
 
@@ -183,12 +183,12 @@ impl Usage {
             let mut bold = ColorSpec::new();
             bold.set_bold(true);
 
-            stdout.set_color(&bold).unwrap();
-            writeln!(stdout, "DESCRIPTION:").unwrap();
-            stdout.reset().unwrap();
+            s.set_color(&bold).unwrap();
+            writeln!(s, "DESCRIPTION:").unwrap();
+            s.reset().unwrap();
 
-            writeln!(stdout, "    {}", desc).unwrap();
-            writeln!(stdout).unwrap();
+            writeln!(s, "    {}", desc).unwrap();
+            writeln!(s).unwrap();
         }
 
         command.print_usage().unwrap();
@@ -201,8 +201,8 @@ impl Usage {
         unrecognized: &str,
         recognized: &[String],
     ) -> Result<(), io::Error> {
-        let mut stdout = STDOUT.lock();
-        stdout.reset().unwrap();
+        let mut s = stdout().lock();
+        s.reset().unwrap();
 
         let mut unrecognized_items = recognized.iter().map(|s| s.to_string()).collect::<Vec<_>>();
         unrecognized_items.push(unrecognized.to_owned());
@@ -221,98 +221,98 @@ impl Usage {
         green.set_fg(Some(Color::Green));
         green.set_bold(true);
 
-        stdout.set_color(&red)?;
-        write!(stdout, "error: ")?;
-        stdout.reset()?;
+        s.set_color(&red)?;
+        write!(s, "error: ")?;
+        s.reset()?;
 
-        write!(stdout, "The subcommand ")?;
+        write!(s, "The subcommand ")?;
 
-        stdout.set_color(&yellow)?;
-        write!(stdout, "{:?} ", &unrecognized_string)?;
-        stdout.reset()?;
+        s.set_color(&yellow)?;
+        write!(s, "{:?} ", &unrecognized_string)?;
+        s.reset()?;
 
-        writeln!(stdout, "wasn't recognized.")?;
-        writeln!(stdout)?;
+        writeln!(s, "wasn't recognized.")?;
+        writeln!(s)?;
 
         let mut bold = ColorSpec::new();
         bold.set_bold(true);
 
-        stdout.set_color(&yellow)?;
-        writeln!(stdout, "USAGE:")?;
-        stdout.reset()?;
+        s.set_color(&yellow)?;
+        writeln!(s, "USAGE:")?;
+        s.reset()?;
 
         if self.subcommands.is_empty() {
-            writeln!(stdout, "    {} <OPTIONS>", recognized.join(" "))?;
+            writeln!(s, "    {} <OPTIONS>", recognized.join(" "))?;
         } else {
-            writeln!(stdout, "    {} <SUBCOMMAND>", recognized.join(" "))?;
+            writeln!(s, "    {} <SUBCOMMAND>", recognized.join(" "))?;
         }
 
-        writeln!(stdout)?;
+        writeln!(s)?;
         self.print_usage()
     }
 
     /// Print program and usage information
     pub fn print_info(&self) -> Result<(), io::Error> {
-        let mut stdout = STDOUT.lock();
-        stdout.reset()?;
+        let mut s = stdout().lock();
+        s.reset()?;
 
         let mut bold = ColorSpec::new();
         bold.set_bold(true);
 
-        stdout.set_color(&bold)?;
-        writeln!(stdout, "{} {}", &self.package_name, &self.package_version)?;
-        stdout.reset()?;
+        s.set_color(&bold)?;
+        writeln!(s, "{} {}", &self.package_name, &self.package_version)?;
+        s.reset()?;
 
         if !self.package_authors.is_empty() {
-            writeln!(stdout, "{}", self.package_authors.join(", "))?;
+            writeln!(s, "{}", self.package_authors.join(", "))?;
         }
 
         if let Some(ref description) = self.package_description {
-            writeln!(stdout, "{}", description)?;
+            writeln!(s, "{}", description)?;
         }
 
-        writeln!(stdout)?;
+        writeln!(s)?;
         Ok(())
     }
 
     /// Print usage information only
     pub fn print_usage(&self) -> Result<(), io::Error> {
-        let mut stdout = STDOUT.lock();
+        let mut s = stdout().lock();
 
         let mut bold = ColorSpec::new();
         bold.set_bold(true);
 
         if !self.positionals.is_empty() {
-            stdout.set_color(&bold)?;
-            writeln!(stdout, "POSITIONAL ARGUMENTS:")?;
-            stdout.reset()?;
+            s.set_color(&bold)?;
+            writeln!(s, "POSITIONAL ARGUMENTS:")?;
+            s.reset()?;
 
             for positional in &self.positionals {
-                positional.print(&mut stdout)?;
+                positional.print(&mut s)?;
             }
 
             // writeln!(stdout)?;
         }
 
         if !self.flags.is_empty() {
-            stdout.set_color(&bold)?;
-            writeln!(stdout, "FLAGS:")?;
-            stdout.reset()?;
+            s.set_color(&bold)?;
+            writeln!(s, "FLAGS:")?;
+            s.reset()?;
 
             for flag in &self.flags {
-                flag.print(&mut stdout)?;
+                flag.print(&mut s)?;
             }
 
-            writeln!(stdout)?;
+            writeln!(s)?;
         }
 
         if !self.subcommands.is_empty() {
-            stdout.set_color(&bold)?;
-            writeln!(stdout, "SUBCOMMANDS:")?;
-            stdout.reset()?;
+            s.set_color(&bold)?;
+            writeln!(s, "SUBCOMMANDS:")?;
+            s.reset()?;
 
             for command in &self.subcommands {
-                command.print_brief(&mut stdout)?;
+                command.print_brief(&mut s)?;
             }
         }
 

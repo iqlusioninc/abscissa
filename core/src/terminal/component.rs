@@ -1,6 +1,5 @@
 //! Terminal component
 
-use super::stream;
 use crate::Component;
 use std::fmt;
 use termcolor::ColorChoice;
@@ -14,7 +13,7 @@ impl Terminal {
     /// Create a new `TerminalComponent` with the given `ColorChoice`
     pub fn new(color_choice: ColorChoice) -> Terminal {
         // TODO(tarcieri): handle terminal reinit (without panicking)
-        stream::set_color_choice(color_choice);
+        super::init(color_choice);
 
         if color_choice != ColorChoice::Never {
             color_backtrace::install();

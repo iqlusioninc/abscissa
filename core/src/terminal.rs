@@ -4,15 +4,36 @@
 pub mod component;
 #[macro_use]
 pub mod status;
-pub(crate) mod stream;
+pub mod streams;
 
-pub use termcolor::{Color, ColorChoice};
+pub use self::streams::Streams;
+pub use termcolor::{Color, ColorChoice, StandardStream};
 
-/// Initialize the terminal subsystem manually, using automatic color
-/// detection.
-///
-/// This is useful when Abscissa internally leverages the terminal subsystem
-/// without booting a full application, such as displaying usage information.
-pub(crate) fn init() {
-    self::component::Terminal::new(ColorChoice::Auto);
+use once_cell::sync::OnceCell;
+
+/// Terminal streams
+static STREAMS: OnceCell<Streams> = OnceCell::new();
+
+/// Initialize the terminal subsystem, registering the [`Streams`] static
+pub(crate) fn init(color_choice: ColorChoice) {
+    STREAMS
+        .set(Streams::new(color_choice))
+        .unwrap_or_else(|_| panic!("terminal streams already initialized!"));
+}
+
+/// Get the terminal [`Streams`].
+pub fn streams() -> &'static Streams {
+    STREAMS
+        .get()
+        .expect("terminal streams not yet initialized!")
+}
+
+/// Get the standard output stream
+pub fn stdout() -> &'static StandardStream {
+    &streams().stdout
+}
+
+/// Get the standard error stream
+pub fn stderr() -> &'static StandardStream {
+    &streams().stderr
 }
