@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 
 use abscissa_core::testing::prelude::*;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use std::{env, fs, path::Path};
 
 /// Name of our test application
@@ -19,13 +19,11 @@ const TEST_COMMANDS: &[&str] = &[
     "clippy",
 ];
 
-lazy_static! {
-    pub static ref RUNNER: CmdRunner = {
-        let mut runner = CmdRunner::new("cargo");
-        runner.exclusive();
-        runner
-    };
-}
+pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| {
+    let mut runner = CmdRunner::new("cargo");
+    runner.exclusive();
+    runner
+});
 
 /// Run tests against the generated application
 #[test]

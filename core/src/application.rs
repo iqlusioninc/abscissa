@@ -1,11 +1,12 @@
 //! Trait for representing an Abscissa application and it's lifecycle
 
+pub mod cell;
 pub(crate) mod exit;
 pub mod lock;
 mod name;
 mod state;
 
-pub use self::{exit::fatal_error, lock::Lock, name::Name, state::State};
+pub use self::{cell::AppCell, exit::fatal_error, lock::Lock, name::Name, state::State};
 
 #[cfg(all(feature = "signals", unix))]
 use crate::signal::Signal;
@@ -47,7 +48,7 @@ pub trait Application: Default + Sized + 'static {
 
     /// Run application with the given command-line arguments and running the
     /// appropriate `Command` type.
-    fn run<I>(app_lock: &'static Lock<Self>, args: I)
+    fn run<I>(app_cell: &'static AppCell<Self>, args: I)
     where
         I: IntoIterator<Item = String>,
     {
@@ -57,13 +58,13 @@ pub trait Application: Default + Sized + 'static {
         // Initialize application
         let mut app = Self::default();
         app.init(&command).unwrap_or_else(|e| fatal_error(&app, &e));
-        app_lock.set(app);
+        app_cell.set_once(app);
 
         // Run the command
         command.run();
 
         // Exit gracefully
-        let mut app = app_lock.write();
+        let mut app = app_cell.write();
         app.shutdown(Shutdown::Graceful);
     }
 
@@ -189,9 +190,9 @@ pub trait Application: Default + Sized + 'static {
 
 /// Boot the given application, parsing subcommand and options from
 /// command-line arguments, and terminating when complete.
-pub fn boot<A: Application>(app_lock: &'static Lock<A>) -> ! {
+pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
     let mut args = env::args();
     assert!(args.next().is_some(), "expected one argument but got zero");
-    A::run(app_lock, args);
+    A::run(app_cell, args);
     process::exit(0);
 }

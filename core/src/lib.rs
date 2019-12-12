@@ -84,7 +84,6 @@
 //!
 //! [gumdrop]: https://github.com/murarth/gumdrop
 //! [RwLock]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
-//! [lazy_static]: https://docs.rs/lazy_static
 
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",

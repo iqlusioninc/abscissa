@@ -2,14 +2,12 @@
 
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
 use abscissa_core::{
-    application, config, trace, Application, EntryPoint, FrameworkError, StandardPaths,
+    application::{self, AppCell},
+    config, trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
-use lazy_static::lazy_static;
 
-lazy_static! {
-    /// Application state
-    pub static ref APPLICATION: application::Lock<{{~application_type~}}> = application::Lock::default();
-}
+/// Application state
+pub static APPLICATION: AppCell<{{~application_type~}}> = AppCell::new();
 
 /// Obtain a read-only (multi-reader) lock on the application state.
 ///

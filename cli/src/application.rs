@@ -2,14 +2,12 @@
 
 use super::{commands::CliCommand, config::CliConfig};
 use abscissa_core::{
-    self, application, trace, Application, EntryPoint, FrameworkError, StandardPaths,
+    application::{AppCell, State},
+    trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
-use lazy_static::lazy_static;
 
-lazy_static! {
-    /// Application state
-    pub static ref APPLICATION: application::Lock<CliApplication> = application::Lock::default();
-}
+/// Application state
+pub static APPLICATION: AppCell<CliApplication> = AppCell::new();
 
 /// Abscissa CLI Application
 #[derive(Debug)]
@@ -18,7 +16,7 @@ pub struct CliApplication {
     config: Option<CliConfig>,
 
     /// Application state.
-    state: application::State<Self>,
+    state: State<Self>,
 }
 
 impl Default for CliApplication {
@@ -39,11 +37,11 @@ impl Application for CliApplication {
         self.config.as_ref().expect("config not loaded")
     }
 
-    fn state(&self) -> &application::State<Self> {
+    fn state(&self) -> &State<Self> {
         &self.state
     }
 
-    fn state_mut(&mut self) -> &mut application::State<Self> {
+    fn state_mut(&mut self) -> &mut State<Self> {
         &mut self.state
     }
 
