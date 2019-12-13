@@ -124,6 +124,7 @@ pub mod component;
 #[cfg(feature = "config")]
 pub mod config;
 pub mod path;
+pub mod prelude;
 mod runnable;
 #[cfg(feature = "application")]
 mod shutdown;
