@@ -22,6 +22,7 @@ macro_rules! template {
 /// Presently all of these need to be declared explicitly, and end in `.hbs`
 // TODO(tarcieri): use `build.rs` to automatically manage these?
 const DEFAULT_TEMPLATE_FILES: &[(&str, &str)] = &[
+    template!(".gitignore.hbs"),
     template!("Cargo.toml.hbs"),
     template!("README.md.hbs"),
     template!("src/application.rs.hbs"),
