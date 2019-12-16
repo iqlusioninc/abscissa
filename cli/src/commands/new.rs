@@ -1,4 +1,4 @@
-//! `generate` subcommand - generate a new Abscissa application
+//! `new` subcommand - generate a new Abscissa application
 
 #![allow(clippy::never_loop)]
 
