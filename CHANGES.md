@@ -4,8 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.5.0 (UNRELEASED)
+## [0.5.0] (2019-12-16)
+### Added
+- `color-backtrace` support ([#148])
+- `gimli-backtrace` Cargo feature ([#150])
+- cli: automatically generate `Cargo.lock` ([#176])
+- cli: add `gen cmd` subcommand ([#177])
+
 ### Changed
+- template: warn for missing docs; re-export status macros via prelude ([#147])
+- Upgrade `secrecy` crate to v0.6 ([#169])
+- template: Wire up `.gitignore` ([#175])
+
 #### Replaced `lazy_static` with `once_cell` ([#167], [#168])
 
 Abscissa primarily used `lazy_static` in two places:
@@ -113,6 +123,18 @@ impl Application {
 ```
 
 [`tracing`]: https://github.com/tokio-rs/tracing
+
+#### Split core prelude from template ([#172])
+
+Existing users may want to update their `prelude.rs` to look like:
+
+```rust
+/// Abscissa core prelude
+pub use abscissa_core::prelude::*;
+
+/// Application state accessors
+pub use crate::application::{app_config, app_reader, app_writer};
+```
 
 ### Removed
 #### Replaced `Config` custom derive with blanket impl ([#152])
@@ -366,11 +388,20 @@ impl std::error::Error for Error {
 
 - Initial release
 
+[0.5.0]: https://github.com/iqlusioninc/abscissa/pull/178
+[#177]: https://github.com/iqlusioninc/abscissa/pull/177
+[#176]: https://github.com/iqlusioninc/abscissa/pull/176
+[#175]: https://github.com/iqlusioninc/abscissa/pull/175
+[#172]: https://github.com/iqlusioninc/abscissa/pull/172
+[#169]: https://github.com/iqlusioninc/abscissa/pull/169
 [#168]: https://github.com/iqlusioninc/abscissa/pull/168
 [#167]: https://github.com/iqlusioninc/abscissa/pull/167
 [#154]: https://github.com/iqlusioninc/abscissa/pull/154
 [#152]: https://github.com/iqlusioninc/abscissa/pull/152
 [#151]: https://github.com/iqlusioninc/abscissa/pull/151
+[#150]: https://github.com/iqlusioninc/abscissa/issues/150
+[#148]: https://github.com/iqlusioninc/abscissa/issues/148
+[#147]: https://github.com/iqlusioninc/abscissa/issues/147
 [#144]: https://github.com/iqlusioninc/abscissa/issues/144
 [0.4.0]: https://github.com/iqlusioninc/abscissa/pull/142
 [#141]: https://github.com/iqlusioninc/abscissa/pull/141

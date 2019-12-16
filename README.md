@@ -97,65 +97,79 @@ default set of features in the application:
 | #  | Crate Name             | Origin          | License        | Description             |
 |----|------------------------|-----------------|----------------|-------------------------|
 | 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework      |
-| 2  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
-| 3  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence     |
-| 4  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
-| 5  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 6  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 7  | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
-| 8  | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
-| 9  | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces |
-| 10 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
-| 11 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
-| 12 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
-| 13 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
-| 14 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
-| 15 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
-| 16 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
-| 17 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
-| 18 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
-| 19 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
-| 20 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
-| 21 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
-| 22 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
-| 23 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
-| 24 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
-| 25 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
-| 26 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
-| 27 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
-| 28 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
-| 29 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
-| 30 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
-| 31 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
+| 2  | [aho-corasick]         | [@BurntSushi]   | MIT/Unlicense  | Pattern-matching alg    |
+| 3  | [ansi_term]            | [@ogham]        | MIT            | Terminal color libray   |
+| 4  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
+| 5  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence     |
+| 6  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
+| 7  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 8  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
+| 9  | [byteorder]            | [@BurntSushi]   | MIT/Unlicense  | Byte order conversions  |
+| 10 | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
+| 11 | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
+| 12 | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces |
+| 13 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
+| 14 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
+| 15 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
+| 16 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
+| 17 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
+| 18 | [matchers]             | [@hawkw]        | MIT            | Stream regex matching   |
+| 19 | [maybe-uninit]         | [@est31]        | Apache-2.0/MIT | MaybeUninit compat      |
+| 20 | [memchr]               | [@BurntSushi]   | MIT/Unlicense  | Optimized byte search   |
+| 21 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
+| 22 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
+| 23 | [once_cell]            | [@matklad]      | Apache-2.0/MIT | Single assignment cells |
+| 24 | [owning_ref]           | [@Kimundi]      | MIT            | Owner-carrying refs     |
+| 25 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
+| 26 | [regex]                | [rust-lang]     | Apache-2.0/MIT | Regular expressions     |
+| 27 | [regex-automata]       | [@BurntSushi]   | MIT/Unlicense  | Low-level regex DFAs    |
+| 28 | [regex-syntax]         | [rust-lang]     | Apache-2.0/MIT | Regex syntax impl       |
+| 29 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
+| 30 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
+| 31 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
+| 32 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
+| 33 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
+| 34 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
+| 35 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
+| 36 | [smallvec]             | [servo]         | Apache-2.0/MIT | Optimized small vectors |
+| 37 | [spin]                 | [@mvdnes]       | MIT            | Spinlock for no_std     |
+| 38 | [stable_deref_trait]   | [@Storyyeller]  | Apache-2.0/MIT | Stable addr marker      |
+| 39 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
+| 40 | [thread_local]         | [@Amanieu]      | Apache-2.0/MIT | Per-object thread local |
+| 41 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
+| 42 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
+| 43 | [tracing]              | [tokio-rs]      | MIT            | App tracing / logging   |
+| 44 | [tracing-core]         | [tokio-rs]      | MIT            | App tracing / logging   |
+| 45 | [tracing-log]          | [tokio-rs]      | MIT            | `log` compatibility     |
+| 46 | [tracing-subscriber]   | [tokio-rs]      | MIT            | Tracing subscribers     |
+| 47 | [utf8-ranges]          | [@BurntSushi]   | MIT/Unlicense  | UTF-8 codepoint ranges  |
+| 48 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
+| 49 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
+| 50 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
+| 51 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
 
 ### Build / Development / Testing Dependencies
 
-| #  | Crate Name        | Origin           | License        | Description             |
-|----|-------------------|------------------|----------------|-------------------------|
-| 1  | [abscissa_derive] | [iqlusion]       | Apache-2.0     | Abscissa custom derive  |
-| 2  | [aho-corasick]    | [@BurntSushi]    | MIT/Unlicense  | Pattern-matching alg    |
-| 3  | [cc]              | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
-| 4  | [cfg-if]          | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
-| 5  | [darling]         | [@TedDriggs]     | MIT            | Nifty attribute parser  |
-| 6  | [darling_core]    | [@TedDriggs]     | MIT            | Attribute parser core   |
-| 7  | [darling_macro]   | [@TedDriggs]     | MIT            | Attribute parser macros |
-| 8  | [fnv]             | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
-| 9  | [gumdrop_derive]  | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
-| 10 | [ident_case]      | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
-| 11 | [memchr]          | [@BurntSushi]    | MIT/Unlicense  | Optimized byte search   |
-| 12 | [proc-macro2]     | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
-| 13 | [quote]           | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
-| 14 | [regex]           | [rust-lang]      | Apache-2.0/MIT | Regular expressions     |
-| 15 | [regex-syntax]    | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl       |
-| 16 | [serde_derive]    | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
-| 17 | [strsim]          | [@dguo]          | MIT            | String similarity utils |
-| 18 | [syn]             | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
-| 19 | [synstructure]    | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
-| 20 | [thread_local]    | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local |
-| 21 | [ucd-util]        | [@BurntSushi]    | Apache-2.0/MIT | Unicode utilities       |
-| 22 | [unicode-xid]     | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
-| 23 | [utf8-ranges]     | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges  |
-| 24 | [wait-timeout]    | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
+| #  | Crate Name           | Origin           | License        | Description             |
+|----|----------------------|------------------|----------------|-------------------------|
+| 1  | [abscissa_derive]    | [iqlusion]       | Apache-2.0     | Abscissa custom derive  |
+| 2  | [cc]                 | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
+| 3  | [cfg-if]             | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
+| 4  | [darling]            | [@TedDriggs]     | MIT            | Nifty attribute parser  |
+| 5  | [darling_core]       | [@TedDriggs]     | MIT            | Attribute parser core   |
+| 6  | [darling_macro]      | [@TedDriggs]     | MIT            | Attribute parser macros |
+| 7  | [fnv]                | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
+| 8  | [gumdrop_derive]     | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 9  | [ident_case]         | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
+| 10 | [proc-macro2]        | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
+| 11 | [quote]              | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
+| 12 | [serde_derive]       | [serde-rs]       | Apache-2.0/MIT | `serde` custom derive   |
+| 13 | [strsim]             | [@dguo]          | MIT            | String similarity utils |
+| 14 | [syn]                | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
+| 15 | [synstructure]       | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
+| 16 | [tracing-attributes] | [tokio-rs]       | MIT            | App tracing / logging   |
+| 17 | [unicode-xid]        | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 18 | [wait-timeout]       | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -164,59 +178,75 @@ an Abscissa dependency and whether or not it is optional. Abscissa uses
 [cargo features] to allow parts of it you aren't using to be easily disabled,
 so you only compile the parts you need.
 
-| Crate Name             | [Cargo Features] | Required By       |
-|------------------------|------------------|-------------------|
-| [abscissa_core]        | -                | ⊤                 |
-| [abscissa_derive]      | -                | [abscissa_core]   |
-| [aho-corasick]         | `testing`        | [regex]           |
-| [arc-swap]             | `signals`        | [signal-hook-registry] |
-| [atty]                 | `terminal`       | [color-backtrace] |
-| [autocfg]              | `time`           | [num-integer]     |
-| [backtrace]            | -                | [abscissa_core]   |
-| [backtrace-sys]        | -                | [backtrace]       |
-| [canonical-path]       | -                | [abscissa_core]   |
-| [cc]                   | -                | [backtrace-sys]   |
-| [cfg-if]               | -                | [backtrace], [log] |
-| [color-backtrace]      | `terminal`       | [abscissa_core]   |
-| [chrono]               | `time`           | [abscissa_core]   |
-| [darling]              | -                | [abscissa_derive] |
-| [darling_core]         | -                | [darling], [darling_macro] |
-| [darling_macro]        | -                | [darling]         |
-| [fnv]                  | -                | [darling_core]    |
-| [generational-arena]   | `application`    | [abscissa_core]   |
-| [gumdrop]              | `options`        | [abscissa_core]   |
-| [gumdrop_derive]       | `options`        | [gumdrop]         |
-| [ident_case]           | -                | [abscissa_derive], [darling_core] |
-| [lazy_static]          | -                | [abscissa_core]   |
-| [libc]                 | `signals`        | [abscissa_core]   |
-| [log]                  | `logging`        | [abscissa_core]   |
-| [memchr]               | `testing`        | [aho-corasick]    |
-| [num-integer]          | `time`           | [chrono]          |
-| [num-traits]           | `time`           | [chrono], [num-integer] |
-| [proc-macro2]          | -                | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
-| [quote]                | -                | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
-| [redox_syscall]        | `time`           | [time]            |
-| [regex]                | `testing`        | [abscissa_core]   |
-| [rustc-demangle]       | -                | [backtrace]       |
-| [secrecy]              | `secrets`        | [abscissa_core]   |
-| [semver]               | `application`    | [abscissa_core]   |
-| [semver-parser]        | `application`    | [abscissa_core]   |
-| [serde]                | `config`         | [abscissa_core]   |
-| [serde_derive]         | `config`         | [serde]           |
-| [signal-hook]          | `signals`        | [abscissa_core]   |
-| [signal-hook-registry] | `signals`        | [signal-hook]     |
-| [strsim]               | -                | [darling_core]    |
-| [syn]                  | -                | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
-| [termcolor]            | `terminal`       | [abscissa_core]   |
-| [thread_local]         | `testing`        | [regex]           |
-| [time]                 | `logging`        | [chrono]          |
-| [ucd-util]             | `testing`        | [regex-syntax]    |
-| [unicode-xid]          | -                | [proc-macro2], [syn] |
-| [utf8-ranges]          | `testing`        | [regex]           |
-| [wait-timeout]         | `testing`        | [abscissa_core]   |
-| [winapi]§              | -                | [termcolor], [time], [winapi-util] |
-| [winapi-util]          | -                | [termcolor]       |
-| [zeroize]              | -                | [abscissa_core]   |
+| Crate Name             | [Cargo Features]   | Required By               |
+|------------------------|--------------------|---------------------------|
+| [abscissa_core]        | -                  | ⊤                         |
+| [abscissa_derive]      | -                  | [abscissa_core]           |
+| [aho-corasick]         | `trace`, `testing` | [regex]                   |
+| [ansi_term]            | `trace`            | [tracing-subscriber]      |
+| [arc-swap]             | `signals`          | [signal-hook-registry]    |
+| [atty]                 | `terminal`         | [color-backtrace]         |
+| [autocfg]              | `time`             | [num-integer]             |
+| [backtrace]            | -                  | [abscissa_core]           |
+| [backtrace-sys]        | -                  | [backtrace]               |
+| [byteorder]            | `trace`            | [regex-automata]          |
+| [canonical-path]       | -                  | [abscissa_core]           |
+| [cc]                   | -                  | [backtrace-sys]           |
+| [cfg-if]               | -                  | [backtrace], [log]        |
+| [color-backtrace]      | `terminal`         | [abscissa_core]           |
+| [chrono]               | `time`             | [abscissa_core]           |
+| [darling]              | -                  | [abscissa_derive]         |
+| [darling_core]         | -                  | [darling], [darling_macro] |
+| [darling_macro]        | -                  | [darling]                 |
+| [fnv]                  | -                  | [darling_core]            |
+| [generational-arena]   | `application`      | [abscissa_core]           |
+| [gumdrop]              | `options`          | [abscissa_core]           |
+| [gumdrop_derive]       | `options`          | [gumdrop]                 |
+| [ident_case]           | -                  | [abscissa_derive], [darling_core] |
+| [lazy_static]          | `testing`, `trace` | [thread_local], [tracing-core], [tracing-log], [tracing-subscriber] |
+| [libc]                 | `signals`          | [abscissa_core]           |
+| [log]                  | `logging`          | [abscissa_core]           |
+| [matchers]             | `trace`            | [tracing-subscriber]      |
+| [memchr]               | `trace`, `testing` | [aho-corasick]            |
+| [maybe-uninit]         | `trace`            | [smallvec]                |
+| [num-integer]          | `time`             | [chrono]                  |
+| [num-traits]           | `time`             | [chrono], [num-integer]   |
+| [once_cell]            | -                  | [abscissa_core]           |
+| [owning_ref]           | `trace`            | [tracing-subscriber]      |
+| [proc-macro2]          | -                  | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
+| [quote]                | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
+| [redox_syscall]        | `time`             | [time]                    |
+| [regex]                | `trace`, `testing` | [abscissa_core]           |
+| [regex-automata]       | `trace`            | [matchers]                |
+| [regex-syntax]         | `trace`, `testing` | [abscissa_core]           |
+| [rustc-demangle]       | -                  | [backtrace]               |
+| [secrecy]              | `secrets`          | [abscissa_core]           |
+| [semver]               | `application`      | [abscissa_core]           |
+| [semver-parser]        | `application`      | [abscissa_core]           |
+| [serde]                | `config`           | [abscissa_core]           |
+| [serde_derive]         | `config`           | [serde]                   |
+| [signal-hook]          | `signals`          | [abscissa_core]           |
+| [signal-hook-registry] | `signals`          | [signal-hook]             |
+| [smallvec]             | `trace`            | [tracing-subscriber]      |
+| [strsim]               | -                  | [darling_core]            |
+| [spin]                 | `testing`, `trace` | [lazy_static], [tracing], [tracing-core] |
+| [stable_deref_trait]   | `trace`            | [owning_ref]              |
+| [syn]                  | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
+| [termcolor]            | `terminal`         | [abscissa_core]           |
+| [thread_local]         | `trace`, `testing` | [regex]                   |
+| [time]                 | `logging`          | [chrono]                  |
+| [tracing]              | `trace`            | [abscissa_core]           |
+| [tracing-attributes]   | `trace`            | [tracing]                 |
+| [tracing-core]         | `trace`            | [tracing]                 |
+| [tracing-log]          | `trace`            | [abscissa_core]           |
+| [tracing-subscriber]   | `trace`            | [abscissa_core]           |
+| [unicode-xid]          | -                  | [proc-macro2], [syn]      |
+| [utf8-ranges]          | `trace`, `testing` | [regex]                   |
+| [wait-timeout]         | `testing`          | [abscissa_core]           |
+| [winapi]§              | -                  | [termcolor], [time], [winapi-util] |
+| [winapi-util]          | -                  | [termcolor]               |
+| [wincolor]             | `terminal`         | [termcolor]               |
+| [zeroize]              | -                  | [abscissa_core]           |
 
 * § `winapi` is a facade for either [winapi-i686-pc-windows-gnu] or
     [winapi-x86_64-pc-windows-gnu] which aren't explicitly listed for brevity
@@ -348,8 +378,9 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [abscissa_core]: https://crates.io/crates/abscissa_core
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
 [aho-corasick]: https://crates.io/crates/aho-corasick
+[ansi_term]: https://crates.io/crates/ansi-term
 [arc-swap]: https://crates.io/crates/arc-swap
-[atty]: https://github.com/softprops/atty
+[atty]: https://crates.io/crates/atty
 [autocfg]: https://crates.io/crates/autocfg
 [backtrace]: https://crates.io/crates/backtrace
 [backtrace-sys]: https://crates.io/crates/backtrace-sys
@@ -370,13 +401,18 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [lazy_static]: https://crates.io/crates/lazy_static
 [libc]: https://crates.io/crates/libc
 [log]: https://crates.io/crates/log
+[matchers]: https://crates.io/crates/matchers
+[maybe-uninit]: https://crates.io/crates/maybe-uninit
 [memchr]: https://crates.io/crates/memchr
 [num-integer]: https://crates.io/crates/num-integer
 [num-traits]: https://crates.io/crates/num-traits
+[once_cell]: https://crates.io/crates/once_cell
+[owning_ref]: https://crates.io/crates/owning_ref
 [proc-macro2]: https://crates.io/crates/proc-macro2
 [quote]: https://crates.io/crates/quote
 [redox_syscall]: https://crates.io/crates/redox_syscall
 [regex]: https://crates.io/crates/regex
+[regex-automata]: https://crates.io/crates/regex-automata
 [regex-syntax]: https://crates.io/crates/regex-syntax
 [rustc-demangle]: https://crates.io/crates/rustc_demangle
 [secrecy]: https://crates.io/crates/secrecy
@@ -386,6 +422,9 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [serde_derive]: https://crates.io/crates/serde_derive
 [signal-hook]: https://crates.io/crates/signal-hook
 [signal-hook-registry]: https://crates.io/crates/signal-hook
+[smallvec]: https://crates.io/crates/smallvec
+[spin]: https://crates.io/crates/spin
+[stable_deref_trait]: https://crates.io/crates/stable_deref_trait
 [strsim]: https://crates.io/crates/strsim
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/synstructure
@@ -393,7 +432,11 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [thread_local]: https://crates.io/crates/thread_local
 [time]: https://crates.io/crates/time
 [toml]: https://crates.io/crates/toml
-[ucd-util]: https://crates.io/crates/ucd-util
+[tracing]: https://crates.io/crates/tracing
+[tracing-attributes]: https://crates.io/crates/tracing-attributes
+[tracing-core]: https://crates.io/crates/tracing-core
+[tracing-log]: https://crates.io/crates/tracing-log
+[tracing-subscriber]: https://crates.io/crates/tracing-subscriber
 [unicode-xid]: https://crates.io/crates/unicode-xid
 [utf8-ranges]: https://crates.io/crates/utf8-ranges
 [wait-timeout]: https://crates.io/crates/wait-timeout
@@ -408,16 +451,25 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 
 [@alexcrichton]: https://github.com/alexcrichton
 [@Amanieu]: https://github.com/Amanieu
+[@athre0z]: https://github.com/athre0z
 [@BurntSushi]: https://github.com/BurntSushi
 [@cuviper]: https://github.com/cuviper
 [@dguo]: https://github.com/dguo
 [@dtolnay]: https://github.com/dtolnay
+[@est31]: https://github.com/est31
 [@fitzgen]: https://github.com/fitzgen
+[@hawkw]: https://github.com/hawkw
+[@Kimundi]: https://github.com/Kimundi
+[@matklad]: https://github.com/matklad
 [@Murarth]: https://github.com/Murarth
+[@mvdnes]: https://github.com/mvdnes
 [@mystor]: https://github.com/mystor
+[@ogham]: https://github.com/ogham
 [@retep998]: https://github.com/retep998
 [@SergioBenitez]: https://github.com/SergioBenitez
 [@steveklabnik]: https://github.com/steveklabnik
+[@Storyyeller]: https://github.com/storyyeller
+[@softprops]: https://github.com/softprops
 [@TedDriggs]: https://github.com/TedDriggs
 [@vorner]: https://github.com/vorner
 [@withoutboats]: https://github.com/withoutboats
@@ -427,5 +479,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [rust-lang]: https://github.com/rust-lang/
 [rust-num]: https://github.com/rust-num/
 [serde-rs]: https://github.com/serde-rs/
+[servo]: https://github.com/servo
+[tokio-rs]: https://github.com/tokio-rs
 [unicode-rs]: https://github.com/unicode-rs/
 
