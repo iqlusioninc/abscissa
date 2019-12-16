@@ -13,6 +13,9 @@ pub enum ErrorKind {
     /// Error in configuration file
     Config,
 
+    /// Cargo-related errors
+    Cargo,
+
     /// Git-related errors
     Git,
 
@@ -37,6 +40,7 @@ impl Display for ErrorKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let description = match self {
             ErrorKind::Config => "config error",
+            ErrorKind::Cargo => "cargo error",
             ErrorKind::Git => "git error",
             ErrorKind::Io => "I/O error",
             ErrorKind::Path => "bad path",

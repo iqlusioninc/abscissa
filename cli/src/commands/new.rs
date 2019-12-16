@@ -55,6 +55,9 @@ impl Runnable for NewCommand {
         // TODO(tarcieri): make this optional?
         self.run_git_init().unwrap_or_else(|e| fatal_error(e));
 
+        // TODO(tarcieri): make this optional?
+        self.generate_lockfile().unwrap_or_else(|e| fatal_error(e));
+
         let duration = started_at.elapsed();
 
         status_ok!(
@@ -186,7 +189,7 @@ impl NewCommand {
             Ok(status) => {
                 if !status.success() {
                     status_warn!(
-                        "git init exited with error code: {}",
+                        "`git init` exited with error code: {}",
                         status
                             .code()
                             .map(|n| n.to_string())
@@ -198,10 +201,49 @@ impl NewCommand {
             Err(e) => {
                 if e.kind() != io::ErrorKind::NotFound {
                     fatal_error(
-                        format_err!(ErrorKind::Git, "error running git init: {}", e).into(),
+                        format_err!(ErrorKind::Git, "error running `git init`: {}", e).into(),
                     );
                 }
             }
+        }
+
+        Ok(())
+    }
+
+    /// Run `cargo generate-lockfile` on the resulting directory
+    fn generate_lockfile(&self) -> Result<(), Error> {
+        if self.app_path()?.join("Cargo.lock").exists() {
+            status_warn!("'Cargo.lock already exists");
+            return Ok(());
+        }
+
+        status_ok!("Running", "cargo generate-lockfile");
+        let status = process::Command::new("cargo")
+            .stdout(process::Stdio::null())
+            .args(&["generate-lockfile", "--offline", "--manifest-path"])
+            .arg(self.app_path()?.join("Cargo.toml"))
+            .status();
+
+        match status {
+            Ok(status) => {
+                if !status.success() {
+                    status_warn!(
+                        "`cargo generate-lockfile` exited with error code: {}",
+                        status
+                            .code()
+                            .map(|n| n.to_string())
+                            .unwrap_or_else(|| "unknown".to_owned())
+                    );
+                }
+            }
+            Err(e) => fatal_error(
+                format_err!(
+                    ErrorKind::Cargo,
+                    "error running `cargo generate-lockfile`: {}",
+                    e
+                )
+                .into(),
+            ),
         }
 
         Ok(())
