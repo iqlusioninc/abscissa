@@ -29,7 +29,13 @@ pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| {
 #[test]
 fn test_generated_app() {
     let app_path = env::temp_dir().join(APP_NAME);
+
+    // Generate the application
     generate_app(&app_path);
+
+    // Generate an additional subcommand
+    generate_subcommand(&app_path);
+
     env::set_current_dir(&app_path).unwrap();
 
     for test_command in TEST_COMMANDS {
@@ -72,4 +78,23 @@ fn generate_app(path: &Path) {
         )
         .unwrap();
     }
+}
+
+/// Generate a subcommand using `abscissa gen cmd`
+fn generate_subcommand(path: &Path) {
+    let manifest_path = path.join("Cargo.toml");
+
+    // Name of the example subcommand to generate
+    let name = "foo-bar-baz";
+
+    CmdRunner::default()
+        .args(&[
+            "gen",
+            "cmd",
+            "--manifest-path",
+            &manifest_path.display().to_string(),
+            name,
+        ])
+        .status()
+        .expect_success();
 }

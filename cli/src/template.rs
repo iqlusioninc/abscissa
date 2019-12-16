@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 mod collection;
 mod iter;
 mod name;
+mod registry;
 
 pub use self::{collection::Collection, iter::Iter, name::Name};
 

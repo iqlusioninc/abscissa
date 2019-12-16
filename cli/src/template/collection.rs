@@ -4,6 +4,7 @@
 use super::{iter::Iter, Template};
 use crate::{
     error::{Error, ErrorKind},
+    handlebars_registry,
     prelude::*,
     properties::Properties,
 };
@@ -60,9 +61,7 @@ impl Collection {
     where
         I: Iterator<Item = (&'a str, &'a str)>,
     {
-        let mut hbs = Handlebars::new();
-        hbs.set_strict_mode(true);
-        hbs.register_escape_fn(handlebars::no_escape);
+        let mut hbs = handlebars_registry!();
 
         for (name, contents) in template_files {
             debug!("registering template: {}", name);

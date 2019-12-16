@@ -89,6 +89,12 @@ impl From<handlebars::RenderError> for Error {
     }
 }
 
+impl From<handlebars::TemplateRenderError> for Error {
+    fn from(err: handlebars::TemplateRenderError) -> Self {
+        ErrorKind::Template.context(err).into()
+    }
+}
+
 impl From<io::Error> for Error {
     fn from(err: io::Error) -> Self {
         ErrorKind::Io.context(err).into()
