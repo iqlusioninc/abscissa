@@ -48,7 +48,6 @@ impl Tracing {
         self.filter_handle
             .with_current(|filter| filter.to_string())
             .expect("the subscriber is not dropped before the component is")
-            .to_string()
     }
 
     /// Reload the currently-active filter with the supplied value.
