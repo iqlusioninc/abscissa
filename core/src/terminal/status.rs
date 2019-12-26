@@ -6,41 +6,29 @@
 //! # `status_ok!`: Successful status messages
 //!
 //! ```norun
-//! # #[macro_use] extern crate abscissa;
-//! # fn main() {
 //! // Print a Cargo-like justified status to STDOUT
 //! status_ok!("Loaded", "app loaded successfully");
-//! # }
 //! ```
 //!
 //! # `status_err!`: Error messages
 //!
 //! ```norun
-//! # #[macro_use] extern crate abscissa;
-//! # fn main() {
 //! // Print an error message
 //! status_err!("something bad happened");
-//! # }
 //! ```
 //!
 //! # `status_attr_ok!`: Successful attributes
 //!
 //! ```norun
-//! # #[macro_use] extern crate abscissa;
-//! # fn main() {
 //! // Print an indented attribute to STDOUT
 //! status_attr_ok!("good", "yep");
-//! # }
 //! ```
 //!
 //! # `status_attr_error!`: Error attributes
 //!
 //! ```norun
-//! # #[macro_use] extern crate abscissa;
-//! # fn main() {
 //! // Print an error attribute to STDERR
 //! status_attr_err!("error", "yep");
-//! # }
 //! ```
 
 use super::{stderr, stdout};

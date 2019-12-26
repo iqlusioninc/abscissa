@@ -20,11 +20,11 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --no-default-features --lib
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
           args: --release --all --all-features
+      - name: Run cargo build --no-default-features --lib
+        run: |
+          cd core
+          cargo build --no-default-features --lib
 
   check:
     name: Check
@@ -151,26 +151,3 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
-
-  # TODO: use actions-rs/audit-check
-  security_audit:
-    name: Security Audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v1
-
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      - name: Install cargo audit
-        run: cargo install cargo-audit
-
-      - name: Run cargo audit
-        uses: actions-rs/cargo@v1
-        with:
-          command: audit
-          args: --deny-warnings

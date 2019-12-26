@@ -280,7 +280,7 @@ impl NewCommand {
         let command_type = properties::name::Type::from_snake_case(app_name.clone() + "_cmd");
 
         // TODO(tarcieri): configurable config type
-        let config_type = properties::name::Type::from_snake_case(app_name.clone() + "_config");
+        let config_type = properties::name::Type::from_snake_case(app_name + "_config");
 
         let properties = Properties {
             abscissa,
