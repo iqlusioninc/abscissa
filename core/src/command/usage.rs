@@ -88,7 +88,15 @@ impl Usage {
                 Some(subcommand) => {
                     recognized.push(arg.clone());
                     description = Some(&subcommand.description);
-                    command = &subcommand.usage;
+                    command = match &subcommand.usage {
+                        Some(cmd) => cmd,
+                        None => {
+                            command.print_unrecognized_command(arg, &recognized)?;
+
+                            // Force error status exit code
+                            return Err(io::ErrorKind::NotFound.into());
+                        }
+                    }
                 }
                 None => {
                     command.print_unrecognized_command(arg, &recognized)?;
@@ -156,7 +164,10 @@ impl Usage {
 
         for arg in args {
             if let Some(sub) = command.subcommands.iter().find(|cmd| &cmd.name == arg) {
-                command = &sub.usage;
+                command = match &sub.usage {
+                    Some(cmd) => cmd,
+                    None => break,
+                };
                 description = Some(&sub.description);
             } else {
                 break;
@@ -511,7 +522,7 @@ pub struct Subcommand {
     pub description: String,
 
     /// Subcommand usage
-    pub usage: Usage,
+    pub usage: Option<Usage>,
 }
 
 impl Subcommand {
@@ -524,8 +535,7 @@ impl Subcommand {
         let words = usage_string.split_whitespace().collect::<Vec<_>>();
         let name = words[0].to_owned();
         let description = words[1..].join(" ");
-        let usage = C::subcommand_usage(&name)
-            .unwrap_or_else(|| panic!("error fetching usage for subcommand: {:?}", name));
+        let usage = C::subcommand_usage(&name);
 
         Self {
             name,
