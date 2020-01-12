@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] (2020-01-12)
+### Added
+- Add `thiserror` to default application boilerplate ([#188])
+
+### Fixed
+- Workaround for `#[option(command)]` usage parsing ([#187])
+
 ## [0.5.0] (2019-12-16)
 ### Added
 - `color-backtrace` support ([#148])
@@ -388,6 +395,9 @@ impl std::error::Error for Error {
 
 - Initial release
 
+[0.5.1]: https://github.com/iqlusioninc/abscissa/pull/189
+[#188]: https://github.com/iqlusioninc/abscissa/pull/188
+[#187]: https://github.com/iqlusioninc/abscissa/pull/187
 [0.5.0]: https://github.com/iqlusioninc/abscissa/pull/178
 [#177]: https://github.com/iqlusioninc/abscissa/pull/177
 [#176]: https://github.com/iqlusioninc/abscissa/pull/176

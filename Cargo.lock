@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "abscissa"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
- "abscissa_core 0.5.0",
+ "abscissa_core 0.5.1",
  "gumdrop 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars 2.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "ident_case 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -14,7 +14,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_core"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "abscissa_derive 0.5.0",
  "backtrace 0.3.40 (registry+https://github.com/rust-lang/crates.io-index)",
