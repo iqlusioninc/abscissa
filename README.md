@@ -318,7 +318,7 @@ For more information, please see [CODE_OF_CONDUCT.md].
 The **abscissa** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2018-2019 iqlusion
+Copyright © 2018-2020 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

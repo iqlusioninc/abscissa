@@ -19,7 +19,7 @@ from Abscissa, and the proc macros will be in scope.
 The **abscissa_derive** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2018-2019 iqlusion
+Copyright © 2018-2020 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
