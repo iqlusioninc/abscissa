@@ -167,9 +167,10 @@ default set of features in the application:
 | 13 | [strsim]             | [@dguo]          | MIT            | String similarity utils |
 | 14 | [syn]                | [@dtolnay]       | Apache-2.0/MIT | Rust source code parser |
 | 15 | [synstructure]       | [@mystor]        | Apache-2.0/MIT | `syn` structure macros  |
-| 16 | [tracing-attributes] | [tokio-rs]       | MIT            | App tracing / logging   |
-| 17 | [unicode-xid]        | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
-| 18 | [wait-timeout]       | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
+| 16 | [thiserror]          | [@dtolnay]       | Apache-2.0/MIT | `Error` custom derive   |
+| 17 | [tracing-attributes] | [tokio-rs]       | MIT            | App tracing / logging   |
+| 18 | [unicode-xid]        | [unicode-rs]     | Apache-2.0/MIT | Identify valid Unicode  |
+| 19 | [wait-timeout]       | [@alexcrichton]  | Apache-2.0/MIT | Timeouts for waitpid    |
 
 ### Dependency Relationships
 
@@ -233,6 +234,7 @@ so you only compile the parts you need.
 | [stable_deref_trait]   | `trace`            | [owning_ref]              |
 | [syn]                  | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [termcolor]            | `terminal`         | [abscissa_core]           |
+| [thiserror]            | -                  | Abscissa boilerplate      |
 | [thread_local]         | `trace`, `testing` | [regex]                   |
 | [time]                 | `logging`          | [chrono]                  |
 | [tracing]              | `trace`            | [abscissa_core]           |
@@ -429,6 +431,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/synstructure
 [termcolor]: https://crates.io/crates/termcolor
+[thiserror]: https://github.com/dtolnay/thiserror
 [thread_local]: https://crates.io/crates/thread_local
 [time]: https://crates.io/crates/time
 [toml]: https://crates.io/crates/toml

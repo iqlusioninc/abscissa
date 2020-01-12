@@ -6,14 +6,17 @@ use std::{
     io,
     ops::Deref,
 };
+use thiserror::Error;
 
 /// Kinds of errors
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, Error, PartialEq)]
 pub enum ErrorKind {
     /// Error in configuration file
+    #[error("config error")]
     Config,
 
     /// Input/output error
+    #[error("I/O error")]
     Io,
 }
 
@@ -23,19 +26,6 @@ impl ErrorKind {
         Context::new(self, Some(source.into()))
     }
 }
-
-impl Display for ErrorKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let description = match self {
-            ErrorKind::Config => "config error",
-            ErrorKind::Io => "I/O error",
-        };
-
-        f.write_str(description)
-    }
-}
-
-impl std::error::Error for ErrorKind {}
 
 /// Error type
 #[derive(Debug)]
