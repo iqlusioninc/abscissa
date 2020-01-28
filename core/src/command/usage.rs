@@ -50,14 +50,17 @@ impl Usage {
 
         let (positionals, flags) = parse_usage_sections(C::usage());
 
-        let subcommands = C::command_list()
-            .map(|command_list| {
-                command_list
-                    .split('\n')
-                    .map(|usage| Subcommand::parse_usage::<C>(usage))
-                    .collect()
-            })
-            .unwrap_or_else(|| vec![]);
+        let mut subcommands = vec![];
+
+        if let Some(command_list) = C::command_list() {
+            // From: <https://docs.rs/gumdrop/latest/gumdrop/trait.Options.html>
+            // "For enum types with derive(Options), this is the same as usage."
+            if command_list == C::usage() {
+                for command_usage in command_list.split('\n') {
+                    subcommands.push(Subcommand::parse_usage::<C>(command_usage));
+                }
+            }
+        }
 
         Self {
             package_name,
