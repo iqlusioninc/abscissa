@@ -87,7 +87,7 @@
 
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_core/0.5.1"
+    html_root_url = "https://docs.rs/abscissa_core/0.5.2"
 )]
 #![forbid(unsafe_code)]
 #![warn(

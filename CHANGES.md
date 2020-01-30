@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] (2020-01-29)
+### Fixed
+- Usage handling of toplevel `Options` structs ([#202])
+
 ## [0.5.1] (2020-01-12)
 ### Added
 - Add `thiserror` to default application boilerplate ([#188])
@@ -395,6 +399,8 @@ impl std::error::Error for Error {
 
 - Initial release
 
+[0.5.2]: https://github.com/iqlusioninc/abscissa/pull/203
+[#202]: https://github.com/iqlusioninc/abscissa/pull/202
 [0.5.1]: https://github.com/iqlusioninc/abscissa/pull/189
 [#188]: https://github.com/iqlusioninc/abscissa/pull/188
 [#187]: https://github.com/iqlusioninc/abscissa/pull/187
