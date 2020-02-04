@@ -10,3 +10,4 @@ contributions under the terms of the [Apache License, Version 2.0]
 
 - Anthony Arcieri ([@tarcieri](https://github.com/tarcieri))
 - Jarrod Davis ([@jarrodldavis](https://github.com/jarrodldavis))
+- Eliza Weisman ([@hawkw](https://github.com/hawkw))
