@@ -94,59 +94,57 @@ dependencies without due consideration.
 Here are all of Abscissa's transitive dependencies when configured with the
 default set of features in the application:
 
-| #  | Crate Name             | Origin          | License        | Description             |
-|----|------------------------|-----------------|----------------|-------------------------|
-| 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework      |
-| 2  | [aho-corasick]         | [@BurntSushi]   | MIT/Unlicense  | Pattern-matching alg    |
-| 3  | [ansi_term]            | [@ogham]        | MIT            | Terminal color libray   |
-| 4  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`   |
-| 5  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence     |
-| 6  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs   |
-| 7  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 8  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces    |
-| 9  | [byteorder]            | [@BurntSushi]   | MIT/Unlicense  | Byte order conversions  |
-| 10 | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths  |
-| 11 | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library       |
-| 12 | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces |
-| 13 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator     |
-| 14 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options    |
-| 15 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics  |
-| 16 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper       |
-| 17 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library  |
-| 18 | [matchers]             | [@hawkw]        | MIT            | Stream regex matching   |
-| 19 | [maybe-uninit]         | [@est31]        | Apache-2.0/MIT | MaybeUninit compat      |
-| 20 | [memchr]               | [@BurntSushi]   | MIT/Unlicense  | Optimized byte search   |
-| 21 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait         |
-| 22 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits          |
-| 23 | [once_cell]            | [@matklad]      | Apache-2.0/MIT | Single assignment cells |
-| 24 | [owning_ref]           | [@Kimundi]      | MIT            | Owner-carrying refs     |
-| 25 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API    |
-| 26 | [regex]                | [rust-lang]     | Apache-2.0/MIT | Regular expressions     |
-| 27 | [regex-automata]       | [@BurntSushi]   | MIT/Unlicense  | Low-level regex DFAs    |
-| 28 | [regex-syntax]         | [rust-lang]     | Apache-2.0/MIT | Regex syntax impl       |
-| 29 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling       |
-| 30 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types    |
-| 31 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning     |
-| 32 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec  |
-| 33 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework |
-| 34 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling    |
-| 35 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry    |
-| 36 | [smallvec]             | [servo]         | Apache-2.0/MIT | Optimized small vectors |
-| 37 | [spin]                 | [@mvdnes]       | MIT            | Spinlock for no_std     |
-| 38 | [stable_deref_trait]   | [@Storyyeller]  | Apache-2.0/MIT | Stable addr marker      |
-| 39 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support  |
-| 40 | [thread_local]         | [@Amanieu]      | Apache-2.0/MIT | Per-object thread local |
-| 41 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library       |
-| 42 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library     |
-| 43 | [tracing]              | [tokio-rs]      | MIT            | App tracing / logging   |
-| 44 | [tracing-core]         | [tokio-rs]      | MIT            | App tracing / logging   |
-| 45 | [tracing-log]          | [tokio-rs]      | MIT            | `log` compatibility     |
-| 46 | [tracing-subscriber]   | [tokio-rs]      | MIT            | Tracing subscribers     |
-| 47 | [utf8-ranges]          | [@BurntSushi]   | MIT/Unlicense  | UTF-8 codepoint ranges  |
-| 48 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings    |
-| 49 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers    |
-| 50 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color   |
-| 51 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data |
+| #  | Crate Name             | Origin          | License        | Description               |
+|----|------------------------|-----------------|----------------|---------------------------|
+| 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework        |
+| 2  | [aho-corasick]         | [@BurntSushi]   | MIT/Unlicense  | Pattern-matching alg      |
+| 3  | [ansi_term]            | [@ogham]        | MIT            | Terminal color libray     |
+| 4  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`     |
+| 5  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence       |
+| 6  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs     |
+| 7  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces      |
+| 8  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces      |
+| 9  | [byteorder]            | [@BurntSushi]   | MIT/Unlicense  | Byte order conversions    |
+| 10 | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths    |
+| 11 | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library         |
+| 12 | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces   |
+| 13 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator       |
+| 14 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options      |
+| 15 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics    |
+| 16 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper         |
+| 17 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library    |
+| 18 | [matchers]             | [@hawkw]        | MIT            | Stream regex matching     |
+| 19 | [maybe-uninit]         | [@est31]        | Apache-2.0/MIT | MaybeUninit compat        |
+| 20 | [memchr]               | [@BurntSushi]   | MIT/Unlicense  | Optimized byte search     |
+| 21 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait           |
+| 22 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits            |
+| 23 | [once_cell]            | [@matklad]      | Apache-2.0/MIT | Single assignment cells   |
+| 24 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API      |
+| 25 | [regex]                | [rust-lang]     | Apache-2.0/MIT | Regular expressions       |
+| 26 | [regex-automata]       | [@BurntSushi]   | MIT/Unlicense  | Low-level regex DFAs      |
+| 27 | [regex-syntax]         | [rust-lang]     | Apache-2.0/MIT | Regex syntax impl         |
+| 28 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling         |
+| 29 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types      |
+| 30 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning       |
+| 31 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec    |
+| 32 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework   |
+| 33 | [sharded-slab]         | [@hawkw]        | MIT            | Concurrent slab allocator |
+| 34 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling      |
+| 35 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry      |
+| 36 | [smallvec]             | [servo]         | Apache-2.0/MIT | Optimized small vectors   |
+| 37 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support    |
+| 38 | [thread_local]         | [@Amanieu]      | Apache-2.0/MIT | Per-object thread local   |
+| 39 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library         |
+| 40 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library       |
+| 41 | [tracing]              | [tokio-rs]      | MIT            | App tracing / logging     |
+| 42 | [tracing-core]         | [tokio-rs]      | MIT            | App tracing / logging     |
+| 43 | [tracing-log]          | [tokio-rs]      | MIT            | `log` compatibility       |
+| 44 | [tracing-subscriber]   | [tokio-rs]      | MIT            | Tracing subscribers       |
+| 45 | [utf8-ranges]          | [@BurntSushi]   | MIT/Unlicense  | UTF-8 codepoint ranges    |
+| 46 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings      |
+| 47 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers      |
+| 48 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color     |
+| 49 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data   |
 
 ### Build / Development / Testing Dependencies
 
@@ -213,7 +211,6 @@ so you only compile the parts you need.
 | [num-integer]          | `time`             | [chrono]                  |
 | [num-traits]           | `time`             | [chrono], [num-integer]   |
 | [once_cell]            | -                  | [abscissa_core]           |
-| [owning_ref]           | `trace`            | [tracing-subscriber]      |
 | [proc-macro2]          | -                  | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
 | [quote]                | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [redox_syscall]        | `time`             | [time]                    |
@@ -227,11 +224,10 @@ so you only compile the parts you need.
 | [serde]                | `config`           | [abscissa_core]           |
 | [serde_derive]         | `config`           | [serde]                   |
 | [signal-hook]          | `signals`          | [abscissa_core]           |
+| [sharded-slab]         | `trace`            | [tracing-subscriber]      |
 | [signal-hook-registry] | `signals`          | [signal-hook]             |
 | [smallvec]             | `trace`            | [tracing-subscriber]      |
 | [strsim]               | -                  | [darling_core]            |
-| [spin]                 | `testing`, `trace` | [lazy_static], [tracing], [tracing-core] |
-| [stable_deref_trait]   | `trace`            | [owning_ref]              |
 | [syn]                  | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [termcolor]            | `terminal`         | [abscissa_core]           |
 | [thiserror]            | -                  | Abscissa boilerplate      |
@@ -278,7 +274,7 @@ $ cargo test
 
 However, when debugging test failures against a generated app, it's helpful to
 know how to drive the app generation and testing process manually. Below are
-instructions on how to do so. 
+instructions on how to do so.
 
 If you've already run:
 
@@ -409,7 +405,6 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [num-integer]: https://crates.io/crates/num-integer
 [num-traits]: https://crates.io/crates/num-traits
 [once_cell]: https://crates.io/crates/once_cell
-[owning_ref]: https://crates.io/crates/owning_ref
 [proc-macro2]: https://crates.io/crates/proc-macro2
 [quote]: https://crates.io/crates/quote
 [redox_syscall]: https://crates.io/crates/redox_syscall
@@ -422,11 +417,10 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [semver-parser]: https://crates.io/crates/semver-parser
 [serde]: https://crates.io/crates/serde
 [serde_derive]: https://crates.io/crates/serde_derive
+[sharded-slab]: https://crates.io/crates/sharded-slab
 [signal-hook]: https://crates.io/crates/signal-hook
 [signal-hook-registry]: https://crates.io/crates/signal-hook
 [smallvec]: https://crates.io/crates/smallvec
-[spin]: https://crates.io/crates/spin
-[stable_deref_trait]: https://crates.io/crates/stable_deref_trait
 [strsim]: https://crates.io/crates/strsim
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/synstructure
