@@ -211,7 +211,6 @@ so you only compile the parts you need.
 | [num-integer]          | `time`             | [chrono]                  |
 | [num-traits]           | `time`             | [chrono], [num-integer]   |
 | [once_cell]            | -                  | [abscissa_core]           |
-| [owning_ref]           | `trace`            | [tracing-subscriber]      |
 | [proc-macro2]          | -                  | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
 | [quote]                | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
 | [redox_syscall]        | `time`             | [time]                    |
@@ -225,6 +224,7 @@ so you only compile the parts you need.
 | [serde]                | `config`           | [abscissa_core]           |
 | [serde_derive]         | `config`           | [serde]                   |
 | [signal-hook]          | `signals`          | [abscissa_core]           |
+| [sharded-slab]         | `trace`            | [tracing-subscriber]      |
 | [signal-hook-registry] | `signals`          | [signal-hook]             |
 | [smallvec]             | `trace`            | [tracing-subscriber]      |
 | [strsim]               | -                  | [darling_core]            |
@@ -405,7 +405,6 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [num-integer]: https://crates.io/crates/num-integer
 [num-traits]: https://crates.io/crates/num-traits
 [once_cell]: https://crates.io/crates/once_cell
-[owning_ref]: https://crates.io/crates/owning_ref
 [proc-macro2]: https://crates.io/crates/proc-macro2
 [quote]: https://crates.io/crates/quote
 [redox_syscall]: https://crates.io/crates/redox_syscall
@@ -418,11 +417,10 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [semver-parser]: https://crates.io/crates/semver-parser
 [serde]: https://crates.io/crates/serde
 [serde_derive]: https://crates.io/crates/serde_derive
+[sharded-slab]: https://crates.io/crates/sharded-slab
 [signal-hook]: https://crates.io/crates/signal-hook
 [signal-hook-registry]: https://crates.io/crates/signal-hook
 [smallvec]: https://crates.io/crates/smallvec
-[spin]: https://crates.io/crates/spin
-[stable_deref_trait]: https://crates.io/crates/stable_deref_trait
 [strsim]: https://crates.io/crates/strsim
 [syn]: https://crates.io/crates/syn
 [synstructure]: https://crates.io/crates/synstructure
