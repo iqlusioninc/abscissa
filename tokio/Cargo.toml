@@ -1,0 +1,18 @@
+[package]
+name        = "abscissa_tokio"
+description = "Support for launching Tokio runtimes within Abscissa applications"
+version     = "0.5.0-pre" # Also update html_root_url in lib.rs when bumping this
+license     = "Apache-2.0"
+authors     = ["Tony Arcieri <tony@iqlusion.io>"]
+edition     = "2018"
+homepage    = "https://github.com/iqlusioninc/abscissa"
+repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/abscissa_tokio"
+readme      = "README.md"
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[dependencies]
+abscissa_core = { version = "0.5", path = "../core" }
+futures-util = { version = "0.3", default-features = false }
+tokio = { version = "0.2", default-features = false }

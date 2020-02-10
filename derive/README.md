@@ -37,8 +37,8 @@ limitations under the License.
 
 [crate-image]: https://img.shields.io/crates/v/abscissa_derive.svg
 [crate-link]: https://crates.io/crates/abscissa_derive
-[docs-image]: https://docs.rs/abscissa/badge.svg
-[docs-link]: https://docs.rs/abscissa/
+[docs-image]: https://docs.rs/abscissa_core/badge.svg
+[docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
 [build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=develop&event=push
