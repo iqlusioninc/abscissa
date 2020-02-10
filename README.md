@@ -55,6 +55,7 @@ Abscissa presently consists of three crates:
 - [abscissa]: CLI app and application generator - `cargo install abscissa`
 - [abscissa_core]: main framework library
 - [abscissa_derive]: custom derive support - implementation detail of `abscissa_core`
+- [abscissa_tokio]: support for launching Tokio runtimes within Abscissa applications
 
 ## Requirements
 
@@ -375,6 +376,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [abscissa]: https://crates.io/crates/abscissa
 [abscissa_core]: https://crates.io/crates/abscissa_core
 [abscissa_derive]: https://crates.io/crates/abscissa_derive
+[abscissa_tokio]: https://crates.io/crates/abscissa_tokio
 [aho-corasick]: https://crates.io/crates/aho-corasick
 [ansi_term]: https://crates.io/crates/ansi-term
 [arc-swap]: https://crates.io/crates/arc-swap

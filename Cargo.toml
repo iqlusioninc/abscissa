@@ -1,2 +1,2 @@
 [workspace]
-members = ["core", "cli", "derive"]
+members = ["core", "cli", "derive", "tokio"]
