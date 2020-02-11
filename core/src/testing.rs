@@ -6,7 +6,7 @@
 //! use abscissa_core::testing::prelude::*;
 //! ```
 //!
-//! The main entrypoint for running tests is [abscissa_core::testing::CmdRunner].
+//! The main entrypoint for running tests is [`CmdRunner`].
 
 mod config;
 pub mod prelude;
