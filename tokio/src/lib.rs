@@ -94,7 +94,7 @@
 
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_tokio/0.5.0"
+    html_root_url = "https://docs.rs/abscissa_tokio/0.5.1"
 )]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
