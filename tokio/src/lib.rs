@@ -44,7 +44,7 @@
 //!     /// Called automatically after `TokioComponent` is initialized
 //!     pub fn init_tokio(&mut self, tokio_cmp: &TokioComponent) -> Result<(), FrameworkError> {
 //!         // Register with the Tokio runtime here, e.g.:
-//!         // `tokio_cmp.runtime()?.spawn(async move { ... });`
+//!         // `tokio_cmp.runtime()?.spawn(async { ... });`
 //!         Ok(())
 //!     }
 //! }
@@ -52,15 +52,16 @@
 //!
 //! ## Add `TokioComponent` to your Abscissa application
 //!
-//! Inside of your app's `application.rs`, find the [`register_components`]
+//! Inside of your app's `src/application.rs`, find the [`register_components`]
 //! method and add [`TokioComponent`]:
 //!
-//! ```text
+//! ```ignore
+//! use abscissa_tokio::TokioComponent;
+//!
 //! fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
 //!     let mut components = self.framework_components(command)?;
 //!
 //!     // Create `TokioComponent` and add it to your app's components here:
-//!     use abscissa_tokio::TokioComponent;
 //!     components.push(Box::new(TokioComponent::new()?));
 //!
 //!     self.state.components.register(components)
@@ -68,17 +69,19 @@
 //! ```
 //!
 //! Inside of the [`Runnable`] for one of your application's subcommands, call
-//! [`abscissa_tokio::start`] to launch the Tokio runtime:
+//! [`abscissa_tokio::run`] with a provided [`Future`] to launch the Tokio runtime:
 //!
-//! ```text
+//! ```ignore
+//! use crate::application::APPLICATION;
+//!
 //! impl Runnable for StartCmd {
 //!    fn run(&self) {
-//!        abscissa_tokio::start(&crate::application::APPLICATION);
+//!        abscissa_tokio::run(&APPLICATION, async {
+//!            println!("now running inside the Tokio runtime");
+//!        });
 //!    }
 //! }
 //! ```
-//!
-//! This will run any futures which were registered
 //!
 //! [Tokio]: https://tokio.rs
 //! [`tokio::main`]: https://docs.rs/tokio/latest/tokio/attr.main.html
@@ -87,7 +90,7 @@
 //! [`TokioComponent`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/struct.TokioComponent.html
 //! [`register_components`]: https://docs.rs/abscissa_core/latest/abscissa_core/application/trait.Application.html#tymethod.register_components
 //! [`Runnable`]: https://docs.rs/abscissa_core/latest/abscissa_core/trait.Runnable.html
-//! [`abscissa_tokio::start`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.start.html
+//! [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.run.html
 
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
@@ -102,24 +105,46 @@ use abscissa_core::{
     application::{AppCell, Application},
     format_err, Component, FrameworkError, FrameworkErrorKind,
 };
-use futures_util::future;
+use std::future::Future;
 use tokio::runtime::Runtime;
 
-/// Start the Tokio runtime within the given application.
+/// Run a [`Future`] on the [`Runtime`] for the provided [`Application`].
 ///
-/// Panics if the runtime is unavailable or has already been started.
-pub fn start<A: Application>(app_cell: &'static AppCell<A>) {
-    let mut runtime = app_cell
-        .write()
+/// This requires that [`TokioComponent`] has been registered with the given
+/// application, and can only be called once after the application has fully
+/// booted.
+pub fn run<A, F>(app: &'static AppCell<A>, future: F) -> Result<F::Output, FrameworkError>
+where
+    A: Application,
+    F: Future,
+{
+    take_runtime(app).map(|mut runtime| runtime.block_on(future))
+}
+
+/// Extract the Tokio [`Runtime`] from [`TokioComponent`].
+fn take_runtime<A>(app: &'static AppCell<A>) -> Result<Runtime, FrameworkError>
+where
+    A: Application,
+{
+    app.write()
         .state_mut()
         .components
         .get_downcast_mut::<TokioComponent>()
-        .expect("TokioComponent not registered!")
+        .ok_or_else(|| {
+            FrameworkError::from(format_err!(
+                FrameworkErrorKind::ComponentError,
+                "TokioComponent not registered"
+            ))
+        })?
         .runtime
         .take()
-        .expect("Tokio runtime has already been started!");
-
-    runtime.block_on(future::pending::<()>())
+        .ok_or_else(|| {
+            format_err!(
+                FrameworkErrorKind::ComponentError,
+                "TokioComponent's runtime is already taken"
+            )
+            .into()
+        })
 }
 
 /// Component which manages initialization of a Tokio runtime within the
@@ -160,11 +185,11 @@ impl TokioComponent {
     /// Borrow the runtime mutably (e.g. to `block_on` it during startup).
     ///
     /// NOTE: If you are trying to transfer control of your application to the
-    /// Tokio runtime, use the [`abscissa_tokio::start`] function instead.
+    /// Tokio runtime, use the [`abscissa_tokio::run`] function instead.
     ///
     /// Returns an error if the runtime has already been taken.
     ///
-    /// [`abscissa_tokio::start`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.start.html
+    /// [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.run.html
     pub fn runtime_mut(&mut self) -> Result<&mut Runtime, FrameworkError> {
         self.runtime.as_mut().ok_or_else(|| {
             format_err!(

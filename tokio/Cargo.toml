@@ -14,5 +14,4 @@ maintenance = { status = "actively-developed" }
 
 [dependencies]
 abscissa_core = { version = "0.5", path = "../core" }
-futures-util = { version = "0.3", default-features = false }
-tokio = { version = "0.2", default-features = false }
+tokio = "0.2"

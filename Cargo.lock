@@ -55,7 +55,6 @@ name = "abscissa_tokio"
 version = "0.5.0"
 dependencies = [
  "abscissa_core",
- "futures-util",
  "tokio",
 ]
 
@@ -296,29 +295,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2fad85553e09a6f881f739c29f0b00b0f01357c743266d478b68951ce23285f3"
 
 [[package]]
-name = "futures-core"
-version = "0.3.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f25592f769825e89b92358db00d26f965761e094951ac44d3663ef25b7ac464a"
-
-[[package]]
-name = "futures-task"
-version = "0.3.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b0a34e53cf6cdcd0178aa573aed466b646eb3db769570841fda0c7ede375a27"
-
-[[package]]
-name = "futures-util"
-version = "0.3.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22766cf25d64306bedf0384da004d05c9974ab104fcc4528f1236181c18004c5"
-dependencies = [
- "futures-core",
- "futures-task",
- "pin-utils",
-]
-
-[[package]]
 name = "generational-arena"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -554,12 +530,6 @@ name = "pin-project-lite"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "237844750cfbb86f67afe27eee600dfbbcb6188d734139b534cbfbf4f96792ae"
-
-[[package]]
-name = "pin-utils"
-version = "0.1.0-alpha.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5894c618ce612a3fa23881b152b608bafb8c56cfc22f434a3ba3120b40f7b587"
 
 [[package]]
 name = "plain"
