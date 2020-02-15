@@ -90,7 +90,7 @@
 //! [`TokioComponent`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/struct.TokioComponent.html
 //! [`register_components`]: https://docs.rs/abscissa_core/latest/abscissa_core/application/trait.Application.html#tymethod.register_components
 //! [`Runnable`]: https://docs.rs/abscissa_core/latest/abscissa_core/trait.Runnable.html
-//! [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.run.html
+//! [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/fn.run.html
 
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
@@ -189,7 +189,7 @@ impl TokioComponent {
     ///
     /// Returns an error if the runtime has already been taken.
     ///
-    /// [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/application/fn.run.html
+    /// [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/fn.run.html
     pub fn runtime_mut(&mut self) -> Result<&mut Runtime, FrameworkError> {
         self.runtime.as_mut().ok_or_else(|| {
             format_err!(
