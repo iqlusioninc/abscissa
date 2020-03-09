@@ -358,27 +358,16 @@ dependencies = [
 
 [[package]]
 name = "handlebars"
-version = "2.0.4"
+version = "3.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af92141a22acceb515fb6b13ac59d6d0b3dd3437e13832573af8e0d3247f29d5"
+checksum = "ba758d094d31274eb49d15da6f326b96bf3185239a6359bf684f3d5321148900"
 dependencies = [
- "hashbrown",
  "log",
  "pest",
  "pest_derive",
  "quick-error",
  "serde",
  "serde_json",
- "walkdir",
-]
-
-[[package]]
-name = "hashbrown"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1de41fb8dba9714efd92241565cdff73f78508c95697dd56787d3cba27e2353"
-dependencies = [
- "serde",
 ]
 
 [[package]]
@@ -607,15 +596,6 @@ name = "ryu"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bfa8506c1de11c9c4e4c38863ccbe02a305c8188e85a05a784c9e11e1c3910c8"
-
-[[package]]
-name = "same-file"
-version = "1.0.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "585e8ddcedc187886a30fa705c47985c3fa88d06624095856b36ca0b82ff4421"
-dependencies = [
- "winapi-util",
-]
 
 [[package]]
 name = "scroll"
@@ -912,17 +892,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f200f5b12eb75f8c1ed65abd4b2db8a6e1b138a20de009dacee265a2498f3f6"
 dependencies = [
  "libc",
-]
-
-[[package]]
-name = "walkdir"
-version = "2.2.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9658c94fa8b940eab2250bd5a457f9c48b748420d71293b165c8cdbe2f55f71e"
-dependencies = [
- "same-file",
- "winapi",
- "winapi-util",
 ]
 
 [[package]]
