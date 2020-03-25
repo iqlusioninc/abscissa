@@ -471,7 +471,7 @@ impl Flag {
             }
         }
 
-        let description = self.description.as_ref().map(String::as_str).unwrap_or("");
+        let description = self.description.as_deref().unwrap_or("");
         writeln!(stream, "    {:<25} {}", &arg_str, description)
     }
 }
@@ -510,7 +510,7 @@ impl Positional {
 
         arg_str.push_str(&self.name);
 
-        let description = self.description.as_ref().map(String::as_str).unwrap_or("");
+        let description = self.description.as_deref().unwrap_or("");
         writeln!(stream, "    {:<25} {}", &arg_str, description)
     }
 }
