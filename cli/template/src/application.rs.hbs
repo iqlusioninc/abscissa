@@ -3,30 +3,11 @@
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
 use abscissa_core::{
     application::{self, AppCell},
-    config, trace, Application, EntryPoint, FrameworkError, StandardPaths,
+    trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
 
 /// Application state
-pub static APPLICATION: AppCell<{{~application_type~}}> = AppCell::new();
-
-/// Obtain a read-only (multi-reader) lock on the application state.
-///
-/// Panics if the application state has not been initialized.
-pub fn app_reader() -> application::lock::Reader<{{~application_type~}}> {
-    APPLICATION.read()
-}
-
-/// Obtain an exclusive mutable lock on the application state.
-pub fn app_writer() -> application::lock::Writer<{{~application_type~}}> {
-    APPLICATION.write()
-}
-
-/// Obtain a read-only (multi-reader) lock on the application configuration.
-///
-/// Panics if the application configuration has not been loaded.
-pub fn app_config() -> config::Reader<{{~application_type~}}> {
-    config::Reader::new(&APPLICATION)
-}
+pub static APP: AppCell<{{~application_type~}}> = AppCell::new();
 
 /// {{title}} Application
 #[derive(Debug)]

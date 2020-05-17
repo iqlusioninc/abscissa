@@ -4,6 +4,7 @@ use super::{
     lock::{Lock, Reader, Writer},
     Application,
 };
+use crate::config;
 use once_cell::sync::OnceCell;
 
 /// Newtype wrapper for the cell type we use.
@@ -45,6 +46,13 @@ impl<A: Application> AppCell<A> {
     /// accessed mutably.
     pub fn write(&'static self) -> Writer<A> {
         self.0.get().unwrap_or_else(|| not_loaded()).write()
+    }
+
+    /// Obtain a read-only (multi-reader) lock on the application configuration.
+    ///
+    /// Panics if the application configuration has not been loaded.
+    pub fn config(&'static self) -> config::Reader<A> {
+        config::Reader::new(self)
     }
 }
 
