@@ -68,7 +68,7 @@
 //!
 //! # Status Macros
 //!
-//! ```norun
+//! ```ignore
 //! // Print a Cargo-like justified status to STDOUT
 //! status_ok!("Loaded", "app loaded successfully");
 //!

@@ -7,7 +7,7 @@ use abscissa_core::{
 };
 
 /// Application state
-pub static APPLICATION: AppCell<CliApplication> = AppCell::new();
+pub static APP: AppCell<CliApplication> = AppCell::new();
 
 /// Abscissa CLI Application
 #[derive(Debug)]

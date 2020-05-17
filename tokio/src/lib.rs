@@ -72,11 +72,11 @@
 //! [`abscissa_tokio::run`] with a provided [`Future`] to launch the Tokio runtime:
 //!
 //! ```ignore
-//! use crate::application::APPLICATION;
+//! use crate::application::APP;
 //!
 //! impl Runnable for StartCmd {
 //!    fn run(&self) {
-//!        abscissa_tokio::run(&APPLICATION, async {
+//!        abscissa_tokio::run(&APP, async {
 //!            println!("now running inside the Tokio runtime");
 //!        });
 //!    }

@@ -5,28 +5,28 @@
 //!
 //! # `status_ok!`: Successful status messages
 //!
-//! ```norun
+//! ```ignore
 //! // Print a Cargo-like justified status to STDOUT
 //! status_ok!("Loaded", "app loaded successfully");
 //! ```
 //!
 //! # `status_err!`: Error messages
 //!
-//! ```norun
+//! ```ignore
 //! // Print an error message
 //! status_err!("something bad happened");
 //! ```
 //!
 //! # `status_attr_ok!`: Successful attributes
 //!
-//! ```norun
+//! ```ignore
 //! // Print an indented attribute to STDOUT
 //! status_attr_ok!("good", "yep");
 //! ```
 //!
 //! # `status_attr_error!`: Error attributes
 //!
-//! ```norun
+//! ```ignore
 //! // Print an error attribute to STDERR
 //! status_attr_err!("error", "yep");
 //! ```
@@ -38,12 +38,9 @@ use termcolor::{Color, ColorSpec, StandardStream, WriteColor};
 
 /// Print a success status message (in green if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print a Cargo-like justified status to STDOUT
 /// status_ok!("Loaded", "app loaded successfully");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_ok {
@@ -63,12 +60,9 @@ macro_rules! status_ok {
 
 /// Print an informational status message (in cyan if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print a Cargo-like justified status to STDOUT
 /// status_info!("Info", "you may care to know about");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_info {
@@ -88,12 +82,9 @@ macro_rules! status_info {
 
 /// Print a warning status message (in yellow if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print a Cargo-like justified status to STDOUT
 /// status_warn!("heads up, there's something you should know");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_warn {
@@ -112,12 +103,9 @@ macro_rules! status_warn {
 
 /// Print an error message (in red if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print an error message
 /// status_err!("something bad happened");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_err {
@@ -136,12 +124,9 @@ macro_rules! status_err {
 
 /// Print a tab-delimited status attribute (in green if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print an indented attribute to STDOUT
 /// status_attr_ok!("good", "yep");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_attr_ok {
@@ -168,12 +153,9 @@ macro_rules! status_attr_ok {
 
 /// Print a tab-delimited status attribute (in red if colors are enabled)
 ///
-/// ```norun
-/// # #[macro_use] extern crate abscissa;
-/// # fn main() {
+/// ```ignore
 /// // Print an error attribute to STDERR
 /// status_attr_err!("error", "yep");
-/// # }
 /// ```
 #[macro_export]
 macro_rules! status_attr_err {

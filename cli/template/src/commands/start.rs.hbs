@@ -24,7 +24,7 @@ pub struct StartCmd {
 impl Runnable for StartCmd {
     /// Start the application.
     fn run(&self) {
-        let config = app_config();
+        let config = APP.config();
         println!("Hello, {}!", &config.hello.recipient);
     }
 }
