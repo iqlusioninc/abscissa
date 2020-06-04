@@ -119,7 +119,7 @@ impl NewCommand {
     /// Render an individual template file
     fn render_template_file(
         &self,
-        app_template: &Collection,
+        app_template: &Collection<'_>,
         template_file: &Template<'_>,
         app_properties: &Properties,
     ) -> Result<(), Error> {
