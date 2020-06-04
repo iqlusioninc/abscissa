@@ -40,10 +40,10 @@ const DEFAULT_TEMPLATE_FILES: &[(&str, &str)] = &[
 
 /// Abscissa application template renderer
 #[derive(Debug)]
-pub struct Collection(Handlebars);
+pub struct Collection<'a>(Handlebars<'a>);
 
-impl Default for Collection {
-    fn default() -> Collection {
+impl Default for Collection<'_> {
+    fn default() -> Collection<'static> {
         Collection::new(
             DEFAULT_TEMPLATE_FILES
                 .iter()
@@ -53,11 +53,11 @@ impl Default for Collection {
     }
 }
 
-impl Collection {
+impl Collection<'_> {
     /// Create a new template collection by providing an iterator over
     /// `(&name, &contents)` tuples where "name" both names the template
     /// and provides its path within the application.
-    pub fn new<'a, I>(template_files: I) -> Result<Collection, Error>
+    pub fn new<'a, I>(template_files: I) -> Result<Collection<'static>, Error>
     where
         I: Iterator<Item = (&'a str, &'a str)>,
     {
