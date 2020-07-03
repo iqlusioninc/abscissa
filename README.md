@@ -42,6 +42,7 @@ or network/web services), aiming to provide a large number of features with a
 - [Canister]: deployment utility for "distroless" containers/microVMs
 - [cargo-audit]: audit Cargo projects for security vulnerabilities
 - [cargo-rpm]: build RPMs out of Cargo projects
+- [ibc-rs](https://github.com/informalsystems/ibc-rs): Rust implementation of Interblockchain Communication (IBC) modules and relayer
 - [OpenLibra]: open platform for financial inclusion. Not run by Facebook.
 - [Sagan]: observability tool for Tendermint applications
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
