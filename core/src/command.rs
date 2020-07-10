@@ -14,7 +14,7 @@ use std::fmt::Debug;
 use termcolor::ColorChoice;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
-/// trait, but also has a `call()` method which can be used to invoke the given
+/// trait, but also has a `run()` method which can be used to invoke the given
 /// (sub)command.
 pub trait Command: Debug + Options + Runnable {
     /// Name of this program as a string
