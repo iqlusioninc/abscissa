@@ -18,13 +18,13 @@ pub trait RunnableMut {
     fn run(&mut self);
 }
 
-impl Runnable for Box<dyn Fn() -> ()> {
+impl Runnable for Box<dyn Fn()> {
     fn run(&self) {
         self();
     }
 }
 
-impl RunnableMut for Box<dyn FnMut() -> ()> {
+impl RunnableMut for Box<dyn FnMut()> {
     fn run(&mut self) {
         self();
     }
