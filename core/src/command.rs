@@ -9,9 +9,9 @@ pub use self::{entrypoint::EntryPoint, help::Help, usage::Usage};
 pub use abscissa_derive::Command;
 
 use crate::{runnable::Runnable, terminal};
+use clap::Subcommand;
 use std::fmt::Debug;
 use termcolor::ColorChoice;
-use clap::Subcommand;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `run()` method which can be used to invoke the given

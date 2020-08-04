@@ -7,8 +7,8 @@ pub mod version;
 use self::{gen::GenCommand, new::NewCommand, version::VersionCommand};
 use super::config::CliConfig;
 use abscissa_core::{Command, Configurable, Help, Runnable};
-use std::path::PathBuf;
 use clap::Clap;
+use std::path::PathBuf;
 
 /// Abscissa CLI Subcommands
 #[derive(Command, Debug, Clap, Runnable)]

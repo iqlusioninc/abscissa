@@ -2,8 +2,8 @@
 
 use super::{Command, Usage};
 use crate::{Config, Configurable, FrameworkError, Runnable};
-use std::path::PathBuf;
 use clap::{Clap, Subcommand};
+use std::path::PathBuf;
 
 /// Toplevel entrypoint command.
 ///
