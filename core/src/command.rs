@@ -9,14 +9,14 @@ pub use self::{entrypoint::EntryPoint, help::Help, usage::Usage};
 pub use abscissa_derive::Command;
 
 use crate::{runnable::Runnable, terminal};
-use gumdrop::Options;
 use std::fmt::Debug;
 use termcolor::ColorChoice;
+use clap::Subcommand;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `run()` method which can be used to invoke the given
 /// (sub)command.
-pub trait Command: Debug + Options + Runnable {
+pub trait Command: Debug + Subcommand + Runnable {
     /// Name of this program as a string
     fn name() -> &'static str;
 

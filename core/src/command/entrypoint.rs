@@ -1,34 +1,35 @@
 //! Toplevel entrypoint command.
 
 use super::{Command, Usage};
-use crate::{Config, Configurable, FrameworkError, Options, Runnable};
+use crate::{Config, Configurable, FrameworkError, Runnable};
 use std::path::PathBuf;
+use clap::{Clap, Subcommand};
 
 /// Toplevel entrypoint command.
 ///
 /// Handles obtaining toplevel help as well as verbosity settings.
-#[derive(Debug, Options)]
+#[derive(Debug, Clap)]
 pub struct EntryPoint<Cmd>
 where
     Cmd: Command + Runnable,
 {
     /// Path to the configuration file
-    #[options(short = "c", help = "path to configuration file")]
+    #[clap(short = "c", help = "path to configuration file")]
     pub config: Option<PathBuf>,
 
     /// Obtain help about the current command
-    #[options(short = "h", help = "print help message")]
+    #[clap(short = "h", help = "print help message", parse(try_from_str))]
     pub help: bool,
 
     /// Increase verbosity setting
-    #[options(short = "v", help = "be verbose")]
+    #[clap(short = "v", help = "be verbose", parse(try_from_str))]
     pub verbose: bool,
 
     /// Subcommand to execute.
     ///
     /// The `command` option will delegate option parsing to the command type,
     /// starting at the first free argument.
-    #[options(command)]
+    #[clap(subcommand)]
     pub command: Option<Cmd>,
 }
 

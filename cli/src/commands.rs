@@ -6,22 +6,23 @@ pub mod version;
 
 use self::{gen::GenCommand, new::NewCommand, version::VersionCommand};
 use super::config::CliConfig;
-use abscissa_core::{Command, Configurable, Help, Options, Runnable};
+use abscissa_core::{Command, Configurable, Help, Runnable};
 use std::path::PathBuf;
+use clap::Clap;
 
 /// Abscissa CLI Subcommands
-#[derive(Command, Debug, Options, Runnable)]
+#[derive(Command, Debug, Clap, Runnable)]
 pub enum CliCommand {
-    #[options(help = "generate a new module in an existing app")]
+    #[clap(help = "generate a new module in an existing app")]
     Gen(GenCommand),
 
-    #[options(help = "show help for a command")]
+    #[clap(help = "show help for a command")]
     Help(Help<Self>),
 
-    #[options(help = "create a new Abscissa application from a template")]
+    #[clap(help = "create a new Abscissa application from a template")]
     New(NewCommand),
 
-    #[options(help = "display version information")]
+    #[clap(help = "display version information")]
     Version(VersionCommand),
 }
 

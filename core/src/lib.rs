@@ -140,7 +140,7 @@ pub mod trace;
 // Proc macros
 
 #[cfg(feature = "options")]
-pub use gumdrop::Options;
+pub use clap::Clap;
 
 // Re-exports
 

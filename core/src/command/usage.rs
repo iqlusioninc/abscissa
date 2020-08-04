@@ -154,7 +154,7 @@ impl Usage {
     }
 
     /// Print information about a usage error
-    pub(super) fn print_error_and_exit(&self, err: gumdrop::Error, args: &[String]) -> ! {
+    pub(super) fn print_error_and_exit(&self, err: clap::Error, args: &[String]) -> ! {
         // TODO(tarcieri): better personalize errors based on args
         if args.is_empty() {
             self.print_info().unwrap();
