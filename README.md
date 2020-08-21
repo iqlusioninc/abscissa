@@ -48,6 +48,7 @@ or network/web services), aiming to provide a large number of features with a
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
 - [Tendermint KMS]: key management system for Tendermint applications
 - [Zebra]: Rust implementation of a Zcash node
+- [Zerostash]: Encrypted and deduplicated backups
 
 ## Crate Structure
 
@@ -371,6 +372,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [Sagan]: https://github.com/iqlusioninc/sagan
 [Synchronicity]: https://github.com/iqlusioninc/synchronicity
 [Zebra]: https://github.com/ZcashFoundation/zebra
+[Zerostash]: https://github.com/rsdy/zerostash
 
 [//]: # (crate links)
 
