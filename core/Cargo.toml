@@ -24,6 +24,7 @@ backtrace = "0.3"
 canonical-path = "2"
 chrono = { version = "0.4", optional = true, features = ["serde"] }
 color-backtrace = { version = "0.4", optional = true, default-features = false }
+fs-err = "2"
 generational-arena = { version = "0.2", optional = true }
 gumdrop = { version = "0.7", optional = true }
 once_cell = "1.4"

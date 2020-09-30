@@ -8,10 +8,13 @@ use crate::{
     properties::{self, Properties},
     template::{Collection, Template},
 };
-use abscissa_core::{status_err, status_info, status_ok, status_warn, Command, Options, Runnable};
+use abscissa_core::{
+    fs::{self, File},
+    status_err, status_info, status_ok, status_warn, Command, Options, Runnable,
+};
 use ident_case::RenameRule;
 use std::{
-    fs, io,
+    io,
     path::{Path, PathBuf},
     process,
     time::Instant,
@@ -154,7 +157,7 @@ impl NewCommand {
             )
         })?;
 
-        let mut output_file = fs::File::create(&output_path).map_err(|e| {
+        let mut output_file = File::create(&output_path).map_err(|e| {
             format_err!(
                 ErrorKind::Path,
                 "couldn't create {}: {}",
