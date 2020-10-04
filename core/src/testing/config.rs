@@ -1,11 +1,13 @@
 //! Support for writing config files and using them in tests
 
-use crate::time::Utc;
+use crate::{
+    fs::{self, File, OpenOptions},
+    time::Utc,
+};
 use serde::Serialize;
 use std::{
     env,
     ffi::OsStr,
-    fs::{self, File, OpenOptions},
     io::{self, Write},
     path::{Path, PathBuf},
 };

@@ -97,57 +97,58 @@ dependencies without due consideration.
 Here are all of Abscissa's transitive dependencies when configured with the
 default set of features in the application:
 
-| #  | Crate Name             | Origin          | License        | Description               |
-|----|------------------------|-----------------|----------------|---------------------------|
-| 1  | [abscissa_core]        | [iqlusion]      | Apache-2.0     | Abscissa framework        |
-| 2  | [aho-corasick]         | [@BurntSushi]   | MIT/Unlicense  | Pattern-matching alg      |
-| 3  | [ansi_term]            | [@ogham]        | MIT            | Terminal color libray     |
-| 4  | [arc-swap]             | [@vorner]       | Apache-2.0/MIT | Atomic swap for `Arc`     |
-| 5  | [atty]                 | [@softprops]    | MIT            | Detect TTY presence       |
-| 6  | [autocfg]              | [@cuviper]      | Apache-2.0/MIT | Rust compiler configs     |
-| 7  | [backtrace]            | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces      |
-| 8  | [backtrace-sys]        | [@alexcrichton] | Apache-2.0/MIT | Capture stack traces      |
-| 9  | [byteorder]            | [@BurntSushi]   | MIT/Unlicense  | Byte order conversions    |
-| 10 | [canonical-path]       | [iqlusion]      | Apache-2.0     | Get canonical fs paths    |
-| 11 | [chrono]               | [chronotope]    | Apache-2.0/MIT | Time/date library         |
-| 12 | [color-backtrace]      | [@athre0z]      | Apache-2.0/MIT | Rich colored backtraces   |
-| 13 | [generational-arena]   | [@fitzgen]      | MPL-2.0        | Component allocator       |
-| 14 | [gumdrop]              | [@Murarth]      | Apache-2.0/MIT | Command-line options      |
-| 15 | [lazy_static]          | [rust-lang]     | Apache-2.0/MIT | Heap-allocated statics    |
-| 16 | [libc]                 | [rust-lang]     | Apache-2.0/MIT | C library wrapper         |
-| 17 | [log]                  | [rust-lang]     | Apache-2.0/MIT | Logging facade library    |
-| 18 | [matchers]             | [@hawkw]        | MIT            | Stream regex matching     |
-| 19 | [maybe-uninit]         | [@est31]        | Apache-2.0/MIT | MaybeUninit compat        |
-| 20 | [memchr]               | [@BurntSushi]   | MIT/Unlicense  | Optimized byte search     |
-| 21 | [num-integer]          | [rust-num]      | Apache-2.0/MIT | `Integer` trait           |
-| 22 | [num-traits]           | [rust-num]      | Apache-2.0/MIT | Numeric traits            |
-| 23 | [once_cell]            | [@matklad]      | Apache-2.0/MIT | Single assignment cells   |
-| 24 | [redox_syscall]        | [redox-os]      | MIT            | Redox OS syscall API      |
-| 25 | [regex]                | [rust-lang]     | Apache-2.0/MIT | Regular expressions       |
-| 26 | [regex-automata]       | [@BurntSushi]   | MIT/Unlicense  | Low-level regex DFAs      |
-| 27 | [regex-syntax]         | [rust-lang]     | Apache-2.0/MIT | Regex syntax impl         |
-| 28 | [rustc-demangle]       | [@alexcrichton] | Apache-2.0/MIT | Symbol demangling         |
-| 29 | [secrecy]              | [iqlusion]      | Apache-2.0     | Secret-keeping types      |
-| 30 | [semver]               | [@steveklabnik] | Apache-2.0/MIT | Semantic versioning       |
-| 31 | [semver-parser]        | [@steveklabnik] | Apache-2.0/MIT | Parser for semver spec    |
-| 32 | [serde]                | [serde-rs]      | Apache-2.0/MIT | Serialization framework   |
-| 33 | [sharded-slab]         | [@hawkw]        | MIT            | Concurrent slab allocator |
-| 34 | [signal-hook]          | [@vorner]       | Apache-2.0/MIT | Unix signal handling      |
-| 35 | [signal-hook-registry] | [@vorner]       | Apache-2.0/MIT | Unix signal registry      |
-| 36 | [smallvec]             | [servo]         | Apache-2.0/MIT | Optimized small vectors   |
-| 37 | [termcolor]            | [@BurntSushi]   | MIT/Unlicense  | Terminal color support    |
-| 38 | [thread_local]         | [@Amanieu]      | Apache-2.0/MIT | Per-object thread local   |
-| 39 | [time]                 | [rust-lang]     | Apache-2.0/MIT | Time/date library         |
-| 40 | [toml]                 | [@alexcrichton] | Apache-2.0/MIT | TOML parser library       |
-| 41 | [tracing]              | [tokio-rs]      | MIT            | App tracing / logging     |
-| 42 | [tracing-core]         | [tokio-rs]      | MIT            | App tracing / logging     |
-| 43 | [tracing-log]          | [tokio-rs]      | MIT            | `log` compatibility       |
-| 44 | [tracing-subscriber]   | [tokio-rs]      | MIT            | Tracing subscribers       |
-| 45 | [utf8-ranges]          | [@BurntSushi]   | MIT/Unlicense  | UTF-8 codepoint ranges    |
-| 46 | [winapi]§              | [@retep998]     | Apache-2.0/MIT | Windows FFI bindings      |
-| 47 | [winapi-util]          | [@BurntSushi]   | MIT/Unlicense  | Safe winapi wrappers      |
-| 48 | [wincolor]             | [@BurntSushi]   | MIT/Unlicense  | Windows console color     |
-| 49 | [zeroize]              | [iqlusion]      | Apache-2.0/MIT | Zero out sensitive data   |
+| #  | Crate Name             | Origin           | License        | Description               |
+|----|------------------------|------------------|----------------|---------------------------|
+| 1  | [abscissa_core]        | [iqlusion]       | Apache-2.0     | Abscissa framework        |
+| 2  | [aho-corasick]         | [@BurntSushi]    | MIT/Unlicense  | Pattern-matching alg      |
+| 3  | [ansi_term]            | [@ogham]         | MIT            | Terminal color libray     |
+| 4  | [arc-swap]             | [@vorner]        | Apache-2.0/MIT | Atomic swap for `Arc`     |
+| 5  | [atty]                 | [@softprops]     | MIT            | Detect TTY presence       |
+| 6  | [autocfg]              | [@cuviper]       | Apache-2.0/MIT | Rust compiler configs     |
+| 7  | [backtrace]            | [@alexcrichton]  | Apache-2.0/MIT | Capture stack traces      |
+| 8  | [backtrace-sys]        | [@alexcrichton]  | Apache-2.0/MIT | Capture stack traces      |
+| 9  | [byteorder]            | [@BurntSushi]    | MIT/Unlicense  | Byte order conversions    |
+| 10 | [canonical-path]       | [iqlusion]       | Apache-2.0     | Get canonical fs paths    |
+| 11 | [chrono]               | [chronotope]     | Apache-2.0/MIT | Time/date library         |
+| 12 | [color-backtrace]      | [@athre0z]       | Apache-2.0/MIT | Rich colored backtraces   |
+| 13 | [fs-err]               | [@andrewhickman] | Apache-2.0/MIT | Better filesystem errors |
+| 14 | [generational-arena]   | [@fitzgen]       | MPL-2.0        | Component allocator       |
+| 15 | [gumdrop]              | [@Murarth]       | Apache-2.0/MIT | Command-line options      |
+| 16 | [lazy_static]          | [rust-lang]      | Apache-2.0/MIT | Heap-allocated statics    |
+| 17 | [libc]                 | [rust-lang]      | Apache-2.0/MIT | C library wrapper         |
+| 18 | [log]                  | [rust-lang]      | Apache-2.0/MIT | Logging facade library    |
+| 19 | [matchers]             | [@hawkw]         | MIT            | Stream regex matching     |
+| 20 | [maybe-uninit]         | [@est31]         | Apache-2.0/MIT | MaybeUninit compat        |
+| 21 | [memchr]               | [@BurntSushi]    | MIT/Unlicense  | Optimized byte search     |
+| 22 | [num-integer]          | [rust-num]       | Apache-2.0/MIT | `Integer` trait           |
+| 23 | [num-traits]           | [rust-num]       | Apache-2.0/MIT | Numeric traits            |
+| 24 | [once_cell]            | [@matklad]       | Apache-2.0/MIT | Single assignment cells   |
+| 25 | [redox_syscall]        | [redox-os]       | MIT            | Redox OS syscall API      |
+| 26 | [regex]                | [rust-lang]      | Apache-2.0/MIT | Regular expressions       |
+| 27 | [regex-automata]       | [@BurntSushi]    | MIT/Unlicense  | Low-level regex DFAs      |
+| 28 | [regex-syntax]         | [rust-lang]      | Apache-2.0/MIT | Regex syntax impl         |
+| 29 | [rustc-demangle]       | [@alexcrichton]  | Apache-2.0/MIT | Symbol demangling         |
+| 30 | [secrecy]              | [iqlusion]       | Apache-2.0     | Secret-keeping types      |
+| 31 | [semver]               | [@steveklabnik]  | Apache-2.0/MIT | Semantic versioning       |
+| 32 | [semver-parser]        | [@steveklabnik]  | Apache-2.0/MIT | Parser for semver spec    |
+| 33 | [serde]                | [serde-rs]       | Apache-2.0/MIT | Serialization framework   |
+| 34 | [sharded-slab]         | [@hawkw]         | MIT            | Concurrent slab allocator |
+| 35 | [signal-hook]          | [@vorner]        | Apache-2.0/MIT | Unix signal handling      |
+| 36 | [signal-hook-registry] | [@vorner]        | Apache-2.0/MIT | Unix signal registry      |
+| 37 | [smallvec]             | [servo]          | Apache-2.0/MIT | Optimized small vectors   |
+| 38 | [termcolor]            | [@BurntSushi]    | MIT/Unlicense  | Terminal color support    |
+| 39 | [thread_local]         | [@Amanieu]       | Apache-2.0/MIT | Per-object thread local   |
+| 40 | [time]                 | [rust-lang]      | Apache-2.0/MIT | Time/date library         |
+| 41 | [toml]                 | [@alexcrichton]  | Apache-2.0/MIT | TOML parser library       |
+| 42 | [tracing]              | [tokio-rs]       | MIT            | App tracing / logging     |
+| 43 | [tracing-core]         | [tokio-rs]       | MIT            | App tracing / logging     |
+| 44 | [tracing-log]          | [tokio-rs]       | MIT            | `log` compatibility       |
+| 45 | [tracing-subscriber]   | [tokio-rs]       | MIT            | Tracing subscribers       |
+| 46 | [utf8-ranges]          | [@BurntSushi]    | MIT/Unlicense  | UTF-8 codepoint ranges    |
+| 47 | [winapi]§              | [@retep998]      | Apache-2.0/MIT | Windows FFI bindings      |
+| 48 | [winapi-util]          | [@BurntSushi]    | MIT/Unlicense  | Safe winapi wrappers      |
+| 49 | [wincolor]             | [@BurntSushi]    | MIT/Unlicense  | Windows console color     |
+| 50 | [zeroize]              | [iqlusion]       | Apache-2.0/MIT | Zero out sensitive data   |
 
 ### Build / Development / Testing Dependencies
 
@@ -180,74 +181,75 @@ an Abscissa dependency and whether or not it is optional. Abscissa uses
 [cargo features] to allow parts of it you aren't using to be easily disabled,
 so you only compile the parts you need.
 
-| Crate Name             | [Cargo Features]   | Required By               |
-|------------------------|--------------------|---------------------------|
-| [abscissa_core]        | -                  | ⊤                         |
-| [abscissa_derive]      | -                  | [abscissa_core]           |
-| [aho-corasick]         | `trace`, `testing` | [regex]                   |
-| [ansi_term]            | `trace`            | [tracing-subscriber]      |
-| [arc-swap]             | `signals`          | [signal-hook-registry]    |
-| [atty]                 | `terminal`         | [color-backtrace]         |
-| [autocfg]              | `time`             | [num-integer]             |
-| [backtrace]            | -                  | [abscissa_core]           |
-| [backtrace-sys]        | -                  | [backtrace]               |
-| [byteorder]            | `trace`            | [regex-automata]          |
-| [canonical-path]       | -                  | [abscissa_core]           |
-| [cc]                   | -                  | [backtrace-sys]           |
-| [cfg-if]               | -                  | [backtrace], [log]        |
-| [color-backtrace]      | `terminal`         | [abscissa_core]           |
-| [chrono]               | `time`             | [abscissa_core]           |
-| [darling]              | -                  | [abscissa_derive]         |
+| Crate Name             | [Cargo Features]   | Required By                |
+|------------------------|--------------------|----------------------------|
+| [abscissa_core]        | -                  | ⊤                          |
+| [abscissa_derive]      | -                  | [abscissa_core]            |
+| [aho-corasick]         | `trace`, `testing` | [regex]                    |
+| [ansi_term]            | `trace`            | [tracing-subscriber]       |
+| [arc-swap]             | `signals`          | [signal-hook-registry]     |
+| [atty]                 | `terminal`         | [color-backtrace]          |
+| [autocfg]              | `time`             | [num-integer]              |
+| [backtrace]            | -                  | [abscissa_core]            |
+| [backtrace-sys]        | -                  | [backtrace]                |
+| [byteorder]            | `trace`            | [regex-automata]           |
+| [canonical-path]       | -                  | [abscissa_core]            |
+| [cc]                   | -                  | [backtrace-sys]            |
+| [cfg-if]               | -                  | [backtrace], [log]         |
+| [color-backtrace]      | `terminal`         | [abscissa_core]            |
+| [chrono]               | `time`             | [abscissa_core]            |
+| [darling]              | -                  | [abscissa_derive]          |
 | [darling_core]         | -                  | [darling], [darling_macro] |
-| [darling_macro]        | -                  | [darling]                 |
-| [fnv]                  | -                  | [darling_core]            |
-| [generational-arena]   | `application`      | [abscissa_core]           |
-| [gumdrop]              | `options`          | [abscissa_core]           |
-| [gumdrop_derive]       | `options`          | [gumdrop]                 |
+| [darling_macro]        | -                  | [darling]                  |
+| [fs-err]               | -                  | [abscissa_core]            |
+| [fnv]                  | -                  | [darling_core]             |
+| [generational-arena]   | `application`      | [abscissa_core]            |
+| [gumdrop]              | `options`          | [abscissa_core]            |
+| [gumdrop_derive]       | `options`          | [gumdrop]                  |
 | [ident_case]           | -                  | [abscissa_derive], [darling_core] |
 | [lazy_static]          | `testing`, `trace` | [thread_local], [tracing-core], [tracing-log], [tracing-subscriber] |
-| [libc]                 | `signals`          | [abscissa_core]           |
-| [log]                  | `logging`          | [abscissa_core]           |
-| [matchers]             | `trace`            | [tracing-subscriber]      |
-| [memchr]               | `trace`, `testing` | [aho-corasick]            |
-| [maybe-uninit]         | `trace`            | [smallvec]                |
-| [num-integer]          | `time`             | [chrono]                  |
-| [num-traits]           | `time`             | [chrono], [num-integer]   |
-| [once_cell]            | -                  | [abscissa_core]           |
+| [libc]                 | `signals`          | [abscissa_core]            |
+| [log]                  | `logging`          | [abscissa_core]            |
+| [matchers]             | `trace`            | [tracing-subscriber]       |
+| [memchr]               | `trace`, `testing` | [aho-corasick]             |
+| [maybe-uninit]         | `trace`            | [smallvec]                 |
+| [num-integer]          | `time`             | [chrono]                   |
+| [num-traits]           | `time`             | [chrono], [num-integer]    |
+| [once_cell]            | -                  | [abscissa_core]            |
 | [proc-macro2]          | -                  | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
 | [quote]                | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
-| [redox_syscall]        | `time`             | [time]                    |
-| [regex]                | `trace`, `testing` | [abscissa_core]           |
-| [regex-automata]       | `trace`            | [matchers]                |
-| [regex-syntax]         | `trace`, `testing` | [abscissa_core]           |
-| [rustc-demangle]       | -                  | [backtrace]               |
-| [secrecy]              | `secrets`          | [abscissa_core]           |
-| [semver]               | `application`      | [abscissa_core]           |
-| [semver-parser]        | `application`      | [abscissa_core]           |
-| [serde]                | `config`           | [abscissa_core]           |
-| [serde_derive]         | `config`           | [serde]                   |
-| [signal-hook]          | `signals`          | [abscissa_core]           |
-| [sharded-slab]         | `trace`            | [tracing-subscriber]      |
-| [signal-hook-registry] | `signals`          | [signal-hook]             |
-| [smallvec]             | `trace`            | [tracing-subscriber]      |
-| [strsim]               | -                  | [darling_core]            |
+| [redox_syscall]        | `time`             | [time]                     |
+| [regex]                | `trace`, `testing` | [abscissa_core]            |
+| [regex-automata]       | `trace`            | [matchers]                 |
+| [regex-syntax]         | `trace`, `testing` | [abscissa_core]            |
+| [rustc-demangle]       | -                  | [backtrace]                |
+| [secrecy]              | `secrets`          | [abscissa_core]            |
+| [semver]               | `application`      | [abscissa_core]            |
+| [semver-parser]        | `application`      | [abscissa_core]            |
+| [serde]                | `config`           | [abscissa_core]            |
+| [serde_derive]         | `config`           | [serde]                    |
+| [signal-hook]          | `signals`          | [abscissa_core]            |
+| [sharded-slab]         | `trace`            | [tracing-subscriber]       |
+| [signal-hook-registry] | `signals`          | [signal-hook]              |
+| [smallvec]             | `trace`            | [tracing-subscriber]       |
+| [strsim]               | -                  | [darling_core]             |
 | [syn]                  | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
-| [termcolor]            | `terminal`         | [abscissa_core]           |
-| [thiserror]            | -                  | Abscissa boilerplate      |
-| [thread_local]         | `trace`, `testing` | [regex]                   |
-| [time]                 | `logging`          | [chrono]                  |
-| [tracing]              | `trace`            | [abscissa_core]           |
-| [tracing-attributes]   | `trace`            | [tracing]                 |
-| [tracing-core]         | `trace`            | [tracing]                 |
-| [tracing-log]          | `trace`            | [abscissa_core]           |
-| [tracing-subscriber]   | `trace`            | [abscissa_core]           |
-| [unicode-xid]          | -                  | [proc-macro2], [syn]      |
-| [utf8-ranges]          | `trace`, `testing` | [regex]                   |
-| [wait-timeout]         | `testing`          | [abscissa_core]           |
+| [termcolor]            | `terminal`         | [abscissa_core]            |
+| [thiserror]            | -                  | Abscissa boilerplate       |
+| [thread_local]         | `trace`, `testing` | [regex]                    |
+| [time]                 | `logging`          | [chrono]                   |
+| [tracing]              | `trace`            | [abscissa_core]            |
+| [tracing-attributes]   | `trace`            | [tracing]                  |
+| [tracing-core]         | `trace`            | [tracing]                  |
+| [tracing-log]          | `trace`            | [abscissa_core]            |
+| [tracing-subscriber]   | `trace`            | [abscissa_core]            |
+| [unicode-xid]          | -                  | [proc-macro2], [syn]       |
+| [utf8-ranges]          | `trace`, `testing` | [regex]                    |
+| [wait-timeout]         | `testing`          | [abscissa_core]            |
 | [winapi]§              | -                  | [termcolor], [time], [winapi-util] |
-| [winapi-util]          | -                  | [termcolor]               |
-| [wincolor]             | `terminal`         | [termcolor]               |
-| [zeroize]              | -                  | [abscissa_core]           |
+| [winapi-util]          | -                  | [termcolor]                |
+| [wincolor]             | `terminal`         | [termcolor]                |
+| [zeroize]              | -                  | [abscissa_core]            |
 
 * § `winapi` is a facade for either [winapi-i686-pc-windows-gnu] or
     [winapi-x86_64-pc-windows-gnu] which aren't explicitly listed for brevity
@@ -396,6 +398,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [darling]: https://crates.io/crates/darling
 [darling_core]: https://crates.io/crates/darling_core
 [darling_macro]: https://crates.io/crates/darling_macro
+[fs-err]: https://crates.io/crates/fs-err
 [fnv]: https://crates.io/crates/fnv
 [generational-arena]: https://github.com/fitzgen/generational-arena
 [gumdrop]: https://crates.io/crates/gumdrop
@@ -453,6 +456,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 
 [@alexcrichton]: https://github.com/alexcrichton
 [@Amanieu]: https://github.com/Amanieu
+[@andrewhickman]: https://github.com/andrewhickman
 [@athre0z]: https://github.com/athre0z
 [@BurntSushi]: https://github.com/BurntSushi
 [@cuviper]: https://github.com/cuviper

@@ -7,12 +7,13 @@ mod reader;
 pub use self::{configurable::Configurable, overrides::Override, reader::Reader};
 
 use crate::{
+    fs::File,
     path::AbsPath,
     FrameworkError,
     FrameworkErrorKind::{ConfigError, IoError, PathError},
 };
 use serde::de::DeserializeOwned;
-use std::{fmt::Debug, fs::File, io::Read};
+use std::{fmt::Debug, io::Read};
 
 /// Trait for Abscissa configuration data structures
 pub trait Config: Debug + Default + DeserializeOwned {
@@ -33,7 +34,7 @@ where
     }
 
     fn load_toml_file(path: impl AsRef<AbsPath>) -> Result<Self, FrameworkError> {
-        let mut file = File::open(path.as_ref()).map_err(|e| {
+        let mut file = File::open(path.as_ref().as_path()).map_err(|e| {
             let io_error = IoError.context(e);
             let path_error = PathError {
                 name: Some(path.as_ref().as_path().into()),

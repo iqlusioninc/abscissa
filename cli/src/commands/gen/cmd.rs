@@ -1,11 +1,10 @@
 //! Generate a new subcommand in an existing application
 
 use crate::{config::target_app_root, error::Error, handlebars_registry, prelude::*};
-use abscissa_core::{Command, Options, Runnable};
+use abscissa_core::{fs, Command, Options, Runnable};
 use ident_case::RenameRule;
 use serde::Serialize;
 use std::{
-    fs,
     path::{Path, PathBuf},
     process::exit,
 };

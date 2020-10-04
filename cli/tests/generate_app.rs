@@ -4,9 +4,9 @@
 #![deny(warnings, missing_docs, unused_import_braces, unused_qualifications)]
 #![forbid(unsafe_code)]
 
-use abscissa_core::testing::prelude::*;
+use abscissa_core::{fs, testing::prelude::*};
 use once_cell::sync::Lazy;
-use std::{env, fs, path::Path};
+use std::{env, path::Path};
 
 /// Name of our test application
 const APP_NAME: &str = "abscissa_gen_test_app";
