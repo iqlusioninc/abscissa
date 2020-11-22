@@ -423,12 +423,12 @@ impl Flag {
 
         let word = usage[0];
 
-        if word.starts_with("--") {
+        if let Some(word_stripped) = word.strip_prefix("--") {
             if usage.len() < 2 {
                 return;
             }
 
-            self.long = Some(word[2..].to_owned());
+            self.long = Some(word_stripped.to_owned());
 
             if usage[1].chars().all(|c| c.is_uppercase() || c == '-') {
                 self.long_param = Some(usage[1].to_owned());

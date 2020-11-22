@@ -59,9 +59,9 @@ Abscissa presently consists of three crates:
 - [abscissa_derive]: custom derive support - implementation detail of `abscissa_core`
 - [abscissa_tokio]: support for launching Tokio runtimes within Abscissa applications
 
-## Requirements
+## Minimum Supported Rust Version
 
-- Rust **1.36+**
+- Rust **1.45+**
 
 ## Installation
 
@@ -347,7 +347,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
-[rustc-image]: https://img.shields.io/badge/rustc-1.36+-blue.svg
+[rustc-image]: https://img.shields.io/badge/rustc-1.45+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
 [build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=develop&event=push
