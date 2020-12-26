@@ -263,7 +263,10 @@ impl Status {
         }
 
         s.reset()?;
-        writeln!(s, " {}", msg.as_ref())?;
+        let msg = msg.as_ref();
+        if !msg.is_empty() {
+            writeln!(s, " {}", msg)?;
+        }
         s.flush()?;
 
         Ok(())
