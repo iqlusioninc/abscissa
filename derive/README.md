@@ -41,8 +41,8 @@ limitations under the License.
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=main&event=push
-[build-link]: https://github.com/iqlusioninc/abscissa/actions
+[build-image]: https://github.com/iqlusioninc/abscissa/workflows/derive/badge.svg?branch=main&event=push
+[build-link]: https://github.com/iqlusioninc/abscissa/actions?query=workflow:derive
 
 [//]: # (general links)
 

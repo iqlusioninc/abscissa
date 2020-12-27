@@ -58,8 +58,8 @@ limitations under the License.
 [docs-link]: https://docs.rs/abscissa_tokio/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=main&event=push
-[build-link]: https://github.com/iqlusioninc/abscissa/actions
+[build-image]: https://github.com/iqlusioninc/abscissa/workflows/tokio/badge.svg?branch=main&event=push
+[build-link]: https://github.com/iqlusioninc/abscissa/actions?query=workflow:tokio
 
 [//]: # (general links)
 
