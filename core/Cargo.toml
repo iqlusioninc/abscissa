@@ -62,10 +62,6 @@ config = [
     "terminal",
     "toml"
 ]
-gimli-backtrace = [
-    "backtrace/gimli-symbolize",
-    "color-backtrace/gimli-symbolize"
-]
 trace = ["tracing", "tracing-log", "tracing-subscriber"]
 options = ["gumdrop"]
 secrets = ["secrecy"]
