@@ -1,22 +1,19 @@
 [package]
-name        = "abscissa"
+name = "abscissa"
 description = """
 Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains a CLI utility for generating new applications.
 """
-version     = "0.5.1" # Also update html_root_url in lib.rs when bumping this
-license     = "Apache-2.0"
-authors     = ["Tony Arcieri <tony@iqlusion.io>"]
-edition     = "2018"
-homepage    = "https://github.com/iqlusioninc/abscissa/"
-repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/"
-readme      = "../README.md"
-categories  = ["command-line-interface", "config", "rust-patterns"]
-keywords    = ["abscissa", "cli", "application", "framework", "service"]
-
-[badges]
-maintenance = { status = "actively-developed" }
+version    = "0.5.1" # Also update html_root_url in lib.rs when bumping this
+license    = "Apache-2.0"
+authors    = ["Tony Arcieri <tony@iqlusion.io>"]
+edition    = "2018"
+homepage   = "https://github.com/iqlusioninc/abscissa/"
+repository = "https://github.com/iqlusioninc/abscissa/tree/main/cli/"
+readme     = "../README.md"
+categories = ["command-line-interface", "config", "rust-patterns"]
+keywords   = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
 gumdrop = "0.7"

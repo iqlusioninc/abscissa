@@ -1,22 +1,19 @@
 [package]
-name        = "abscissa_core"
+name = "abscissa_core"
 description = """
 Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains the framework's core functionality.
 """
-version     = "0.5.2" # Also update html_root_url in lib.rs when bumping this
-license     = "Apache-2.0"
-authors     = ["Tony Arcieri <tony@iqlusion.io>"]
-edition     = "2018"
-homepage    = "https://github.com/iqlusioninc/abscissa/"
-repository  = "https://github.com/iqlusioninc/abscissa/tree/develop/"
-readme      = "../README.md"
-categories  = ["command-line-interface", "config", "rust-patterns"]
-keywords    = ["abscissa", "cli", "application", "framework", "service"]
-
-[badges]
-maintenance = { status = "actively-developed" }
+version    = "0.5.2" # Also update html_root_url in lib.rs when bumping this
+license    = "Apache-2.0"
+authors    = ["Tony Arcieri <tony@iqlusion.io>"]
+edition    = "2018"
+homepage   = "https://github.com/iqlusioninc/abscissa/"
+repository = "https://github.com/iqlusioninc/abscissa/tree/main/core/"
+readme     = "../README.md"
+categories = ["command-line-interface", "config", "rust-patterns"]
+keywords   = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
 abscissa_derive = { version = "0.5", path = "../derive" }
@@ -36,8 +33,13 @@ termcolor = { version = "1", optional = true }
 toml = { version = "0.5", optional = true }
 tracing = { version = "0.1", optional = true }
 tracing-log = { version = "0.1", optional = true }
-tracing-subscriber = { version = "0.2", optional = true, default-features = false, features = ["fmt", "env-filter", "ansi", "smallvec", "tracing-log"] }
 wait-timeout = { version = "0.2", optional = true }
+
+[dependencies.tracing-subscriber]
+version = "0.2"
+optional = true
+default-features = false
+features = ["fmt", "env-filter", "ansi", "smallvec", "tracing-log"]
 
 [features]
 default = [

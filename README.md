@@ -76,7 +76,7 @@ $ cargo install abscissa
 After installing the `abscissa` CLI utility using the method above, run
 `abscissa new <my_app>` to generate a new application:
 
-<img src="https://raw.githubusercontent.com/iqlusioninc/abscissa/develop/img/abscissa-new-screenshot.png" width="400px">
+<img src="https://raw.githubusercontent.com/iqlusioninc/abscissa/main/img/abscissa-new-screenshot.png" width="400px">
 
 This will generate a new Abscissa application in the `my_cool_app` directory.
 For more information, please see the [Documentation][docs-link].
@@ -346,11 +346,11 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [docs-image]: https://docs.rs/abscissa_core/badge.svg
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
+[license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
 [rustc-image]: https://img.shields.io/badge/rustc-1.45+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=develop&event=push
+[build-image]: https://github.com/iqlusioninc/abscissa/workflows/Rust/badge.svg?branch=main&event=push
 [build-link]: https://github.com/iqlusioninc/abscissa/actions
 [gitter-image]: https://badges.gitter.im/iqlusioninc/community.svg
 [gitter-link]: https://gitter.im/iqlusioninc/community
@@ -361,8 +361,8 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cargo features]: https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section
 [Kryptos K2]: https://en.wikipedia.org/wiki/Kryptos#Solution_of_passage_2
 [cc]: https://contributor-covenant.org
-[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
-[CONTRIBUTING.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CONTRIBUTING.md
+[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/main/CODE_OF_CONDUCT.md
+[CONTRIBUTING.md]: https://github.com/iqlusioninc/abscissa/blob/main/CONTRIBUTING.md
 
 [//]: # (projects using abscissa)
 
