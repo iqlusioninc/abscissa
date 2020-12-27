@@ -1,7 +1,6 @@
 //! Component handles: opaque references to registered components
 
-use super::id::Id;
-use generational_arena::Index;
+use super::{id::Id, registry::Index};
 use std::fmt;
 
 /// Component handles are references to components which have been registered
@@ -10,12 +9,12 @@ use std::fmt;
 /// However, unlike normal Rust references, component handles are a "weak"
 /// reference which is not checked by the borrow checker. This allows for
 /// complex reference graphs which are otherwise inexpressible in Rust.
-#[derive(Copy, Clone, Eq, Hash, PartialEq, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Handle {
     /// Component name
     name: Id,
 
-    /// Index in the registry's generational index allocator
+    /// Registry index
     pub(super) index: Index,
 }
 
