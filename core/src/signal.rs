@@ -5,7 +5,6 @@ use crate::{
     thread, FrameworkError,
     FrameworkErrorKind::{SignalError, ThreadError},
 };
-use libc::c_int;
 use signal_hook::iterator::Signals;
 use std::{convert::TryFrom, fmt};
 
@@ -14,7 +13,7 @@ use std::{convert::TryFrom, fmt};
 /// This includes signals which are useful for Abscissa applications to handle
 /// and is not intended to be an exhaustive list.
 #[derive(Copy, Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord)]
-#[repr(u32)]
+#[repr(i32)]
 pub enum Signal {
     /// Hangup from controlling terminal/process
     Hup = 1,
@@ -43,8 +42,8 @@ pub enum Signal {
 
 impl Signal {
     /// Get numerical signal code
-    pub fn number(self) -> u32 {
-        self as u32
+    pub fn number(self) -> i32 {
+        self as i32
     }
 
     /// Get the signal name
@@ -68,10 +67,10 @@ impl fmt::Display for Signal {
     }
 }
 
-impl TryFrom<u32> for Signal {
+impl TryFrom<i32> for Signal {
     type Error = FrameworkError;
 
-    fn try_from(num: u32) -> Result<Signal, FrameworkError> {
+    fn try_from(num: i32) -> Result<Signal, FrameworkError> {
         Ok(match num {
             1 => Signal::Hup,
             2 => Signal::Int,
@@ -97,7 +96,7 @@ where
 {
     let mut app = app_lock.write();
     let thread_name = thread::Name::new("abscissa::signal");
-    let signals = Signals::new(signals.into_iter().map(|s| s.number() as c_int))
+    let signals = Signals::new(signals.into_iter().map(|s| s.number()))
         .map_err(|e| format_err!(ThreadError, "{}", e))?;
 
     app.state_mut()
@@ -106,13 +105,13 @@ where
 }
 
 /// Signal handler thread
-fn handler_thread<A>(app_lock: &'static application::Lock<A>, signals: Signals)
+fn handler_thread<A>(app_lock: &'static application::Lock<A>, mut signals: Signals)
 where
     A: Application,
 {
     while !thread::should_terminate() {
-        for sig_num in &signals {
-            let sig = Signal::try_from(sig_num as u32).unwrap();
+        for sig_num in &mut signals {
+            let sig = Signal::try_from(sig_num as i32).unwrap();
             debug!("received signal: {}", sig);
 
             let mut app = app_lock.write();
