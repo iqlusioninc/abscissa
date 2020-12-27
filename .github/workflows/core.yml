@@ -1,0 +1,61 @@
+name: core
+
+on:
+  pull_request:
+    paths:
+      - "core/**"
+      - "derive/**"
+      - "Cargo.*"
+  push:
+    branches: main
+
+defaults:
+  run:
+    working-directory: core
+
+env:
+  CARGO_INCREMENTAL: 0
+  RUSTFLAGS: "-Dwarnings"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        rust:
+          - 1.45.0 # MSRV
+          - stable
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          profile: minimal
+      - run: cargo build --release --no-default-features --lib
+      - run: cargo build --release --all-features
+
+  test:
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        rust:
+          - 1.45.0 # MSRV
+          - stable
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          profile: minimal
+      - run: cargo test --release
+      - run: cargo test --release --all-features
