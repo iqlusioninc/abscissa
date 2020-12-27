@@ -6,7 +6,7 @@ contributions under the terms of the [Apache License, Version 2.0]
 (included in this repository in the toplevel [LICENSE] file).
 
 [Apache License, Version 2.0]: https://www.apache.org/licenses/LICENSE-2.0
-[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
+[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
 
 - Anthony Arcieri ([@tarcieri](https://github.com/tarcieri))
 - Jarrod Davis ([@jarrodldavis](https://github.com/jarrodldavis))

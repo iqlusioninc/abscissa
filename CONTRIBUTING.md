@@ -68,9 +68,9 @@ If you have concerns about including your legal name in this file but would
 still like to contribute, please [contact us] and we can discuss other potential
 arrangements.
 
-[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/develop/CODE_OF_CONDUCT.md
-[AUTHORS.md]: https://github.com/iqlusioninc/abscissa/blob/develop/AUTHORS.md
+[CODE_OF_CONDUCT.md]: https://github.com/iqlusioninc/abscissa/blob/main/CODE_OF_CONDUCT.md
+[AUTHORS.md]: https://github.com/iqlusioninc/abscissa/blob/main/AUTHORS.md
 [pull request]: https://help.github.com/articles/about-pull-requests/
 [contact us]: mailto:oss@iqlusion.io
 [Apache License, Version 2.0]: https://www.apache.org/licenses/LICENSE-2.0
-[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/develop/LICENSE
+[LICENSE]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
