@@ -1,0 +1,31 @@
+name: tokio
+
+on:
+  pull_request: {}
+  push:
+    branches: main
+
+defaults:
+  run:
+    working-directory: tokio
+
+env:
+  CARGO_INCREMENTAL: 0
+  RUSTFLAGS: "-Dwarnings"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust:
+          - 1.45.0 # MSRV
+          - stable
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          profile: minimal
+      - run: cargo test --release
