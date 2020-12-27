@@ -39,13 +39,9 @@ tracing-log = { version = "0.1", optional = true }
 tracing-subscriber = { version = "0.2", optional = true, default-features = false, features = ["fmt", "env-filter", "ansi", "smallvec", "tracing-log"] }
 wait-timeout = { version = "0.2", optional = true }
 
-[target.'cfg(unix)'.dependencies]
-signal-hook = { version = "0.3", optional = true }
-
 [features]
 default = [
     "application",
-    "signals",
     "secrets",
     "testing",
     "time"
@@ -71,7 +67,6 @@ gimli-backtrace = [
 trace = ["tracing", "tracing-log", "tracing-subscriber"]
 options = ["gumdrop"]
 secrets = ["secrecy"]
-signals = ["signal-hook"]
 terminal = ["color-backtrace", "termcolor"]
 testing = ["regex", "wait-timeout"]
 time = ["chrono"]

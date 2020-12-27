@@ -129,8 +129,6 @@ pub mod prelude;
 mod runnable;
 #[cfg(feature = "application")]
 mod shutdown;
-#[cfg(all(feature = "signals", unix))]
-pub mod signal;
 #[cfg(feature = "testing")]
 pub mod testing;
 pub mod thread;
