@@ -63,9 +63,6 @@ pub enum FrameworkErrorKind {
     /// Errors occurring in subprocess
     ProcessError,
 
-    /// Errors involving signals
-    SignalError,
-
     /// Errors involving multithreading
     ThreadError,
 
@@ -89,7 +86,6 @@ impl FrameworkErrorKind {
             FrameworkErrorKind::ParseError => "parse error",
             FrameworkErrorKind::PathError { .. } => "path error",
             FrameworkErrorKind::ProcessError => "subprocess error",
-            FrameworkErrorKind::SignalError => "signal error",
             FrameworkErrorKind::ThreadError => "thread error",
             FrameworkErrorKind::TimeoutError => "operation timed out",
         }

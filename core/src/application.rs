@@ -8,8 +8,6 @@ mod state;
 
 pub use self::{cell::AppCell, exit::fatal_error, lock::Lock, name::Name, state::State};
 
-#[cfg(all(feature = "signals", unix))]
-use crate::signal::Signal;
 use crate::{
     command::Command,
     component::Component,
@@ -169,13 +167,6 @@ pub trait Application: Default + Sized + 'static {
     /// Get the tracing configuration for this application.
     fn tracing_config(&self, command: &Self::Cmd) -> trace::Config {
         trace::Config::default()
-    }
-
-    /// Handle a Unix signal received by this application
-    #[cfg(all(feature = "signals", unix))]
-    fn handle_signal(&mut self, signal: Signal) -> Result<(), FrameworkError> {
-        info!("received signal: {} - shutting down", signal.number());
-        self.shutdown(Shutdown::Graceful)
     }
 
     /// Shut down this application gracefully, exiting with success.
