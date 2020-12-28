@@ -142,16 +142,22 @@ pub use gumdrop::Options;
 
 // Re-exports
 
-#[cfg(feature = "config")]
-pub use crate::config::{Config, Configurable};
-pub use crate::error::framework::{FrameworkError, FrameworkErrorKind};
-pub use crate::runnable::Runnable;
+pub use crate::{
+    error::framework::{FrameworkError, FrameworkErrorKind},
+    runnable::Runnable,
+};
+pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
+
 #[cfg(feature = "application")]
 pub use crate::{
     application::{boot, Application},
     component::Component,
     shutdown::Shutdown,
 };
+
+#[cfg(feature = "config")]
+pub use crate::config::{Config, Configurable};
+
 #[cfg(feature = "options")]
 pub use crate::{
     command::{Command, EntryPoint, Help},

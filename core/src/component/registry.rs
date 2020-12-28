@@ -6,14 +6,21 @@ use crate::{
     shutdown::Shutdown,
     FrameworkError,
     FrameworkErrorKind::ComponentError,
+    Map,
 };
-use std::{any::TypeId, borrow::Borrow, collections::BTreeMap as Map, slice};
+use std::{any::TypeId, borrow::Borrow, slice, sync};
 
 /// Iterator over the components in the registry.
 pub type Iter<'a, A> = slice::Iter<'a, Box<dyn Component<A>>>;
 
 /// Mutable iterator over the components in the registry.
 pub type IterMut<'a, A> = slice::IterMut<'a, Box<dyn Component<A>>>;
+
+/// Reader guard for the registry.
+pub type Reader<'a, A> = sync::RwLockReadGuard<'a, Registry<A>>;
+
+/// Writer guard for the registry.
+pub type Writer<'a, A> = sync::RwLockWriteGuard<'a, Registry<A>>;
 
 /// Index of component identifiers to their arena locations.
 type IdMap = Map<Id, Index>;

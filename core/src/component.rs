@@ -6,10 +6,9 @@
 
 mod handle;
 mod id;
-mod registry;
+pub mod registry;
 
 pub use self::{handle::Handle, id::Id, registry::Registry};
-#[doc(hidden)]
 pub use abscissa_derive::Component;
 
 use crate::{application::Application, shutdown::Shutdown, FrameworkError, Version};

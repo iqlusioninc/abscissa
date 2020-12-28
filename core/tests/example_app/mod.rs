@@ -1,7 +1,7 @@
 //! Example application used for testing purposes
 
 use abscissa_core::{
-    application, Application, Command, Configurable, FrameworkError, Options, Runnable,
+    application, config, Application, Command, Configurable, FrameworkError, Options, Runnable,
     StandardPaths,
 };
 use serde::{Deserialize, Serialize};
@@ -36,7 +36,7 @@ impl Application for ExampleApp {
     type Cfg = ExampleConfig;
     type Paths = StandardPaths;
 
-    fn config(&self) -> &ExampleConfig {
+    fn config(&self) -> config::Reader<ExampleConfig> {
         unimplemented!();
     }
 
@@ -44,17 +44,15 @@ impl Application for ExampleApp {
         unimplemented!();
     }
 
-    fn state_mut(&mut self) -> &mut application::State<Self> {
-        unimplemented!();
-    }
-
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
-        let components = self.framework_components(command)?;
-        self.state.components.register(components)
+        let framework_components = self.framework_components(command)?;
+        let mut app_components = self.state.components_mut();
+        app_components.register(framework_components)
     }
 
     fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError> {
-        self.state.components.after_config(&config)?;
+        let mut components = self.state.components_mut();
+        components.after_config(&config)?;
         self.config = Some(config);
         Ok(())
     }

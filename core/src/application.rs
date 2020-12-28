@@ -2,16 +2,15 @@
 
 pub mod cell;
 pub(crate) mod exit;
-pub mod lock;
 mod name;
 mod state;
 
-pub use self::{cell::AppCell, exit::fatal_error, lock::Lock, name::Name, state::State};
+pub use self::{cell::AppCell, exit::fatal_error, name::Name, state::State};
 
 use crate::{
     command::Command,
     component::Component,
-    config::{Config, Configurable},
+    config::{self, Config, Configurable},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
@@ -62,20 +61,16 @@ pub trait Application: Default + Sized + 'static {
         command.run();
 
         // Exit gracefully
-        let mut app = app_cell.write();
-        app.shutdown(Shutdown::Graceful);
+        app_cell.shutdown(Shutdown::Graceful);
     }
 
     /// Accessor for application configuration.
-    fn config(&self) -> &Self::Cfg;
+    fn config(&self) -> config::Reader<Self::Cfg>;
 
-    /// Borrow the application state immutably.
+    /// Borrow the application state.
     fn state(&self) -> &State<Self>;
 
-    /// Borrow the application state mutably.
-    fn state_mut(&mut self) -> &mut State<Self>;
-
-    /// Register all components used by this application
+    /// Register all components used by this application.
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError>;
 
     /// Post-configuration lifecycle callback.
@@ -170,8 +165,10 @@ pub trait Application: Default + Sized + 'static {
     }
 
     /// Shut down this application gracefully, exiting with success.
-    fn shutdown(&mut self, shutdown: Shutdown) -> ! {
-        if let Err(e) = self.state().components.shutdown(self, shutdown) {
+    fn shutdown(&self, shutdown: Shutdown) -> ! {
+        let components = self.state().components();
+
+        if let Err(e) = components.shutdown(self, shutdown) {
             fatal_error(self, &e)
         }
 

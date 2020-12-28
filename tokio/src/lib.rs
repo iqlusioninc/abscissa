@@ -16,7 +16,7 @@
 //!
 //! # Requirements
 //!
-//! - Rust 1.39+
+//! - Rust 1.45+
 //! - Abscissa 0.5
 //! - Tokio 0.2
 //!
@@ -126,9 +126,8 @@ fn take_runtime<A>(app: &'static AppCell<A>) -> Result<Runtime, FrameworkError>
 where
     A: Application,
 {
-    app.write()
-        .state_mut()
-        .components
+    let mut components = app.state().components_mut();
+    components
         .get_downcast_mut::<TokioComponent>()
         .ok_or_else(|| {
             FrameworkError::from(format_err!(

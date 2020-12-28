@@ -1,10 +1,10 @@
-//! Support for managing global configuration, as well as loading it from TOML
+//! Support for managing global configuration, as well as loading it from TOML.
 
+mod cell;
 mod configurable;
 mod overrides;
-mod reader;
 
-pub use self::{configurable::Configurable, overrides::Override, reader::Reader};
+pub use self::{cell::CfgCell, configurable::Configurable, overrides::Override};
 
 use crate::{
     fs::File,
@@ -15,9 +15,13 @@ use crate::{
 use serde::de::DeserializeOwned;
 use std::{fmt::Debug, io::Read};
 
-/// Trait for Abscissa configuration data structures
+/// Configuration reader.
+#[cfg(feature = "application")]
+pub type Reader<C> = std::sync::Arc<C>;
+
+/// Trait for Abscissa configuration data structures.
 pub trait Config: Debug + Default + DeserializeOwned {
-    /// Load the configuration from the given TOML string
+    /// Load the configuration from the given TOML string.
     fn load_toml(toml_string: impl AsRef<str>) -> Result<Self, FrameworkError>;
 
     /// Load the global configuration from the TOML file at the given path.

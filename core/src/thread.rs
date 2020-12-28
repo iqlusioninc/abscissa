@@ -3,7 +3,7 @@
 //! These types provide simple wrappers for Rust's core threading primitives.
 
 mod kill_switch;
-mod manager;
+pub mod manager;
 mod name;
 
 pub use self::{manager::Manager, name::Name};
@@ -12,12 +12,12 @@ use self::kill_switch::KillSwitch;
 use crate::{FrameworkError, FrameworkErrorKind::ThreadError};
 use std::{io, sync::Arc, thread};
 
+/// Join handles for Abscissa-managed threads.
+pub type JoinHandle = thread::JoinHandle<()>;
+
 /// Threads spawned and managed by Abscissa
 #[derive(Debug)]
-pub struct Thread<T = ()>
-where
-    T: Send + 'static,
-{
+pub struct Thread {
     /// Name of the current thread
     name: Name,
 
@@ -25,20 +25,17 @@ where
     kill_switch: Arc<KillSwitch>,
 
     /// Join handle to the thread
-    handle: thread::JoinHandle<T>,
+    handle: JoinHandle,
 }
 
-impl<T> Thread<T>
-where
-    T: Send + 'static,
-{
+impl Thread {
     /// Spawn a new thread, executing the given runnable
     pub fn spawn<F>(name: Name, f: F) -> Result<Self, FrameworkError>
     where
-        F: FnOnce() -> T + Send + 'static,
+        F: FnOnce() + Send + 'static,
     {
         let kill_switch = Arc::new(KillSwitch::new());
-        let handle = spawn_thread(name.to_string(), Arc::clone(&kill_switch), f)?;
+        let handle = spawn_thread(name.clone(), Arc::clone(&kill_switch), f)?;
 
         Ok(Self {
             name,
@@ -85,16 +82,13 @@ pub fn should_terminate() -> bool {
 }
 
 /// Spawn a thread
-fn spawn_thread<F, T>(
-    name: String,
-    kill_switch: Arc<KillSwitch>,
-    f: F,
-) -> Result<thread::JoinHandle<T>, io::Error>
+fn spawn_thread<F>(name: Name, kill_switch: Arc<KillSwitch>, f: F) -> Result<JoinHandle, io::Error>
 where
-    F: FnOnce() -> T + Send + 'static,
-    T: Send + 'static,
+    F: FnOnce() + Send + 'static,
 {
-    thread::Builder::new().name(name).spawn(move || {
+    // NOTE: `Name` ensures the absence of null bytes, which should prevent the
+    // only condition under which this function could potentially panic.
+    thread::Builder::new().name(name.into()).spawn(move || {
         kill_switch::set(kill_switch);
         f()
     })
