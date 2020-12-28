@@ -118,7 +118,7 @@ where
     A: Application,
     F: Future,
 {
-    take_runtime(app).map(|mut runtime| runtime.block_on(future))
+    take_runtime(app).map(|runtime| runtime.block_on(future))
 }
 
 /// Extract the Tokio [`Runtime`] from [`TokioComponent`].
