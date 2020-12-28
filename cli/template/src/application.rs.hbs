@@ -3,6 +3,7 @@
 use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
 use abscissa_core::{
     application::{self, AppCell},
+    config::{self, CfgCell},
     trace, Application, EntryPoint, FrameworkError, StandardPaths,
 };
 
@@ -13,7 +14,7 @@ pub static APP: AppCell<{{~application_type~}}> = AppCell::new();
 #[derive(Debug)]
 pub struct {{application_type}} {
     /// Application configuration.
-    config: Option<{{~config_type~}}>,
+    config: CfgCell<{{~config_type~}}>,
 
     /// Application state.
     state: application::State<Self>,
@@ -26,7 +27,7 @@ pub struct {{application_type}} {
 impl Default for {{application_type}} {
     fn default() -> Self {
         Self {
-            config: None,
+            config: CfgCell::default(),
             state: application::State::default(),
         }
     }
@@ -43,18 +44,13 @@ impl Application for {{application_type}} {
     type Paths = StandardPaths;
 
     /// Accessor for application configuration.
-    fn config(&self) -> &{{~config_type}} {
-        self.config.as_ref().expect("config not loaded")
+    fn config(&self) -> config::Reader<{{~config_type}}> {
+        self.config.read()
     }
 
     /// Borrow the application state immutably.
     fn state(&self) -> &application::State<Self> {
         &self.state
-    }
-
-    /// Borrow the application state mutably.
-    fn state_mut(&mut self) -> &mut application::State<Self> {
-        &mut self.state
     }
 
     /// Register all components used by this application.
@@ -63,8 +59,9 @@ impl Application for {{application_type}} {
     /// beyond the default ones provided by the framework, this is the place
     /// to do so.
     fn register_components(&mut self, command: &Self::Cmd) -> Result<(), FrameworkError> {
-        let components = self.framework_components(command)?;
-        self.state.components.register(components)
+        let framework_components = self.framework_components(command)?;
+        let mut app_components = self.state.components_mut();
+        app_components.register(framework_components)
     }
 
     /// Post-configuration lifecycle callback.
@@ -74,8 +71,9 @@ impl Application for {{application_type}} {
     /// possible.
     fn after_config(&mut self, config: Self::Cfg) -> Result<(), FrameworkError> {
         // Configure components
-        self.state.components.after_config(&config)?;
-        self.config = Some(config);
+        let mut components = self.state.components_mut();
+        components.after_config(&config)?;
+        self.config.set_once(config);
         Ok(())
     }
 
