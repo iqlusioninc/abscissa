@@ -16,7 +16,7 @@ categories = ["command-line-interface", "config", "rust-patterns"]
 keywords   = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
-abscissa_derive = { version = "0.5", path = "../derive" }
+abscissa_derive = { version = "=0.6.0-pre.1", path = "../derive" }
 arc-swap = { version = "1", optional = true }
 backtrace = "0.3"
 canonical-path = "2"
