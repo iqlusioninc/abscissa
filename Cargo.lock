@@ -3,7 +3,7 @@
 #
 [[package]]
 name = "abscissa"
-version = "0.5.1"
+version = "0.6.0-pre.1"
 dependencies = [
  "abscissa_core",
  "gumdrop",
@@ -15,7 +15,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_core"
-version = "0.5.2"
+version = "0.6.0-pre.1"
 dependencies = [
  "abscissa_derive",
  "arc-swap",
@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_tokio"
-version = "0.5.1"
+version = "0.6.0-pre.1"
 dependencies = [
  "abscissa_core",
  "tokio",
