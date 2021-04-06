@@ -61,7 +61,7 @@ Abscissa presently consists of three crates:
 
 ## Minimum Supported Rust Version
 
-Requires Rust **1.51** or newer.
+Requires Rust **1.54** or newer.
 
 ## Installation
 

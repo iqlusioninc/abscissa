@@ -4,11 +4,17 @@ mod cmd;
 
 pub use cmd::Cmd;
 
-use abscissa_core::{Command, Options, Runnable};
+use abscissa_core::{Clap, Command, Runnable};
+
+#[derive(Debug, Clap, Runnable)]
+enum SubCommands {
+    Cmd(Cmd),
+}
 
 /// `gen` subcommand: code generator functionality
-#[derive(Command, Debug, Options, Runnable)]
-pub enum GenCommand {
+#[derive(Command, Debug, Clap, Runnable)]
+pub struct GenCommand {
     /// Generate a new subcommand
-    Cmd(Cmd),
+    #[clap(subcommand)]
+    cmd: SubCommands,
 }
