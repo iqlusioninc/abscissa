@@ -1,7 +1,7 @@
 //! Generate a new subcommand in an existing application
 
 use crate::{config::target_app_root, error::Error, handlebars_registry, prelude::*};
-use abscissa_core::{fs, Command, Options, Runnable};
+use abscissa_core::{fs, Clap, Command, Runnable};
 use ident_case::RenameRule;
 use serde::Serialize;
 use std::{
@@ -13,14 +13,14 @@ use std::{
 const SUBCOMMAND_TEMPLATE: &str = include_str!("../../../template/src/commands/subcommand.rs.hbs");
 
 /// Generate a new subcommand in an existing application
-#[derive(Command, Debug, Options)]
+#[derive(Command, Debug, Clap)]
 pub struct Cmd {
     /// Path to the application's `Cargo.toml`
-    #[options(help = "path to the application's Cargo.toml")]
+    #[clap(long, short)]
     manifest_path: Option<PathBuf>,
 
     /// Names of the commands
-    #[options(free)]
+    #[clap()]
     names: Vec<String>,
 }
 

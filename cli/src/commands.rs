@@ -4,25 +4,35 @@ pub mod gen;
 pub mod new;
 pub mod version;
 
-use self::{gen::GenCommand, new::NewCommand, version::VersionCommand};
+use self::{gen::GenCommand, new::NewCommand};
 use super::config::CliConfig;
-use abscissa_core::{Command, Configurable, Help, Options, Runnable};
+use abscissa_core::{Clap, Command, Configurable, Runnable};
 use std::path::PathBuf;
 
-/// Abscissa CLI Subcommands
-#[derive(Command, Debug, Options, Runnable)]
-pub enum CliCommand {
-    #[options(help = "generate a new module in an existing app")]
+#[derive(Debug, Clap, Runnable)]
+enum SubCommands {
+    /// generate a new module in an existing app
     Gen(GenCommand),
 
-    #[options(help = "show help for a command")]
-    Help(Help<Self>),
-
-    #[options(help = "create a new Abscissa application from a template")]
+    /// Create a new Abscissa application from a template
     New(NewCommand),
+}
 
-    #[options(help = "display version information")]
-    Version(VersionCommand),
+/// Abscissa CLI Subcommands
+#[derive(Command, Debug, Clap)]
+pub struct CliCommand {
+    #[clap(subcommand)]
+    subcmd: SubCommands,
+
+    /// Enable verbose mode
+    #[clap(short, long)]
+    pub verbose: bool,
+}
+
+impl Runnable for CliCommand {
+    fn run(&self) {
+        self.subcmd.run()
+    }
 }
 
 impl Configurable<CliConfig> for CliCommand {

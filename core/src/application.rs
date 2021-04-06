@@ -179,8 +179,7 @@ pub trait Application: Default + Sized + 'static {
 /// Boot the given application, parsing subcommand and options from
 /// command-line arguments, and terminating when complete.
 pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
-    let mut args = env::args();
-    assert!(args.next().is_some(), "expected one argument but got zero");
+    let args = env::args();
     A::run(app_cell, args);
     process::exit(0);
 }
