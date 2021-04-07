@@ -18,7 +18,6 @@ use crate::{
     trace::{self, Tracing},
     FrameworkError,
     FrameworkErrorKind::*,
-    Version,
 };
 use std::{env, path::Path, process, vec};
 
@@ -140,13 +139,6 @@ pub trait Application: Default + Sized + 'static {
     /// Description of this application.
     fn description(&self) -> &'static str {
         Self::Cmd::description()
-    }
-
-    /// Version of this application.
-    fn version(&self) -> Version {
-        Self::Cmd::version()
-            .parse::<Version>()
-            .unwrap_or_else(|e| fatal_error(self, &e))
     }
 
     /// Authors of this application.

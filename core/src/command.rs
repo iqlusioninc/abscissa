@@ -17,9 +17,6 @@ pub trait Command: Debug + Clap + Runnable {
     /// Description of this program
     fn description() -> &'static str;
 
-    /// Version of this program
-    fn version() -> &'static str;
-
     /// Authors of this program
     fn authors() -> &'static str;
 

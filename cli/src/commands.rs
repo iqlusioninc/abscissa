@@ -2,7 +2,6 @@
 
 pub mod gen;
 pub mod new;
-pub mod version;
 
 use self::{gen::GenCommand, new::NewCommand};
 use super::config::CliConfig;
@@ -20,6 +19,7 @@ enum SubCommands {
 
 /// Abscissa CLI Subcommands
 #[derive(Command, Debug, Clap)]
+#[clap(author, about, version)]
 pub struct CliCommand {
     #[clap(subcommand)]
     subcmd: SubCommands,
