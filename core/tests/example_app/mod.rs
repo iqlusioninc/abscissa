@@ -1,7 +1,7 @@
 //! Example application used for testing purposes
 
 use abscissa_core::{
-    application, config, Application, Command, Configurable, FrameworkError, Options, Runnable,
+    application, config, Application, Clap, Command, Configurable, FrameworkError, Runnable,
     StandardPaths,
 };
 use serde::{Deserialize, Serialize};
@@ -10,7 +10,7 @@ use std::path::PathBuf;
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ExampleConfig {}
 
-#[derive(Command, Debug, Options)]
+#[derive(Command, Debug, Clap)]
 pub struct ExampleCommand {}
 
 impl Configurable<ExampleConfig> for ExampleCommand {

@@ -10,7 +10,7 @@ use crate::{
 };
 use abscissa_core::{
     fs::{self, File},
-    status_err, status_info, status_ok, status_warn, Command, Options, Runnable,
+    status_err, status_info, status_ok, status_warn, Clap, Command, Runnable,
 };
 use ident_case::RenameRule;
 use std::{
@@ -21,19 +21,18 @@ use std::{
 };
 
 /// `new` subcommand - generate a new Abscissa application
-#[derive(Command, Debug, Default, Options)]
+#[derive(Command, Debug, Default, Clap)]
 pub struct NewCommand {
+    /// Path to the newly generated application
+    app_path: Option<PathBuf>,
+
     /// Overwrite files that already exist
-    #[options(help = "overwrite existing files")]
+    #[clap(short, long)]
     force: bool,
 
     /// Add a `[patch.crates-io]` section to Cargo.toml
-    #[options(no_short, help = "add patch.crates-io to Cargo.toml")]
+    #[clap(short, long)]
     patch_crates_io: Option<String>,
-
-    /// Path to the newly generated application
-    #[options(free)]
-    app_path: Option<PathBuf>,
 }
 
 impl Runnable for NewCommand {

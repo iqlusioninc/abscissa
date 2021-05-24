@@ -1,10 +1,10 @@
 //! {{title}} Abscissa Application
 
-use crate::{commands::{{~command_type~}}, config::{{~config_type~}}};
+use crate::{commands::EntryPoint, config::{{~config_type~}}};
 use abscissa_core::{
     application::{self, AppCell},
     config::{self, CfgCell},
-    trace, Application, EntryPoint, FrameworkError, StandardPaths,
+    trace, Application, FrameworkError, StandardPaths,
 };
 
 /// Application state
@@ -35,7 +35,7 @@ impl Default for {{application_type}} {
 
 impl Application for {{application_type}} {
     /// Entrypoint command for this application.
-    type Cmd = EntryPoint<{{~command_type~}}>;
+    type Cmd = EntryPoint;
 
     /// Application configuration.
     type Cfg = {{config_type~}};
@@ -78,7 +78,7 @@ impl Application for {{application_type}} {
     }
 
     /// Get tracing configuration from command-line options
-    fn tracing_config(&self, command: &EntryPoint<{{~command_type~}}>) -> trace::Config {
+    fn tracing_config(&self, command: &EntryPoint) -> trace::Config {
         if command.verbose {
             trace::Config::verbose()
         } else {

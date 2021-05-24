@@ -1,16 +1,12 @@
 //! Custom derive support for `abscissa_core::command::Command`.
 
-use ident_case::RenameRule;
 use proc_macro2::TokenStream;
 use quote::quote;
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::command::Command`
 pub fn derive_command(s: Structure<'_>) -> TokenStream {
-    let subcommand_usage = match &s.ast().data {
-        syn::Data::Enum(data) => impl_subcommand_usage_for_enum(data),
-        _ => quote!(),
-    };
+    let subcommand_usage = quote!();
 
     s.gen_impl(quote! {
         gen impl Command for @Self {
@@ -24,11 +20,6 @@ pub fn derive_command(s: Structure<'_>) -> TokenStream {
                 env!("CARGO_PKG_DESCRIPTION").trim()
             }
 
-            #[doc = "Version of this program"]
-            fn version() -> &'static str {
-                env!("CARGO_PKG_VERSION")
-            }
-
             #[doc = "Authors of this program"]
             fn authors() -> &'static str {
                 env!("CARGO_PKG_AUTHORS")
@@ -37,43 +28,6 @@ pub fn derive_command(s: Structure<'_>) -> TokenStream {
             #subcommand_usage
         }
     })
-}
-
-/// Impl `subcommand_usage` which walks the enum variants and returns
-/// usage info for them.
-fn impl_subcommand_usage_for_enum(data: &syn::DataEnum) -> TokenStream {
-    let match_arms = data.variants.iter().map(|variant| {
-        // TODO(tarcieri): support `#[options(name = "...")]` attribute
-        let name = RenameRule::KebabCase.apply_to_variant(variant.ident.to_string());
-
-        let subcommand = match &variant.fields {
-            syn::Fields::Unnamed(fields) => {
-                if fields.unnamed.len() == 1 {
-                    Some(&fields.unnamed.first().unwrap().ty)
-                } else {
-                    None
-                }
-            }
-            syn::Fields::Unit | syn::Fields::Named(_) => None,
-        }
-        .unwrap_or_else(|| panic!("command variants must be unary tuples"));
-
-        quote! {
-            #name => {
-                Some(abscissa_core::command::Usage::for_command::<#subcommand>())
-            }
-        }
-    });
-
-    quote! {
-        #[doc = "get usage information for the named subcommand"]
-        fn subcommand_usage(command: &str) -> Option<abscissa_core::command::Usage> {
-            match command {
-                #(#match_arms)*
-                _ => None
-            }
-        }
-    }
 }
 
 #[cfg(test)]
@@ -99,11 +53,6 @@ mod tests {
                         #[doc = "Description of this program"]
                         fn description () -> & 'static str {
                             env!("CARGO_PKG_DESCRIPTION" ).trim()
-                        }
-
-                        #[doc = "Version of this program"]
-                        fn version() -> & 'static str {
-                            env!( "CARGO_PKG_VERSION")
                         }
 
                         #[doc = "Authors of this program"]
@@ -141,30 +90,9 @@ mod tests {
                             env!("CARGO_PKG_DESCRIPTION" ).trim()
                         }
 
-                        #[doc = "Version of this program"]
-                        fn version() -> & 'static str {
-                            env!( "CARGO_PKG_VERSION")
-                        }
-
                         #[doc = "Authors of this program"]
                         fn authors() -> & 'static str {
                             env!("CARGO_PKG_AUTHORS")
-                        }
-
-                        #[doc = "get usage information for the named subcommand"]
-                        fn subcommand_usage(command: &str) -> Option <abscissa_core::command::Usage > {
-                            match command {
-                                "foo" => {
-                                    Some(abscissa_core::command::Usage::for_command::<A>())
-                                }
-                                "bar" => {
-                                    Some(abscissa_core::command::Usage::for_command::<B>())
-                                }
-                                "baz" => {
-                                    Some(abscissa_core::command::Usage::for_command::<C>())
-                                }
-                                _ => None
-                            }
                         }
                     }
                 };

@@ -18,7 +18,6 @@ use crate::{
     trace::{self, Tracing},
     FrameworkError,
     FrameworkErrorKind::*,
-    Version,
 };
 use std::{env, path::Path, process, vec};
 
@@ -142,13 +141,6 @@ pub trait Application: Default + Sized + 'static {
         Self::Cmd::description()
     }
 
-    /// Version of this application.
-    fn version(&self) -> Version {
-        Self::Cmd::version()
-            .parse::<Version>()
-            .unwrap_or_else(|e| fatal_error(self, &e))
-    }
-
     /// Authors of this application.
     fn authors(&self) -> Vec<String> {
         Self::Cmd::authors().split(':').map(str::to_owned).collect()
@@ -179,8 +171,7 @@ pub trait Application: Default + Sized + 'static {
 /// Boot the given application, parsing subcommand and options from
 /// command-line arguments, and terminating when complete.
 pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
-    let mut args = env::args();
-    assert!(args.next().is_some(), "expected one argument but got zero");
+    let args = env::args();
     A::run(app_cell, args);
     process::exit(0);
 }

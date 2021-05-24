@@ -1,26 +1,25 @@
 //! `{{~name_lower~}}` subcommand
 
-use abscissa_core::{Command, Options, Runnable};
+use abscissa_core::{Command, Clap, Runnable};
 
 /// `{{~name_lower~}}` subcommand
 ///
-/// The `Options` proc macro generates an option parser based on the struct
-/// definition, and is defined in the `gumdrop` crate. See their documentation
+/// The `Clap` proc macro generates an option parser based on the struct
+/// definition, and is defined in the `clap` crate. See their documentation
 /// for a more comprehensive example:
 ///
-/// <https://docs.rs/gumdrop/>
-#[derive(Command, Debug, Options)]
+/// <https://docs.rs/clap/>
+#[derive(Command, Debug, Clap)]
 pub struct {{name_capital}} {
-    // Example `--foobar` (with short `-f` argument)
-    // #[options(short = "f", help = "foobar path"]
+    // /// Option foobar. Doc comments are the help description
+    // #[clap(short)]
     // foobar: Option<PathBuf>
 
-    // Example `--baz` argument with no short version
-    // #[options(no_short, help = "baz path")]
+    // /// Baz path
+    // #[clap(long)]
     // baz: Option<PathBuf>
 
-    // "free" arguments don't have an associated flag
-    // #[options(free)]
+    // "free" arguments don't need a macro
     // free_args: Vec<String>,
 }
 

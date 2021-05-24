@@ -4,7 +4,7 @@ use super::{commands::CliCommand, config::CliConfig};
 use abscissa_core::{
     application::{AppCell, State},
     config::{self, CfgCell},
-    trace, Application, EntryPoint, FrameworkError, StandardPaths,
+    trace, Application, FrameworkError, StandardPaths,
 };
 
 /// Application state
@@ -21,7 +21,7 @@ pub struct CliApplication {
 }
 
 impl Application for CliApplication {
-    type Cmd = EntryPoint<CliCommand>;
+    type Cmd = CliCommand;
     type Cfg = CliConfig;
     type Paths = StandardPaths;
 
@@ -46,7 +46,7 @@ impl Application for CliApplication {
         Ok(())
     }
 
-    fn tracing_config(&self, command: &EntryPoint<CliCommand>) -> trace::Config {
+    fn tracing_config(&self, command: &CliCommand) -> trace::Config {
         if command.verbose {
             trace::Config::verbose()
         } else {

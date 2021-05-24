@@ -30,7 +30,6 @@ const DEFAULT_TEMPLATE_FILES: &[(&str, &str)] = &[
     template!("src/bin/app/main.rs.hbs"),
     template!("src/commands.rs.hbs"),
     template!("src/commands/start.rs.hbs"),
-    template!("src/commands/version.rs.hbs"),
     template!("src/config.rs.hbs"),
     template!("src/error.rs.hbs"),
     template!("src/lib.rs.hbs"),
