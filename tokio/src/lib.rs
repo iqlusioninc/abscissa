@@ -122,18 +122,21 @@ where
 }
 
 #[cfg(feature = "actix")]
-/// Run a [`Future`] on the [`Runtime`] with the additional functionality of the actix runtime 
+/// Run a [`Future`] on the [`Runtime`] with the additional functionality of the actix runtime
 /// for the provided [`Application`].
 ///
 /// This requires that [`TokioComponent`] has been registered with the given
 /// application, and can only be called once after the application has fully
 /// booted.
-pub fn run_with_actix<A, F>(app: &'static AppCell<A>, future: F) -> Result<F::Output, FrameworkError>
+pub fn run_with_actix<A, F>(
+    app: &'static AppCell<A>,
+    future: F,
+) -> Result<F::Output, FrameworkError>
 where
     A: Application,
     F: Future,
 {
-    Ok(actix_rt::System::with_tokio_rt(|| {take_runtime(app).unwrap()}).block_on(future))
+    Ok(actix_rt::System::with_tokio_rt(|| take_runtime(app).unwrap()).block_on(future))
 }
 
 /// Extract the Tokio [`Runtime`] from [`TokioComponent`].
