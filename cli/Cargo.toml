@@ -17,7 +17,7 @@ keywords   = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
 gumdrop = "0.7"
-handlebars = "3"
+handlebars = "4"
 ident_case = "1"
 serde = { version = "1", features = ["serde_derive"] }
 
