@@ -92,9 +92,10 @@
 //! [`Runnable`]: https://docs.rs/abscissa_core/latest/abscissa_core/trait.Runnable.html
 //! [`abscissa_tokio::run`]: https://docs.rs/abscissa_tokio/latest/abscissa_tokio/fn.run.html
 
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_tokio/0.5.1"
+    html_root_url = "https://docs.rs/abscissa_tokio/0.6.0-pre.2"
 )]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
@@ -121,13 +122,14 @@ where
     take_runtime(app).map(|runtime| runtime.block_on(future))
 }
 
-#[cfg(feature = "actix")]
 /// Run a [`Future`] on the [`Runtime`] with the additional functionality of the actix runtime
 /// for the provided [`Application`].
 ///
 /// This requires that [`TokioComponent`] has been registered with the given
 /// application, and can only be called once after the application has fully
 /// booted.
+#[cfg(feature = "actix")]
+#[cfg_attr(docsrs, doc(cfg(feature = "actix")))]
 pub fn run_with_actix<A, F>(
     app: &'static AppCell<A>,
     future: F,
