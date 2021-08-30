@@ -1,2 +1,3 @@
 [workspace]
 members = ["core", "cli", "derive", "tokio"]
+resolver = "2"
