@@ -16,9 +16,9 @@
 //!
 //! # Requirements
 //!
-//! - Rust 1.45+
-//! - Abscissa 0.5
-//! - Tokio 0.2
+//! - Rust 1.51 or newer
+//! - Abscissa 0.6
+//! - Tokio 1.x
 //!
 //! # Usage
 //!
