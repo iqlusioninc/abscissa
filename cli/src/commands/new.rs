@@ -42,6 +42,7 @@ impl Runnable for NewCommand {
         let started_at = Instant::now();
         let app_properties = self.parse_options().unwrap_or_else(|e| fatal_error(e));
         let app_template = Collection::default();
+        let branch_name = "main";
 
         self.create_parent_directory()
             .unwrap_or_else(|e| fatal_error(e));
@@ -56,7 +57,8 @@ impl Runnable for NewCommand {
         }
 
         // TODO(tarcieri): make this optional?
-        self.run_git_init().unwrap_or_else(|e| fatal_error(e));
+        self.run_git_init(branch_name)
+            .unwrap_or_else(|e| fatal_error(e));
 
         // TODO(tarcieri): make this optional?
         self.generate_lockfile().unwrap_or_else(|e| fatal_error(e));
@@ -173,7 +175,7 @@ impl NewCommand {
     }
 
     /// Run `git init` on the resulting directory
-    fn run_git_init(&self) -> Result<(), Error> {
+    fn run_git_init(&self, branch_name: &str) -> Result<(), Error> {
         let path = self.app_path()?;
 
         if path.join(".git").exists() {
@@ -185,6 +187,8 @@ impl NewCommand {
         let status = process::Command::new("git")
             .stdout(process::Stdio::null())
             .arg("init")
+            .arg("-b")
+            .arg(branch_name)
             .arg(path)
             .status();
 
