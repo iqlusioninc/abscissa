@@ -52,7 +52,7 @@ impl Runnable for NewCommand {
         template_files.sort_by(|a, b| a.name().cmp(b.name()));
 
         for template_file in &template_files {
-            self.render_template_file(&app_template, &template_file, &app_properties)
+            self.render_template_file(&app_template, template_file, &app_properties)
                 .unwrap_or_else(|e| fatal_error(e));
         }
 
@@ -168,7 +168,7 @@ impl NewCommand {
             )
         })?;
 
-        app_template.render(template_file, &app_properties, &mut output_file)?;
+        app_template.render(template_file, app_properties, &mut output_file)?;
         status_ok!("Created", "new file: {}", output_path_rel.display());
 
         Ok(())
