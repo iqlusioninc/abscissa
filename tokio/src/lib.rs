@@ -14,12 +14,6 @@
 //! allowing other application components to express they have a Tokio dependency
 //! so Abscissa can inject the Tokio component as a dependency.
 //!
-//! # Requirements
-//!
-//! - Rust 1.51 or newer
-//! - Abscissa 0.6
-//! - Tokio 1.x
-//!
 //! # Usage
 //!
 //! ## Defining Abscissa components that depends on Tokio

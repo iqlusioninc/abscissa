@@ -138,7 +138,7 @@ pub mod trace;
 // Proc macros
 
 #[cfg(feature = "options")]
-pub use gumdrop::Options;
+pub use clap::Clap;
 
 // Re-exports
 
@@ -159,10 +159,7 @@ pub use crate::{
 pub use crate::config::{Config, Configurable};
 
 #[cfg(feature = "options")]
-pub use crate::{
-    command::{Command, EntryPoint, Help},
-    path::StandardPaths,
-};
+pub use crate::{command::Command, path::StandardPaths};
 
 // Re-exported modules/types from third-party crates
 

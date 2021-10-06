@@ -15,7 +15,7 @@ const APP_NAME: &str = "abscissa_gen_test_app";
 const TEST_COMMANDS: &[&str] = &[
     "fmt -- --check",
     "test --release",
-    "run -- version",
+    "run -- --version",
     "clippy",
 ];
 
