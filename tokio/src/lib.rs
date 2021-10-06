@@ -89,7 +89,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_tokio/0.6.0-pre.2"
+    html_root_url = "https://docs.rs/abscissa_tokio/0.6.0-pre.3"
 )]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]

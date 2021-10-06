@@ -5,7 +5,7 @@ version = 3
 
 [[package]]
 name = "abscissa"
-version = "0.6.0-pre.1"
+version = "0.6.0-pre.2"
 dependencies = [
  "abscissa_core",
  "clap",
@@ -17,7 +17,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_core"
-version = "0.6.0-pre.1"
+version = "0.6.0-pre.2"
 dependencies = [
  "abscissa_derive",
  "arc-swap",
@@ -42,7 +42,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_derive"
-version = "0.6.0-pre.1"
+version = "0.6.0-pre.2"
 dependencies = [
  "darling",
  "ident_case",
@@ -54,7 +54,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_tokio"
-version = "0.6.0-pre.2"
+version = "0.6.0-pre.3"
 dependencies = [
  "abscissa_core",
  "actix-rt",
