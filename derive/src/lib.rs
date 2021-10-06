@@ -3,7 +3,7 @@
 #![crate_type = "proc-macro"]
 #![doc(
     html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg",
-    html_root_url = "https://docs.rs/abscissa_derive/0.5.0"
+    html_root_url = "https://docs.rs/abscissa_derive/0.6.0-pre.2"
 )]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
