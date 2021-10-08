@@ -265,6 +265,124 @@ so you only compile the parts you need.
 
 **A2**: Imagine you're A-B testing a couple of scissors... with attitude.
 
+## Migrating to Abscissa 0.6.0-pre.2
+
+The `Abscissa 0.6.0-pre.2` now uses `clap v3` for command-line argument parsing. This is because `Clap` automatically handles things like `version`, `help` subcommands, and `flags` thereby providing a friendly help screen.
+
+To migrate to the `0.6.0-pre.2` version from other versions, add the `0.6.0-pre.2` version of `abscissa_core` in your `cargo.toml` file.
+
+```
+[dev-dependencies]
+abscissa_core = "0.6.0-pre.2"
+
+[dependencies.abscissa_core]
+version = "0.6.0-pre.2"
+```
+
+Now, replace `gumdrop` with `clapv3` in the dependencies section of your `cargo.toml` file.
+
+```
+clap = "3.0.0-beta.4"
+```
+
+`Clapv3` doesn't support `Option`, replace `Option` with `Clap` in your `commands` folder and `commands.rs` file.
+
+- Use Doc comments in commands and subcommands structs for help messages;
+
+```
+/// Command help message
+#[derive(Command, Debug, Default, Clap)]
+pub struct Command {
+  // This is a free command
+    #[clap()]
+    pub args: Vec<String>,
+  // This accepts short and long flags
+    #[clap(short, long)]
+    pub overwrite: bool,
+}
+```
+
+- Create an entry point for your application in the `commands.rs` file. 
+
+```
+/// Entry point for the application. It needs to be a struct to allow using subcommands!
+#[derive(Command, Debug, Clap)]
+#[clap(author, about, version)]
+pub struct EntryPoint {
+    #[clap(subcommand)]
+    // Replace this with you app name
+    cmd: AppCmd,
+
+    /// Enable verbose logging
+    #[clap(short, long)]
+    pub verbose: bool,
+
+    /// Use the specified config file
+    #[clap(short, long)]
+    pub config: Option<String>,
+}
+
+impl Runnable for EntryPoint {
+    fn run(&self) {
+        self.cmd.run()
+    }
+}
+```
+
+- In your `commands.rs` file, replace the code below with Entrypoint.
+
+```
+// Where App is the name of your Application
+impl Configurable<AppConfig> for AppCmd
+```
+
+The code above becomes:
+
+```
+impl Configurable<AppConfig> for EntryPoint
+```
+
+- Remove the `version` command from your application.
+
+In `application.rs`, replace `AppCmd` with `EntryPoint`
+
+```
+// Remove this
+use crate::{commands::AppCmd, config::GorcConfig};
+
+// Replace with this
+use crate::{commands::EntryPoint, config::GorcConfig};
+
+// Remove this
+type Cmd = AppCmd;
+
+// Replace with this
+type Cmd = EntryPoint;
+
+// Remove this
+fn tracing_config(&self, command: &AppCmd) -> trace::Config {
+
+// Replace with this
+fn tracing_config(&self, command: &EntryPoint) -> trace::Config {
+```
+
+- Finally, replace the `version` argument to a `flag` in your `tests/acceptance.rs` file
+
+```
+// Remove this
+let mut cmd = runner.arg("version").capture_stdout().run();
+
+// Replace with this
+let mut cmd = runner.arg("--version").capture_stdout().run();
+```
+
+To install the `0.6.0-pre.2` version of Abscissa in your local machine, run the command below.
+
+```
+cargo install abscissa --version 0.6.0-pre.2
+```
+
+
 ## Testing Framework Changes
 
 The main way to test framework changes is by generating an application with
