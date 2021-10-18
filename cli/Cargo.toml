@@ -17,7 +17,7 @@ keywords   = ["abscissa", "cli", "application", "framework", "service"]
 
 [dependencies]
 abscissa_core = { version = "=0.6.0-pre.2", path = "../core" }
-clap = "3.0.0-beta.4"
+clap = "3.0.0-beta.5"
 handlebars = "4"
 ident_case = "1"
 serde = { version = "1", features = ["serde_derive"] }
