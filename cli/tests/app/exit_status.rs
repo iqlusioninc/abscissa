@@ -11,7 +11,7 @@ pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| CmdRunner::default());
 #[test]
 fn no_args() {
     let mut runner = RUNNER.clone();
-    runner.capture_stdout().status().expect_code(0);
+    runner.capture_stdout().status().expect_code(2);
 }
 
 #[test]
