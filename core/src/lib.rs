@@ -138,7 +138,7 @@ pub mod trace;
 // Proc macros
 
 #[cfg(feature = "options")]
-pub use clap::Clap;
+pub use clap::Parser as Clap;
 
 // Re-exports
 
