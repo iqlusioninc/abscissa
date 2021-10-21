@@ -23,10 +23,10 @@ macro_rules! format_err {
 #[macro_export]
 macro_rules! fail {
     ($kind:expr, $msg:expr) => {
-        return Err(format_err!($kind, $msg).into());
+        return Err(format_err!($kind, $msg).into())
     };
     ($kind:expr, $fmt:expr, $($arg:tt)+) => {
-        fail!($kind, &format!($fmt, $($arg)+));
+        fail!($kind, &format!($fmt, $($arg)+))
     };
 }
 
