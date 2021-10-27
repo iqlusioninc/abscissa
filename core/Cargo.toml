@@ -37,7 +37,7 @@ tracing-log = { version = "0.1", optional = true }
 wait-timeout = { version = "0.2", optional = true }
 
 [dependencies.tracing-subscriber]
-version = "0.2"
+version = "0.3"
 optional = true
 default-features = false
 features = ["fmt", "env-filter", "ansi", "smallvec", "tracing-log"]
