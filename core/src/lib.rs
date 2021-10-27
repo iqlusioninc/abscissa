@@ -163,8 +163,6 @@ pub use crate::{command::Command, path::StandardPaths};
 
 // Re-exported modules/types from third-party crates
 
-#[cfg(feature = "time")]
-pub use chrono as time;
 pub use fs_err as fs;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;

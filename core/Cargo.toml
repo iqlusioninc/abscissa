@@ -21,7 +21,6 @@ abscissa_derive = { version = "=0.6.0-pre.2", path = "../derive" }
 arc-swap = { version = "1", optional = true }
 backtrace = "0.3"
 canonical-path = "2"
-chrono = { version = "0.4", optional = true, features = ["serde"] }
 color-eyre = { version = "0.5", optional = true, default-features = false }
 fs-err = "2"
 clap = { version = "=3.0.0-beta.5", optional = true }
@@ -48,7 +47,6 @@ default = [
     "application",
     "secrets",
     "testing",
-    "time"
 ]
 application = [
     "arc-swap",
@@ -64,9 +62,12 @@ config = [
     "terminal",
     "toml"
 ]
-trace = ["tracing", "tracing-log", "tracing-subscriber"]
 options = ["clap"]
 secrets = ["secrecy"]
 terminal = ["color-eyre", "termcolor"]
 testing = ["regex", "wait-timeout"]
-time = ["chrono"]
+trace = [
+    "tracing",
+    "tracing-log",
+    "tracing-subscriber"
+]
