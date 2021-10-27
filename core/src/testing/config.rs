@@ -1,9 +1,6 @@
 //! Support for writing config files and using them in tests
 
-use crate::{
-    fs::{self, File, OpenOptions},
-    time::Utc,
-};
+use crate::fs::{self, File, OpenOptions};
 use serde::Serialize;
 use std::{
     env,
@@ -48,16 +45,10 @@ impl ConfigFile {
     /// Create a temporary filename for the config
     fn open(app_name: &OsStr) -> (PathBuf, File) {
         // TODO: fully `OsString`-based path building
-        let filename_prefix = app_name.to_string_lossy().to_string()
-            + &Utc::now().format("-%Y-%m-%d-%H%M%S").to_string();
+        let filename_prefix = app_name.to_string_lossy().to_string();
 
         for n in 0..FILE_CREATE_ATTEMPTS {
-            let filename = if n == 0 {
-                format!("{}.toml", &filename_prefix)
-            } else {
-                format!("{}-{}.toml", &filename_prefix, n)
-            };
-
+            let filename = format!("{}-{}.toml", &filename_prefix, n);
             let path = env::temp_dir().join(filename);
 
             match OpenOptions::new().write(true).create_new(true).open(&path) {
