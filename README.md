@@ -42,9 +42,9 @@ or network/web services), aiming to provide a large number of features with a
 - [Canister]: deployment utility for "distroless" containers/microVMs
 - [cargo-audit]: audit Cargo projects for security vulnerabilities
 - [cargo-rpm]: build RPMs out of Cargo projects
+- [cosmon]: observability tool for Tendermint applications
 - [ibc-rs](https://github.com/informalsystems/ibc-rs): Rust implementation of Interblockchain Communication (IBC) modules and relayer
 - [OpenLibra]: open platform for financial inclusion. Not run by Facebook.
-- [Sagan]: observability tool for Tendermint applications
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
 - [Tendermint KMS]: key management system for Tendermint applications
 - [Zebra]: Rust implementation of a Zcash node
@@ -61,7 +61,7 @@ Abscissa presently consists of three crates:
 
 ## Minimum Supported Rust Version
 
-Requires Rust **1.54** or newer.
+Requires Rust **1.56** or newer.
 
 ## Installation
 
@@ -347,7 +347,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[rustc-image]: https://img.shields.io/badge/rustc-1.45+-blue.svg
+[rustc-image]: https://img.shields.io/badge/rustc-1.56+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
 [build-image]: https://github.com/iqlusioninc/abscissa/workflows/cli/badge.svg?branch=main&event=push
@@ -370,8 +370,8 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [Canister]:  https://github.com/iqlusioninc/canister
 [cargo-audit]: https://github.com/rustsec/cargo-audit
 [cargo-rpm]: https://github.com/rustrpm/cargo-rpm
+[cosmon]: https://github.com/iqlusioninc/cosmon
 [OpenLibra]: https://github.com/open-libra/cli
-[Sagan]: https://github.com/iqlusioninc/sagan
 [Synchronicity]: https://github.com/iqlusioninc/synchronicity
 [Zebra]: https://github.com/ZcashFoundation/zebra
 [Zerostash]: https://github.com/rsdy/zerostash
