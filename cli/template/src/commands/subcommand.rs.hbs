@@ -1,15 +1,16 @@
 //! `{{~name_lower~}}` subcommand
 
-use abscissa_core::{Command, Clap, Runnable};
+use abscissa_core::{Command, Runnable};
+use clap::Parser;
 
 /// `{{~name_lower~}}` subcommand
 ///
-/// The `Clap` proc macro generates an option parser based on the struct
+/// The `Parser` proc macro generates an option parser based on the struct
 /// definition, and is defined in the `clap` crate. See their documentation
 /// for a more comprehensive example:
 ///
 /// <https://docs.rs/clap/>
-#[derive(Command, Debug, Clap)]
+#[derive(Command, Debug, Parser)]
 pub struct {{name_capital}} {
     // /// Option foobar. Doc comments are the help description
     // #[clap(short)]

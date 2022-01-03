@@ -5,10 +5,10 @@ pub mod new;
 
 use self::{gen::GenCommand, new::NewCommand};
 use super::config::CliConfig;
-use abscissa_core::{Clap, Command, Configurable, Runnable};
+use abscissa_core::{clap::Parser, Command, Configurable, Runnable};
 use std::path::PathBuf;
 
-#[derive(Debug, Clap, Runnable)]
+#[derive(Debug, Parser, Runnable)]
 enum SubCommands {
     /// generate a new module in an existing app
     Gen(GenCommand),
@@ -18,7 +18,7 @@ enum SubCommands {
 }
 
 /// Abscissa CLI Subcommands
-#[derive(Command, Debug, Clap)]
+#[derive(Command, Debug, Parser)]
 #[clap(author, about, version)]
 pub struct CliCommand {
     #[clap(subcommand)]

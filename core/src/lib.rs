@@ -135,11 +135,6 @@ pub mod thread;
 #[cfg(feature = "trace")]
 pub mod trace;
 
-// Proc macros
-
-#[cfg(feature = "options")]
-pub use clap::Parser as Clap;
-
 // Re-exports
 
 pub use crate::{
@@ -163,6 +158,8 @@ pub use crate::{command::Command, path::StandardPaths};
 
 // Re-exported modules/types from third-party crates
 
+#[cfg(feature = "options")]
+pub use clap;
 pub use fs_err as fs;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;

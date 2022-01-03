@@ -9,8 +9,9 @@ use crate::{
     template::{Collection, Template},
 };
 use abscissa_core::{
+    clap::Parser,
     fs::{self, File},
-    status_err, status_info, status_ok, status_warn, Clap, Command, Runnable,
+    status_err, status_info, status_ok, status_warn, Command, Runnable,
 };
 use ident_case::RenameRule;
 use std::{
@@ -21,7 +22,7 @@ use std::{
 };
 
 /// `new` subcommand - generate a new Abscissa application
-#[derive(Command, Debug, Default, Clap)]
+#[derive(Command, Debug, Default, Parser)]
 pub struct NewCommand {
     /// Path to the newly generated application
     app_path: Option<PathBuf>,
