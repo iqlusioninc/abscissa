@@ -1,16 +1,13 @@
 //! Custom derive support for `abscissa_core::component::Component`.
 
-use darling::{FromDeriveInput, FromMeta};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
+use syn::{DeriveInput, Lit, Meta, MetaList, MetaNameValue, NestedMeta};
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::component::Component`
 pub fn derive_component(s: Structure<'_>) -> TokenStream {
-    let attrs = ComponentAttributes::from_derive_input(s.ast()).unwrap_or_else(|e| {
-        panic!("error parsing component attributes: {}", e);
-    });
-
+    let attrs = ComponentAttributes::from_derive_input(s.ast());
     let name = &s.ast().ident;
     let abscissa_core = attrs.abscissa_core_crate();
     let dependency_methods = attrs.dependency_methods();
@@ -37,22 +34,50 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
 }
 
 /// Parsed `#[component(...)]` attribute fields
-#[derive(Debug, FromDeriveInput)]
-#[darling(attributes(component))]
+#[derive(Debug)]
 struct ComponentAttributes {
     /// Special attribute used by `abscissa_core` to `derive(Component)`.
     ///
     /// Workaround for using custom derive on traits defined in the same crate:
     /// <https://github.com/rust-lang/rust/issues/54363>
-    #[darling(default)]
     core: bool,
 
     /// Dependent components to inject into the current component
-    #[darling(multiple)]
     inject: Vec<InjectAttribute>,
 }
 
 impl ComponentAttributes {
+    /// Parse component attributes from custom derive input.
+    pub fn from_derive_input(input: &DeriveInput) -> Self {
+        let mut core = false;
+        let mut inject = Vec::new();
+
+        for attr in &input.attrs {
+            if !attr.path.is_ident("component") {
+                continue;
+            }
+
+            match attr.parse_meta().expect("error parsing meta") {
+                Meta::List(MetaList { nested, .. }) => {
+                    for meta in &nested {
+                        match meta {
+                            NestedMeta::Meta(Meta::Path(path)) if path.is_ident("core") => {
+                                core = true
+                            }
+                            NestedMeta::Meta(Meta::NameValue { .. }) => {
+                                inject.push(InjectAttribute::from_nested_meta(meta))
+                            }
+                            _ => panic!("malformed `component` attribute: {:?}", meta),
+                        }
+                    }
+                }
+                other => panic!("malformed `component` attribute: {:?}", other),
+            };
+        }
+
+        Self { core, inject }
+    }
+
     /// Ident for the `abscissa_core` crate.
     ///
     /// Allows `abscissa_core` itself to override this so it can consume its
@@ -98,12 +123,24 @@ impl ComponentAttributes {
 }
 
 /// Attribute declaring a dependency which should be injected
-#[derive(Debug, FromMeta)]
+#[derive(Debug)]
 pub struct InjectAttribute(String);
 
 impl InjectAttribute {
-    /// Parse an inject attribute into its component parse
-    fn parse(&self) -> (&str, &str) {
+    /// Parse an [`InjectAttribute`] from [`NestedMeta`].
+    pub fn from_nested_meta(meta: &NestedMeta) -> Self {
+        match meta {
+            NestedMeta::Meta(Meta::NameValue(MetaNameValue {
+                path,
+                lit: Lit::Str(lit_str),
+                ..
+            })) if path.is_ident("inject") => Self(lit_str.value()),
+            _ => panic!("malformed `component` attribute: {:?}", meta),
+        }
+    }
+
+    /// Parse the callback and component ID of the value of an inject attribute.
+    fn parse_value(&self) -> (&str, &str) {
         assert!(
             self.0.ends_with(')'),
             "expected {} to end with ')'",
@@ -120,12 +157,12 @@ impl InjectAttribute {
 
     /// Get the callback associated with this inject attribute
     pub fn callback(&self) -> Ident {
-        Ident::new(self.parse().0, Span::call_site())
+        Ident::new(self.parse_value().0, Span::call_site())
     }
 
     /// Get the component ID associated with this inject attribute
     pub fn component_id(&self) -> &str {
-        self.parse().1
+        self.parse_value().1
     }
 
     /// Get the tokens representing a component ID
