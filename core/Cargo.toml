@@ -5,7 +5,7 @@ Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains the framework's core functionality.
 """
-version    = "0.6.0-beta.1" # Also update html_root_url in lib.rs when bumping this
+version    = "0.6.0-rc.0" # Also update html_root_url in lib.rs when bumping this
 license    = "Apache-2.0"
 authors    = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage   = "https://github.com/iqlusioninc/abscissa/"
@@ -17,7 +17,7 @@ edition    = "2021"
 rust-version = "1.56"
 
 [dependencies]
-abscissa_derive = { version = "=0.6.0-beta.1", path = "../derive" }
+abscissa_derive = { version = "=0.6.0-rc.0", path = "../derive" }
 arc-swap = { version = "1", optional = true }
 backtrace = "0.3"
 canonical-path = "2"
