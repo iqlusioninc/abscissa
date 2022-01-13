@@ -12,7 +12,7 @@ readme      = "README.md"
 [dependencies]
 abscissa_core = { version = "=0.6.0-rc.0", path = "../core" }
 tokio = { version = "1", features = ["rt-multi-thread"] }
-actix-rt = { version = "2.2", optional = true }
+actix-rt = { version = "2.6", optional = true }
 
 [features]
 actix = ["actix-rt"]
