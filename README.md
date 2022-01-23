@@ -17,7 +17,7 @@ or network/web services), aiming to provide a large number of features with a
 ## Features
 
 - **command-line option parsing**: simple declarative option parser based on
-  [gumdrop]. The option parser in Abcissa contains numerous improvements which
+  [clap]. The option parser in Abcissa contains numerous improvements which
   provide better UX and tighter integration with the other parts of the
   framework (e.g. overriding configuration settings using command-line options).
 - **components**: Abscissa uses a component architecture (similar to an ECS)
@@ -110,10 +110,10 @@ default set of features in the application:
 | 9  | [byteorder]            | [@BurntSushi]    | MIT/Unlicense  | Byte order conversions    |
 | 10 | [canonical-path]       | [iqlusion]       | Apache-2.0     | Get canonical fs paths    |
 | 11 | [chrono]               | [chronotope]     | Apache-2.0/MIT | Time/date library         |
-| 12 | [color-backtrace]      | [@athre0z]       | Apache-2.0/MIT | Rich colored backtraces   |
-| 13 | [fs-err]               | [@andrewhickman] | Apache-2.0/MIT | Better filesystem errors |
-| 14 | [generational-arena]   | [@fitzgen]       | MPL-2.0        | Component allocator       |
-| 15 | [gumdrop]              | [@Murarth]       | Apache-2.0/MIT | Command-line options      |
+| 12 | [clap]                 | [@Kevin K]       | Apache-2.0/MIT | Command-line interface    |
+| 13 | [color-backtrace]      | [@athre0z]       | Apache-2.0/MIT | Rich colored backtraces   |
+| 14 | [fs-err]               | [@andrewhickman] | Apache-2.0/MIT | Better filesystem errors  |
+| 15 | [generational-arena]   | [@fitzgen]       | MPL-2.0        | Component allocator       |
 | 16 | [lazy_static]          | [rust-lang]      | Apache-2.0/MIT | Heap-allocated statics    |
 | 17 | [libc]                 | [rust-lang]      | Apache-2.0/MIT | C library wrapper         |
 | 18 | [log]                  | [rust-lang]      | Apache-2.0/MIT | Logging facade library    |
@@ -157,11 +157,11 @@ default set of features in the application:
 | 1  | [abscissa_derive]    | [iqlusion]       | Apache-2.0     | Abscissa custom derive  |
 | 2  | [cc]                 | [@alexcrichton]  | Apache-2.0/MIT | C/C++ compiler wrapper  |
 | 3  | [cfg-if]             | [@alexcrichton]  | Apache-2.0/MIT | If-like `#[cfg]` macros |
-| 4  | [darling]            | [@TedDriggs]     | MIT            | Nifty attribute parser  |
-| 5  | [darling_core]       | [@TedDriggs]     | MIT            | Attribute parser core   |
-| 6  | [darling_macro]      | [@TedDriggs]     | MIT            | Attribute parser macros |
-| 7  | [fnv]                | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
-| 8  | [gumdrop_derive]     | [@Murarth]       | Apache-2.0/MIT | Command-line options    |
+| 4  | [clap_derive]        | [@Kevin K]       | Apache-2.0/MIT | Command-line interface  |
+| 5  | [darling]            | [@TedDriggs]     | MIT            | Nifty attribute parser  |
+| 6  | [darling_core]       | [@TedDriggs]     | MIT            | Attribute parser core   |
+| 7  | [darling_macro]      | [@TedDriggs]     | MIT            | Attribute parser macros |
+| 8  | [fnv]                | [@alexcrichton]  | Apache-2.0/MIT | Fast hash function      |
 | 9  | [ident_case]         | [@TedDriggs]     | Apache-2.0/MIT | Case conversion utils   |
 | 10 | [proc-macro2]        | [@alexcrichton]  | Apache-2.0/MIT | Shim for Macros 2.0 API |
 | 11 | [quote]              | [@dtolnay]       | Apache-2.0/MIT | Rust AST to token macro |
@@ -198,14 +198,14 @@ so you only compile the parts you need.
 | [cfg-if]               | -                  | [backtrace], [log]         |
 | [color-backtrace]      | `terminal`         | [abscissa_core]            |
 | [chrono]               | `time`             | [abscissa_core]            |
+| [clap]                 | `option`           | [abscissa_core]            |
+| [clap_derive]          | `option`           | [clap]                     |
 | [darling]              | -                  | [abscissa_derive]          |
 | [darling_core]         | -                  | [darling], [darling_macro] |
 | [darling_macro]        | -                  | [darling]                  |
 | [fs-err]               | -                  | [abscissa_core]            |
 | [fnv]                  | -                  | [darling_core]             |
 | [generational-arena]   | `application`      | [abscissa_core]            |
-| [gumdrop]              | `options`          | [abscissa_core]            |
-| [gumdrop_derive]       | `options`          | [gumdrop]                  |
 | [ident_case]           | -                  | [abscissa_derive], [darling_core] |
 | [lazy_static]          | `testing`, `trace` | [thread_local], [tracing-core], [tracing-log], [tracing-subscriber] |
 | [libc]                 | `signals`          | [abscissa_core]            |
@@ -217,7 +217,7 @@ so you only compile the parts you need.
 | [num-traits]           | `time`             | [chrono], [num-integer]    |
 | [once_cell]            | -                  | [abscissa_core]            |
 | [proc-macro2]          | -                  | [abscissa_derive], [darling], [quote], [serde_derive], [syn] |
-| [quote]                | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
+| [quote]                | -                  | [abscissa_derive], [darling], [serde_derive] |
 | [redox_syscall]        | `time`             | [time]                     |
 | [regex]                | `trace`, `testing` | [abscissa_core]            |
 | [regex-automata]       | `trace`            | [matchers]                 |
@@ -233,7 +233,7 @@ so you only compile the parts you need.
 | [signal-hook-registry] | `signals`          | [signal-hook]              |
 | [smallvec]             | `trace`            | [tracing-subscriber]       |
 | [strsim]               | -                  | [darling_core]             |
-| [syn]                  | -                  | [abscissa_derive], [darling], [gumdrop_derive], [serde_derive] |
+| [syn]                  | -                  | [abscissa_derive], [darling], [serde_derive] |
 | [termcolor]            | `terminal`         | [abscissa_core]            |
 | [thiserror]            | -                  | Abscissa boilerplate       |
 | [thread_local]         | `trace`, `testing` | [regex]                    |
@@ -395,14 +395,14 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cc]: https://crates.io/crates/cc
 [cfg-if]: https://crates.io/crates/cfg-if
 [chrono]: https://crates.io/crates/chrono
+[clap]: https://crates.io/crates/clap
+[clap_derive]: https://crates.io/crates/clap_derive
 [darling]: https://crates.io/crates/darling
 [darling_core]: https://crates.io/crates/darling_core
 [darling_macro]: https://crates.io/crates/darling_macro
 [fs-err]: https://crates.io/crates/fs-err
 [fnv]: https://crates.io/crates/fnv
 [generational-arena]: https://github.com/fitzgen/generational-arena
-[gumdrop]: https://crates.io/crates/gumdrop
-[gumdrop_derive]: https://crates.io/crates/gumdrop_derive
 [ident_case]: https://crates.io/crates/ident_case
 [lazy_static]: https://crates.io/crates/lazy_static
 [libc]: https://crates.io/crates/libc
@@ -465,9 +465,9 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [@est31]: https://github.com/est31
 [@fitzgen]: https://github.com/fitzgen
 [@hawkw]: https://github.com/hawkw
+[@Kevin K]: https://github.com/kbknapp
 [@Kimundi]: https://github.com/Kimundi
 [@matklad]: https://github.com/matklad
-[@Murarth]: https://github.com/Murarth
 [@mvdnes]: https://github.com/mvdnes
 [@mystor]: https://github.com/mystor
 [@ogham]: https://github.com/ogham
