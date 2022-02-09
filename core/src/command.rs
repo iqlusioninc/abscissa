@@ -4,14 +4,14 @@
 pub use abscissa_derive::Command;
 
 use crate::{runnable::Runnable, terminal};
-use clap::Parser;
+use clap::{FromArgMatches, Parser};
 use std::{env, fmt::Debug};
 use termcolor::ColorChoice;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
 /// trait, but also has a `run()` method which can be used to invoke the given
 /// (sub)command.
-pub trait Command: Debug + Parser + Runnable {
+pub trait Command: Debug + FromArgMatches + Runnable {
     /// Name of this program as a string
     fn name() -> &'static str;
 
@@ -22,17 +22,23 @@ pub trait Command: Debug + Parser + Runnable {
     fn authors() -> &'static str;
 
     /// Parse command-line arguments from a string iterator
-    fn parse_args<A: IntoIterator<Item = String>>(into_args: A) -> Self {
-        let args: Vec<_> = into_args.into_iter().collect();
+    fn parse_args<A: IntoIterator<Item = String>>(into_args: A) -> Self
+    where
+        Self: Parser,
+    {
+        let args = into_args.into_iter().collect::<Vec<_>>();
 
-        Parser::try_parse_from(args.as_slice()).unwrap_or_else(|err| {
+        Self::try_parse_from(args.as_slice()).unwrap_or_else(|err| {
             terminal::init(ColorChoice::Auto);
             err.exit()
         })
     }
 
     /// Parse command-line arguments from the environment
-    fn parse_env_args() -> Self {
+    fn parse_env_args() -> Self
+    where
+        Self: Parser,
+    {
         Self::parse_args(env::args())
     }
 }
