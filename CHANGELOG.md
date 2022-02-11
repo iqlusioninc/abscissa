@@ -4,37 +4,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.0-pre.2] (2021-10-06)
+## [0.6.0] (2022-02-11)
 ### Added
-- `clap v3` for better help message.
+- `fs_err` dependency ([#363])
+- Tokio: upgrade to v1.0 ([#426])
+- Tokio: add `actix` support ([#510])
+- Support for RUST_LOG ([#555])
+- Migrated to `clap` v3 for command-line argument parsing ([#562], [#617], [#634])
 
-## Migrating to Abscissa 0.6.0-pre.2
+### Changed
+- Rename `APPLICATION` -> `APP`; export from prelude; redo helpers ([#272])
+- Bump `secrecy` from 0.6 to 0.7 ([#314])
+- Fine-grained application state locking with `arc-swap` ([#425])
+- Replace `color-backtrace` with `color-eyre` ([#427])
+- Use `main` as the default branch name ([#553])
+- Upgrade Rust edition to 2021; MSRV 1.56 ([#574])
 
-The `Abscissa 0.6.0-pre.2` now uses `clap v3` for command-line argument parsing. This is because `Clap` automatically handles things like `version`, `help` subcommands, and `flags` thereby providing a friendly help screen.
+### Removed
+- Signal handling ([#419])
+- `gimli-backtrace` feature ([#422])
+- `generational-arena` dependency ([#424])
+- `chrono` dependency ([#579])
+- Derive: `darling` dependency ([#619])
 
-To migrate to the `0.6.0-pre.2` version from other versions, add the `0.6.0-pre.2` version of `abscissa_core` in your `cargo.toml` file.
+### Migration guide
+
+The Abscissa v0.6.0 release now uses `clap` v3 for command-line argument parsing.
+
+This is because `Clap` automatically handles things like `version`, `help` subcommands, and `flags` thereby providing a friendly help screen.
+
+To migrate to the `v0.6.0` version from other versions, add the `v0.6.0` version of `abscissa_core` in your `cargo.toml` file.
 
 ```
+[dependencies]
+abscissa_core = "0.6.0"
+
 [dev-dependencies]
-abscissa_core = "0.6.0-pre.2"
-
-[dependencies.abscissa_core]
-version = "0.6.0-pre.2"
+abscissa_core = "0.6.0"
 ```
 
-Now, replace `gumdrop` with `clapv3` in the dependencies section of your `cargo.toml` file.
+Now, replace `gumdrop` with `clap` v3 in the dependencies section of your `Cargo.toml` file.
 
 ```
-clap = "3.0.0-beta.4"
+clap = "3"
 ```
 
-`Clapv3` doesn't support `Option`, replace `Option` with `Clap` in your `commands` folder and `commands.rs` file.
+`clap` v3 uses a `Parser` proc macro: replace gumdrop's `Option` with `Clap` in your `commands` folder and `commands.rs` file.
 
-- Use Doc comments in commands and subcommands structs for help messages;
+- Use rustdoc comments in commands and subcommands structs for help messages;
 
 ```
+use clap::Parser;
+
 /// Command help message
-#[derive(Command, Debug, Default, Clap)]
+#[derive(Command, Debug, Default, Parser)]
 pub struct Command {
   // This is a free command
     #[clap()]
@@ -119,10 +142,10 @@ let mut cmd = runner.arg("version").capture_stdout().run();
 let mut cmd = runner.arg("--version").capture_stdout().run();
 ```
 
-To install the `0.6.0-pre.2` version of Abscissa in your local machine, run the command below.
+To install the v0.6.0 version of Abscissa in your local machine, run the command below.
 
 ```
-cargo install abscissa --version 0.6.0-pre.2
+cargo install abscissa --version 0.6.0
 ```
 
 ## [0.5.2] (2020-01-29)
@@ -520,6 +543,25 @@ impl std::error::Error for Error {
 
 - Initial release
 
+[0.6.0]: https://github.com/iqlusioninc/abscissa/pull/650
+[#634]: https://github.com/iqlusioninc/abscissa/pull/634
+[#619]: https://github.com/iqlusioninc/abscissa/pull/619
+[#617]: https://github.com/iqlusioninc/abscissa/pull/619
+[#579]: https://github.com/iqlusioninc/abscissa/pull/579
+[#574]: https://github.com/iqlusioninc/abscissa/pull/574
+[#562]: https://github.com/iqlusioninc/abscissa/pull/562
+[#555]: https://github.com/iqlusioninc/abscissa/pull/555
+[#553]: https://github.com/iqlusioninc/abscissa/pull/553
+[#510]: https://github.com/iqlusioninc/abscissa/pull/510
+[#427]: https://github.com/iqlusioninc/abscissa/pull/427
+[#426]: https://github.com/iqlusioninc/abscissa/pull/426
+[#425]: https://github.com/iqlusioninc/abscissa/pull/425
+[#424]: https://github.com/iqlusioninc/abscissa/pull/424
+[#422]: https://github.com/iqlusioninc/abscissa/pull/422
+[#419]: https://github.com/iqlusioninc/abscissa/pull/419
+[#363]: https://github.com/iqlusioninc/abscissa/pull/363
+[#314]: https://github.com/iqlusioninc/abscissa/pull/314
+[#272]: https://github.com/iqlusioninc/abscissa/pull/272
 [0.5.2]: https://github.com/iqlusioninc/abscissa/pull/203
 [#202]: https://github.com/iqlusioninc/abscissa/pull/202
 [0.5.1]: https://github.com/iqlusioninc/abscissa/pull/189
