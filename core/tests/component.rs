@@ -3,7 +3,10 @@
 mod example_app;
 
 use self::example_app::{ExampleApp, ExampleConfig};
-use abscissa_core::{component, Component, FrameworkError, FrameworkErrorKind::ComponentError};
+use abscissa_core::{
+    component, Application, Component, FrameworkError, FrameworkErrorKind::ComponentError, Shutdown,
+};
+use std::sync::atomic::{AtomicBool, Ordering};
 
 /// ID for `FoobarComponent` (example component #1)
 const FOOBAR_COMPONENT_ID: component::Id = component::Id::new("component::FoobarComponent");
@@ -30,7 +33,23 @@ impl FoobarComponent {
 
 /// Example component #2
 #[derive(Component, Debug, Default)]
-pub struct BazComponent {}
+#[component(after_config, before_shutdown)]
+pub struct BazComponent {
+    pub after_config_run: bool,
+    pub before_shutdown_run: AtomicBool,
+}
+
+impl BazComponent {
+    fn after_config<A: Application>(&mut self, _config: &A::Cfg) -> Result<(), FrameworkError> {
+        self.after_config_run = true;
+        Ok(())
+    }
+
+    fn before_shutdown(&self, _kind: Shutdown) -> Result<(), FrameworkError> {
+        self.before_shutdown_run.store(true, Ordering::Relaxed);
+        Ok(())
+    }
+}
 
 /// Example component #3
 #[derive(Component, Debug, Default)]
@@ -147,4 +166,21 @@ fn dependency_injection() {
 
     let quux = registry.get_downcast_ref::<QuuxComponent>().unwrap();
     assert_eq!(quux.foobar_state.as_ref().unwrap(), "original foobar state");
+}
+
+#[test]
+fn impl_bridges() {
+    let mut registry = component::Registry::default();
+    let components = init_components();
+
+    registry.register(components).unwrap();
+    registry.after_config(&ExampleConfig::default()).unwrap();
+
+    let baz = registry.get_downcast_ref::<BazComponent>().unwrap();
+    assert!(baz.after_config_run);
+
+    registry
+        .shutdown(&ExampleApp::default(), Shutdown::Graceful)
+        .unwrap();
+    assert!(baz.before_shutdown_run.load(Ordering::Relaxed));
 }

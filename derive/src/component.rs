@@ -10,6 +10,8 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let attrs = ComponentAttributes::from_derive_input(s.ast());
     let name = &s.ast().ident;
     let abscissa_core = attrs.abscissa_core_crate();
+    let after_config = attrs.after_config();
+    let before_shutdown = attrs.before_shutdown();
     let dependency_methods = attrs.dependency_methods();
 
     s.gen_impl(quote! {
@@ -29,6 +31,10 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
             }
 
             #dependency_methods
+
+            #after_config
+
+            #before_shutdown
         }
     })
 }
@@ -36,6 +42,10 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
 /// Parsed `#[component(...)]` attribute fields
 #[derive(Debug)]
 struct ComponentAttributes {
+    after_config: bool,
+
+    before_shutdown: bool,
+
     /// Special attribute used by `abscissa_core` to `derive(Component)`.
     ///
     /// Workaround for using custom derive on traits defined in the same crate:
@@ -49,6 +59,8 @@ struct ComponentAttributes {
 impl ComponentAttributes {
     /// Parse component attributes from custom derive input.
     pub fn from_derive_input(input: &DeriveInput) -> Self {
+        let mut after_config = false;
+        let mut before_shutdown = false;
         let mut core = false;
         let mut inject = Vec::new();
 
@@ -61,9 +73,12 @@ impl ComponentAttributes {
                 Meta::List(MetaList { nested, .. }) => {
                     for meta in &nested {
                         match meta {
-                            NestedMeta::Meta(Meta::Path(path)) if path.is_ident("core") => {
-                                core = true
-                            }
+                            NestedMeta::Meta(Meta::Path(path)) => match path.get_ident() {
+                                Some(id) if id == "after_config" => after_config = true,
+                                Some(id) if id == "before_shutdown" => before_shutdown = true,
+                                Some(id) if id == "core" => core = true,
+                                _ => panic!("malformed `component` attribute: {:?}", meta),
+                            },
                             NestedMeta::Meta(Meta::NameValue { .. }) => {
                                 inject.push(InjectAttribute::from_nested_meta(meta))
                             }
@@ -75,7 +90,12 @@ impl ComponentAttributes {
             };
         }
 
-        Self { core, inject }
+        Self {
+            after_config,
+            before_shutdown,
+            core,
+            inject,
+        }
     }
 
     /// Ident for the `abscissa_core` crate.
@@ -86,6 +106,30 @@ impl ComponentAttributes {
         let crate_name = if self.core { "crate" } else { "abscissa_core" };
 
         Ident::new(crate_name, Span::call_site())
+    }
+
+    pub fn after_config(&self) -> TokenStream {
+        if !self.after_config {
+            return quote!();
+        }
+
+        quote! {
+            fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
+                self.after_config::<A>(config)
+            }
+        }
+    }
+
+    pub fn before_shutdown(&self) -> TokenStream {
+        if !self.before_shutdown {
+            return quote!();
+        }
+
+        quote! {
+            fn before_shutdown(&self, kind: Shutdown) -> Result<(), FrameworkError> {
+                self.before_shutdown(kind)
+            }
+        }
     }
 
     /// Generate `Component::dependencies()` and `register_dependencies()`
