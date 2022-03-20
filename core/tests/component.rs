@@ -4,7 +4,7 @@ mod example_app;
 
 use self::example_app::{ExampleApp, ExampleConfig};
 use abscissa_core::{
-    component, Application, Component, FrameworkError, FrameworkErrorKind::ComponentError, Shutdown,
+    component, Component, FrameworkError, FrameworkErrorKind::ComponentError, Shutdown,
 };
 use std::sync::atomic::{AtomicBool, Ordering};
 
@@ -33,14 +33,14 @@ impl FoobarComponent {
 
 /// Example component #2
 #[derive(Component, Debug, Default)]
-#[component(after_config, before_shutdown)]
+#[component(application = "ExampleApp", after_config, before_shutdown)]
 pub struct BazComponent {
     pub after_config_run: bool,
     pub before_shutdown_run: AtomicBool,
 }
 
 impl BazComponent {
-    fn after_config<A: Application>(&mut self, _config: &A::Cfg) -> Result<(), FrameworkError> {
+    fn after_config(&mut self, _config: &ExampleConfig) -> Result<(), FrameworkError> {
         self.after_config_run = true;
         Ok(())
     }

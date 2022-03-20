@@ -14,28 +14,41 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let before_shutdown = attrs.before_shutdown();
     let dependency_methods = attrs.dependency_methods();
 
-    s.gen_impl(quote! {
-        gen impl<A> Component<A> for @Self
-        where
-            A: #abscissa_core::Application
-        {
-            #[doc = "Identifier for this component"]
-            fn id(&self) -> #abscissa_core::component::Id {
-                // TODO(tarcieri): use `core::any::type_name` here when stable
-                #abscissa_core::component::Id::new(concat!(module_path!(), "::", stringify!(#name)))
-            }
-
-            #[doc = "Version of this component"]
-            fn version(&self) -> #abscissa_core::Version {
-                #abscissa_core::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()
-            }
-
-            #dependency_methods
-
-            #after_config
-
-            #before_shutdown
+    let body = quote! {
+        #[doc = "Identifier for this component"]
+        fn id(&self) -> #abscissa_core::component::Id {
+            // TODO(tarcieri): use `core::any::type_name` here when stable
+            #abscissa_core::component::Id::new(concat!(module_path!(), "::", stringify!(#name)))
         }
+
+        #[doc = "Version of this component"]
+        fn version(&self) -> #abscissa_core::Version {
+            #abscissa_core::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()
+        }
+
+        #dependency_methods
+
+        #after_config
+
+        #before_shutdown
+    };
+
+    s.gen_impl(match attrs.application() {
+        Some(application) => {
+            quote! {
+                gen impl Component<#application> for @Self {
+                    #body
+                }
+            }
+        }
+        None => quote! {
+            gen impl<A> Component<A> for @Self
+            where
+                A: #abscissa_core::Application
+            {
+                #body
+            }
+        },
     })
 }
 
@@ -43,6 +56,8 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
 #[derive(Debug)]
 struct ComponentAttributes {
     after_config: bool,
+
+    application: Option<String>,
 
     before_shutdown: bool,
 
@@ -60,6 +75,7 @@ impl ComponentAttributes {
     /// Parse component attributes from custom derive input.
     pub fn from_derive_input(input: &DeriveInput) -> Self {
         let mut after_config = false;
+        let mut application = None;
         let mut before_shutdown = false;
         let mut core = false;
         let mut inject = Vec::new();
@@ -79,6 +95,13 @@ impl ComponentAttributes {
                                 Some(id) if id == "core" => core = true,
                                 _ => panic!("malformed `component` attribute: {:?}", meta),
                             },
+                            NestedMeta::Meta(Meta::NameValue(MetaNameValue {
+                                path,
+                                lit: Lit::Str(lit_str),
+                                ..
+                            })) if path.is_ident("application") => {
+                                application = Some(lit_str.value())
+                            }
                             NestedMeta::Meta(Meta::NameValue { .. }) => {
                                 inject.push(InjectAttribute::from_nested_meta(meta))
                             }
@@ -92,6 +115,7 @@ impl ComponentAttributes {
 
         Self {
             after_config,
+            application,
             before_shutdown,
             core,
             inject,
@@ -109,15 +133,27 @@ impl ComponentAttributes {
     }
 
     pub fn after_config(&self) -> TokenStream {
-        if !self.after_config {
-            return quote!();
-        }
+        let abscissa_core = self.abscissa_core_crate();
 
-        quote! {
-            fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
-                self.after_config::<A>(config)
-            }
+        match (self.after_config, self.application()) {
+            (false, _) => quote!(),
+            (true, None) => quote! {
+                fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
+                    self.after_config::<A>(config)
+                }
+            },
+            (true, Some(application)) => quote! {
+                fn after_config(&mut self, config: &<#application as #abscissa_core::Application>::Cfg) -> Result<(), FrameworkError> {
+                    self.after_config(config)
+                }
+            },
         }
+    }
+
+    pub fn application(&self) -> Option<Ident> {
+        self.application
+            .as_ref()
+            .map(|application| Ident::new(application.as_ref(), Span::call_site()))
     }
 
     pub fn before_shutdown(&self) -> TokenStream {
