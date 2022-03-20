@@ -53,6 +53,7 @@ impl BazComponent {
 
 /// Example component #3
 #[derive(Component, Debug, Default)]
+#[component(application = "self::example_app::ExampleApp")]
 #[component(inject = "init_foobar(component::FoobarComponent)")]
 #[component(inject = "init_baz(component::BazComponent)")]
 pub struct QuuxComponent {

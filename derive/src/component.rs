@@ -2,7 +2,7 @@
 
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
-use syn::{DeriveInput, Lit, Meta, MetaList, MetaNameValue, NestedMeta};
+use syn::{parse_str, DeriveInput, Lit, Meta, MetaList, MetaNameValue, NestedMeta, Path};
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::component::Component`
@@ -33,7 +33,7 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
         #before_shutdown
     };
 
-    s.gen_impl(match attrs.application() {
+    s.gen_impl(match attrs.application {
         Some(application) => {
             quote! {
                 gen impl Component<#application> for @Self {
@@ -57,7 +57,7 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
 struct ComponentAttributes {
     after_config: bool,
 
-    application: Option<String>,
+    application: Option<Path>,
 
     before_shutdown: bool,
 
@@ -100,7 +100,10 @@ impl ComponentAttributes {
                                 lit: Lit::Str(lit_str),
                                 ..
                             })) if path.is_ident("application") => {
-                                application = Some(lit_str.value())
+                                match parse_str(&lit_str.value()) {
+                                    Ok(path) => application = Some(path),
+                                    Err(_) => panic!("malformed `component` attribute: {:?}", meta),
+                                }
                             }
                             NestedMeta::Meta(Meta::NameValue { .. }) => {
                                 inject.push(InjectAttribute::from_nested_meta(meta))
@@ -135,7 +138,7 @@ impl ComponentAttributes {
     pub fn after_config(&self) -> TokenStream {
         let abscissa_core = self.abscissa_core_crate();
 
-        match (self.after_config, self.application()) {
+        match (self.after_config, &self.application) {
             (false, _) => quote!(),
             (true, None) => quote! {
                 fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
@@ -148,12 +151,6 @@ impl ComponentAttributes {
                 }
             },
         }
-    }
-
-    pub fn application(&self) -> Option<Ident> {
-        self.application
-            .as_ref()
-            .map(|application| Ident::new(application.as_ref(), Span::call_site()))
     }
 
     pub fn before_shutdown(&self) -> TokenStream {
@@ -174,6 +171,11 @@ impl ComponentAttributes {
             return quote!();
         }
 
+        let component = match &self.application {
+            Some(application) => quote! { Component<#application> },
+            None => quote! { Component<A> },
+        };
+
         let abscissa_core = self.abscissa_core_crate();
         let ids = self
             .inject
@@ -191,7 +193,7 @@ impl ComponentAttributes {
             fn register_dependency(
                 &mut self,
                 handle: #abscissa_core::component::Handle,
-                dependency: &mut dyn Component<A>,
+                dependency: &mut dyn #component,
             ) -> Result<(), FrameworkError> {
                 match dependency.id().as_ref() {
                     #(#match_arms),*
