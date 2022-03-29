@@ -18,9 +18,9 @@ impl Default for Config {
         match std::env::var("RUST_LOG") {
             Ok(val) => {
                 if val.is_empty() {
-                    val.into()
-                } else {
                     "info".to_owned().into()
+                } else {
+                    val.into()
                 }
             }
             Err(_) => "info".to_owned().into(),
