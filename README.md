@@ -85,7 +85,7 @@ noteworthy:
 
 - `src/application.rs`: Abscissa application type for your app
 - `src/commands*`: application entrypoint and subcommands. Make sure to
-  check out the `hello.rs` example of how to make a subcommand.
+  check out the `start.rs` example of how to make a subcommand.
 - `src/config.rs`: application configuration
 - `src/error.rs`: error types
 
@@ -94,11 +94,11 @@ Abscissa applications are implemented as Rust libraries, but have a
 can run the following within your newly generated application:
 
 ```text
-$ cargo run -- hello world
+$ cargo run -- start world
 ```
 
-This will invoke the `hello` subcommand of your application (you'll
-probably want to rename that in a real app) which will print the following:
+This will invoke the `start` subcommand of your application (you
+might want to rename that in your app) which will print the following:
 
 ```text
 Hello, world!
