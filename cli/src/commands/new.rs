@@ -40,10 +40,12 @@ impl Runnable for NewCommand {
     /// Run the Abscissa application generator
     fn run(&self) {
         let started_at = Instant::now();
+        #[allow(clippy::redundant_closure)]
         let app_properties = self.parse_options().unwrap_or_else(|e| fatal_error(e));
         let app_template = Collection::default();
         let branch_name = "main";
 
+        #[allow(clippy::redundant_closure)]
         self.create_parent_directory()
             .unwrap_or_else(|e| fatal_error(e));
 
@@ -52,15 +54,18 @@ impl Runnable for NewCommand {
         template_files.sort_by(|a, b| a.name().cmp(b.name()));
 
         for template_file in &template_files {
+            #[allow(clippy::redundant_closure)]
             self.render_template_file(&app_template, template_file, &app_properties)
                 .unwrap_or_else(|e| fatal_error(e));
         }
 
         // TODO(tarcieri): make this optional?
+        #[allow(clippy::redundant_closure)]
         self.run_git_init(branch_name)
             .unwrap_or_else(|e| fatal_error(e));
 
         // TODO(tarcieri): make this optional?
+        #[allow(clippy::redundant_closure)]
         self.generate_lockfile().unwrap_or_else(|e| fatal_error(e));
 
         let duration = started_at.elapsed();
@@ -265,7 +270,7 @@ impl NewCommand {
             .file_name()
             .expect("no filename?")
             .to_string_lossy()
-            .replace("-", "_");
+            .replace('-', "_");
 
         let name: properties::name::App = app_name.parse().expect("no app name");
 

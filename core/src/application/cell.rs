@@ -34,6 +34,7 @@ where
 {
     type Target = A;
 
+    #[allow(clippy::redundant_closure)]
     fn deref(&self) -> &A {
         self.0.get().unwrap_or_else(|| not_loaded())
     }

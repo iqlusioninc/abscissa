@@ -27,6 +27,7 @@ where
     }
 
     /// Read the current configuration.
+    #[allow(clippy::redundant_closure)]
     pub fn read(&self) -> Reader<C> {
         self.inner.load_full().unwrap_or_else(|| not_loaded())
     }
