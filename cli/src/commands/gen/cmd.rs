@@ -43,7 +43,7 @@ impl Runnable for Cmd {
 impl Cmd {
     /// Generate a new subcommand in this application
     pub fn generate(&self, app_root: &Path, name: &str) {
-        let snake_case_name = name.replace("-", "_");
+        let snake_case_name = name.replace('-', "_");
         let output_dir = app_root.join("src").join("commands");
 
         if !output_dir.exists() {
