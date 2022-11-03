@@ -28,11 +28,11 @@ pub struct NewCommand {
     app_path: Option<PathBuf>,
 
     /// Overwrite files that already exist
-    #[clap(short, long)]
+    #[arg(short, long)]
     force: bool,
 
     /// Add a `[patch.crates-io]` section to Cargo.toml
-    #[clap(short, long)]
+    #[arg(short, long)]
     patch_crates_io: Option<String>,
 }
 

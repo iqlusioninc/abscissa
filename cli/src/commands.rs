@@ -19,13 +19,13 @@ enum SubCommands {
 
 /// Abscissa CLI Subcommands
 #[derive(Command, Debug, Parser)]
-#[clap(author, about, version)]
+#[command(author, about, version)]
 pub struct CliCommand {
     #[clap(subcommand)]
     subcmd: SubCommands,
 
     /// Enable verbose mode
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub verbose: bool,
 }
 
