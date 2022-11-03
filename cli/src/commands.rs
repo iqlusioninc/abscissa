@@ -21,7 +21,7 @@ enum SubCommands {
 #[derive(Command, Debug, Parser)]
 #[command(author, about, version)]
 pub struct CliCommand {
-    #[clap(subcommand)]
+    #[command(subcommand)]
     subcmd: SubCommands,
 
     /// Enable verbose mode
