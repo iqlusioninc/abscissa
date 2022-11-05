@@ -16,7 +16,7 @@ const SUBCOMMAND_TEMPLATE: &str = include_str!("../../../template/src/commands/s
 #[derive(Command, Debug, Parser)]
 pub struct Cmd {
     /// Path to the application's `Cargo.toml`
-    #[clap(long, short)]
+    #[arg(long, short)]
     manifest_path: Option<PathBuf>,
 
     /// Names of the commands

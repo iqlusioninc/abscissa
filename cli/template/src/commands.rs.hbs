@@ -15,7 +15,6 @@ mod start;
 use self::start::StartCmd;
 use crate::config::{{~config_type~}};
 use abscissa_core::{config::Override, Command, Configurable, FrameworkError, Runnable};
-use clap::Parser;
 use std::path::PathBuf;
 
 /// {{title}} Configuration Filename
@@ -23,25 +22,25 @@ pub const CONFIG_FILE: &str = "{{name}}.toml";
 
 /// {{title}} Subcommands
 /// Subcommands need to be listed in an enum.
-#[derive(Command, Debug, Parser, Runnable)]
+#[derive(clap::Parser, Command, Debug, Runnable)]
 pub enum {{command_type}} {
     /// The `start` subcommand
     Start(StartCmd),
 }
 
 /// Entry point for the application. It needs to be a struct to allow using subcommands!
-#[derive(Command, Debug, Parser)]
-#[clap(author, about, version)]
+#[derive(clap::Parser, Command, Debug)]
+#[command(author, about, version)]
 pub struct EntryPoint {
-    #[clap(subcommand)]
+    #[command(subcommand)]
     cmd: {{command_type}},
 
     /// Enable verbose logging
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub verbose: bool,
 
     /// Use the specified config file
-    #[clap(short, long)]
+    #[arg(short, long)]
     pub config: Option<String>,
 }
 

@@ -6,7 +6,6 @@ use crate::prelude::*;
 
 use crate::config::{{~config_type~}};
 use abscissa_core::{config, Command, FrameworkError, Runnable};
-use clap::Parser;
 
 /// `start` subcommand
 ///
@@ -15,7 +14,7 @@ use clap::Parser;
 /// for a more comprehensive example:
 ///
 /// <https://docs.rs/clap/>
-#[derive(Command, Debug, Parser)]
+#[derive(clap::Parser, Command, Debug)]
 pub struct StartCmd {
     /// To whom are we saying hello?
     recipient: Vec<String>,
