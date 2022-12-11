@@ -1,4 +1,4 @@
-![Abscissa](https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg)
+![Abscissa](https://raw.githubusercontent.com/iqlusioninc/abscissa/main/img/abscissa.svg)
 
 # abscissa_derive: custom derive macros for Abscissa
 

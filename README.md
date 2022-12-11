@@ -43,7 +43,7 @@ or network/web services), aiming to provide a large number of features with a
 - [cargo-audit]: audit Cargo projects for security vulnerabilities
 - [cargo-rpm]: build RPMs out of Cargo projects
 - [cosmon]: observability tool for Tendermint applications
-- [ibc-rs](https://github.com/informalsystems/ibc-rs): Rust implementation of Interblockchain Communication (IBC) modules and relayer
+- [ibc-rs]: Rust implementation of Interblockchain Communication (IBC) modules and relayer
 - [OpenLibra]: open platform for financial inclusion. Not run by Facebook.
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
 - [Tendermint KMS]: key management system for Tendermint applications
@@ -61,7 +61,7 @@ Abscissa presently consists of three crates:
 
 ## Minimum Supported Rust Version
 
-Requires Rust **1.56** or newer.
+Requires Rust **1.60** or newer.
 
 ## Installation
 
@@ -211,14 +211,14 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 
 [//]: # (badges)
 
-[logo]: https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa.svg
+[logo]: https://raw.githubusercontent.com/iqlusioninc/abscissa/main/img/abscissa.svg
 [crate-image]: https://img.shields.io/crates/v/abscissa_core.svg
 [crate-link]: https://crates.io/crates/abscissa_core
 [docs-image]: https://docs.rs/abscissa_core/badge.svg
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[rustc-image]: https://img.shields.io/badge/rustc-1.56+-blue.svg
+[rustc-image]: https://img.shields.io/badge/rustc-1.60+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
 [build-image]: https://github.com/iqlusioninc/abscissa/workflows/cli/badge.svg?branch=main&event=push
@@ -245,10 +245,11 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [//]: # (projects using abscissa)
 
 [Tendermint KMS]: https://github.com/tendermint/kms
-[Canister]:  https://github.com/iqlusioninc/canister
+[Canister]: https://github.com/iqlusioninc/canister
 [cargo-audit]: https://github.com/rustsec/cargo-audit
 [cargo-rpm]: https://github.com/rustrpm/cargo-rpm
 [cosmon]: https://github.com/iqlusioninc/cosmon
+[ibc-rs]: https://github.com/informalsystems/ibc-rs
 [OpenLibra]: https://github.com/open-libra/cli
 [Synchronicity]: https://github.com/iqlusioninc/synchronicity
 [Zebra]: https://github.com/ZcashFoundation/zebra
