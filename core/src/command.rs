@@ -5,7 +5,7 @@ pub use abscissa_derive::Command;
 
 use crate::{runnable::Runnable, terminal};
 use clap::{FromArgMatches, Parser};
-use std::{env, fmt::Debug, ffi::OsString};
+use std::{env, ffi::OsString, fmt::Debug};
 use termcolor::ColorChoice;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`

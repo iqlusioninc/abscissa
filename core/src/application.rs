@@ -19,7 +19,7 @@ use crate::{
     FrameworkError,
     FrameworkErrorKind::*,
 };
-use std::{env, path::Path, process, vec, ffi::OsString};
+use std::{env, ffi::OsString, path::Path, process, vec};
 
 /// Application types implementing this trait own global application state,
 /// including configuration and arbitrary other values stored within
