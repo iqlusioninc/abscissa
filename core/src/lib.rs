@@ -1,5 +1,7 @@
 #![doc = include_str!("../../README.md")]
-#![doc(html_logo_url = "https://www.iqlusion.io/img/github/iqlusioninc/abscissa/abscissa-sq.svg")]
+#![doc(
+    html_logo_url = "https://raw.githubusercontent.com/iqlusioninc/abscissa/main/img/abscissa-sq.svg"
+)]
 #![forbid(unsafe_code)]
 #![warn(
     missing_docs,
