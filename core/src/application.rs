@@ -19,7 +19,7 @@ use crate::{
     FrameworkError,
     FrameworkErrorKind::*,
 };
-use std::{env, path::Path, process, vec};
+use std::{env, ffi::OsString, path::Path, process, vec};
 
 /// Application types implementing this trait own global application state,
 /// including configuration and arbitrary other values stored within
@@ -44,9 +44,10 @@ pub trait Application: Default + Sized + 'static {
 
     /// Run application with the given command-line arguments and running the
     /// appropriate `Command` type.
-    fn run<I>(app_cell: &'static AppCell<Self>, args: I)
+    fn run<I, T>(app_cell: &'static AppCell<Self>, args: I)
     where
-        I: IntoIterator<Item = String>,
+        I: IntoIterator<Item = T>,
+        T: Into<OsString> + Clone,
     {
         // Parse command line options
         let command = Self::Cmd::parse_args(args);
@@ -171,7 +172,7 @@ pub trait Application: Default + Sized + 'static {
 /// Boot the given application, parsing subcommand and options from
 /// command-line arguments, and terminating when complete.
 pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
-    let args = env::args();
+    let args = env::args_os();
     A::run(app_cell, args);
     process::exit(0);
 }

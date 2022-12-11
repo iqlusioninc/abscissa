@@ -5,7 +5,7 @@ pub use abscissa_derive::Command;
 
 use crate::{runnable::Runnable, terminal};
 use clap::{FromArgMatches, Parser};
-use std::{env, fmt::Debug};
+use std::{env, ffi::OsString, fmt::Debug};
 use termcolor::ColorChoice;
 
 /// Subcommand of an application: derives or otherwise implements the `Options`
@@ -21,12 +21,14 @@ pub trait Command: Debug + FromArgMatches + Runnable {
     /// Authors of this program
     fn authors() -> &'static str;
 
-    /// Parse command-line arguments from a string iterator
-    fn parse_args<A: IntoIterator<Item = String>>(into_args: A) -> Self
+    /// Parse command-line arguments from an iterator
+    fn parse_args<T, I>(into_args: I) -> Self
     where
         Self: Parser,
+        I: IntoIterator<Item = T>,
+        T: Into<OsString> + Clone,
     {
-        let args = into_args.into_iter().collect::<Vec<_>>();
+        let args: Vec<OsString> = into_args.into_iter().map(|s| s.into()).collect();
 
         Self::try_parse_from(args.as_slice()).unwrap_or_else(|err| {
             terminal::init(ColorChoice::Auto);
