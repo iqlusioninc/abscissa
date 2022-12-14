@@ -5,7 +5,7 @@ Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains a CLI utility for generating new applications.
 """
-version      = "0.6.0"
+version      = "0.7.0"
 license      = "Apache-2.0"
 authors      = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage     = "https://github.com/iqlusioninc/abscissa/"
@@ -17,12 +17,12 @@ edition      = "2021"
 rust-version = "1.60"
 
 [dependencies]
-abscissa_core = { version = "0.6", path = "../core" }
+abscissa_core = { version = "0.7", path = "../core" }
 clap = "4"
 handlebars = "4"
 ident_case = "1"
 serde = { version = "1", features = ["serde_derive"] }
 
 [dev-dependencies]
-abscissa_core = { version = "0.6", features = ["testing"], path = "../core" }
+abscissa_core = { version = "0.7", features = ["testing"], path = "../core" }
 once_cell = "1"

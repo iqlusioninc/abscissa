@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] (2022-12-14)
+### Changed
+- Update `clap` to v4; MSRV 1.60 ([#779])
+- Use `OsString` for argument parsing ([#791])
+
 ## [0.6.0] (2022-02-11)
 ### Added
 - `fs_err` dependency ([#363])
@@ -543,6 +548,10 @@ impl std::error::Error for Error {
 
 - Initial release
 
+[0.7.0]: https://github.com/iqlusioninc/abscissa/pull/793
+[#779]: https://github.com/iqlusioninc/abscissa/pull/779
+[#791]: https://github.com/iqlusioninc/abscissa/pull/771
+
 [0.6.0]: https://github.com/iqlusioninc/abscissa/pull/650
 [#634]: https://github.com/iqlusioninc/abscissa/pull/634
 [#619]: https://github.com/iqlusioninc/abscissa/pull/619
@@ -562,11 +571,14 @@ impl std::error::Error for Error {
 [#363]: https://github.com/iqlusioninc/abscissa/pull/363
 [#314]: https://github.com/iqlusioninc/abscissa/pull/314
 [#272]: https://github.com/iqlusioninc/abscissa/pull/272
+
 [0.5.2]: https://github.com/iqlusioninc/abscissa/pull/203
 [#202]: https://github.com/iqlusioninc/abscissa/pull/202
+
 [0.5.1]: https://github.com/iqlusioninc/abscissa/pull/189
 [#188]: https://github.com/iqlusioninc/abscissa/pull/188
 [#187]: https://github.com/iqlusioninc/abscissa/pull/187
+
 [0.5.0]: https://github.com/iqlusioninc/abscissa/pull/178
 [#177]: https://github.com/iqlusioninc/abscissa/pull/177
 [#176]: https://github.com/iqlusioninc/abscissa/pull/176
@@ -582,6 +594,7 @@ impl std::error::Error for Error {
 [#148]: https://github.com/iqlusioninc/abscissa/issues/148
 [#147]: https://github.com/iqlusioninc/abscissa/issues/147
 [#144]: https://github.com/iqlusioninc/abscissa/issues/144
+
 [0.4.0]: https://github.com/iqlusioninc/abscissa/pull/142
 [#141]: https://github.com/iqlusioninc/abscissa/pull/141
 [#136]: https://github.com/iqlusioninc/abscissa/pull/136
@@ -590,6 +603,7 @@ impl std::error::Error for Error {
 [#130]: https://github.com/iqlusioninc/abscissa/pull/130
 [#131]: https://github.com/iqlusioninc/abscissa/pull/131
 [#129]: https://github.com/iqlusioninc/abscissa/pull/129
+
 [0.3.0]: https://github.com/iqlusioninc/abscissa/pull/127
 [#126]: https://github.com/iqlusioninc/abscissa/pull/126
 [#124]: https://github.com/iqlusioninc/abscissa/pull/124
@@ -601,9 +615,11 @@ impl std::error::Error for Error {
 [#115]: https://github.com/iqlusioninc/abscissa/pull/115
 [#113]: https://github.com/iqlusioninc/abscissa/pull/113
 [#110]: https://github.com/iqlusioninc/abscissa/pull/110
+
 [0.2.1]: https://github.com/iqlusioninc/abscissa/pull/108
 [#107]: https://github.com/iqlusioninc/abscissa/pull/107
 [#106]: https://github.com/iqlusioninc/abscissa/pull/106
+
 [0.2.0]: https://github.com/iqlusioninc/abscissa/pull/96
 [#95]: https://github.com/iqlusioninc/abscissa/pull/95
 [#94]: https://github.com/iqlusioninc/abscissa/pull/94
@@ -615,6 +631,7 @@ impl std::error::Error for Error {
 [#82]: https://github.com/iqlusioninc/abscissa/pull/82
 [#81]: https://github.com/iqlusioninc/abscissa/pull/81
 [#78]: https://github.com/iqlusioninc/abscissa/pull/78
+
 [0.1.0]: https://github.com/iqlusioninc/abscissa/pull/77
 [#72]: https://github.com/iqlusioninc/abscissa/pull/72
 [#71]: https://github.com/iqlusioninc/abscissa/pull/71
@@ -647,18 +664,23 @@ impl std::error::Error for Error {
 [#36]: https://github.com/iqlusioninc/abscissa/pull/36
 [#34]: https://github.com/iqlusioninc/abscissa/pull/34
 [#30]: https://github.com/iqlusioninc/abscissa/pull/30
+
 [0.0.6]: https://github.com/iqlusioninc/abscissa/pull/25
 [#24]: https://github.com/iqlusioninc/abscissa/pull/24
+
 [0.0.5]: https://github.com/iqlusioninc/abscissa/pull/23
 [#22]: https://github.com/iqlusioninc/abscissa/pull/22
 [#21]: https://github.com/iqlusioninc/abscissa/pull/21
 [#20]: https://github.com/iqlusioninc/abscissa/pull/20
 [#19]: https://github.com/iqlusioninc/abscissa/pull/19
 [#18]: https://github.com/iqlusioninc/abscissa/pull/18
+
 [0.0.4]: https://github.com/iqlusioninc/abscissa/compare/v0.0.3...v0.0.4
 [#16]: https://github.com/iqlusioninc/abscissa/pull/16
+
 [0.0.3]: https://github.com/iqlusioninc/abscissa/compare/v0.0.2...v0.0.3
 [#14]: https://github.com/iqlusioninc/abscissa/pull/14
+
 [0.0.2]: https://github.com/iqlusioninc/abscissa/compare/v0.0.1...v0.0.2
 [#11]: https://github.com/iqlusioninc/abscissa/pull/11
 [#10]: https://github.com/iqlusioninc/abscissa/pull/10
