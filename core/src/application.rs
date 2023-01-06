@@ -173,8 +173,7 @@ pub trait Application: Default + Sized + 'static {
 /// command-line arguments, and terminating when complete.
 pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
     let args = env::args_os();
-    A::run(app_cell, args);
-    process::exit(0);
+    boot_with_args(app_cell, args)
 }
 
 /// Boot the given application, parsing subcommand and options from
