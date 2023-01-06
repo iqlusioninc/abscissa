@@ -182,7 +182,7 @@ pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
 ///
 /// This is useful if you want to pre-process the arguments,
 /// e.g. perform glob expansion on Windows. Otherwise use [boot].
-pub fn boot_with_args<A, I, T>(app_cell: &'static AppCell<A>, args: I)
+pub fn boot_with_args<A, I, T>(app_cell: &'static AppCell<A>, args: I) -> !
 where
     A: Application,
     I: IntoIterator<Item = T>,
