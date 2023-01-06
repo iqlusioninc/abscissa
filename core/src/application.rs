@@ -176,3 +176,18 @@ pub fn boot<A: Application>(app_cell: &'static AppCell<A>) -> ! {
     A::run(app_cell, args);
     process::exit(0);
 }
+
+/// Boot the given application, parsing subcommand and options from
+/// the provided iterator, and terminating when complete.
+///
+/// This is useful if you want to pre-process the arguments,
+/// e.g. perform glob expansion on Windows. Otherwise use [boot].
+pub fn boot_with_args<A, I, T>(app_cell: &'static AppCell<A>, args: I)
+where
+    A: Application,
+    I: IntoIterator<Item = T>,
+    T: Into<OsString> + Clone,
+{
+    A::run(app_cell, args);
+    process::exit(0);
+}
