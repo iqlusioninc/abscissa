@@ -13,7 +13,7 @@ rust-version = "1.60"
 [dependencies]
 abscissa_core = { version = "0.7", path = "../core" }
 tokio = { version = "1", features = ["rt-multi-thread"] }
-actix-rt = { version = "2.2", optional = true }
+actix-rt = { version = "2.8", optional = true }
 
 [features]
 actix = ["actix-rt"]
