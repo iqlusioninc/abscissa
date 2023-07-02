@@ -41,15 +41,16 @@ or network/web services), aiming to provide a large number of features with a
 
 - [Canister]: deployment utility for "distroless" containers/microVMs
 - [cargo-audit]: audit Cargo projects for security vulnerabilities
-- [cargo-rpm]: build RPMs out of Cargo projects
 - [cosmon]: observability tool for Tendermint applications
 - [ibc-rs]: Rust implementation of Interblockchain Communication (IBC) modules and relayer
-- [OpenLibra]: open platform for financial inclusion. Not run by Facebook.
 - [rustic]: fast, encrypted, and deduplicated backups
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
-- [Tendermint KMS]: key management system for Tendermint applications
 - [Zebra]: Rust implementation of a Zcash node
 - [Zerostash]: Encrypted and deduplicated backups
+
+### Archived
+- [cargo-rpm]: build RPMs out of Cargo projects
+- [Tendermint KMS]: key management system for Tendermint applications
 
 ## Crate Structure
 
