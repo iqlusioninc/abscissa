@@ -49,8 +49,6 @@ or network/web services), aiming to provide a large number of features with a
 - [Zebra]: Rust implementation of a Zcash node
 - [Zerostash]: Encrypted and deduplicated backups
 
-### Archived
-- [cargo-rpm]: build RPMs out of Cargo projects
 
 ## Crate Structure
 
