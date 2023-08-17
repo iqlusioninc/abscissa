@@ -249,7 +249,6 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [cargo-audit]: https://github.com/rustsec/cargo-audit
 [cosmon]: https://github.com/iqlusioninc/cosmon
 [ibc-rs]: https://github.com/informalsystems/ibc-rs
-[OpenLibra]: https://github.com/open-libra/cli
 [rustic]: https://github.com/rustic-rs/rustic
 [Synchronicity]: https://github.com/iqlusioninc/synchronicity
 [Zebra]: https://github.com/ZcashFoundation/zebra
