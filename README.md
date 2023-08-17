@@ -247,7 +247,6 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [Tendermint KMS]: https://github.com/iqlusioninc/tmkms
 [Canister]: https://github.com/iqlusioninc/canister
 [cargo-audit]: https://github.com/rustsec/cargo-audit
-[cargo-rpm]: https://github.com/rustrpm/cargo-rpm
 [cosmon]: https://github.com/iqlusioninc/cosmon
 [ibc-rs]: https://github.com/informalsystems/ibc-rs
 [OpenLibra]: https://github.com/open-libra/cli
