@@ -45,12 +45,12 @@ or network/web services), aiming to provide a large number of features with a
 - [ibc-rs]: Rust implementation of Interblockchain Communication (IBC) modules and relayer
 - [rustic]: fast, encrypted, and deduplicated backups
 - [Synchronicity]: distributed build system providing BFT proofs-of-reproducibility
+- [Tendermint KMS]: key management system for Tendermint applications
 - [Zebra]: Rust implementation of a Zcash node
 - [Zerostash]: Encrypted and deduplicated backups
 
 ### Archived
 - [cargo-rpm]: build RPMs out of Cargo projects
-- [Tendermint KMS]: key management system for Tendermint applications
 
 ## Crate Structure
 
@@ -246,7 +246,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 
 [//]: # (projects using abscissa)
 
-[Tendermint KMS]: https://github.com/tendermint/kms
+[Tendermint KMS]: https://github.com/iqlusioninc/tmkms
 [Canister]: https://github.com/iqlusioninc/canister
 [cargo-audit]: https://github.com/rustsec/cargo-audit
 [cargo-rpm]: https://github.com/rustrpm/cargo-rpm
