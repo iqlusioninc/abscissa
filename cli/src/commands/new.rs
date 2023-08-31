@@ -232,7 +232,7 @@ impl NewCommand {
         status_ok!("Running", "cargo generate-lockfile");
         let status = process::Command::new("cargo")
             .stdout(process::Stdio::null())
-            .args(&["generate-lockfile", "--offline", "--manifest-path"])
+            .args(["generate-lockfile", "--offline", "--manifest-path"])
             .arg(self.app_path()?.join("Cargo.toml"))
             .status();
 
