@@ -28,19 +28,19 @@ pub mod terminal;
 
 // Other modules
 
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod application;
 #[cfg(all(feature = "default", feature = "options"))]
 pub mod command;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod component;
 #[cfg(all(feature = "default", feature = "config"))]
 pub mod config;
 pub mod path;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod prelude;
 mod runnable;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 mod shutdown;
 #[cfg(all(feature = "default", feature = "testing"))]
 pub mod testing;
@@ -56,7 +56,7 @@ pub use crate::{
 };
 pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
 
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub use crate::{
     application::{boot, Application},
     component::Component,
@@ -78,5 +78,5 @@ pub use fs_err as fs;
 pub use secrecy as secret;
 #[cfg(feature = "secrets")]
 pub use secrecy::Secret;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub use semver::Version;

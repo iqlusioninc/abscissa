@@ -1,6 +1,6 @@
 //! Terminal handling (TTY interactions, colors, etc)
 
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod component;
 #[macro_use]
 pub mod status;
