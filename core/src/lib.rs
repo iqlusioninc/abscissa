@@ -42,7 +42,7 @@ pub mod prelude;
 mod runnable;
 #[cfg(feature = "application")]
 mod shutdown;
-#[cfg(feature = "testing")]
+#[cfg(all(feature = "default", feature = "testing"))]
 pub mod testing;
 pub mod thread;
 #[cfg(feature = "trace")]
