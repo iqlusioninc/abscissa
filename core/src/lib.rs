@@ -30,7 +30,7 @@ pub mod terminal;
 
 #[cfg(feature = "application")]
 pub mod application;
-#[cfg(feature = "options")]
+#[cfg(all(feature = "default", feature = "options"))]
 pub mod command;
 #[cfg(feature = "application")]
 pub mod component;
@@ -66,7 +66,7 @@ pub use crate::{
 #[cfg(feature = "config")]
 pub use crate::config::{Config, Configurable};
 
-#[cfg(feature = "options")]
+#[cfg(all(feature = "default", feature = "options"))]
 pub use crate::{command::Command, path::StandardPaths};
 
 // Re-exported modules/types from third-party crates
