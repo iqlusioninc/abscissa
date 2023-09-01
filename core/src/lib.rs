@@ -34,7 +34,7 @@ pub mod application;
 pub mod command;
 #[cfg(feature = "application")]
 pub mod component;
-#[cfg(feature = "config")]
+#[cfg(all(feature = "default", feature = "config"))]
 pub mod config;
 pub mod path;
 #[cfg(feature = "application")]
@@ -63,7 +63,7 @@ pub use crate::{
     shutdown::Shutdown,
 };
 
-#[cfg(feature = "config")]
+#[cfg(all(feature = "default", feature = "config"))]
 pub use crate::config::{Config, Configurable};
 
 #[cfg(all(feature = "default", feature = "options"))]
