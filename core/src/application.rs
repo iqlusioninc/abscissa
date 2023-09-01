@@ -129,7 +129,7 @@ pub trait Application: Default + Sized + 'static {
             };
             FrameworkError::from(ConfigError.context(path_error))
         })?;
-        Self::Cfg::load_toml_file(&canonical_path)
+        Self::Cfg::load_toml_file(canonical_path)
     }
 
     /// Name of this application as a string.
