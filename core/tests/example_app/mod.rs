@@ -1,5 +1,5 @@
 //! Example application used for testing purposes
-
+#![cfg(feature = "default")]
 use abscissa_core::{
     application, clap::Parser, config, Application, Command, Configurable, FrameworkError,
     Runnable, StandardPaths,
