@@ -281,7 +281,7 @@ impl NewCommand {
         let description = title.clone();
 
         // TODO(tarcieri): configurable edition
-        let edition = properties::rust::Edition::Rust2018;
+        let edition = properties::rust::Edition::Rust2021;
 
         let patch_crates_io = self.patch_crates_io.clone();
 
