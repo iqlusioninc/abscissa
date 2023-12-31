@@ -227,6 +227,7 @@ where
         assert!(self.id_map.insert(id, index).is_none());
         assert!(self.type_map.insert(type_id, index).is_none());
 
+        #[cfg(feature = "trace")]
         debug!("registered component: {} (v{})", id, version);
         Ok(())
     }

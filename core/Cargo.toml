@@ -48,11 +48,11 @@ default = [
     "application",
     "secrets",
     "testing",
+    "trace",
 ]
 application = [
     "arc-swap",
     "config",
-    "trace",
     "options",
     "semver/serde",
     "terminal"

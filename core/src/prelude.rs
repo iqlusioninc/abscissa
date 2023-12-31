@@ -7,6 +7,7 @@ pub use crate::{Application, Command, Runnable};
 pub use crate::{ensure, fail, fatal, format_err};
 
 /// Tracing macros
+#[cfg(feature = "trace")]
 pub use crate::tracing::{debug, error, event, info, span, trace, warn, Level};
 
 /// Status macros

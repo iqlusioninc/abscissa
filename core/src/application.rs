@@ -7,6 +7,8 @@ mod state;
 
 pub use self::{cell::AppCell, exit::fatal_error, name::Name, state::State};
 
+#[cfg(feature = "trace")]
+use crate::trace::{self, Tracing};
 use crate::{
     command::Command,
     component::Component,
@@ -15,7 +17,6 @@ use crate::{
     runnable::Runnable,
     shutdown::Shutdown,
     terminal::{component::Terminal, ColorChoice},
-    trace::{self, Tracing},
     FrameworkError,
     FrameworkErrorKind::*,
 };
@@ -113,10 +114,16 @@ pub trait Application: Default + Sized + 'static {
         command: &Self::Cmd,
     ) -> Result<Vec<Box<dyn Component<Self>>>, FrameworkError> {
         let terminal = Terminal::new(self.term_colors(command));
+
+        #[cfg(feature = "trace")]
         let tracing = Tracing::new(self.tracing_config(command), self.term_colors(command))
             .expect("tracing subsystem failed to initialize");
 
-        Ok(vec![Box::new(terminal), Box::new(tracing)])
+        Ok(vec![
+            Box::new(terminal),
+            #[cfg(feature = "trace")]
+            Box::new(tracing),
+        ])
     }
 
     /// Load configuration from the given path.
@@ -153,6 +160,7 @@ pub trait Application: Default + Sized + 'static {
     }
 
     /// Get the tracing configuration for this application.
+    #[cfg(feature = "trace")]
     fn tracing_config(&self, command: &Self::Cmd) -> trace::Config {
         trace::Config::default()
     }
