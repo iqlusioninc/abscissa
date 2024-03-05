@@ -41,7 +41,7 @@ fn test_generated_app() {
     for test_command in TEST_COMMANDS {
         let mut runner = RUNNER.clone();
         runner
-            .args(test_command.split(" "))
+            .args(test_command.split(' '))
             .status()
             .expect_success();
     }
@@ -55,7 +55,7 @@ fn generate_app(path: &Path) {
 
     // Run `abscissa new` to generate the app
     CmdRunner::default()
-        .args(&[
+        .args([
             "new",
             &path.display().to_string(),
             "--force",
@@ -74,7 +74,7 @@ fn generate_app(path: &Path) {
         let test_file = entry.unwrap().path();
         fs::copy(
             &test_file,
-            app_test_dir.join(&test_file.file_name().unwrap()),
+            app_test_dir.join(test_file.file_name().unwrap()),
         )
         .unwrap();
     }
@@ -88,7 +88,7 @@ fn generate_subcommand(path: &Path) {
     let name = "foo-bar-baz";
 
     CmdRunner::default()
-        .args(&[
+        .args([
             "gen",
             "cmd",
             "--manifest-path",
