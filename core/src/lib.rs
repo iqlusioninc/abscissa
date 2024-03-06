@@ -28,21 +28,21 @@ pub mod terminal;
 
 // Other modules
 
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod application;
-#[cfg(feature = "options")]
+#[cfg(all(feature = "default", feature = "options"))]
 pub mod command;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod component;
-#[cfg(feature = "config")]
+#[cfg(all(feature = "default", feature = "config"))]
 pub mod config;
 pub mod path;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub mod prelude;
 mod runnable;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 mod shutdown;
-#[cfg(feature = "testing")]
+#[cfg(all(feature = "default", feature = "testing"))]
 pub mod testing;
 pub mod thread;
 #[cfg(feature = "trace")]
@@ -56,17 +56,17 @@ pub use crate::{
 };
 pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
 
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub use crate::{
     application::{boot, Application},
     component::Component,
     shutdown::Shutdown,
 };
 
-#[cfg(feature = "config")]
+#[cfg(all(feature = "default", feature = "config"))]
 pub use crate::config::{Config, Configurable};
 
-#[cfg(feature = "options")]
+#[cfg(all(feature = "default", feature = "options"))]
 pub use crate::{command::Command, path::StandardPaths};
 
 // Re-exported modules/types from third-party crates
@@ -78,5 +78,5 @@ pub use fs_err as fs;
 pub use secrecy as secret;
 #[cfg(feature = "secrets")]
 pub use secrecy::Secret;
-#[cfg(feature = "application")]
+#[cfg(all(feature = "default", feature = "application"))]
 pub use semver::Version;
