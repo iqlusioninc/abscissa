@@ -19,7 +19,7 @@ rust-version = "1.60"
 [dependencies]
 abscissa_core = { version = "0.7", path = "../core" }
 clap = "4"
-handlebars = "4"
+handlebars = "5"
 ident_case = "1"
 serde = { version = "1", features = ["serde_derive"] }
 
