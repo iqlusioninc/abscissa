@@ -1,5 +1,5 @@
 //! Tests for Abscissa's component functionality
-
+#![cfg(feature = "default")]
 mod example_app;
 
 use self::example_app::{ExampleApp, ExampleConfig};
