@@ -34,7 +34,7 @@ serde = { version = "1", optional = true, features = ["serde_derive"] }
 termcolor = { version = "1", optional = true }
 toml = { version = "0.8", optional = true }
 tracing = { version = "0.1", optional = true }
-tracing-log = { version = "0.1", optional = true }
+tracing-log = { version = "0.2", optional = true }
 wait-timeout = { version = "0.2", optional = true }
 
 [dependencies.tracing-subscriber]
