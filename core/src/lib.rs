@@ -52,7 +52,7 @@ pub mod trace;
 
 pub use crate::{
     error::framework::{FrameworkError, FrameworkErrorKind},
-    runnable::Runnable,
+    runnable::{Runnable, RunnableMut},
 };
 pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
 
