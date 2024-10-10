@@ -77,6 +77,6 @@ pub use fs_err as fs;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;
 #[cfg(feature = "secrets")]
-pub use secrecy::Secret;
+pub use secrecy::{SecretBox, SecretSlice, SecretString};
 #[cfg(feature = "application")]
 pub use semver::Version;
