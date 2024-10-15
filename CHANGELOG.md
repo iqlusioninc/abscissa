@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] (2024-10-15)
+### Fixed
+- Path to README.md for `abscissa_core` ([#932])
+
 ## [0.8.0] (2024-10-15)
 ### Added
 - `Application::boot_with_args` ([#805])
@@ -562,6 +566,9 @@ impl std::error::Error for Error {
 ## 0.0.1 (2018-08-25)
 
 - Initial release
+
+[0.8.1]: https://github.com/iqlusioninc/abscissa/pull/933
+[#932]: https://github.com/iqlusioninc/abscissa/pull/932
 
 [0.8.0]: https://github.com/iqlusioninc/abscissa/pull/930
 [#805]: https://github.com/iqlusioninc/abscissa/pull/805
