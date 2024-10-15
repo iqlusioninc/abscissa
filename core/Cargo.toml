@@ -5,7 +5,7 @@ Application microframework with support for command-line option parsing,
 configuration, error handling, logging, and terminal interactions.
 This crate contains the framework's core functionality.
 """
-version      = "0.7.0"
+version      = "0.8.0"
 license      = "Apache-2.0"
 authors      = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage     = "https://github.com/iqlusioninc/abscissa/"
@@ -14,10 +14,10 @@ readme       = "../README.md"
 categories   = ["command-line-interface", "config", "rust-patterns"]
 keywords     = ["abscissa", "cli", "application", "framework", "service"]
 edition      = "2021"
-rust-version = "1.60"
+rust-version = "1.74"
 
 [dependencies]
-abscissa_derive = { version = "0.7", path = "../derive" }
+abscissa_derive = { version = "0.8", path = "../derive" }
 backtrace = "0.3"
 canonical-path = "2"
 fs-err = "2"

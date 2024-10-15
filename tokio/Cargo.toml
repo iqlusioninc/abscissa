@@ -1,17 +1,17 @@
 [package]
 name         = "abscissa_tokio"
 description  = "Support for launching Tokio runtimes within Abscissa applications"
-version      = "0.7.0"
+version      = "0.8.0"
 license      = "Apache-2.0"
 authors      = ["Tony Arcieri <tony@iqlusion.io>"]
 homepage     = "https://github.com/iqlusioninc/abscissa"
 repository   = "https://github.com/iqlusioninc/abscissa/tree/main/tokio"
 readme       = "README.md"
 edition      = "2021"
-rust-version = "1.60"
+rust-version = "1.74"
 
 [dependencies]
-abscissa_core = { version = "0.7", path = "../core" }
+abscissa_core = { version = "0.8", path = "../core" }
 tokio = { version = "1", features = ["rt-multi-thread"] }
 actix-rt = { version = "2.2", optional = true }
 
