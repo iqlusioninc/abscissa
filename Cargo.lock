@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "abscissa"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "abscissa_core",
  "clap",
