@@ -1,6 +1,7 @@
 //! Error contexts
 
 use super::BoxError;
+#[cfg(feature = "backtrace")]
 use backtrace::Backtrace;
 use std::fmt::{self, Debug, Display};
 
@@ -14,6 +15,7 @@ where
     kind: Kind,
 
     /// Backtrace where error occurred
+    #[cfg(feature = "backtrace")]
     backtrace: Option<Backtrace>,
 
     /// Source of the error
@@ -26,9 +28,11 @@ where
 {
     /// Create a new error context
     pub fn new(kind: Kind, source: Option<BoxError>) -> Self {
+        #[cfg(feature = "backtrace")]
         let backtrace = Some(Backtrace::new_unresolved());
         Context {
             kind,
+            #[cfg(feature = "backtrace")]
             backtrace,
             source,
         }
@@ -40,11 +44,13 @@ where
     }
 
     /// Get the backtrace associated with this error (if available)
+    #[cfg(feature = "backtrace")]
     pub fn backtrace(&self) -> Option<&Backtrace> {
         self.backtrace.as_ref()
     }
 
     /// Extract the backtrace from the context, allowing it to be resolved.
+    #[cfg(feature = "backtrace")]
     pub fn into_backtrace(self) -> Option<Backtrace> {
         self.backtrace
     }

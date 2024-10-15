@@ -14,6 +14,7 @@ impl Terminal {
         // TODO(tarcieri): handle terminal reinit (without panicking)
         super::init(color_choice);
 
+        #[cfg(feature = "backtrace")]
         if color_choice != ColorChoice::Never {
             // TODO(tarcieri): avoid panicking here
             color_eyre::install().expect("couldn't install color-eyre");
