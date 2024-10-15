@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] (2024-10-15)
+### Added
+- `Application::boot_with_args` ([#805])
+- Shutdown with exit code ([#865])
+
+### Changed
+- Use Rust 2021 edition in `abscissa new` ([#856])
+- MSRV 1.74 ([#866])
+- Bump `tracing-log` to v0.2 ([#878])
+- Bump `toml` to 0.8 ([#906])
+- Bump `secrecy` to v0.10 ([#928])
+
+### Fixed
+- Uses default info if `RUST_LOG` is not set ([#863])
+
 ## [0.7.0] (2022-12-14)
 ### Changed
 - Update `clap` to v4; MSRV 1.60 ([#779])
@@ -547,6 +562,16 @@ impl std::error::Error for Error {
 ## 0.0.1 (2018-08-25)
 
 - Initial release
+
+[0.8.0]: https://github.com/iqlusioninc/abscissa/pull/930
+[#805]: https://github.com/iqlusioninc/abscissa/pull/805
+[#856]: https://github.com/iqlusioninc/abscissa/pull/856
+[#863]: https://github.com/iqlusioninc/abscissa/pull/863
+[#865]: https://github.com/iqlusioninc/abscissa/pull/865
+[#866]: https://github.com/iqlusioninc/abscissa/pull/866
+[#878]: https://github.com/iqlusioninc/abscissa/pull/878
+[#906]: https://github.com/iqlusioninc/abscissa/pull/906
+[#928]: https://github.com/iqlusioninc/abscissa/pull/928
 
 [0.7.0]: https://github.com/iqlusioninc/abscissa/pull/793
 [#779]: https://github.com/iqlusioninc/abscissa/pull/779
