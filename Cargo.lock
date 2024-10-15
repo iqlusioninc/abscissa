@@ -16,7 +16,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_core"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "abscissa_derive",
  "arc-swap",
