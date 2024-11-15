@@ -14,4 +14,4 @@ pub mod process;
 mod regex;
 mod runner;
 
-pub use self::{regex::Regex, runner::CmdRunner};
+pub use self::{config::ConfigFile, regex::Regex, runner::CmdRunner};
