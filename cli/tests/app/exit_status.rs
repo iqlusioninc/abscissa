@@ -6,7 +6,7 @@
 use abscissa_core::testing::CmdRunner;
 use once_cell::sync::Lazy;
 
-pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| CmdRunner::default());
+static RUNNER: Lazy<CmdRunner> = Lazy::new(|| CmdRunner::default());
 
 #[test]
 fn no_args() {
