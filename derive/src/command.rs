@@ -9,6 +9,8 @@ pub fn derive_command(s: Structure<'_>) -> TokenStream {
     let subcommand_usage = quote!();
 
     s.gen_impl(quote! {
+        #[allow(unknown_lints)]
+        #[allow(non_local_definitions)]
         gen impl Command for @Self {
             #[doc = "Name of this program as a string"]
             fn name() -> &'static str {
@@ -44,6 +46,8 @@ mod tests {
             expands to {
                 #[allow(non_upper_case_globals)]
                 const _DERIVE_Command_FOR_MyCommand: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
                     impl Command for MyCommand {
                         #[doc = "Name of this program as a string"]
                         fn name() -> & 'static str {
@@ -79,6 +83,8 @@ mod tests {
             expands to {
                 #[allow(non_upper_case_globals)]
                 const _DERIVE_Command_FOR_MyCommand: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
                     impl Command for MyCommand {
                         #[doc = "Name of this program as a string"]
                         fn name() -> & 'static str {
