@@ -13,6 +13,8 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let dependency_methods = attrs.dependency_methods();
 
     s.gen_impl(quote! {
+        #[allow(unknown_lints)]
+        #[allow(non_local_definitions)]
         gen impl<A> Component<A> for @Self
         where
             A: #abscissa_core::Application
@@ -199,6 +201,8 @@ mod tests {
             expands to {
                 #[allow(non_upper_case_globals)]
                 const _DERIVE_Component_A_FOR_MyComponent: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
                     impl<A> Component<A> for MyComponent
                     where
                         A: abscissa_core::Application

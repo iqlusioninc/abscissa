@@ -7,6 +7,8 @@ pub fn derive_runnable(s: synstructure::Structure<'_>) -> proc_macro2::TokenStre
     });
 
     s.gen_impl(quote! {
+        #[allow(unknown_lints)]
+        #[allow(non_local_definitions)]
         gen impl Runnable for @Self {
             fn run(&self) {
                 match *self { #body }
@@ -33,6 +35,8 @@ mod tests {
             expands to {
                 #[allow(non_upper_case_globals)]
                 const _DERIVE_Runnable_FOR_MyRunnable: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
                     impl Runnable for MyRunnable {
                         fn run(&self) {
                             match *self {

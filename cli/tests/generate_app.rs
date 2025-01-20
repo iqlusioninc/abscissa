@@ -19,7 +19,7 @@ const TEST_COMMANDS: &[&str] = &[
     "clippy",
 ];
 
-pub static RUNNER: Lazy<CmdRunner> = Lazy::new(|| {
+static RUNNER: Lazy<CmdRunner> = Lazy::new(|| {
     let mut runner = CmdRunner::new("cargo");
     runner.exclusive();
     runner
