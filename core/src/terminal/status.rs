@@ -50,7 +50,7 @@ macro_rules! status_ok {
             .bold()
             .color($crate::terminal::Color::Green)
             .status($status)
-            .print_stdout($msg)
+            .print_stderr($msg)
             .unwrap();
     };
     ($status:expr, $fmt:expr, $($arg:tt)+) => {
@@ -72,7 +72,7 @@ macro_rules! status_info {
             .bold()
             .color($crate::terminal::Color::Cyan)
             .status($status)
-            .print_stdout($msg)
+            .print_stderr($msg)
             .unwrap();
     };
     ($status:expr, $fmt:expr, $($arg:tt)+) => {
@@ -93,7 +93,7 @@ macro_rules! status_warn {
             .bold()
             .color($crate::terminal::Color::Yellow)
             .status("warning:")
-            .print_stdout($msg)
+            .print_stderr($msg)
             .unwrap();
     };
     ($fmt:expr, $($arg:tt)+) => {
