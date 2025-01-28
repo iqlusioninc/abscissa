@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.2] (2025-01-28)
+### Fixed
+- Print all status messages to stderr ([#959])
+- Un-`pub` some statics that don't have to be pub to fix build under `deny(warnings)` ([#960])
+- Add `allow()` for const impl pattern that causes false positives in a rustc lint in derive macros ([#960])
+
 ## [0.8.1] (2024-10-15)
 ### Fixed
 - Path to README.md for `abscissa_core` ([#932])
@@ -566,6 +572,10 @@ impl std::error::Error for Error {
 ## 0.0.1 (2018-08-25)
 
 - Initial release
+
+[0.8.2]: https://github.com/iqlusioninc/abscissa/pull/964
+[#959]: https://github.com/iqlusioninc/abscissa/pull/959
+[#960]: https://github.com/iqlusioninc/abscissa/pull/960
 
 [0.8.1]: https://github.com/iqlusioninc/abscissa/pull/933
 [#932]: https://github.com/iqlusioninc/abscissa/pull/932
