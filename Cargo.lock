@@ -16,7 +16,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_core"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "abscissa_derive",
  "arc-swap",
@@ -40,7 +40,7 @@ dependencies = [
 
 [[package]]
 name = "abscissa_derive"
-version = "0.8.0"
+version = "0.8.2"
 dependencies = [
  "ident_case",
  "proc-macro2",
