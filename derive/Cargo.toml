@@ -17,7 +17,7 @@ proc-macro = true
 ident_case = "1"
 proc-macro2 = "1"
 quote = "1"
-syn = "1"
+syn = "2"
 synstructure = "0.12"
 
 [package.metadata.docs.rs]
