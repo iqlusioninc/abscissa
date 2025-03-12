@@ -8,6 +8,31 @@ use synstructure::Structure;
 /// Custom derive for `abscissa_core::component::Component`
 pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let attrs = ComponentAttributes::from_derive_input(s.ast());
+    let abscissa_core = attrs.abscissa_core_crate();
+
+    let mut ret = derive_injectable_inner(&s);
+
+    ret.extend(s.gen_impl(quote! {
+        #[allow(unknown_lints)]
+        #[allow(non_local_definitions)]
+        gen impl<A> Component<A> for @Self
+        where
+            A: #abscissa_core::Application
+        {
+        }
+    }));
+
+    ret
+}
+
+/// Custom derive for `abscissa_core::component::Injectable`
+pub fn derive_injectable(s: Structure<'_>) -> TokenStream {
+    derive_injectable_inner(&s)
+}
+
+/// Custom derive for `abscissa_core::component::Injectable`
+fn derive_injectable_inner(s: &Structure<'_>) -> TokenStream {
+    let attrs = ComponentAttributes::from_derive_input(s.ast());
     let name = &s.ast().ident;
     let abscissa_core = attrs.abscissa_core_crate();
     let dependency_methods = attrs.dependency_methods();
@@ -15,7 +40,7 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
     s.gen_impl(quote! {
         #[allow(unknown_lints)]
         #[allow(non_local_definitions)]
-        gen impl<A> Component<A> for @Self
+        gen impl<A> #abscissa_core::component::Injectable<A> for @Self
         where
             A: #abscissa_core::Application
         {

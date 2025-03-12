@@ -9,10 +9,45 @@ mod id;
 pub mod registry;
 
 pub use self::{handle::Handle, id::Id, registry::Registry};
-pub use abscissa_derive::Component;
+pub use abscissa_derive::{Component, Injectable};
 
 use crate::{application::Application, shutdown::Shutdown, FrameworkError, Version};
 use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
+
+/// The aspect of application components associated with dependency injection.
+///
+/// This exists as a separate trait to enable separately deriving this trait and
+/// manually implementing [`Component`]. See the [`Component`] documentation for
+/// full details.
+pub trait Injectable<A>: AsAny + Debug + Send + Sync
+where
+    A: Application,
+{
+    /// Identifier for this component.
+    ///
+    /// These are the Rust path (e.g. `crate_name:foo::Foo`) by convention.
+    fn id(&self) -> Id;
+
+    /// Version of this component
+    fn version(&self) -> Version;
+
+    /// Names of the components this component depends on.
+    ///
+    /// After this app's `after_config` callback is fired, the
+    /// `register_dependency` callback below will be fired for each of these.
+    fn dependencies(&self) -> Iter<'_, Id> {
+        [].iter()
+    }
+
+    /// Register a dependency of this component (a.k.a. "dependency injection")
+    fn register_dependency(
+        &mut self,
+        handle: Handle,
+        dependency: &mut dyn Component<A>,
+    ) -> Result<(), FrameworkError> {
+        unimplemented!();
+    }
+}
 
 /// Application components.
 ///
@@ -41,39 +76,32 @@ use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 /// ```
 ///
 /// This will automatically implement the entire trait for you.
-pub trait Component<A>: AsAny + Debug + Send + Sync
+///
+/// If you want your component to react to lifecycle events, you can instead
+/// just derive the dependency injection functionality, and implement this trait
+/// manually.
+///
+/// ```rust
+/// use abscissa_core::{Component, Injectable};
+///
+/// #[derive(Injectable, Debug)]
+/// pub struct MyComponent {}
+///
+/// impl Component<MyApplication> for MyComponent {
+///     fn after_config(&mut self, config: &MyConfig) -> Result<(), FrameworkError> {
+///         // Do something with the config
+///         Ok(())
+///     }
+/// }
+/// ```
+pub trait Component<A>: Injectable<A>
 where
     A: Application,
 {
-    /// Identifier for this component.
-    ///
-    /// These are the Rust path (e.g. `crate_name:foo::Foo`) by convention.
-    fn id(&self) -> Id;
-
-    /// Version of this component
-    fn version(&self) -> Version;
-
     /// Lifecycle event called when application configuration should be loaded
     /// if it were possible.
     fn after_config(&mut self, config: &A::Cfg) -> Result<(), FrameworkError> {
         Ok(())
-    }
-
-    /// Names of the components this component depends on.
-    ///
-    /// After this app's `after_config` callback is fired, the
-    /// `register_dependency` callback below will be fired for each of these.
-    fn dependencies(&self) -> Iter<'_, Id> {
-        [].iter()
-    }
-
-    /// Register a dependency of this component (a.k.a. "dependency injection")
-    fn register_dependency(
-        &mut self,
-        handle: Handle,
-        dependency: &mut dyn Component<A>,
-    ) -> Result<(), FrameworkError> {
-        unimplemented!();
     }
 
     /// Perform any tasks which should occur before the app exits
