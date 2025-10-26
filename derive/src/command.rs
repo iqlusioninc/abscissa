@@ -44,8 +44,7 @@ mod tests {
                 struct MyCommand {}
             }
             expands to {
-                #[allow(non_upper_case_globals)]
-                const _DERIVE_Command_FOR_MyCommand: () = {
+                const _: () = {
                     #[allow(unknown_lints)]
                     #[allow(non_local_definitions)]
                     impl Command for MyCommand {
@@ -81,8 +80,7 @@ mod tests {
                 }
             }
             expands to {
-                #[allow(non_upper_case_globals)]
-                const _DERIVE_Command_FOR_MyCommand: () = {
+                const _: () = {
                     #[allow(unknown_lints)]
                     #[allow(non_local_definitions)]
                     impl Command for MyCommand {
