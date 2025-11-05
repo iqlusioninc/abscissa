@@ -59,7 +59,7 @@ pub use std::collections::{BTreeMap as Map, btree_map as map, btree_set as set};
 #[cfg(feature = "application")]
 pub use crate::{
     application::{Application, boot},
-    component::Component,
+    component::{Component, Injectable},
     shutdown::Shutdown,
 };
 
