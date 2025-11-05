@@ -13,4 +13,5 @@ use synstructure::decl_derive;
 
 decl_derive!([Command] => command::derive_command);
 decl_derive!([Component, attributes(component)] => component::derive_component);
+decl_derive!([Injectable, attributes(component)] => component::derive_injectable);
 decl_derive!([Runnable] => runnable::derive_runnable);
