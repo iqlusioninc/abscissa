@@ -167,6 +167,17 @@ pub trait Application: Default + Sized + 'static {
 
         process::exit(0);
     }
+
+    /// Shut down this application gracefully, exiting with user-defined exit code.
+    fn shutdown_with_exitcode(&self, shutdown: Shutdown, exit_code: i32) -> ! {
+        let components = self.state().components();
+
+        if let Err(e) = components.shutdown(self, shutdown) {
+            fatal_error(self, &e)
+        }
+
+        process::exit(exit_code);
+    }
 }
 
 /// Boot the given application, parsing subcommand and options from

@@ -64,8 +64,8 @@ fn init_components() -> Vec<Box<dyn Component<ExampleApp>>> {
     foobar.set_state("original foobar state");
 
     let component1 = Box::new(foobar);
-    let component2 = Box::new(BazComponent::default());
-    let component3 = Box::new(QuuxComponent::default());
+    let component2 = Box::<BazComponent>::default();
+    let component3 = Box::<QuuxComponent>::default();
 
     let components: Vec<Box<dyn Component<ExampleApp>>> = vec![component1, component2, component3];
 
@@ -87,20 +87,20 @@ fn component_registration() {
     assert_eq!(registry.len(), 3);
 
     // Fetch components and make sure they got registered correctly
-    let foobar = registry.get_by_id(FOOBAR_COMPONENT_ID).unwrap();
-    assert_eq!(foobar.id(), FOOBAR_COMPONENT_ID);
+    let foobar_comp = registry.get_by_id(FOOBAR_COMPONENT_ID).unwrap();
+    assert_eq!(foobar_comp.id(), FOOBAR_COMPONENT_ID);
 
-    let baz = registry.get_by_id(BAZ_COMPONENT_ID).unwrap();
-    assert_eq!(baz.id(), BAZ_COMPONENT_ID);
+    let baz_comp = registry.get_by_id(BAZ_COMPONENT_ID).unwrap();
+    assert_eq!(baz_comp.id(), BAZ_COMPONENT_ID);
 
-    let quux = registry.get_by_id(QUUX_COMPONENT_ID).unwrap();
-    assert_eq!(quux.id(), QUUX_COMPONENT_ID);
+    let quux_comp = registry.get_by_id(QUUX_COMPONENT_ID).unwrap();
+    assert_eq!(quux_comp.id(), QUUX_COMPONENT_ID);
 }
 
 #[test]
 fn duplicate_component_registration() {
-    let foobar1 = Box::new(FoobarComponent::default());
-    let foobar2 = Box::new(FoobarComponent::default());
+    let foobar1 = Box::<FoobarComponent>::default();
+    let foobar2 = Box::<FoobarComponent>::default();
     let components: Vec<Box<dyn Component<ExampleApp>>> = vec![foobar1, foobar2];
 
     let mut registry = component::Registry::default();
@@ -117,7 +117,7 @@ fn duplicate_component_registration() {
 #[test]
 fn get_downcast_ref() {
     let mut registry = component::Registry::default();
-    let component = Box::new(FoobarComponent::default()) as Box<dyn Component<ExampleApp>>;
+    let component = Box::<FoobarComponent>::default() as Box<dyn Component<ExampleApp>>;
     registry.register(vec![component]).unwrap();
 
     {
@@ -126,8 +126,8 @@ fn get_downcast_ref() {
     }
 
     {
-        let foo = registry.get_downcast_ref::<FoobarComponent>().unwrap();
-        assert_eq!(foo.state.as_ref().unwrap(), "mutated!");
+        let foo_comp = registry.get_downcast_ref::<FoobarComponent>().unwrap();
+        assert_eq!(foo_comp.state.as_ref().unwrap(), "mutated!");
     }
 }
 
@@ -142,9 +142,12 @@ fn dependency_injection() {
     registry.register(components).unwrap();
     registry.after_config(&ExampleConfig::default()).unwrap();
 
-    let foobar = registry.get_downcast_ref::<FoobarComponent>().unwrap();
-    assert_eq!(foobar.state.as_ref().unwrap(), "hijacked!");
+    let foobar_comp = registry.get_downcast_ref::<FoobarComponent>().unwrap();
+    assert_eq!(foobar_comp.state.as_ref().unwrap(), "hijacked!");
 
-    let quux = registry.get_downcast_ref::<QuuxComponent>().unwrap();
-    assert_eq!(quux.foobar_state.as_ref().unwrap(), "original foobar state");
+    let quux_comp = registry.get_downcast_ref::<QuuxComponent>().unwrap();
+    assert_eq!(
+        quux_comp.foobar_state.as_ref().unwrap(),
+        "original foobar state"
+    );
 }

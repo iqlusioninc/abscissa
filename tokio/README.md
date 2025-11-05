@@ -36,7 +36,7 @@ See documentation for usage instructions.
 The **abscissa_tokio** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2020 iqlusion
+Copyright © 2020-2024 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ limitations under the License.
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/abscissa_tokio.svg
+[crate-image]: https://img.shields.io/crates/v/abscissa_tokio.svg?logo=rust
 [crate-link]: https://crates.io/crates/abscissa_tokio
 [docs-image]: https://docs.rs/abscissa_tokio/badge.svg
 [docs-link]: https://docs.rs/abscissa_tokio/

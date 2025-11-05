@@ -2,7 +2,7 @@
 
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
-use syn::{DeriveInput, Lit, Meta, MetaList, MetaNameValue, NestedMeta};
+use syn::{meta::ParseNestedMeta, DeriveInput, Lit};
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::component::Component`
@@ -13,6 +13,8 @@ pub fn derive_component(s: Structure<'_>) -> TokenStream {
     let dependency_methods = attrs.dependency_methods();
 
     s.gen_impl(quote! {
+        #[allow(unknown_lints)]
+        #[allow(non_local_definitions)]
         gen impl<A> Component<A> for @Self
         where
             A: #abscissa_core::Application
@@ -53,26 +55,22 @@ impl ComponentAttributes {
         let mut inject = Vec::new();
 
         for attr in &input.attrs {
-            if !attr.path.is_ident("component") {
+            if !attr.path().is_ident("component") {
                 continue;
             }
 
-            match attr.parse_meta().expect("error parsing meta") {
-                Meta::List(MetaList { nested, .. }) => {
-                    for meta in &nested {
-                        match meta {
-                            NestedMeta::Meta(Meta::Path(path)) if path.is_ident("core") => {
-                                core = true
-                            }
-                            NestedMeta::Meta(Meta::NameValue { .. }) => {
-                                inject.push(InjectAttribute::from_nested_meta(meta))
-                            }
-                            _ => panic!("malformed `component` attribute: {:?}", meta),
-                        }
-                    }
+            attr.parse_nested_meta(|nested| {
+                if nested.path.is_ident("core") {
+                    core = true;
+                    Ok(())
+                } else if nested.path.is_ident("inject") {
+                    inject.push(InjectAttribute::from_nested_meta(&nested)?);
+                    Ok(())
+                } else {
+                    Err(nested.error("malformed `component` attribute"))
                 }
-                other => panic!("malformed `component` attribute: {:?}", other),
-            };
+            })
+            .expect("error parsing meta");
         }
 
         Self { core, inject }
@@ -128,14 +126,18 @@ pub struct InjectAttribute(String);
 
 impl InjectAttribute {
     /// Parse an [`InjectAttribute`] from [`NestedMeta`].
-    pub fn from_nested_meta(meta: &NestedMeta) -> Self {
-        match meta {
-            NestedMeta::Meta(Meta::NameValue(MetaNameValue {
-                path,
-                lit: Lit::Str(lit_str),
-                ..
-            })) if path.is_ident("inject") => Self(lit_str.value()),
-            _ => panic!("malformed `component` attribute: {:?}", meta),
+    pub fn from_nested_meta(meta: &ParseNestedMeta<'_>) -> Result<Self, syn::Error> {
+        let Ok(value) = meta.value() else {
+            return Err(meta.error("expected value for `inject` attribute"));
+        };
+
+        let Ok(lit) = value.parse::<Lit>() else {
+            return Err(value.error("expected literal for `inject` value"));
+        };
+
+        match lit {
+            Lit::Str(lit_str) => Ok(Self(lit_str.value())),
+            _ => Err(value.error("expected string literal for `inject` value")),
         }
     }
 
@@ -197,8 +199,9 @@ mod tests {
                 struct MyComponent {}
             }
             expands to {
-                #[allow(non_upper_case_globals)]
-                const _DERIVE_Component_A_FOR_MyComponent: () = {
+                const _: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
                     impl<A> Component<A> for MyComponent
                     where
                         A: abscissa_core::Application

@@ -22,11 +22,11 @@ jobs:
           - macos-latest
           - windows-latest
         rust:
-          - 1.70.0 # MSRV
+          - 1.74.0 # MSRV
           - stable
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.rust }}

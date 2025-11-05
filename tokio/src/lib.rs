@@ -93,16 +93,20 @@
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, unused_lifetimes, unused_qualifications)]
 
+use std::{future::Future, time::Duration};
+
 pub use tokio;
 
 use abscissa_core::{
     application::{AppCell, Application},
     format_err, Component, FrameworkError, FrameworkErrorKind,
 };
-use std::future::Future;
 use tokio::runtime::Runtime;
 
 /// Run a [`Future`] on the [`Runtime`] for the provided [`Application`].
+///
+/// When the future completes (or is interrupted), the runtime will shutdown,
+/// waiting for spawned work to stop if a timeout was configured.
 ///
 /// This requires that [`TokioComponent`] has been registered with the given
 /// application, and can only be called once after the application has fully
@@ -112,11 +116,24 @@ where
     A: Application,
     F: Future,
 {
-    take_runtime(app).map(|runtime| runtime.block_on(future))
+    let (runtime, shutdown_timeout) = take_runtime(app)?;
+
+    let res = runtime.block_on(future);
+
+    // Shut down the runtime, because we know nothing else is going to use it.
+    match shutdown_timeout {
+        Some(duration) => runtime.shutdown_timeout(duration),
+        None => runtime.shutdown_background(),
+    }
+
+    Ok(res)
 }
 
 /// Run a [`Future`] on the [`Runtime`] with the additional functionality of the actix runtime
 /// for the provided [`Application`].
+///
+/// Any timeout configured via [`TokioComponent::with_shutdown_timeout`] is
+/// ignored.
 ///
 /// This requires that [`TokioComponent`] has been registered with the given
 /// application, and can only be called once after the application has fully
@@ -131,25 +148,27 @@ where
     A: Application,
     F: Future,
 {
-    Ok(actix_rt::System::with_tokio_rt(|| take_runtime(app).unwrap()).block_on(future))
+    Ok(actix_rt::System::with_tokio_rt(|| take_runtime(app).unwrap().0).block_on(future))
 }
 
 /// Extract the Tokio [`Runtime`] from [`TokioComponent`].
-fn take_runtime<A>(app: &'static AppCell<A>) -> Result<Runtime, FrameworkError>
+fn take_runtime<A>(app: &'static AppCell<A>) -> Result<(Runtime, Option<Duration>), FrameworkError>
 where
     A: Application,
 {
     let mut components = app.state().components_mut();
-    components
+    let component = components
         .get_downcast_mut::<TokioComponent>()
         .ok_or_else(|| {
             FrameworkError::from(format_err!(
                 FrameworkErrorKind::ComponentError,
                 "TokioComponent not registered"
             ))
-        })?
+        })?;
+    component
         .runtime
         .take()
+        .map(|runtime| (runtime, component.shutdown_timeout))
         .ok_or_else(|| {
             format_err!(
                 FrameworkErrorKind::ComponentError,
@@ -166,6 +185,7 @@ where
 #[derive(Component, Debug)]
 pub struct TokioComponent {
     runtime: Option<Runtime>,
+    shutdown_timeout: Option<Duration>,
 }
 
 impl TokioComponent {
@@ -179,6 +199,13 @@ impl TokioComponent {
             )
             .into()
         })
+    }
+
+    /// Sets the duration that the component should wait for spawned work to
+    /// stop when the main future completes or the runtime is interrupted.
+    pub fn with_shutdown_timeout(mut self, timeout: Duration) -> Self {
+        self.shutdown_timeout = Some(timeout);
+        self
     }
 
     /// Borrow the runtime, to e.g. `::spawn` a future on it.
@@ -217,6 +244,7 @@ impl From<Runtime> for TokioComponent {
     fn from(runtime: Runtime) -> Self {
         Self {
             runtime: Some(runtime),
+            shutdown_timeout: None,
         }
     }
 }

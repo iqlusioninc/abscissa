@@ -1,4 +1,4 @@
-#![doc = include_str!("../../README.md")]
+#![doc = include_str!("../README.md")]
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/iqlusioninc/abscissa/main/img/abscissa-sq.svg"
 )]
@@ -52,7 +52,7 @@ pub mod trace;
 
 pub use crate::{
     error::framework::{FrameworkError, FrameworkErrorKind},
-    runnable::Runnable,
+    runnable::{Runnable, RunnableMut},
 };
 pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
 
@@ -77,6 +77,6 @@ pub use fs_err as fs;
 #[cfg(feature = "secrets")]
 pub use secrecy as secret;
 #[cfg(feature = "secrets")]
-pub use secrecy::Secret;
+pub use secrecy::{SecretBox, SecretSlice, SecretString};
 #[cfg(feature = "application")]
 pub use semver::Version;
