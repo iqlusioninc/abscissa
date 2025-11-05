@@ -219,6 +219,33 @@ mod tests {
 
     #[test]
     fn derive_component_struct() {
+        // const _: () = {
+        //     #[allow(unknown_lints)]
+        //     #[allow(non_local_definitions)]
+        //     impl<A> abscissa_core::component::Injectable<A> for MyComponent
+        //     where
+        //         A: abscissa_core::Application,
+        //     {
+        //         #[doc = "Identifier for this component"]
+        //         fn id(&self) -> abscissa_core::component::Id {
+        //             abscissa_core::component::Id::new(concat!(
+        //             module_path!(),
+        //             "::",
+        //             stringify!(MyComponent)
+        //             ))
+        //         }
+        //         #[doc = "Version of this component"]
+        //         fn version(&self) -> abscissa_core::Version {
+        //             abscissa_core::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()
+        //         }
+        //     }
+        // };
+        // const _: () = {
+        //     #[allow(unknown_lints)]
+        //     #[allow(non_local_definitions)]
+        //     impl<A> Component<A> for MyComponent where A: abscissa_core::Application {}
+        // };
+
         test_derive! {
             derive_component {
                 struct MyComponent {}
@@ -227,22 +254,28 @@ mod tests {
                 const _: () = {
                     #[allow(unknown_lints)]
                     #[allow(non_local_definitions)]
-                    impl<A> Component<A> for MyComponent
+                    impl<A> abscissa_core::component::Injectable<A> for MyComponent
                     where
                         A: abscissa_core::Application
                     {
-                        #[doc = "Identifier for this component" ]
+                        #[doc = "Identifier for this component"]
                         fn id(&self) -> abscissa_core::component::Id {
-                            abscissa_core::component::Id::new(
-                                concat!(module_path!(), "::" , stringify!(MyComponent))
-                            )
+                            abscissa_core::component::Id::new(concat!(
+                            module_path!(),
+                            "::",
+                            stringify!(MyComponent)
+                            ))
                         }
-
                         #[doc = "Version of this component"]
                         fn version(&self) -> abscissa_core::Version {
                             abscissa_core::Version::parse(env!("CARGO_PKG_VERSION")).unwrap()
                         }
                     }
+                };
+                const _: () = {
+                    #[allow(unknown_lints)]
+                    #[allow(non_local_definitions)]
+                    impl<A> Component<A> for MyComponent where A: abscissa_core::Application {}
                 };
             }
             no_build // tests the code compiles are in the `abscissa` crate

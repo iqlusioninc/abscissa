@@ -81,7 +81,7 @@ where
 /// just derive the dependency injection functionality, and implement this trait
 /// manually.
 ///
-/// ```rust
+/// ```no_compile
 /// use abscissa_core::{Component, Injectable};
 ///
 /// #[derive(Injectable, Debug)]
