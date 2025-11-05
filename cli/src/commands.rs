@@ -1,11 +1,11 @@
 //! Abscissa CLI Subcommands
 
-pub mod gen;
+pub mod generate;
 pub mod new;
 
-use self::{gen::GenCommand, new::NewCommand};
+use self::{generate::GenCommand, new::NewCommand};
 use super::config::CliConfig;
-use abscissa_core::{clap::Parser, Command, Configurable, Runnable};
+use abscissa_core::{Command, Configurable, Runnable, clap::Parser};
 use std::path::PathBuf;
 
 #[derive(Debug, Parser, Runnable)]

@@ -2,9 +2,10 @@
 
 use super::{commands::CliCommand, config::CliConfig};
 use abscissa_core::{
+    Application, FrameworkError, StandardPaths,
     application::{AppCell, State},
     config::{self, CfgCell},
-    trace, Application, FrameworkError, StandardPaths,
+    trace,
 };
 
 /// Application state

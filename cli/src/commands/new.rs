@@ -9,9 +9,10 @@ use crate::{
     template::{Collection, Template},
 };
 use abscissa_core::{
+    Command, Runnable,
     clap::Parser,
     fs::{self, File},
-    status_err, status_info, status_ok, status_warn, Command, Runnable,
+    status_err, status_info, status_ok, status_warn,
 };
 use ident_case::RenameRule;
 use std::{
