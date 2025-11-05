@@ -11,7 +11,7 @@ pub mod registry;
 pub use self::{handle::Handle, id::Id, registry::Registry};
 pub use abscissa_derive::Component;
 
-use crate::{application::Application, shutdown::Shutdown, FrameworkError, Version};
+use crate::{FrameworkError, Version, application::Application, shutdown::Shutdown};
 use std::{any::Any, cmp::Ordering, fmt::Debug, slice::Iter};
 
 /// Application components.

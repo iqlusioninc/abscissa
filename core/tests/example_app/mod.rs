@@ -1,8 +1,8 @@
 //! Example application used for testing purposes
 
 use abscissa_core::{
-    application, clap::Parser, config, Application, Command, Configurable, FrameworkError,
-    Runnable, StandardPaths,
+    Application, Command, Configurable, FrameworkError, Runnable, StandardPaths, application,
+    clap::Parser, config,
 };
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;

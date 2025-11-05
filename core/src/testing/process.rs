@@ -101,7 +101,7 @@ impl<'cmd> Process<'cmd> {
     }
 }
 
-impl<'cmd> Write for Process<'cmd> {
+impl Write for Process<'_> {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
         self.stdin.write(buf)
     }

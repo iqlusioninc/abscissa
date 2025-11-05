@@ -3,10 +3,10 @@
 // TODO(tarcieri): logfile support?
 
 use tracing_log::LogTracer;
-use tracing_subscriber::{fmt::Formatter, reload::Handle, EnvFilter, FmtSubscriber};
+use tracing_subscriber::{EnvFilter, FmtSubscriber, fmt::Formatter, reload::Handle};
 
 use super::config::Config;
-use crate::{terminal::ColorChoice, Component, FrameworkError, FrameworkErrorKind};
+use crate::{Component, FrameworkError, FrameworkErrorKind, terminal::ColorChoice};
 
 /// Abscissa component for initializing the `tracing` subsystem
 #[derive(Component, Debug)]

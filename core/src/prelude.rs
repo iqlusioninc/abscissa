@@ -7,7 +7,7 @@ pub use crate::{Application, Command, Runnable};
 pub use crate::{ensure, fail, fatal, format_err};
 
 /// Tracing macros
-pub use crate::tracing::{debug, error, event, info, span, trace, warn, Level};
+pub use crate::tracing::{Level, debug, error, event, info, span, trace, warn};
 
 /// Status macros
 pub use crate::{status_err, status_info, status_ok, status_warn};

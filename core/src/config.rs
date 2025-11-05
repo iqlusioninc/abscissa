@@ -7,10 +7,10 @@ mod overrides;
 pub use self::{cell::CfgCell, configurable::Configurable, overrides::Override};
 
 use crate::{
-    fs::File,
-    path::AbsPath,
     FrameworkError,
     FrameworkErrorKind::{ConfigError, IoError, PathError},
+    fs::File,
+    path::AbsPath,
 };
 use serde::de::DeserializeOwned;
 use std::{fmt::Debug, io::Read};

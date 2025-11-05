@@ -37,7 +37,7 @@ impl<'a> Template<'a> {
     }
 }
 
-impl<'a> Template<'a> {
+impl Template<'_> {
     /// Relative path in the application where the output file should be located
     pub fn output_path(&self, properties: &Properties) -> PathBuf {
         let path = Path::new(self.name().as_ref());

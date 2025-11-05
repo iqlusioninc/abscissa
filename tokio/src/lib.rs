@@ -98,8 +98,9 @@ use std::{future::Future, time::Duration};
 pub use tokio;
 
 use abscissa_core::{
+    Component, FrameworkError, FrameworkErrorKind,
     application::{AppCell, Application},
-    format_err, Component, FrameworkError, FrameworkErrorKind,
+    format_err,
 };
 use tokio::runtime::Runtime;
 

@@ -1,6 +1,6 @@
 //! Framework error types
 
-use super::{context::Context, BoxError};
+use super::{BoxError, context::Context};
 use std::{
     fmt::{self, Display},
     io,

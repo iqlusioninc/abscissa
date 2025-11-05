@@ -14,6 +14,12 @@ impl<T> AppCell<T> {
     }
 }
 
+impl<T> Default for AppCell<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<A> AppCell<A>
 where
     A: Application,
