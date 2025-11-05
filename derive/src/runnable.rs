@@ -33,8 +33,7 @@ mod tests {
                 }
             }
             expands to {
-                #[allow(non_upper_case_globals)]
-                const _DERIVE_Runnable_FOR_MyRunnable: () = {
+                const _: () = {
                     #[allow(unknown_lints)]
                     #[allow(non_local_definitions)]
                     impl Runnable for MyRunnable {
