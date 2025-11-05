@@ -1,12 +1,12 @@
 //! Abscissa's component registry
 
-use super::{handle::Handle, id::Id, Component};
+use super::{Component, handle::Handle, id::Id};
 use crate::{
-    application::{self, Application},
-    shutdown::Shutdown,
     FrameworkError,
     FrameworkErrorKind::ComponentError,
     Map,
+    application::{self, Application},
+    shutdown::Shutdown,
 };
 use std::{any::TypeId, borrow::Borrow, slice, sync};
 

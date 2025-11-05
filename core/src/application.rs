@@ -8,16 +8,16 @@ mod state;
 pub use self::{cell::AppCell, exit::fatal_error, name::Name, state::State};
 
 use crate::{
+    FrameworkError,
+    FrameworkErrorKind::*,
     command::Command,
     component::Component,
     config::{self, Config, Configurable},
     path::{AbsPathBuf, ExePath, RootPath},
     runnable::Runnable,
     shutdown::Shutdown,
-    terminal::{component::Terminal, ColorChoice},
+    terminal::{ColorChoice, component::Terminal},
     trace::{self, Tracing},
-    FrameworkError,
-    FrameworkErrorKind::*,
 };
 use std::{env, ffi::OsString, path::Path, process, vec};
 

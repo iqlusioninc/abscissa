@@ -2,7 +2,7 @@
 
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
-use syn::{meta::ParseNestedMeta, DeriveInput, Lit};
+use syn::{DeriveInput, Lit, meta::ParseNestedMeta};
 use synstructure::Structure;
 
 /// Custom derive for `abscissa_core::component::Component`

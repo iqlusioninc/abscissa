@@ -4,14 +4,14 @@
 
 thread_local! {
     /// Boolean flag signaling to a thread to terminate
-    static KILL_SWITCH: RefCell<Option<Arc<KillSwitch>>> = RefCell::new(None);
+    static KILL_SWITCH: RefCell<Option<Arc<KillSwitch>>> = const { RefCell::new(None) };
 }
 
 use std::{
     cell::RefCell,
     sync::{
-        atomic::{AtomicBool, Ordering},
         Arc,
+        atomic::{AtomicBool, Ordering},
     },
 };
 

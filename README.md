@@ -60,7 +60,7 @@ Abscissa presently consists of three crates:
 
 ## Minimum Supported Rust Version
 
-Requires Rust **1.74** or newer.
+Requires Rust **1.85** or newer.
 
 ## Installation
 
@@ -189,7 +189,7 @@ For more information, please see [CODE_OF_CONDUCT.md].
 The **abscissa** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2018-2024 iqlusion
+Copyright © 2018-2025 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -217,7 +217,7 @@ read the [CONTRIBUTING.md] and [CODE_OF_CONDUCT.md] files first.
 [docs-link]: https://docs.rs/abscissa_core/
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[rustc-image]: https://img.shields.io/badge/rustc-1.74+-blue.svg
+[rustc-image]: https://img.shields.io/badge/rustc-1.85+-blue.svg
 [safety-image]: https://img.shields.io/badge/unsafe-forbidden-success.svg
 [safety-link]: https://github.com/rust-secure-code/safety-dance/
 [build-image]: https://github.com/iqlusioninc/abscissa/workflows/cli/badge.svg?branch=main&event=push

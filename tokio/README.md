@@ -4,8 +4,9 @@
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
-[![Apache 2.0 Licensed][license-image]][license-link]
 [![Build Status][build-image]][build-link]
+[![Apache 2.0 Licensed][license-image]][license-link]
+![MSRV][rustc-image]
 
 Support for launching [Tokio] runtimes within [Abscissa] applications.
 
@@ -36,7 +37,7 @@ See documentation for usage instructions.
 The **abscissa_tokio** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2020-2024 iqlusion
+Copyright © 2020-2025 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -56,10 +57,11 @@ limitations under the License.
 [crate-link]: https://crates.io/crates/abscissa_tokio
 [docs-image]: https://docs.rs/abscissa_tokio/badge.svg
 [docs-link]: https://docs.rs/abscissa_tokio/
+[build-image]: https://github.com/iqlusioninc/abscissa/actions/workflows/tokio.yml/badge.svg
+[build-link]: https://github.com/iqlusioninc/abscissa/actions/workflows/tokio.yml
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/tokio/badge.svg?branch=main&event=push
-[build-link]: https://github.com/iqlusioninc/abscissa/actions?query=workflow:tokio
+[rustc-image]: https://img.shields.io/badge/rustc-1.85+-blue.svg
 
 [//]: # (general links)
 
