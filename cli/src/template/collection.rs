@@ -1,7 +1,7 @@
 //! Template collections manage and render a set of templates intended to
 //! generate an Abscissa application.
 
-use super::{iter::Iter, Template};
+use super::{Template, iter::Iter};
 use crate::{
     error::{Error, ErrorKind},
     handlebars_registry,

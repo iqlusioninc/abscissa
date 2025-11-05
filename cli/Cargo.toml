@@ -13,8 +13,8 @@ repository   = "https://github.com/iqlusioninc/abscissa/tree/main/cli/"
 readme       = "../README.md"
 categories   = ["command-line-interface", "config", "rust-patterns"]
 keywords     = ["abscissa", "cli", "application", "framework", "service"]
-edition      = "2021"
-rust-version = "1.74"
+edition      = "2024"
+rust-version = "1.85"
 
 [dependencies]
 abscissa_core = { version = "=0.9.0-pre", path = "../core" }

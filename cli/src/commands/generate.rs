@@ -4,7 +4,7 @@ mod cmd;
 
 pub use cmd::Cmd;
 
-use abscissa_core::{clap::Parser, Command, Runnable};
+use abscissa_core::{Command, Runnable, clap::Parser};
 
 #[derive(Debug, Parser, Runnable)]
 enum SubCommands {
