@@ -51,7 +51,7 @@ impl<'cmd> ExitStatus<'cmd> {
     }
 }
 
-impl<'cmd> fmt::Debug for ExitStatus<'cmd> {
+impl fmt::Debug for ExitStatus<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "ExitStatus({})", self.code)
     }

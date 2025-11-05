@@ -4,8 +4,8 @@
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
-[![Apache 2.0 Licensed][license-image]][license-link]
 [![Build Status][build-image]][build-link]
+[![Apache 2.0 Licensed][license-image]][license-link]
 
 This crate provides the custom derive implementations used by the
 [Abscissa] command-line app microframework.
@@ -19,7 +19,7 @@ from Abscissa, and the proc macros will be in scope.
 The **abscissa_derive** crate is distributed under the terms of the
 Apache License (Version 2.0).
 
-Copyright © 2018-2024 iqlusion
+Copyright © 2018-2025 iqlusion
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,10 +39,10 @@ limitations under the License.
 [crate-link]: https://crates.io/crates/abscissa_derive
 [docs-image]: https://docs.rs/abscissa_core/badge.svg
 [docs-link]: https://docs.rs/abscissa_core/
+[build-image]: https://github.com/iqlusioninc/abscissa/actions/workflows/derive.yml/badge.svg
+[build-link]: https://github.com/iqlusioninc/abscissa/actions/workflows/derive.yml
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/iqlusioninc/abscissa/blob/main/LICENSE
-[build-image]: https://github.com/iqlusioninc/abscissa/workflows/derive/badge.svg?branch=main&event=push
-[build-link]: https://github.com/iqlusioninc/abscissa/actions?query=workflow:derive
 
 [//]: # (general links)
 

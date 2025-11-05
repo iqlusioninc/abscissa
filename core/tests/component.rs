@@ -3,7 +3,7 @@
 mod example_app;
 
 use self::example_app::{ExampleApp, ExampleConfig};
-use abscissa_core::{component, Component, FrameworkError, FrameworkErrorKind::ComponentError};
+use abscissa_core::{Component, FrameworkError, FrameworkErrorKind::ComponentError, component};
 
 /// ID for `FoobarComponent` (example component #1)
 const FOOBAR_COMPONENT_ID: component::Id = component::Id::new("component::FoobarComponent");

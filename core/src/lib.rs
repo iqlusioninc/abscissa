@@ -54,11 +54,11 @@ pub use crate::{
     error::framework::{FrameworkError, FrameworkErrorKind},
     runnable::{Runnable, RunnableMut},
 };
-pub use std::collections::{btree_map as map, btree_set as set, BTreeMap as Map};
+pub use std::collections::{BTreeMap as Map, btree_map as map, btree_set as set};
 
 #[cfg(feature = "application")]
 pub use crate::{
-    application::{boot, Application},
+    application::{Application, boot},
     component::Component,
     shutdown::Shutdown,
 };
