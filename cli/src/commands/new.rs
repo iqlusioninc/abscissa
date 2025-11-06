@@ -282,7 +282,10 @@ impl NewCommand {
         let description = title.clone();
 
         // TODO(tarcieri): configurable edition
-        let edition = properties::rust::Edition::Rust2021;
+        let edition = properties::rust::Edition::default();
+
+        // TODO(tarcieri): configurable MSRV
+        let rust_version = "1.85.0".parse().unwrap();
 
         let patch_crates_io = self.patch_crates_io.clone();
 
@@ -303,6 +306,7 @@ impl NewCommand {
             authors: vec![],
             version: "0.1.0".parse().unwrap(),
             edition,
+            rust_version,
             patch_crates_io,
             application_type,
             command_type,

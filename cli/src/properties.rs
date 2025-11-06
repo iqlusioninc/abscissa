@@ -32,6 +32,9 @@ pub struct Properties {
     /// Rust edition to use
     pub edition: rust::Edition,
 
+    /// Application's Minimum Supported Rust Version (MSRV)
+    pub rust_version: Version,
+
     /// Apply patches to crates.io
     pub patch_crates_io: Option<String>,
 
