@@ -3,17 +3,13 @@ name = "{{name}}"
 authors = {{authors}}
 version = "{{version}}"
 edition = "{{edition}}"
+rust-version = "{{rust_version}}"
 
 [dependencies]
+abscissa_core = "{{abscissa.version}}"
 clap = "4"
 serde = { version = "1", features = ["serde_derive"] }
 thiserror = "1"
-
-[dependencies.abscissa_core]
-version = "{{abscissa.version}}"
-# optional: use `gimli` to capture backtraces
-# see https://github.com/rust-lang/backtrace-rs/issues/189
-# features = ["gimli-backtrace"]
 
 [dev-dependencies]
 abscissa_core = { version = "{{abscissa.version}}", features = ["testing"] }

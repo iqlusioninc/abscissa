@@ -3,9 +3,10 @@
 use serde::{Deserialize, Serialize};
 
 /// Rust edition used by the application (2021+)
-#[derive(Copy, Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[derive(Copy, Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
 pub enum Edition {
-    /// Rust 2021 edition (minimum supported by Abscissa)
-    #[serde(rename = "2021")]
-    Rust2021,
+    /// Rust 2024 edition
+    #[default]
+    #[serde(rename = "2024")]
+    Rust2024,
 }
