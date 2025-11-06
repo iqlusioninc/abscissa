@@ -4,12 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.9.0] (2025-11-06)
+### Added
+- Expose `ConfigFile` in `testing` API ([#944])
+- Tokio: Add a shutdown timeout to give spawned work time to stop ([#1006])
+
 ### Changed
+- Make `backtrace` and `color-eyre` optional ([#860])
+- Upgrade `fs-err` to 3.x ([#968])
 - The `Component` trait has been split up, and now depends on a new `Injectable`
   trait. `Injectable` encapsulates all of the dependency injection functionality
   and can be separately derived. `Component` can now be easily implemented
-  manually (to add logic to the regular lifecycle hooks).
+  manually e.g. to add logic to the regular lifecycle hooks ([#985])
+- Upgrade `toml` to v0.9 ([#1007])
+- Derive: upgrade to `syn` 2 ([#1009])
+- Upgrade to Rust 2024 edition; MSRV 1.85 ([#1011], [#1013])
+- CLI: generate 2024 edition apps ([#1017])
 
 ## [0.8.2] (2025-01-28)
 ### Fixed
@@ -579,6 +589,18 @@ impl std::error::Error for Error {
 ## 0.0.1 (2018-08-25)
 
 - Initial release
+
+[0.9.0]: https://github.com/iqlusioninc/abscissa/pull/1018
+[#860]: https://github.com/iqlusioninc/abscissa/pull/860
+[#944]: https://github.com/iqlusioninc/abscissa/pull/944
+[#968]: https://github.com/iqlusioninc/abscissa/pull/968
+[#985]: https://github.com/iqlusioninc/abscissa/pull/985
+[#1006]: https://github.com/iqlusioninc/abscissa/pull/1006
+[#1007]: https://github.com/iqlusioninc/abscissa/pull/1007
+[#1009]: https://github.com/iqlusioninc/abscissa/pull/1009
+[#1011]: https://github.com/iqlusioninc/abscissa/pull/1011
+[#1013]: https://github.com/iqlusioninc/abscissa/pull/1013
+[#1017]: https://github.com/iqlusioninc/abscissa/pull/1017
 
 [0.8.2]: https://github.com/iqlusioninc/abscissa/pull/964
 [#959]: https://github.com/iqlusioninc/abscissa/pull/959
