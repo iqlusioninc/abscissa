@@ -1,7 +1,14 @@
 version: 2
 updates:
 - package-ecosystem: cargo
+  versioning-strategy: lockfile-only
   directory: "/"
+  allow:
+    - dependency-type: "all"
+  groups:
+    all-deps:
+      patterns:
+        - "*"
   schedule:
     interval: daily
     time: '13:00'
