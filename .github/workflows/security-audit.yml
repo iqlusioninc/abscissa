@@ -22,7 +22,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.cargo/bin
-          key: ${{ runner.os }}-cargo-audit-v0.15.2
+          key: ${{ runner.os }}-cargo-audit-v0.22.0
       - uses: actions-rs/audit-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
